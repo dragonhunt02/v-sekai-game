@@ -12,7 +12,7 @@
     <a href="https://github.com/V-Sekai/v-sekai-game/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/V-Sekai/v-sekai-game/issues/new?assignees=&labels=enhancement&projects=&template=feature_proposal.yml">Suggest Features</a>
+    <a href="https://github.com/V-Sekai/v-sekai-game/issues/new?assignees=&labels=enhancement&projects=&template=feature_proposal.yml">Request Features</a>
     ·
     <a href="https://github.com/V-Sekai/v-sekai-game/issues/new?assignees=&labels=bug&projects=&template=bug_report.yml">Report Bug</a>
   </p>
@@ -23,7 +23,7 @@
 
 </div>
 
-
+<br />
 
 :warning: **Caution**: In active development, new builds may break. Current __*nightly*__ **editor builds** are available on [nightly.link - Github](https://nightly.link/V-Sekai/world-godot/workflows/build/main?preview).
 
@@ -37,13 +37,16 @@
 
 ## How do I get it?
 
-V-Sekai is still in a **pre-release** state. We don't offer any **standalone** builds.
+V-Sekai is still in a **pre-release** state. We don't offer any **standalone** builds for regular users.
 
-It's highly experimental and still being evaluated for security. **Use at your own risk!**
+If you are a __*developer*__ or want to **experiment** we provide builds for our custom editor via **Github Actions** at [nightly.link - Github](https://nightly.link/V-Sekai/world-godot/workflows/build/main?preview).
+You can **clone** this repository and import in the editor to get started. See How to contribute for more instructions.
+
+It's highly experimental and still being evaluated for security. :warning:**Use at your own risk!**:warning:
 
 ## How do I get involved?
 
-We're happy to accept pull requests for features and bug fixes. 
+We're happy to accept pull requests for **features** and **bug fixes**. 
 
 - **Website:** [https://v-sekai.org/](https://v-sekai.org/)
 - **Twitter:** [https://twitter.com/vsekaiofficial](https://twitter.com/vsekaiofficial)
