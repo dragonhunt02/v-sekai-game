@@ -30,3 +30,5 @@ _sentinel_file.png*
 vsk_default/test/results/
 
 TEST.xml
+
+.github/readme.md
