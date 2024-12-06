@@ -1,3 +1,5 @@
+../README.md
+
 # README
 
 Tested on msys2 Windows 11, Popos.
