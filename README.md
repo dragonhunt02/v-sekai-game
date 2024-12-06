@@ -25,7 +25,7 @@
 
 <br />
 
-:warning: **Caution**: In active development, new builds may break. Current __*nightly*__ **editor builds** are available on [nightly.link - Github](https://nightly.link/V-Sekai/world-godot/workflows/build/main?preview).
+:warning: <ins>**Caution**</ins>: In active development, new builds may break. Current __*nightly*__ **editor builds** are available on [nightly.link - Github](https://nightly.link/V-Sekai/world-godot/workflows/build/main?preview).
 
 ## What is it?
 
@@ -42,7 +42,7 @@ V-Sekai is still in a **pre-release** state. We don't offer any **standalone** b
 If you are a __*developer*__ or want to **experiment** we provide builds for our custom editor via **Github Actions** at [nightly.link - Github](https://nightly.link/V-Sekai/world-godot/workflows/build/main?preview).
 You can **clone** this repository and import in the editor to get started. See How to contribute for more instructions.
 
-It's highly experimental and still being evaluated for security. :warning:**Use at your own risk!**:warning:
+It's highly experimental and still being evaluated for security. :warning:<ins>**Use at your own risk!**</ins>:warning:
 
 ## How do I get involved?
 
