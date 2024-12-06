@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
+  <a href="https://github.com/v-sekai/v-sekai-game">
     <img src="vsk_default/icon/v_sekai_logo_bg.svg" alt="Logo" width="300" height="300">
   </a>
 
@@ -26,6 +26,14 @@
 
 :warning: **Caution**: In active development, see the current development builds on [Github](https://nightly.link/V-Sekai/world/workflows/build/main?preview).
 
+## What is it?
+
+V-Sekai is an open-source project that aims to bring social VR/VRSNS/metaverse components to the [Godot Engine](https://godotengine.org), including:
+
+- A generic multiplayer framework with VOIP support
+- Tools for loading and generating arbitrary user-generated content from the Godot Engine.
+- Avatar support with inverse kinematics.
+
 ## How do I get involved?
 
 We're happy to accept pull requests for features and bug fixes. 
@@ -39,14 +47,6 @@ We're happy to accept pull requests for features and bug fixes.
 You can find our issues and suggestions at the [documentation website](https://v-sekai.github.io/manuals).
 
 V-Sekai is still in a pre-release state. It's highly experimental and still being evaluated for security. Use at your own risk.
-
-## What is it?
-
-V-Sekai is an open-source project that aims to bring social VR/VRSNS/metaverse components to the [Godot Engine](https://godotengine.org), including:
-
-- A generic multiplayer framework with VOIP support
-- Tools for loading and generating arbitrary user-generated content from the Godot Engine.
-- Avatar support with inverse kinematics.
 
 ## How do I get it?
 
