@@ -1,8 +1,28 @@
-# V-Sekai
+<div align="center">
+  <a href="https://github.com/othneildrew/Best-README-Template">
+    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  </a>
 
+  <h1 align="center">V-Sekai</h1>
+
+  <p align="center">
+    Open-source Social VR
+    <br />
+    <a href="https://github.com/Best-README-Template"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/Best-README-Template">View Demo</a>
+    ·
+    <a href="https://github.com/v-sekai/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+  </p>
+  
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-8-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
+
+</div>
+
+
 
 :warning: **Caution**: In active development, see the current development builds on [Github](https://nightly.link/V-Sekai/world/workflows/build/main?preview).
 
