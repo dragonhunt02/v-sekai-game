@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="vsk_default/icon/v_sekai_logo_bg.svg" alt="Logo" width="80" height="80">
+    <img src="vsk_default/icon/v_sekai_logo_bg.svg" alt="Logo" width="300" height="300">
   </a>
 
   <h1 align="center">V-Sekai</h1>
