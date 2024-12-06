@@ -6,14 +6,15 @@
   <h1 align="center">V-Sekai</h1>
 
   <p align="center">
-    Open-source Social VR
-    <br />
-    <a href="https://github.com/Best-README-Template"><strong>Explore the docs »</strong></a>
+    <i>“Open-source Social VR for everyone”</i>
     <br />
     <br />
-    <a href="https://github.com/Best-README-Template">View Demo</a>
+    <a href="https://github.com/V-Sekai/v-sekai-game/"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://github.com/V-Sekai/v-sekai-game/issues/new?assignees=&labels=enhancement&projects=&template=feature_proposal.yml">Suggest Features</a>
     ·
-    <a href="https://github.com/v-sekai/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    <a href="https://github.com/V-Sekai/v-sekai-game/issues/new?assignees=&labels=bug&projects=&template=bug_report.yml">Report Bug</a>
   </p>
   
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
@@ -24,7 +25,7 @@
 
 
 
-:warning: **Caution**: In active development, see the current development builds on [Github](https://nightly.link/V-Sekai/world/workflows/build/main?preview).
+:warning: **Caution**: In active development, new builds may break. Current __*nightly*__ **editor builds** are available on [nightly.link - Github](https://nightly.link/V-Sekai/world-godot/workflows/build/main?preview).
 
 ## What is it?
 
