@@ -12,7 +12,7 @@
     <a href="https://github.com/V-Sekai/v-sekai-game/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/V-Sekai/v-sekai-game/issues/new?assignees=&labels=enhancement&projects=&template=feature_proposal.yml">Request Features</a>
+    <a href="https://github.com/V-Sekai/v-sekai-game/issues/new?assignees=&labels=enhancement&projects=&template=feature_proposal.yml">Request Feature</a>
     ·
     <a href="https://github.com/V-Sekai/v-sekai-game/issues/new?assignees=&labels=bug&projects=&template=bug_report.yml">Report Bug</a>
   </p>
@@ -36,9 +36,9 @@
 - **Avatar** support with inverse kinematics.
 
 The project is split in **three** main components:
-- **Game client** 
-- **Map editor** 
-- **Server backend** 
+- **Game client:** [V-Sekai/v-sekai-game](https://github.com/V-Sekai/v-sekai-game)
+- **Map editor:** [V-Sekai/world-godot](https://github.com/V-Sekai/world-godot)
+- **Server backend:** [V-Sekai/uro](https://github.com/V-Sekai/uro)
 
 Regular users will only need the **game client** to access VR spaces.
 
@@ -46,9 +46,9 @@ Regular users will only need the **game client** to access VR spaces.
 
 V-Sekai is still in a **pre-release** state. We don't offer any **standalone** builds for regular users.
 
-If you are a __*developer*__ or want to **experiment** we provide builds for our custom Godot editor via **Github Actions** at [nightly.link - Github](https://nightly.link/V-Sekai/world-godot/workflows/build/main?preview). Older stable builds **"groups-4.2"** are available at our former main [editor repository](https://github.com/V-Sekai/godot/releases/tag/groups-4.2.2023-09-20T191915Z).
+If you are a __*developer*__ or want to **experiment** we provide builds for our **custom Godot editor** via **Github Actions** at [nightly.link - Github](https://nightly.link/V-Sekai/world-godot/workflows/build/main?preview). Older stable builds **"groups-4.2"** are available at our former main [editor repository](https://github.com/V-Sekai/godot/releases/tag/groups-4.2.2023-09-20T191915Z).
 
-You can **clone** this repository and import in the editor to get started. See [How to contribute](#how-do-i-help-contribute-books) for more instructions.
+You can **clone** this repository and **import** in the editor to get started. See [How to contribute](#how-do-i-help-contribute-books) for more instructions.
 
 This project is highly experimental and still being evaluated for security. Hosting public instances is not recommended. :warning:<ins>**Use at your own risk!**</ins>:warning:
 
@@ -97,4 +97,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+<i>This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!</i>
+
+## License
+
+
