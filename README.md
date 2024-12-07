@@ -68,7 +68,7 @@ You can find our issues and suggestions at the [documentation website](https://v
 
 ## How do I help contribute? :books:
 
-V-Sekai requires our [custom Godot Engine fork](https://github.com/v-sekai/godot) found under the `groups-4.2` branch. For information about building the Godot Engine, see the [official documentation](https://docs.godotengine.org/en/latest/contributing/development/compiling/).
+V-Sekai requires our [custom Godot Engine fork](https://github.com/V-Sekai/world-godot). For information about building the Godot Engine, see the [official documentation](https://docs.godotengine.org/en/latest/contributing/development/compiling/).
 
 ## Contributors ✨
 
