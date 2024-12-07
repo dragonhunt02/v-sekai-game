@@ -35,6 +35,13 @@
 - Tools for loading and generating arbitrary **user-generated content** from the Godot Engine.
 - **Avatar** support with inverse kinematics.
 
+The project is split in **three** main components:
+- **Game client** 
+- **Map editor** 
+- **Server backend** 
+
+Regular users will only need the **game client** to access VR spaces.
+
 ## How do I get it? :mag:
 
 V-Sekai is still in a **pre-release** state. We don't offer any **standalone** builds for regular users.
