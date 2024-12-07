@@ -59,7 +59,7 @@ This project is highly experimental and still being evaluated for security. Host
 We're happy to accept pull requests for **features** and **bug fixes**. 
 
 - **Website:** :link:[https://v-sekai.org/](https://v-sekai.org/)
-- **Twitter:** :link:[https://twitter.com/vsekaiofficial](https://twitter.com/vsekaiofficial)
+- **X (Twitter):** :link:[https://x.com/vsekaiofficial](https://x.com/vsekaiofficial)
 - **Discord:** <a href="https://discord.gg/H3s3PD49XC">
         <img src="https://img.shields.io/discord/1138836561102897172?logo=discord"
             alt="Chat on Discord"></a>
