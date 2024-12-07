@@ -1,3 +1,5 @@
+<a id="readme-top"></a>
+
 <div align="center">
   <a href="https://github.com/V-Sekai/v-sekai-game">
     <img src="vsk_default/icon/v_sekai_logo_bg.svg" alt="Logo" width="300" height="300">
@@ -101,4 +103,6 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 ## License
 
+Distributed under the MIT License. See `LICENSE.txt` for more information.
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
