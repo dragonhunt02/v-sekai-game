@@ -25,9 +25,9 @@
 
 <br />
 
-:warning: <ins>**Caution**</ins>: In active development, new builds may break. Current __*nightly*__ **editor builds** are available on [nightly.link - Github](https://nightly.link/V-Sekai/world-godot/workflows/build/main?preview).
+:construction: <i><ins>**Caution:**</ins> In active development, new builds may break. Current __*nightly*__ **editor builds** are available at [nightly.link - Github](https://nightly.link/V-Sekai/world-godot/workflows/build/main?preview).</i>
 
-## What is it?
+## What is it? :video_game:
 
 **V-Sekai** is an **open-source** project that aims to bring social **VR/VRSNS/metaverse** components to the [Godot Engine](https://godotengine.org), including:
 
@@ -35,16 +35,17 @@
 - Tools for loading and generating arbitrary **user-generated content** from the Godot Engine.
 - **Avatar** support with inverse kinematics.
 
-## How do I get it?
+## How do I get it? :mag:
 
 V-Sekai is still in a **pre-release** state. We don't offer any **standalone** builds for regular users.
 
-If you are a __*developer*__ or want to **experiment** we provide builds for our custom editor via **Github Actions** at [nightly.link - Github](https://nightly.link/V-Sekai/world-godot/workflows/build/main?preview).
+If you are a __*developer*__ or want to **experiment** we provide builds for our custom Godot editor via **Github Actions** at [nightly.link - Github](https://nightly.link/V-Sekai/world-godot/workflows/build/main?preview). Older stable builds **"groups-4.2"** are available at our former [editor repository]().
+
 You can **clone** this repository and import in the editor to get started. See How to contribute for more instructions.
 
 It's highly experimental and still being evaluated for security. :warning:<ins>**Use at your own risk!**</ins>:warning:
 
-## How do I get involved?
+## How do I get involved? :busts_in_silhouette:
 
 We're happy to accept pull requests for **features** and **bug fixes**. 
 
@@ -56,7 +57,7 @@ We're happy to accept pull requests for **features** and **bug fixes**.
 
 You can find our issues and suggestions at the [documentation website](https://v-sekai.github.io/manuals).
 
-## How do I help contribute?
+## How do I help contribute? :books:
 
 V-Sekai requires our [custom Godot Engine fork](https://github.com/v-sekai/godot) found under the `groups-4.2` branch. For information about building the Godot Engine, see the [official documentation](https://docs.godotengine.org/en/latest/contributing/development/compiling/).
 
