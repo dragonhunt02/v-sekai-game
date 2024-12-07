@@ -27,7 +27,7 @@
 
 <br />
 
-:construction: <i><ins>**Caution:**</ins> In active development, new builds may break. Current __*nightly*__ **editor builds** are available at [nightly.link - Github](https://nightly.link/V-Sekai/world-godot/workflows/build/main?preview).</i>
+:construction: <i><ins>**Caution:**</ins> In active development, new builds may break. Current **nightly editor builds** are available at [nightly.link - Github](https://nightly.link/V-Sekai/world-godot/workflows/build/main?preview).</i>
 
 ## What is it? :video_game:
 
@@ -48,7 +48,7 @@ Regular users will only need the **game client** to access VR spaces.
 
 V-Sekai is still in a **pre-release** state. We don't offer any **standalone** builds for regular users.
 
-If you are a __*developer*__ or want to **experiment** we provide builds for our **custom Godot editor** via **Github Actions** at [nightly.link - Github](https://nightly.link/V-Sekai/world-godot/workflows/build/main?preview). Older stable builds **"groups-4.2"** are available at our former main [editor repository](https://github.com/V-Sekai/godot/releases/tag/groups-4.2.2023-09-20T191915Z).
+If you are a __*developer*__ or want to __*experiment*__ we provide builds for our **custom Godot editor** via **Github Actions** at [nightly.link - Github](https://nightly.link/V-Sekai/world-godot/workflows/build/main?preview). Older stable builds **"groups-4.2"** are available at our former main [editor repository](https://github.com/V-Sekai/godot/releases/tag/groups-4.2.2023-09-20T191915Z).
 
 You can **clone** this repository and **import** in the editor to get started. See [How to contribute](#how-do-i-help-contribute-books) for more instructions.
 
