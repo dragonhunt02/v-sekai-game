@@ -43,7 +43,7 @@ If you are a __*developer*__ or want to **experiment** we provide builds for our
 
 You can **clone** this repository and import in the editor to get started. See [How to contribute](#how-do-i-help-contribute-books) for more instructions.
 
-It's highly experimental and still being evaluated for security. :warning:<ins>**Use at your own risk!**</ins>:warning:
+This project is highly experimental and still being evaluated for security. Hosting public instances is not recommended. :warning:<ins>**Use at your own risk!**</ins>:warning:
 
 ## How do I get involved? :busts_in_silhouette:
 
