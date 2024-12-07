@@ -39,7 +39,7 @@
 
 V-Sekai is still in a **pre-release** state. We don't offer any **standalone** builds for regular users.
 
-If you are a __*developer*__ or want to **experiment** we provide builds for our custom Godot editor via **Github Actions** at [nightly.link - Github](https://nightly.link/V-Sekai/world-godot/workflows/build/main?preview). Older stable builds **"groups-4.2"** are available at our former [editor repository]().
+If you are a __*developer*__ or want to **experiment** we provide builds for our custom Godot editor via **Github Actions** at [nightly.link - Github](https://nightly.link/V-Sekai/world-godot/workflows/build/main?preview). Older stable builds **"groups-4.2"** are available at our former main [editor repository](https://github.com/V-Sekai/godot/releases/tag/groups-4.2.2023-09-20T191915Z).
 
 You can **clone** this repository and import in the editor to get started. See How to contribute for more instructions.
 
