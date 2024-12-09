@@ -2,7 +2,7 @@ name: Build Platform Target
 
 on:
   push:
-    branches: [main]
+    branches: [action]
 env:
   BIN: 'release/bin/'
 jobs:
