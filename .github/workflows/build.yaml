@@ -18,7 +18,6 @@ jobs:
         run: |
           mkdir -p src
           
-          #export FILE_URL=
           curl -sS -L \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer ${GITHUB_TOKEN}" \
