@@ -17,13 +17,16 @@ jobs:
       - name: Checkout
         run: |
           mkdir -p src
-          
+
+          export url=$(\
           curl -sS -L \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer ${GITHUB_TOKEN}" \
           https://api.github.com/repos/${GODOT_REPO}/releases \
-          | jq '.[0].assets.[] | select(.name == env.GODOT_ZIP).browser_download_url' /
-          > xargs -n 1 echo
+          | jq '.[0].assets.[] | select(.name == env.GODOT_ZIP).browser_download_url' \
+          )
+          echo ${url}
+          #> xargs -n 1 echo
           echo 'test'
 
           #echo ${FILE_URL}
