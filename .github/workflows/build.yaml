@@ -27,6 +27,7 @@ jobs:
           )
           echo Downloading ${FILE_URL}
           curl -O --url ${FILE_URL}
+          unzip *.zip
 
       - name: Checkout  
         uses: actions/checkout@v4
