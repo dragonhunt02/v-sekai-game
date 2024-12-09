@@ -15,6 +15,7 @@ jobs:
       - name: Checkout
         run: |
           mkdir -p src
+          jq --help
           curl -L \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer ${GITHUB_TOKEN}" \
