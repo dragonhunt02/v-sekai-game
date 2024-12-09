@@ -12,10 +12,13 @@ jobs:
       actions: write
     steps:
       - name: Checkout
+        run: |
+          mkdir -p src
+      - name: Checkout
         uses: actions/checkout@v4
         with:
-          path: '/v-sekai-game'
-
+          path: 'src'
+          
       - name: Checkout
         run: |
-          ls v-sekai-game
+          ls -a 'src'
