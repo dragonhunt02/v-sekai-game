@@ -23,7 +23,7 @@ jobs:
       - name: Download Godot
         uses: actions/download-artifact@v4
         with:
-          name: v-sekai-world
+          name: v-sekai-world.zip
           repository: V-Sekai/world-godot
           github-token: ${{ secrets.GITHUB_TOKEN }}
           
