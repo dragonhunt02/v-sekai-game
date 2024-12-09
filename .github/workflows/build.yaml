@@ -5,6 +5,7 @@ on:
     branches: [action]
 env:
   BIN: 'release/bin/'
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 jobs:
   setup:
     runs-on: ubuntu-latest
@@ -16,7 +17,7 @@ jobs:
           mkdir -p src
           curl -L \
           -H "Accept: application/vnd.github+json" \
-          -H "Authorization: Bearer <YOUR-TOKEN>" \
+          -H "Authorization: Bearer ${GITHUB_TOKEN}" \
           https://api.github.com/repos/V-Sekai/world-godot/releases
           curl https://github.com/V-Sekai/world-godot/releases/latest/download/v-sekai-world.zip
 
