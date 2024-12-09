@@ -24,7 +24,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           repository: V-Sekai/world-godot
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_PAT }}
           
       - name: Checkout
         run: |
