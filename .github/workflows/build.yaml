@@ -26,11 +26,10 @@ jobs:
           https://api.github.com/repos/${GODOT_REPO}/releases \
           | jq '.[0].assets.[] | select(.name == env.GODOT_ZIP).browser_download_url' \
           )
-          echo ${FILE_URL}
+          echo Downloading ${FILE_URL}
           #> xargs -n 1 echo
           echo 'test'
 
-          #echo ${FILE_URL}
           #curl --url ${FILE_URL}
 
       - name: Checkout  
