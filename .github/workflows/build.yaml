@@ -14,11 +14,19 @@ jobs:
       - name: Checkout
         run: |
           mkdir -p src
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           path: 'src'
           
+      - name: Download Godot
+        uses: download-artifact@v4
+        with:
+          name: v-sekai-world
+          repository: V-Sekai/world-godot
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          
       - name: Checkout
         run: |
-          ls -a 'src'
+          ls -a .
