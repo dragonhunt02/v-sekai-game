@@ -14,6 +14,10 @@ jobs:
       - name: Checkout
         run: |
           mkdir -p src
+          curl -L \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: Bearer <YOUR-TOKEN>" \
+          https://api.github.com/repos/V-Sekai/world-godot/releases
           curl https://github.com/V-Sekai/world-godot/releases/latest/download/v-sekai-world.zip
 
       - name: Checkout  
