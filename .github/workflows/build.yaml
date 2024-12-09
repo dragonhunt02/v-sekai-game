@@ -5,6 +5,7 @@ on:
     branches: [action]
 env:
   BIN: 'release/bin/'
+  GODOT_REPO: 'V-Sekai/world-godot'
   GODOT_ZIP: 'v-sekai-world.zip'
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 jobs:
@@ -19,10 +20,9 @@ jobs:
           curl -sS -L \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer ${GITHUB_TOKEN}" \
-          https://api.github.com/repos/V-Sekai/world-godot/releases \
-          | jq '.[0].assets.[] | select(.name == env.GODOT_ZIP).browser_download_url'
-          gh release download --pattern v-sekai-world.zip --repo V-Sekai/world-godot
-          curl https://github.com/V-Sekai/world-godot/releases/latest/download/v-sekai-world.zip
+          https://api.github.com/repos/${GODOT_REPO}/releases \
+          | jq '.[0].assets.[] | select(.name == env.GODOT_ZIP).browser_download_url' \
+          | curl
 
       - name: Checkout  
         uses: actions/checkout@v4
