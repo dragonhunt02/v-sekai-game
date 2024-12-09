@@ -18,8 +18,7 @@ jobs:
         run: |
           mkdir -p src
 
-          #export 
-          FILE_URL=$(\
+          FILE_URL=$( \
           curl -sS -L \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer ${GITHUB_TOKEN}" \
@@ -27,10 +26,7 @@ jobs:
           | jq '.[0].assets.[] | select(.name == env.GODOT_ZIP).browser_download_url' \
           )
           echo Downloading ${FILE_URL}
-          #> xargs -n 1 echo
-          echo 'test'
-
-          #curl --url ${FILE_URL}
+          curl --url ${FILE_URL}
 
       - name: Checkout  
         uses: actions/checkout@v4
