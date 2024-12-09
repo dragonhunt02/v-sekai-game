@@ -21,7 +21,7 @@ jobs:
           path: 'src'
           
       - name: Download Godot
-        uses: download-artifact@v4
+        uses: actions/download-artifact@v4
         with:
           name: v-sekai-world
           repository: V-Sekai/world-godot
