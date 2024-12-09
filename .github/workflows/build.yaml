@@ -29,11 +29,6 @@ jobs:
         with:
           path: 'src'
           
-      - name: Download Godot
-        uses: actions/download-artifact@v4
-        with:
-          repository: V-Sekai/world-godot
-          github-token: ${{ secrets.TOKEN_PAT2 }}
           
       - name: Checkout
         run: |
