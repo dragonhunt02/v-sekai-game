@@ -19,8 +19,8 @@ jobs:
           curl -sS -L \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer ${GITHUB_TOKEN}" \
-          https://api.github.com/repos/V-Sekai/world-godot/releases \
-          | jq '.[0].assets | select(.name == "${GODOT_ZIP}")　| .url'
+          https://api.github.com/repos/V-Sekai/world-godot/releases/latest \
+          | jq '.assets | select(.name == "${GODOT_ZIP}")' | echo 
           gh release download --pattern v-sekai-world.zip --repo V-Sekai/world-godot
           curl https://github.com/V-Sekai/world-godot/releases/latest/download/v-sekai-world.zip
 
