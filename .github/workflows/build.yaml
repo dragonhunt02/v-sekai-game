@@ -1,0 +1,21 @@
+name: Build Platform Target
+
+on:
+  push:
+    branches: [main]
+env:
+  BIN: 'release/bin/'
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          path: '/v-sekai-game'
+
+      - name: Checkout
+        run: |
+          ls v-sekai-game
