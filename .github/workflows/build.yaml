@@ -17,12 +17,12 @@ jobs:
       - name: Checkout
         run: |
           mkdir -p src
-          curl -sS -L \
+          FILE_URL=curl -sS -L \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer ${GITHUB_TOKEN}" \
           https://api.github.com/repos/${GODOT_REPO}/releases \
-          | jq -r '.[0].assets.[] | select(.name == env.GODOT_ZIP).browser_download_url' \
-          | curl --url -
+          | jq -r '.[0].assets.[] | select(.name == env.GODOT_ZIP).browser_download_url'
+          curl --url ${FILE_URL}
 
       - name: Checkout  
         uses: actions/checkout@v4
