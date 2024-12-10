@@ -55,12 +55,20 @@ jobs:
         with:
           path: 'src'
 
-      - name: Build
-        run: |
-          ls -a .
-
-      - name: Checkout
+      - name: Test
         run: |
           ls -a .
           ls -a v-sekai-world
           ls -a '~/.local/share/godot/export_templates/'
+
+  build:
+    runs-on: ubuntu-latest
+    needs: setup
+    permissions:
+      actions: write
+    steps:
+      - name: Build
+        run: |
+          ls .
+
+
