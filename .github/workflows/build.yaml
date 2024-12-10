@@ -14,7 +14,7 @@ jobs:
     permissions:
       actions: write
     steps:
-      - name: Checkout
+      - name: Download Godot
         run: |
           mkdir -p src
 
@@ -27,7 +27,7 @@ jobs:
           )
           echo Downloading ${FILE_URL}
           curl -OL --url ${FILE_URL}
-          unzip *.zip
+          unzip ${GODOT_ZIP}
 
       - name: Checkout  
         uses: actions/checkout@v4
