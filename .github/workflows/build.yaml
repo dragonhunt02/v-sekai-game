@@ -4,7 +4,7 @@ on:
   push:
     branches: [action]
 env:
-  BIN: '~/release/bin/'
+  BIN: 'release/bin/'
   BUILD_ARGS: '--headless'
   BUILD_PLATFORMS: ('Linux', 'Windows', 'Mac')
   GODOT_REPO: 'V-Sekai/world-godot'
@@ -12,9 +12,6 @@ env:
   GODOT_EDITOR: 'godot.linuxbsd.editor.double.x86_64'
   TEMPLATE_DIR: '~/.local/share/godot/export_templates'
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-defaults:
-  run:
-    working-directory: '/home/'
 
 jobs:
   setup:
@@ -39,7 +36,8 @@ jobs:
 
       - name: Setup
         run: |
-          chmod +x ./godot/${GODOT_EDITOR}
+          mv ./godot/${GODOT_EDITOR} ./${GODOT_EDITOR}
+          chmod +x ${GODOT_EDITOR}
 
           GODOT_VERSION=$(${GODOT_EDITOR} --version | sed 's///')
           TEMPLATE_DIR='${TEMPLATE_DIR}/${GODOT_VERSION}'
@@ -56,13 +54,14 @@ jobs:
           done
           echo 'Export Templates installed!'
 
+          mv godot/* ${TEMPLATE_DIR}/
           mkdir -p ${BIN}
-          mkdir -p '~/src'
+          mkdir -p 'src'
 
       - name: Checkout  
         uses: actions/checkout@v4
         with:
-          path: '~/src'
+          path: 'src'
 
       - name: Test
         run: |
@@ -74,7 +73,7 @@ jobs:
         run: |
           for PLATFORM in ${BUILD_PLATFORMS}; do \
             echo 'Building ${PLATFORM}...'
-            ~/godot/${GODOT_EDITOR} ${BUILD_ARGS} --path '~/src' --export-release ${PLATFORM} ${BIN} \
+            ${GODOT_EDITOR} ${BUILD_ARGS} --path 'src' --export-release ${PLATFORM} ${BIN} \
           done
 
   build:
