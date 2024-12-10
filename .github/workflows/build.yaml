@@ -23,8 +23,6 @@ jobs:
         run: |
           pwd
           tree -a .
-          
-          echo ${GODOT_ZIP%.*}
           FILE_URL=$( \
           curl -sS -L \
           -H "Accept: application/vnd.github+json" \
@@ -36,13 +34,14 @@ jobs:
           curl -OL --url ${FILE_URL}
           echo ${GODOT_ZIP%.*}
           unzip ${GODOT_ZIP} && mv ${GODOT_ZIP%.*} godot
+          tree .
 
       - name: Setup
         run: |
           mv ./godot/${GODOT_EDITOR} ./${GODOT_EDITOR}
           chmod +x ${GODOT_EDITOR}
 
-          GODOT_VERSION=$(${GODOT_EDITOR} --version | sed 's///')
+          GODOT_VERSION=$(./${GODOT_EDITOR} --version | sed 's///')
           mkdir -p ${TEMPLATE_DIR}
           echo ${GODOT_VERSION} > '${TEMPLATE_DIR}/version.txt'
 
