@@ -32,10 +32,21 @@ jobs:
       - name: Setup
         run: |
           chmod +x ${GODOT_EDITOR}
+
           GODOT_VERSION=$(${GODOT_EDITOR} --version | sed 's///')
           TEMPLATE_DIR='${TEMPLATE_DIR}/${GODOT_VERSION}'
           mkdir -p ${TEMPLATE_DIR}
           echo ${GODOT_VERSION} > '${TEMPLATE_DIR}/version.txt'
+
+          echo 'Export Templates directory path: ${TEMPLATE_DIR}'
+          for file in *template*; do \
+            new_name=$( echo ${file}  | sed 's/\(godot.\|.double\|.template\|.llvm\)//g' \
+              | sed 's/linuxbsd/linux/;s/.console/_console/' \
+              | sed 's/\(windows_[a-z]*\)\./\1_/' ) \
+              && echo Installing ${new_name} \
+              && mv ${file} ${TEMPLATE_DIR}/${new_name} \
+          done
+          echo 'Export Templates installed!'
 
           mkdir -p src
 
@@ -43,8 +54,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           path: 'src'
-          
-          
+
+      - name: Build
+        run: |
+          ls -a .
+
       - name: Checkout
         run: |
           ls -a .
