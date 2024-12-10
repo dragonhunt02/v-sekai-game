@@ -14,7 +14,7 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 defaults:
   run:
-    working-directory: '~/godot'
+    working-directory: '~'
 
 jobs:
   setup:
@@ -35,11 +35,11 @@ jobs:
           )
           echo Downloading ${FILE_URL}
           #curl -OL --url ${FILE_URL}
-          unzip ${GODOT_ZIP}
+          unzip ${GODOT_ZIP} godot
 
       - name: Setup
         run: |
-          chmod +x ${GODOT_EDITOR}
+          chmod +x ./godot/${GODOT_EDITOR}
 
           GODOT_VERSION=$(${GODOT_EDITOR} --version | sed 's///')
           TEMPLATE_DIR='${TEMPLATE_DIR}/${GODOT_VERSION}'
@@ -74,7 +74,7 @@ jobs:
         run: |
           for PLATFORM in ${BUILD_PLATFORMS}; do \
             echo 'Building ${PLATFORM}...'
-            ${GODOT_EDITOR} ${BUILD_ARGS} --path '~/src' --export-release ${PLATFORM} ${BIN} \
+            ~/godot/${GODOT_EDITOR} ${BUILD_ARGS} --path '~/src' --export-release ${PLATFORM} ${BIN} \
           done
 
   build:
