@@ -5,6 +5,7 @@ on:
     branches: [action]
 env:
   BIN: 'release/bin/'
+  BUILD_ARGS: '--headless'
   GODOT_REPO: 'V-Sekai/world-godot'
   GODOT_ZIP: 'v-sekai-world.zip'
   GODOT_EDITOR: 'godot.linuxbsd.editor.double.x86_64'
@@ -60,6 +61,10 @@ jobs:
           ls -a .
           ls -a v-sekai-world
           ls -a '~/.local/share/godot/export_templates/'
+
+      - name: Build
+        run: |
+          ${GODOT_EDITOR} ${BUILD_ARGS} --path 'src/' --export-release ${BIN}
 
   build:
     runs-on: ubuntu-latest
