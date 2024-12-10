@@ -20,6 +20,7 @@ jobs:
     steps:
       - name: Download Godot
         run: |
+          pwd
           FILE_URL=$( \
           curl -sS -L \
           -H "Accept: application/vnd.github+json" \
