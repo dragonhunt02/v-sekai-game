@@ -31,7 +31,7 @@ jobs:
           | jq -r '.[0].assets.[] | select(.name == env.GODOT_ZIP).browser_download_url' \
           )
           echo Downloading ${FILE_URL}
-          #curl -OL --url ${FILE_URL}
+          curl -OL --url ${FILE_URL}
           unzip ${GODOT_ZIP} godot
 
       - name: Setup
