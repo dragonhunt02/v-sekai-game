@@ -6,6 +6,7 @@ on:
 env:
   BIN: 'release/bin/'
   BUILD_ARGS: '--headless'
+  BUILD_PLATFORMS: ('Linux', 'Windows', 'OSX')
   GODOT_REPO: 'V-Sekai/world-godot'
   GODOT_ZIP: 'v-sekai-world.zip'
   GODOT_EDITOR: 'godot.linuxbsd.editor.double.x86_64'
@@ -64,7 +65,10 @@ jobs:
 
       - name: Build
         run: |
-          ${GODOT_EDITOR} ${BUILD_ARGS} --path 'src/' --export-release ${BIN}
+          for PLATFORM in ${BUILD_PLATFORMS}; do \
+            echo 'Building ${PLATFORM}...'
+            ${GODOT_EDITOR} ${BUILD_ARGS} --path 'src/' --export-release ${PLATFORM} ${BIN} \
+          done
 
   build:
     runs-on: ubuntu-latest
