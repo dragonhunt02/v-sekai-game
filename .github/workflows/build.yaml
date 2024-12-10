@@ -7,6 +7,7 @@ env:
   BIN: 'release/bin/'
   GODOT_REPO: 'V-Sekai/world-godot'
   GODOT_ZIP: 'v-sekai-world.zip'
+  GODOT_EDITOR: ''
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 jobs:
   setup:
@@ -16,8 +17,6 @@ jobs:
     steps:
       - name: Download Godot
         run: |
-          mkdir -p src
-
           FILE_URL=$( \
           curl -sS -L \
           -H "Accept: application/vnd.github+json" \
@@ -26,8 +25,17 @@ jobs:
           | jq -r '.[0].assets.[] | select(.name == env.GODOT_ZIP).browser_download_url' \
           )
           echo Downloading ${FILE_URL}
-          curl -OL --url ${FILE_URL}
+          #curl -OL --url ${FILE_URL}
           unzip ${GODOT_ZIP}
+
+      - name: Setup
+        run: |
+          chmod +x ${GODOT_EDITOR}
+          GODOT_VERSION=$(${GODOT_EDITOR} --version | sed 's///')
+          mkdir -p '~/.local/share/godot/export_templates/${GODOT_VERSION}'
+          echo ${GODOT_VERSION} > version.txt
+
+          mkdir -p src
 
       - name: Checkout  
         uses: actions/checkout@v4
@@ -38,4 +46,5 @@ jobs:
       - name: Checkout
         run: |
           ls -a .
-          ls -a v-sekai-world 
+          ls -a v-sekai-world
+          ls -a '~/.local/share/godot/export_templates/'
