@@ -4,14 +4,18 @@ on:
   push:
     branches: [action]
 env:
-  BIN: 'release/bin/'
+  BIN: '~/release/bin/'
   BUILD_ARGS: '--headless'
-  BUILD_PLATFORMS: ('Linux', 'Windows', 'OSX')
+  BUILD_PLATFORMS: ('Linux', 'Windows', 'Mac')
   GODOT_REPO: 'V-Sekai/world-godot'
   GODOT_ZIP: 'v-sekai-world.zip'
   GODOT_EDITOR: 'godot.linuxbsd.editor.double.x86_64'
   TEMPLATE_DIR: '~/.local/share/godot/export_templates'
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+defaults:
+  run:
+    working-directory: '~/godot'
+
 jobs:
   setup:
     runs-on: ubuntu-latest
@@ -52,12 +56,13 @@ jobs:
           done
           echo 'Export Templates installed!'
 
-          mkdir -p src
+          mkdir -p ${BIN}
+          mkdir -p '~/src'
 
       - name: Checkout  
         uses: actions/checkout@v4
         with:
-          path: 'src'
+          path: '~/src'
 
       - name: Test
         run: |
@@ -69,7 +74,7 @@ jobs:
         run: |
           for PLATFORM in ${BUILD_PLATFORMS}; do \
             echo 'Building ${PLATFORM}...'
-            ${GODOT_EDITOR} ${BUILD_ARGS} --path 'src/' --export-release ${PLATFORM} ${BIN} \
+            ${GODOT_EDITOR} ${BUILD_ARGS} --path '~/src' --export-release ${PLATFORM} ${BIN} \
           done
 
   build:
