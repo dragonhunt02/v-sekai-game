@@ -32,7 +32,7 @@ jobs:
           )
           echo Downloading ${FILE_URL}
           curl -OL --url ${FILE_URL}
-          unzip ${GODOT_ZIP} godot
+          unzip ${GODOT_ZIP} -d godot
 
       - name: Setup
         run: |
