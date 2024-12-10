@@ -23,6 +23,8 @@ jobs:
         run: |
           pwd
           tree -a .
+          
+          echo ${GODOT_ZIP%.*}
           FILE_URL=$( \
           curl -sS -L \
           -H "Accept: application/vnd.github+json" \
@@ -32,6 +34,7 @@ jobs:
           )
           echo Downloading ${FILE_URL}
           curl -OL --url ${FILE_URL}
+          echo ${GODOT_ZIP%.*}
           unzip ${GODOT_ZIP} && mv ${GODOT_ZIP%.*} godot
 
       - name: Setup
