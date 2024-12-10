@@ -40,19 +40,8 @@ jobs:
           chmod +x ${GODOT_EDITOR}
 
           GODOT_VERSION=$(${GODOT_EDITOR} --version | sed 's///')
-          TEMPLATE_DIR='${TEMPLATE_DIR}/${GODOT_VERSION}'
           mkdir -p ${TEMPLATE_DIR}
           echo ${GODOT_VERSION} > '${TEMPLATE_DIR}/version.txt'
-
-          echo 'Export Templates directory path: ${TEMPLATE_DIR}'
-          for file in *template*; do \
-            new_name=$( echo ${file}  | sed 's/\(godot.\|.double\|.template\|.llvm\)//g' \
-              | sed 's/linuxbsd/linux/;s/.console/_console/' \
-              | sed 's/\(windows_[a-z]*\)\./\1_/' ) \
-              && echo Installing ${new_name} \
-              && mv ${file} ${TEMPLATE_DIR}/${new_name} \
-          done
-          echo 'Export Templates installed!'
 
           mv godot/* ${TEMPLATE_DIR}/
           mkdir -p ${BIN}
@@ -68,12 +57,13 @@ jobs:
           ls -a .
           ls -a v-sekai-world
           ls -a '~/.local/share/godot/export_templates/'
+          ls -a src
 
       - name: Build
         run: |
           for PLATFORM in ${BUILD_PLATFORMS}; do \
-            echo 'Building ${PLATFORM}...'
-            ${GODOT_EDITOR} ${BUILD_ARGS} --path 'src' --export-release ${PLATFORM} ${BIN} \
+            echo 'Building ${PLATFORM}...' \
+            # ${GODOT_EDITOR} ${BUILD_ARGS} --path 'src' --export-release ${PLATFORM} ${BIN} \
           done
 
   build:
