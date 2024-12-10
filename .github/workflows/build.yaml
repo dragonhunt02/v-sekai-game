@@ -7,7 +7,7 @@ env:
   BIN: 'release/bin/'
   GODOT_REPO: 'V-Sekai/world-godot'
   GODOT_ZIP: 'v-sekai-world.zip'
-  GODOT_EDITOR: ''
+  GODOT_EDITOR: 'godot.linuxbsd.editor.double.x86_64'
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 jobs:
   setup:
@@ -33,7 +33,7 @@ jobs:
           chmod +x ${GODOT_EDITOR}
           GODOT_VERSION=$(${GODOT_EDITOR} --version | sed 's///')
           mkdir -p '~/.local/share/godot/export_templates/${GODOT_VERSION}'
-          echo ${GODOT_VERSION} > version.txt
+          echo ${GODOT_VERSION} > '~/.local/share/godot/export_templates/${GODOT_VERSION}/version.txt'
 
           mkdir -p src
 
