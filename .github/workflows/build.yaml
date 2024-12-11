@@ -52,10 +52,10 @@ jobs:
 
       - name: Setup
         run: |
-          echo './godot/${GODOT_EDITOR}'
-          echo './${GODOT_EDITOR}'
+          echo "./godot/${GODOT_EDITOR}"
+          echo "./${GODOT_EDITOR}"
           
-          mv './godot/${GODOT_EDITOR}' './${GODOT_EDITOR}'
+          mv "./godot/${GODOT_EDITOR}" "./${GODOT_EDITOR}"
           chmod +x ${GODOT_EDITOR}
 
           GODOT_VERSION=$( ./${GODOT_EDITOR} --version | sed 's/\.[^.]*$//' )
