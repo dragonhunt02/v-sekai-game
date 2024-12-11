@@ -19,6 +19,10 @@ jobs:
     steps:
       - name: Set env
         run: |
+          readarray -t fruits < <( echo -e "apple\nbanana\ncherry\ndate")
+          for fruit in "${fruits[@]}"; do
+              echo "fruit$fruit"
+          done
           echo "TEMPLATE_DIR=${HOME}/.local/share/godot/export_templates" >> "$GITHUB_ENV"
           echo "BUILD_PLATFORMS=('Linux')" >> "$GITHUB_ENV"
           mkdir -p src
