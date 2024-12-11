@@ -41,7 +41,7 @@ jobs:
           mv ./godot/${GODOT_EDITOR} ./${GODOT_EDITOR}
           chmod +x ${GODOT_EDITOR}
 
-          GODOT_VERSION=$(./${GODOT_EDITOR} --version | sed 's///')
+          GODOT_VERSION=$( ./${GODOT_EDITOR} --version | sed 's/\.[^.]*$//' )
           mkdir -p ${TEMPLATE_DIR}
           echo ${GODOT_VERSION} > '${TEMPLATE_DIR}/version.txt'
 
