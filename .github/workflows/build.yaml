@@ -28,7 +28,7 @@ jobs:
           ls ${HOME}
           echo Template dir ${TEMPLATE_DIR}
           mkdir -p ${TEMPLATE_DIR}
-          tree -a {HOME}
+          tree -a ${HOME}
           echo 'home' && ls /home/
           ls -a ${TEMPLATE_DIR}
           tree -a ${TEMPLATE_DIR}
