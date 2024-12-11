@@ -10,7 +10,7 @@ env:
   GODOT_REPO: 'V-Sekai/world-godot'
   GODOT_ZIP: 'v-sekai-world.zip'
   GODOT_EDITOR: 'godot.linuxbsd.editor.double.x86_64'
-  TEMPLATE_DIR: '/home/.local/share/godot/export_templates'
+  TEMPLATE_DIR: '${HOME}/.local/share/godot/export_templates'
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
         run: |
           pwd
           tree -a .
-          
+          echo ${TEMPLATE_DIR}
           mkdir -p ${TEMPLATE_DIR}
           echo 'home' && ls /home/
           ls -a ${TEMPLATE_DIR}
