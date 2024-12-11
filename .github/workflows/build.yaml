@@ -89,7 +89,7 @@ jobs:
           tree -L 2
           tree -L 2 ${HOME}
           chmod +x ${GODOT_EDITOR}
-          for PLATFORM in ${BUILD_PLATFORMS[@]}; do
+          for PLATFORM in "${BUILD_PLATFORMS[@]}"; do
             echo "Building ${PLATFORM}..."
             ./${GODOT_EDITOR} ${BUILD_ARGS} --path 'src' --export-release ${PLATFORM} ${BIN}/v-sekai_${PLATFORM}
           done
