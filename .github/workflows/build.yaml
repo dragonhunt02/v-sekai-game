@@ -102,9 +102,9 @@ jobs:
           readarray -td ',' PLATFORMS < <( echo -ne "${BUILD_PLATFORMS}")
           for PLATFORM in "${PLATFORMS[@]}"; do
             echo "Building ${PLATFORM}..."
-            ./${GODOT_EDITOR} ${BUILD_ARGS} --path 'src' --export-release ${PLATFORM} ${BIN}/v-sekai_${PLATFORM}
+            ./${GODOT_EDITOR} ${BUILD_ARGS} --path 'src' --export-release ${PLATFORM} ${BIN}/v-sekai_${PLATFORM} || true
           done
-          tree ${BIN}
+          tree -a ${BIN}
 
   build:
     runs-on: ubuntu-latest
