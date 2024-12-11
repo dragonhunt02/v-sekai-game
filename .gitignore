@@ -4,8 +4,8 @@ export.cfg
 # export_presets.cfg
 
 #Fix class import
-/.godot/**/*.*
-!/.godot/global_script_class_cache.cfg
+.godot/**/*.*
+!.godot/global_script_class_cache.cfg
 
 # Imported translations (automatically generated from CSV files)
 *.translation
