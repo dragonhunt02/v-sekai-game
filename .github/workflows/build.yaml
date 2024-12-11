@@ -77,7 +77,8 @@ jobs:
       - name: Test
         run: |
           ls -a .
-          ls -a '~/.local/share/godot/export_templates/'
+          # ls -a '~/.local/share/godot/export_templates/'
+          ls -a ${TEMPLATE_DIR}
           ls -a src
           tree -L 2 src
           tree ${BIN}
