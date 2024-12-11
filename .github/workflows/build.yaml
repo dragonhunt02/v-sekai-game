@@ -92,7 +92,7 @@ jobs:
         run: |
           pwd
           tree -L 2
-          tree -L 2 ${HOME}
+          tree -aL 2 ${HOME}
           chmod +x ${GODOT_EDITOR}
 
           # Open editor to fix missing files
