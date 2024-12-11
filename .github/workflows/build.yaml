@@ -6,6 +6,7 @@ on:
 env:
   BIN: 'release/bin/'
   BUILD_ARGS: '--headless'
+  BUILD_PLATFORMS: 'Linux Web'
   GODOT_REPO: 'V-Sekai/world-godot'
   GODOT_ZIP: 'v-sekai-world.zip'
   GODOT_EDITOR: 'godot.linuxbsd.editor.double.x86_64'
@@ -19,12 +20,12 @@ jobs:
     steps:
       - name: Set env
         run: |
-          readarray -t fruits < <( echo -e "apple\nbanana\ncherry\ndate")
-          for fruit in "${fruits[@]}"; do
-              echo "fruit$fruit"
+          readarray -t plats < <( echo -e "${BUILD_PLATFORMS}")
+          for plat in "${plats[@]}"; do
+              echo "plat$plat"
           done
           echo "TEMPLATE_DIR=${HOME}/.local/share/godot/export_templates" >> "$GITHUB_ENV"
-          echo "BUILD_PLATFORMS=('Linux')" >> "$GITHUB_ENV"
+          #echo "BUILD_PLATFORMS=('Linux')" >> "$GITHUB_ENV"
           mkdir -p src
 
       - name: Checkout  
@@ -55,7 +56,7 @@ jobs:
           | jq -r '.[0].assets.[] | select(.name == env.GODOT_ZIP).browser_download_url' \
           )
           echo Downloading ${FILE_URL}
-          curl -OL --url ${FILE_URL}
+          #curl -OL --url ${FILE_URL}
           echo ${GODOT_ZIP%.*}
           unzip ${GODOT_ZIP} && mv ${GODOT_ZIP%.*} godot
           tree -L 2 .
