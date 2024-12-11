@@ -6,7 +6,7 @@ on:
 env:
   BIN: 'release/bin/'
   BUILD_ARGS: '--headless'
-  BUILD_PLATFORMS: 'Linux Web'
+  BUILD_PLATFORMS: 'Linux,Web,Mac'
   GODOT_REPO: 'V-Sekai/world-godot'
   GODOT_ZIP: 'v-sekai-world.zip'
   GODOT_EDITOR: 'godot.linuxbsd.editor.double.x86_64'
@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Set env
         run: |
-          readarray -t -d ' ' plats < <( echo -ne "${BUILD_PLATFORMS}")
+          readarray -d ',' plats < <( echo -ne "${BUILD_PLATFORMS}")
           for plat in "${plats[@]}"; do
               echo "plat${plat}plat"
           done
