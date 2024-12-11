@@ -23,7 +23,8 @@ jobs:
         run: |
           pwd
           tree -a .
-          echo ${HOME}
+          echo homee ${HOME}
+          echo ~
           mkdir -p ${HOME}/myhome
           ls ${HOME}
           echo Template dir ${TEMPLATE_DIR}
