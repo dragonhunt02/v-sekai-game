@@ -22,7 +22,7 @@ jobs:
         run: |
           readarray -d ' ' plats < <( echo -e "${BUILD_PLATFORMS}")
           for plat in "${plats[@]}"; do
-              echo "plat$plat"
+              echo "plat$plat"plat
           done
           echo "TEMPLATE_DIR=${HOME}/.local/share/godot/export_templates" >> "$GITHUB_ENV"
           #echo "BUILD_PLATFORMS=('Linux')" >> "$GITHUB_ENV"
