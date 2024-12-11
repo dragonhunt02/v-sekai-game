@@ -21,6 +21,12 @@ jobs:
       - name: Set env
         run: |
           echo "TEMPLATE_DIR=${HOME}/.local/share/godot/export_templates" >> "$GITHUB_ENV"
+          mkdir -p src
+
+      - name: Checkout  
+        uses: actions/checkout@v4
+        with:
+          path: 'src'
 
       - name: Download Godot
         run: |
@@ -63,16 +69,10 @@ jobs:
 
           GODOT_VERSION=$( ./${GODOT_EDITOR} --version | sed 's/\.[^.]*$//' )
           mkdir -p ${TEMPLATE_DIR}
-          echo ${GODOT_VERSION} > '${TEMPLATE_DIR}/version.txt'
+          echo ${GODOT_VERSION} > "${TEMPLATE_DIR}/version.txt"
 
           mv godot/* ${TEMPLATE_DIR}/
           mkdir -p ${BIN}
-          mkdir -p 'src'
-
-      - name: Checkout  
-        uses: actions/checkout@v4
-        with:
-          path: 'src'
 
       - name: Test
         run: |
@@ -80,6 +80,7 @@ jobs:
           ls -a v-sekai-world
           ls -a '~/.local/share/godot/export_templates/'
           ls -a src
+          tree -L 2 src
 
       - name: Build
         run: |
