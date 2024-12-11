@@ -4,7 +4,7 @@ export.cfg
 # export_presets.cfg
 
 #Fix class import
-.godot/**/*.*
+.godot/*
 !.godot/global_script_class_cache.cfg
 
 # Imported translations (automatically generated from CSV files)
@@ -23,7 +23,6 @@ Thumbs.db
 .vscode/
 build
 # Godot 4+ specific ignores
-.godot/
 # Unidot trash
 temp_*
 _temp_*
