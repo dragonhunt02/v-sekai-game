@@ -23,6 +23,9 @@ jobs:
         run: |
           pwd
           tree -a .
+          echo ${HOME}
+          mkdir -p ${HOME}/myhome
+          ls ${HOME}
           echo ${TEMPLATE_DIR}
           mkdir -p ${TEMPLATE_DIR}
           echo 'home' && ls /home/
