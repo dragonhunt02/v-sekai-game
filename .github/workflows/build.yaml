@@ -20,7 +20,7 @@ jobs:
       - name: Set env
         run: |
           echo "TEMPLATE_DIR=${HOME}/.local/share/godot/export_templates" >> "$GITHUB_ENV"
-          echo "BUILD_PLATFORMS=['Linux']" >> "$GITHUB_ENV"
+          echo "BUILD_PLATFORMS=('Linux')" >> "$GITHUB_ENV"
           mkdir -p src
 
       - name: Checkout  
@@ -89,7 +89,7 @@ jobs:
           tree -L 2
           tree -L 2 ${HOME}
           chmod +x ${GODOT_EDITOR}
-          for PLATFORM in ${BUILD_PLATFORMS}; do
+          for PLATFORM in ${BUILD_PLATFORMS[@]}; do
             echo "Building ${PLATFORM}..."
             ./${GODOT_EDITOR} ${BUILD_ARGS} --path 'src' --export-release ${PLATFORM} ${BIN}/v-sekai_${PLATFORM}
           done
