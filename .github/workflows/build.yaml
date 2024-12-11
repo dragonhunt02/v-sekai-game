@@ -86,8 +86,8 @@ jobs:
       - name: Build
         run: |
           for PLATFORM in ${BUILD_PLATFORMS}; do \
-            echo 'Building ${PLATFORM}...' \
-            ${GODOT_EDITOR} ${BUILD_ARGS} --path 'src' --export-release ${PLATFORM} ${BIN}/v-sekai_${PLATFORM} \
+            echo "Building ${PLATFORM}..." \
+            && ${GODOT_EDITOR} ${BUILD_ARGS} --path 'src' --export-release ${PLATFORM} ${BIN}/v-sekai_${PLATFORM} \
           done
           tree ${BIN}
 
