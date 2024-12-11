@@ -6,7 +6,7 @@ on:
 env:
   BIN: 'release/bin/'
   BUILD_ARGS: '--headless'
-  BUILD_PLATFORMS: ('Linux', 'Windows', 'Mac')
+  BUILD_PLATFORMS: ('Linux')
   GODOT_REPO: 'V-Sekai/world-godot'
   GODOT_ZIP: 'v-sekai-world.zip'
   GODOT_EDITOR: 'godot.linuxbsd.editor.double.x86_64'
@@ -45,7 +45,7 @@ jobs:
           | jq -r '.[0].assets.[] | select(.name == env.GODOT_ZIP).browser_download_url' \
           )
           echo Downloading ${FILE_URL}
-          #curl -OL --url ${FILE_URL}
+          curl -OL --url ${FILE_URL}
           echo ${GODOT_ZIP%.*}
           unzip ${GODOT_ZIP} && mv ${GODOT_ZIP%.*} godot
           tree .
@@ -79,8 +79,9 @@ jobs:
         run: |
           for PLATFORM in ${BUILD_PLATFORMS}; do \
             echo 'Building ${PLATFORM}...' \
-            # ${GODOT_EDITOR} ${BUILD_ARGS} --path 'src' --export-release ${PLATFORM} ${BIN} \
+            ${GODOT_EDITOR} ${BUILD_ARGS} --path 'src' --export-release ${PLATFORM} ${BIN}/v-sekai_${PLATFORM} \
           done
+          tree ${BIN}
 
   build:
     runs-on: ubuntu-latest
