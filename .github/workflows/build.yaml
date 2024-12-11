@@ -91,7 +91,7 @@ jobs:
       - name: Build
         run: |
           pwd
-          tree -L 2
+          tree -aL 2
           tree -aL 2 ${HOME}
           chmod +x ${GODOT_EDITOR}
 
