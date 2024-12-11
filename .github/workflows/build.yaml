@@ -6,7 +6,6 @@ on:
 env:
   BIN: 'release/bin/'
   BUILD_ARGS: '--headless'
-  BUILD_PLATFORMS: ("Linux", "Linux")
   GODOT_REPO: 'V-Sekai/world-godot'
   GODOT_ZIP: 'v-sekai-world.zip'
   GODOT_EDITOR: 'godot.linuxbsd.editor.double.x86_64'
@@ -21,6 +20,7 @@ jobs:
       - name: Set env
         run: |
           echo "TEMPLATE_DIR=${HOME}/.local/share/godot/export_templates" >> "$GITHUB_ENV"
+          echo "BUILD_PLATFORMS=['Linux']" >> "$GITHUB_ENV"
           mkdir -p src
 
       - name: Checkout  
