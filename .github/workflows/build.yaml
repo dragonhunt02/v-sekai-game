@@ -48,10 +48,13 @@ jobs:
           curl -OL --url ${FILE_URL}
           echo ${GODOT_ZIP%.*}
           unzip ${GODOT_ZIP} && mv ${GODOT_ZIP%.*} godot
-          tree .
+          tree -L 2 .
 
       - name: Setup
         run: |
+          echo './godot/${GODOT_EDITOR}'
+          echo './${GODOT_EDITOR}'
+          
           mv './godot/${GODOT_EDITOR}' './${GODOT_EDITOR}'
           chmod +x ${GODOT_EDITOR}
 
