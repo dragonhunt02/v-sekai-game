@@ -96,7 +96,7 @@ jobs:
           chmod +x ${GODOT_EDITOR}
 
           # Open editor to fix missing files
-          ./${GODOT_EDITOR} ${BUILD_ARGS} --path 'src' >/dev/null
+          ./${GODOT_EDITOR} ${BUILD_ARGS} --quit --path 'src' > /dev/null 2>&1
 
           readarray -td ',' PLATFORMS < <( echo -ne "${BUILD_PLATFORMS}")
           for PLATFORM in "${PLATFORMS[@]}"; do
