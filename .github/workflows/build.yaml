@@ -18,10 +18,12 @@ jobs:
     permissions:
       actions: write
     steps:
-      - name: Download Godot
+      - name: Set env
         run: |
           echo "TEMPLATE_DIR=${HOME}/.local/share/godot/export_templates" >> "$GITHUB_ENV"
 
+      - name: Download Godot
+        run: |
           pwd
           tree -a .
           echo homee ${HOME}
