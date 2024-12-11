@@ -29,6 +29,7 @@ jobs:
           ls ${HOME}
           echo Template dir ${TEMPLATE_DIR}
           mkdir -p ${TEMPLATE_DIR}
+          cd ${TEMPLATE_DIR} && pwd
           tree -a ${HOME}
           echo 'home' && ls /home/
           ls -a ${TEMPLATE_DIR}
