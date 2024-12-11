@@ -49,9 +49,11 @@ jobs:
           echo ${GODOT_ZIP%.*}
           unzip ${GODOT_ZIP} && mv ${GODOT_ZIP%.*} godot
           tree -L 2 .
+          mv godot ${HOME}/godot
 
       - name: Setup
         run: |
+          mv ${HOME}/godot ./godot
           tree -L 2
           echo "./godot/${GODOT_EDITOR}"
           echo "./${GODOT_EDITOR}"
