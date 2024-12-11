@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Set env
         run: |
-          readarray -d ',' plats < <( echo -ne "${BUILD_PLATFORMS}")
+          readarray -td ',' plats < <( echo -ne "${BUILD_PLATFORMS}")
           for plat in "${plats[@]}"; do
               echo "plat${plat}plat"
           done
