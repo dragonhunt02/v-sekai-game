@@ -54,7 +54,7 @@ jobs:
         run: |
           echo "./godot/${GODOT_EDITOR}"
           echo "./${GODOT_EDITOR}"
-          
+          stat "./godot/${GODOT_EDITOR}"
           mv "./godot/${GODOT_EDITOR}" "./${GODOT_EDITOR}"
           chmod +x ${GODOT_EDITOR}
 
