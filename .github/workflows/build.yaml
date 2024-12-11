@@ -21,6 +21,8 @@ jobs:
     steps:
       - name: Download Godot
         run: |
+          echo "TEMPLATE_DIR=${HOME}/.local/share/godot/export_templates" >> "$GITHUB_ENV"
+
           pwd
           tree -a .
           echo homee ${HOME}
