@@ -6,7 +6,7 @@ on:
 env:
   BIN: 'release/bin/'
   BUILD_ARGS: '--headless'
-  BUILD_PLATFORMS: 'Linux,Web,Mac'
+  BUILD_PLATFORMS: 'Linux,Mac'
   GODOT_REPO: 'V-Sekai/world-godot'
   GODOT_ZIP: 'v-sekai-world.zip'
   GODOT_EDITOR: 'godot.linuxbsd.editor.double.x86_64'
@@ -20,10 +20,10 @@ jobs:
     steps:
       - name: Set env
         run: |
-          readarray -td ',' plats < <( echo -ne "${BUILD_PLATFORMS}")
-          for plat in "${plats[@]}"; do
-              echo "plat${plat}plat"
-          done
+          #readarray -td ',' plats < <( echo -ne "${BUILD_PLATFORMS}")
+          #for plat in "${plats[@]}"; do
+          #    echo "plat${plat}plat"
+          #done
           echo "TEMPLATE_DIR=${HOME}/.local/share/godot/export_templates" >> "$GITHUB_ENV"
           #echo "BUILD_PLATFORMS=('Linux')" >> "$GITHUB_ENV"
           mkdir -p src
@@ -94,7 +94,9 @@ jobs:
           tree -L 2
           tree -L 2 ${HOME}
           chmod +x ${GODOT_EDITOR}
-          for PLATFORM in "${BUILD_PLATFORMS[@]}"; do
+          
+          readarray -td ',' PLATFORMS < <( echo -ne "${BUILD_PLATFORMS}")
+          for PLATFORM in "${PLATFORMS[@]}"; do
             echo "Building ${PLATFORM}..."
             ./${GODOT_EDITOR} ${BUILD_ARGS} --path 'src' --export-release ${PLATFORM} ${BIN}/v-sekai_${PLATFORM}
           done
