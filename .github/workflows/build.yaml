@@ -77,10 +77,12 @@ jobs:
           echo ${GODOT_VERSION} > "${TEMPLATE_DIR}/version.txt"
 
           mv godot/* ${TEMPLATE_DIR}/
+          sed -ir "s|^(custom_template/[a-z]*=\")~|\1${HOME}|g" './src/export_presets.cfg'
           mkdir -p ${BIN}
 
       - name: Test
         run: |
+          cat './src/export_presets.cfg' | grep 'custom_template'
           ls -a .
           # ls -a '~/.local/share/godot/export_templates/'
           ls -a ${TEMPLATE_DIR}
