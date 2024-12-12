@@ -102,7 +102,7 @@ jobs:
 
           # Open editor to fix missing files
           echo "Fix .godot import"
-          ./${GODOT_EDITOR} --headless --import --path 'src' > /dev/null 2>&1
+          ./${GODOT_EDITOR} --headless --import --build-solutions --path 'src' > /dev/null 2>&1
 
           tree -a -L 2 src
 
