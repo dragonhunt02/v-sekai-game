@@ -24,7 +24,7 @@ jobs:
           #for plat in "${plats[@]}"; do
           #    echo "plat${plat}plat"
           #done
-          echo "TEMPLATE_DIR=${HOME}/.local/share/godot/export_templates" >> "$GITHUB_ENV"
+          echo "TEMPLATE_DIR=${HOME}/export_templates" >> "$GITHUB_ENV"
           #echo "BUILD_PLATFORMS=('Linux')" >> "$GITHUB_ENV"
           mkdir -p src
 
@@ -104,7 +104,7 @@ jobs:
           echo "Fix .godot import"
           ./${GODOT_EDITOR} --headless --import --path 'src' > /dev/null 2>&1
 
-          tree -a -L 3 src
+          tree -a -L 2 src
 
           readarray -td ',' PLATFORMS < <( echo -ne "${BUILD_PLATFORMS}")
           for PLATFORM in "${PLATFORMS[@]}"; do
