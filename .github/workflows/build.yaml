@@ -24,7 +24,7 @@ jobs:
           #for plat in "${plats[@]}"; do
           #    echo "plat${plat}plat"
           #done
-          echo "TEMPLATE_DIR=${HOME}/export_templates" >> "$GITHUB_ENV"
+          echo "TEMPLATE_DIR=${HOME}/.local/share/godot/export_templates" >> "$GITHUB_ENV"
           #echo "BUILD_PLATFORMS=('Linux')" >> "$GITHUB_ENV"
           mkdir -p src
 
@@ -81,6 +81,9 @@ jobs:
           mv godot/* ${TEMPLATE_DIR}/
           sed -i -r "s|(^custom_template/[a-z]*=\")~|\1${HOME}|g" './src/export_presets.cfg'
           mkdir -p ${BIN}
+          
+          cp './godot/godot.linuxbsd.template_release.double.x86_64' \
+            "${HOME}/.local/share/godot/export_templates/linux_release.x86_64"
 
       - name: Test
         run: |
