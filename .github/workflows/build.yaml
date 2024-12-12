@@ -82,7 +82,7 @@ jobs:
           sed -i -r "s|(^custom_template/[a-z]*=\")~|\1${HOME}|g" './src/export_presets.cfg'
           mkdir -p ${BIN}
           
-          cp './godot/godot.linuxbsd.template_release.double.x86_64' \
+          cp "${TEMPLATE_DIR}/godot.linuxbsd.template_release.double.x86_64" \
             "${HOME}/.local/share/godot/export_templates/linux_release.x86_64"
 
       - name: Test
