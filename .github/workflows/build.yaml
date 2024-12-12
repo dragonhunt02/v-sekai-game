@@ -6,7 +6,7 @@ on:
 env:
   BIN: 'release/bin/'
   BUILD_ARGS: '--headless'
-  BUILD_PLATFORMS: 'Linux,Linux'
+  BUILD_PLATFORMS: 'Linux,Linux1'
   GODOT_REPO: 'V-Sekai/world-godot'
   GODOT_ZIP: 'v-sekai-world.zip'
   GODOT_EDITOR: 'godot.linuxbsd.editor.double.x86_64'
@@ -95,14 +95,16 @@ jobs:
       - name: Build
         run: |
           pwd
+          rm -rf './src/.godot'
           tree -aL 2
           tree -aL 2 ${HOME}
           chmod +x ${GODOT_EDITOR}
 
-          rm -rf './src/.godot'
           # Open editor to fix missing files
           echo "Fix .godot import"
           ./${GODOT_EDITOR} --headless --import --path 'src' > /dev/null 2>&1
+
+          tree -a -L 3 src
 
           readarray -td ',' PLATFORMS < <( echo -ne "${BUILD_PLATFORMS}")
           for PLATFORM in "${PLATFORMS[@]}"; do
