@@ -36,7 +36,7 @@ jobs:
       - name: Download Godot
         run: |
           
-          sed -ir "s|(^custom_template/[a-z]*=\")~|\1${HOME}|g" './src/export_presets.cfg'
+          sed -i -r "s|(^custom_template/[a-z]*=\")~|\1${HOME}|g" './src/export_presets.cfg'
           pwd
           tree -a .
           echo homee ${HOME}
