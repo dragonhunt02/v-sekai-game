@@ -99,6 +99,7 @@ jobs:
           tree -aL 2 ${HOME}
           chmod +x ${GODOT_EDITOR}
 
+          rm -rf './src/.godot'
           # Open editor to fix missing files
           echo "Fix .godot import"
           ./${GODOT_EDITOR} --headless --import --path 'src' > /dev/null 2>&1
