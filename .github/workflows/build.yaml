@@ -81,12 +81,18 @@ jobs:
           mv godot/* ${TEMPLATE_DIR}/
           sed -i -r "s|(^custom_template/[a-z]*=\")~|\1${HOME}|g" './src/export_presets.cfg'
           mkdir -p ${BIN}
-          
-          cp "${TEMPLATE_DIR}/godot.linuxbsd.template_release.double.x86_64" \
+
+          mkdir -p ${TEMPLATE_DIR}/${GODOT_VERSION}
+          echo ${GODOT_VERSION} > "${TEMPLATE_DIR}/${GODOT_VERSION}/version.txt"
+          cp "${TEMPLATE_DIR}/${GODOT_VERSION}/godot.linuxbsd.template_release.double.x86_64" \
             "${HOME}/.local/share/godot/export_templates/linux_release.x86_64"
+            
+          cp "${TEMPLATE_DIR}/godot.linuxbsd.template_debug.double.x86_64" \
+            "${HOME}/.local/share/godot/export_templates/linux_debug.x86_64"
 
       - name: Test
         run: |
+          tree ${TEMPLATE_DIR}
           cat './src/export_presets.cfg' | grep 'custom_template'
           ls -a .
           # ls -a '~/.local/share/godot/export_templates/'
