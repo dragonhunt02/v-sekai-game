@@ -84,11 +84,11 @@ jobs:
 
           mkdir -p ${TEMPLATE_DIR}/${GODOT_VERSION}
           echo ${GODOT_VERSION} > "${TEMPLATE_DIR}/${GODOT_VERSION}/version.txt"
-          cp "${TEMPLATE_DIR}/${GODOT_VERSION}/godot.linuxbsd.template_release.double.x86_64" \
-            "${HOME}/.local/share/godot/export_templates/linux_release.x86_64"
+          cp "${TEMPLATE_DIR}/godot.linuxbsd.template_release.double.x86_64" \
+            "${HOME}/.local/share/godot/export_templates/${GODOT_VERSION}/linux_release.x86_64"
             
           cp "${TEMPLATE_DIR}/godot.linuxbsd.template_debug.double.x86_64" \
-            "${HOME}/.local/share/godot/export_templates/linux_debug.x86_64"
+            "${HOME}/.local/share/godot/export_templates/${GODOT_VERSION}/linux_debug.x86_64"
 
       - name: Test
         run: |
