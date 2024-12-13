@@ -1,7 +1,8 @@
 name: Build Platform Target
 
 on:
-  repository_dispatch
+  repository_dispatch:
+    types: ['build-ready']
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
