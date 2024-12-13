@@ -1,0 +1,21 @@
+name: Build Platform Target
+
+on:
+  push:
+    branches: [action]
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      - name: Set env
+        run: |
+          echo "GITHUB_REV=${{ github.event.repository.name }} >> "$GITHUB_ENV"
+
+      - name: Test
+        run: |
+          echo "Github ${GITHUB_REV}"
