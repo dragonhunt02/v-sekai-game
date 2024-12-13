@@ -62,6 +62,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          cd v-sekai-release
           echo "Upload to ${{ steps.create_release.outputs.upload_url }}"
           for file in *; do \
           echo "Uploading $file..."; \
