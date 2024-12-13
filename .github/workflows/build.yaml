@@ -3,6 +3,8 @@ name: Build Platform Target
 on:
   repository_dispatch:
     types: ['build-ready']
+  push:
+    branches: ['gh-test']
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
