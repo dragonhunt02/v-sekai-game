@@ -1,8 +1,8 @@
 name: Build Platform Target
 
 on:
-  push:
-    branches: [gh-test]
+  repository_dispatch
+
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -14,8 +14,10 @@ jobs:
     steps:
       - name: Set env
         run: |
-          echo "GITHUB_REV=${{ github.event.sha }}" >> "$GITHUB_ENV"
+          echo "GITHUB_REV=${{ github.event.repository.name }}" >> "$GITHUB_ENV"
 
       - name: Test
         run: |
           echo "Github event -  ${GITHUB_REV}"
+          
+          echo "Github event -  ${{ github.event.client_payload.commit_sha }}""
