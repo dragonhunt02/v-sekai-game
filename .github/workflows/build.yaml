@@ -2,7 +2,7 @@ name: Build Platform Target
 
 on:
   push:
-    branches: [action]
+    branches: [gh-test]
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
