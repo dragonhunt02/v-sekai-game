@@ -20,5 +20,16 @@ jobs:
       - name: Test
         run: |
           echo "Github event -  ${GITHUB_REV}"
-          
+          touch test.txt
           echo "Github event -  ${{ github.event.client_payload.commit_sha }}"
+
+      #- name: Docker build project
+        #uses: ./docker/build-project
+       # with:
+         # godot_rev: ${{ github.event.client_payload.commit_sha }}
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: v-sekai-release
+          path: ${{ github.workspace }}
