@@ -18,4 +18,4 @@ jobs:
 
       - name: Test
         run: |
-          echo "Github ${GITHUB_REV}"
+          echo "Github event ${GITHUB_REV}"
