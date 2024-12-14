@@ -23,7 +23,7 @@ jobs:
         run: |
           echo "Github event -  ${GITHUB_REV}"
           touch test.txt && echo 'test'>>test.txt
-          touch test.txt && echo 'test'>>test_win.txt
+          touch test.txt && echo 'test'>>test_windows.txt
           echo "Github event -  ${{ github.event.client_payload.commit_sha }}"
 
       #- name: Docker build project
