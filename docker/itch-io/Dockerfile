@@ -40,6 +40,6 @@ RUN chmod +x entrypoint.sh
 RUN ls -a . && echo "path $PATH" 
 #&& ls -a $PATH
 
-CMD ["/bin/sh", "./entrypoint.sh"]
+CMD ["/bin/sh", "ls -ha ."]
 
       # ./butler/butler push ${file} ${INPUT_ITCHIO_PROJECT}:${CHANNEL} --userversion ${INPUT_RELEASE_VERSION}; \
