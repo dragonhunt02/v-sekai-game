@@ -6,6 +6,6 @@ cd ${INPUT_FILEPATH}
 for file in *; do
    CHANNEL=$( echo "${file}" | cut -d '_' -f3 | cut -d '.' -f1 | tr '[:upper:]' '[:lower:]');
    echo "Uploading ${file} to ${INPUT_ITCHIO_PROJECT} for platform ${CHANNEL}...";
-   ./butler/butler -V
-   # ./butler/butler push ${file} ${INPUT_ITCHIO_PROJECT}:${CHANNEL} --userversion ${INPUT_RELEASE_VERSION};
+   ${HOME}/butler/butler -V
+   # ${HOME}/butler/butler push ${file} ${INPUT_ITCHIO_PROJECT}:${CHANNEL} --userversion ${INPUT_RELEASE_VERSION};
 done
