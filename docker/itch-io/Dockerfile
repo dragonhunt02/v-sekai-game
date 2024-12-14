@@ -31,6 +31,6 @@ RUN ls -a . && ls -a ./butler # && ls -a ${FILES_PATH}
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x entrypoint.sh
 
-CMD ["/bin/bash", "entrypoint.sh"]
+CMD ["/bin/sh", "entrypoint.sh"]
 
       # ./butler/butler push ${file} ${INPUT_ITCHIO_PROJECT}:${CHANNEL} --userversion ${INPUT_RELEASE_VERSION}; \
