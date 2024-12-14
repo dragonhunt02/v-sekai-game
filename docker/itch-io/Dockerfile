@@ -10,6 +10,8 @@ ENV HOME /root
 
 RUN apt-get update && apt-get install -y ca-certificates curl unzip
 
+RUN echo "\n\n" && pwd
+
 WORKDIR $HOME
 
 # Install Itch.io Butler
