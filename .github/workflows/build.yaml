@@ -87,7 +87,7 @@ jobs:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
         with:
-          path: v-sekai-release
+          path: ${{ github.workspace }}/v-sekai-release
           name: v-sekai-release
 
       - name: Docker Itch.io Publish
