@@ -1,11 +1,20 @@
 # Itch.io Publish Release - Docker image
 ## Run from Docker
-```
+```bash
+INPUT_API_KEY='api-key'
+FILEPATH='./example/' #Folder with files to release.
+                      #File names must contain platform tag
+                      # '_Mac_' or '_windows.exe'
+                      #Example: game_0.0.1_windows_latest.exe
+
+INPUT_ITCHIO_PROJECT='example-project' #itch.io Project name
+INPUT_RELEASE_VERSION='0.0.1'
+
 docker run --rm --name itch-publish --workdir /github/workspace \
--e "INPUT_API_KEY" -e "INPUT_FILEPATH" -e "INPUT_ITCHIO_PROJECT" \
--e "INPUT_RELEASE_VERSION" -e "HOME" \
--v "/home/user/v-sekai-release":"/github/workspace" \
- itchio:latest
+-e "INPUT_API_KEY" -e INPUT_FILEPATH=${FILEPATH} \
+-e "INPUT_ITCHIO_PROJECT" -e "INPUT_RELEASE_VERSION" \
+-v "${FILEPATH}":"/github/workspace/${FILEPATH}" \
+ itchio-publish:latest
 ```
 
 ## Run as Github Action
