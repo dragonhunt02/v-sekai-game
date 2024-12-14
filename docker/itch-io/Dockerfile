@@ -1,9 +1,10 @@
-#FROM debian:stable-slim
-FROM ubuntu:latest
+FROM debian:stable-slim
+#FROM ubuntu:latest
 
 ARG INPUT_RELEASE_VERSION
 ARG INPUT_API_KEY
 ARG INPUT_ITCHIO_PROJECT
+ARG INPUT_FILEPATH
 
 ENV BUTLER_API_KEY INPUT_API_KEY
 ENV FILES_PATH /github/workspace
@@ -22,16 +23,9 @@ RUN mkdir butler && unzip -d butler/ butler.zip \
       && chmod +x ./butler/butler && ./butler/butler -V
 
 RUN echo ${GITHUB_WORKSPACE} && ls -a /
-RUN ls -a . && ls -a ./butler # && ls -a ${FILES_PATH}
-
-#RUN cd ${FILES_PATH} && for file in *; do \
-#      CHANNEL=$( grep -E -io "windows|linux|mac|android" ); \
-#      echo "Uploading ${file} to ${ITCHIO_PROJECT} for platform ${CHANNEL}..."; \
-#      done
-
+RUN ls -a . && ls -a ./butler # && ls -a ${INPUT_FILEPATH}
 
 COPY entrypoint.sh /usr/bin/entrypoint.sh
-#RUN chmod +x entrypoint.sh --chmod=0755
 RUN ls -a . && echo "path $PATH" 
 #&& ls -a $PATH
 
