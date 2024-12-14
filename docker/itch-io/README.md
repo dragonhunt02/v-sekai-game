@@ -1,4 +1,4 @@
-# Itch.io publish release - Docker image
+# Itch.io Publish Release - Docker image
 ## Run from Docker
 ```
 docker compose up
