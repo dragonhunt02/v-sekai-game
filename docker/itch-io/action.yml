@@ -7,6 +7,9 @@ inputs:
   api_key:
     description: 'Itch.io API key'
     required: false
+  filepath:
+    description: 'Release files folder path'
+    required: true
   itchio_project:
     description: 'Itch.io project name'
     required: true
