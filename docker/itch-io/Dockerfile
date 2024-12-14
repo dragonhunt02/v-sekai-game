@@ -28,6 +28,8 @@ RUN ls -a . && ls -a ./butler # && ls -a ${FILES_PATH}
 #      echo "Uploading ${file} to ${ITCHIO_PROJECT} for platform ${CHANNEL}..."; \
 #      done
 
+COPY ./entrypoint.sh /
+
 ENTRYPOINT ["./entrypoint.sh"]
 
       # ./butler/butler push ${file} ${INPUT_ITCHIO_PROJECT}:${CHANNEL} --userversion ${INPUT_RELEASE_VERSION}; \
