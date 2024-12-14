@@ -18,6 +18,7 @@ RUN curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archi
 RUN mkdir butler && unzip -d butler/ butler.zip \
       && chmod +x ./butler/butler && ./butler/butler -V
 
+RUN echo ${GITHUB_WORKSPACE} && ls -a /
 RUN ls -a . && ls -a ./butler && ls -a ${FILES_PATH}
 
 RUN cd ${FILES_PATH} && for file in *; do \
