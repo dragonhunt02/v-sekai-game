@@ -1,3 +1,4 @@
+#!/bin/sh
 
 echo "Github workspace ${GITHUB_WORKSPACE}"
 pwd
