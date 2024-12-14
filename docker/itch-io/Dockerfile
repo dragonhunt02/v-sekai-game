@@ -29,6 +29,7 @@ RUN ls -a . && ls -a ./butler # && ls -a ${FILES_PATH}
 #      done
 
 COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x entrypoint.sh
 
 ENTRYPOINT ["entrypoint.sh"]
 
