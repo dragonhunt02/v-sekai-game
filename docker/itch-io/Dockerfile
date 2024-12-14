@@ -37,7 +37,7 @@ RUN ls -a . && ls -a ./butler # && ls -a ${FILES_PATH}
 #' > entrypoint.sh
 
 COPY --chmod=0755 entrypoint.sh /usr/bin/entrypoint.sh
-RUN chmod +x entrypoint.sh
+#RUN chmod +x entrypoint.sh
 RUN ls -a . && echo "path $PATH" 
 #&& ls -a $PATH
 
