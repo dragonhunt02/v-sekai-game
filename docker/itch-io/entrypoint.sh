@@ -8,6 +8,6 @@ cd ${INPUT_FILEPATH}
 for file in *; do \
    export CHANNEL=$( grep -E -io "windows|linux|mac|android" ); \
    echo "channel ${CHANNEL}";
-   echo $( grep -E -io "windows|linux|mac|android" );
+   echo $( sed -r 's/.*(windows|linux|mac|android).*/\1/' );
    echo "Uploading ${file} to ${INPUT_ITCHIO_PROJECT} for platform ${CHANNEL}..."; \
 done
