@@ -6,7 +6,7 @@ ARG INPUT_ITCHIO_PROJECT
 
 ENV BUTLER_API_KEY INPUT_API_KEY
 ENV FILES_PATH /github/workspace
-ENV HOME /root
+#ENV HOME /root
 
 RUN apt-get update && apt-get install -y ca-certificates curl unzip tree
 
