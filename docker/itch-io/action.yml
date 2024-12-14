@@ -6,7 +6,7 @@ branding:
 inputs:
   api-key:
     description: 'Itch.io API key'
-    required: true
+    required: false
   itchio-project:
     description: 'Itch.io project name'
     required: true
