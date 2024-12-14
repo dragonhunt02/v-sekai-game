@@ -18,7 +18,7 @@ RUN curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archi
 RUN mkdir butler && unzip -d butler/ butler.zip \
       && chmod +x ./butler/butler && ./butler/butler -V
 
-RUN ls -a ./butler && ls -a ${FILES_PATH}
+RUN ls -a . && ls -a ./butler && ls -a ${FILES_PATH}
 
 RUN cd ${FILES_PATH} && for file in *; do \
       CHANNEL=$( grep -E -io "windows|linux|mac|android" ); \
