@@ -11,9 +11,9 @@ INPUT_ITCHIO_PROJECT='example-project' #itch.io Project name
 INPUT_RELEASE_VERSION='0.0.1'
 
 docker run --rm --name itch-publish --workdir /github/workspace \
--e "INPUT_API_KEY" -e INPUT_FILEPATH=${FILEPATH} \
+-e "INPUT_API_KEY" -e INPUT_FILEPATH="releases" \
 -e "INPUT_ITCHIO_PROJECT" -e "INPUT_RELEASE_VERSION" \
--v "${FILEPATH}":"/github/workspace/${FILEPATH}" \
+-v "${FILEPATH}":"/github/workspace/releases" \
  itchio-publish:latest
 ```
 
