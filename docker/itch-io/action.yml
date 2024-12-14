@@ -4,13 +4,13 @@ branding:
   icon: 'upload'
   color: 'red'
 inputs:
-  api-key:
+  api_key:
     description: 'Itch.io API key'
     required: false
-  itchio-project:
+  itchio_project:
     description: 'Itch.io project name'
     required: true
-  release-version:
+  release_version:
     description: 'Project version'
     required: true
 runs:
