@@ -28,7 +28,7 @@ RUN ls -a . && ls -a ./butler # && ls -a ${FILES_PATH}
 #      echo "Uploading ${file} to ${ITCHIO_PROJECT} for platform ${CHANNEL}..."; \
 #      done
 
-COPY ./entrypoint.sh /
+COPY entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["./entrypoint.sh"]
 
