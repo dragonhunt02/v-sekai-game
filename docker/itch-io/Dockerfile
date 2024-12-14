@@ -8,9 +8,9 @@ ENV BUTLER_API_KEY INPUT_API_KEY
 ENV FILES_PATH /github/workspace
 ENV HOME /root
 
-RUN apt-get update && apt-get install -y ca-certificates curl unzip
+RUN apt-get update && apt-get install -y ca-certificates curl unzip tree
 
-RUN echo "\n\n" && pwd
+RUN echo "\n\n" && pwd && tree -a -L 2 .
 
 WORKDIR $HOME
 
