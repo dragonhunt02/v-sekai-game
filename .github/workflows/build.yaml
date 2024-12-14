@@ -8,7 +8,7 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  ITCH_IO_PUBLISH: 'truee'
+  ITCH_IO_PUBLISH: 'true'
 
 jobs:
   setup:
@@ -88,6 +88,7 @@ jobs:
       - name: Confirm Itch.io release 
         run: |
           if [ ${ITCH_IO_PUBLISH} != "true" ]; then \
+            echo "Itch.io release is disabled!"
             exit 1; \
           fi
 
