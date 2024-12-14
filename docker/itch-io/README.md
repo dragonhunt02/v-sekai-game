@@ -4,7 +4,7 @@
 docker run --rm --name itch-publish --workdir /github/workspace \
 -e "INPUT_API_KEY" -e "INPUT_FILEPATH" -e "INPUT_ITCHIO_PROJECT" \
 -e "INPUT_RELEASE_VERSION" -e "HOME" \
--v "/var/run/docker.sock":"/var/run/docker.sock" -v "/home/user/_temp/_github_home":"/github/home" -v "/home/user/v-sekai-game/v-sekai-game":"/github/workspace" \
+-v "/home/user/v-sekai-release":"/github/workspace" \
  itchio:latest
 ```
 
