@@ -15,7 +15,7 @@ RUN curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archi
 RUN unzip butler.zip && chmod +x ./butler/butler && ./butler -V
 
 RUN cd ${FILES_PATH} && for file in *; do \
-      CHANNEL=$( grep -io "windows|linux|mac|android" );
+      CHANNEL=$( grep -E -io "windows|linux|mac|android" );
       echo "Uploading ${file} to ${ITCHIO_PROJECT} for platform ${CHANNEL}..."; \
       # ./butler/butler push ${file} ${INPUT_ITCHIO_PROJECT}:${CHANNEL} --userversion ${INPUT_RELEASE_VERSION}; \
       done
