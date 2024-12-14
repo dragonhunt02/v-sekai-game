@@ -75,3 +75,21 @@ jobs:
           --data-binary "@${file}"; \
           done
           # "${{ steps.create_release.outputs.upload_url }}" \
+
+  itch-upload:
+    runs-on: ubuntu-latest
+    needs: setup
+    if: github.event_name == 'push' && github.ref == 'refs/heads/gh-test' #Change to main
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: v-sekai-release
+          name: v-sekai-release
+
+      - name: Docker Itch.io Publish
+        uses: ./docker/itch-io/itchio-publish
+        with:
+          api_key: ${{ secrets.ITCH_IO_API_KEY }}
+          itchio_project: projectname
+          release_version: 0.0.1
