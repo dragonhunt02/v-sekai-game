@@ -1,4 +1,5 @@
-FROM debian:stable-slim
+#FROM debian:stable-slim
+FROM ubuntu:latest
 
 ARG INPUT_RELEASE_VERSION
 ARG INPUT_API_KEY
@@ -40,6 +41,6 @@ RUN chmod +x entrypoint.sh
 RUN ls -a . && echo "path $PATH" 
 #&& ls -a $PATH
 
-CMD ["/bin/sh", "ls -ha ."]
+CMD ["/bin/sh", "entrypoint.sh"]
 
       # ./butler/butler push ${file} ${INPUT_ITCHIO_PROJECT}:${CHANNEL} --userversion ${INPUT_RELEASE_VERSION}; \
