@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y ca-certificates curl unzip tree
 
 RUN echo "\n\n" && pwd && tree -a -L 2 .
 
-WORKDIR $HOME
+# WORKDIR $HOME
 
 # Install Itch.io Butler
 RUN curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
