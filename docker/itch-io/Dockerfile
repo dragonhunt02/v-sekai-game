@@ -28,7 +28,15 @@ RUN ls -a . && ls -a ./butler # && ls -a ${FILES_PATH}
 #      echo "Uploading ${file} to ${ITCHIO_PROJECT} for platform ${CHANNEL}..."; \
 #      done
 
-COPY entrypoint.sh /entrypoint.sh
+RUN echo '
+#!/bin/sh
+
+echo "Github workspace ${GITHUB_WORKSPACE}"
+pwd
+tree -a -L 2 .
+' > entrypoint.sh
+
+#COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x entrypoint.sh
 
 CMD ["/bin/sh", "entrypoint.sh"]
