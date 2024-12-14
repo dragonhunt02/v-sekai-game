@@ -15,7 +15,7 @@ WORKDIR $HOME
 # Install Itch.io Butler
 RUN curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
 
-RUN unzip butler.zip && chmod +x ./butler/butler && ./butler -V
+RUN mkdir butler && unzip -d butler/ butler.zip && chmod +x ./butler/butler && ./butler -V
 
 RUN ls -a ./butler && ls -a ${FILES_PATH}
 
