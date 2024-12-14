@@ -37,8 +37,9 @@ RUN ls -a . && ls -a ./butler # && ls -a ${FILES_PATH}
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x entrypoint.sh
-RUN ls -a . && echo "path $PATH" && ls -a $PATH
+RUN ls -a . && echo "path $PATH" 
+#&& ls -a $PATH
 
-CMD ["/bin/sh", "entrypoint.sh"]
+CMD ["/bin/sh", "./entrypoint.sh"]
 
       # ./butler/butler push ${file} ${INPUT_ITCHIO_PROJECT}:${CHANNEL} --userversion ${INPUT_RELEASE_VERSION}; \
