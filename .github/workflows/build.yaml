@@ -19,12 +19,12 @@ jobs:
       - name: Set env
         run: |
           echo "GITHUB_REV=${{ github.event.repository.name }}" >> "$GITHUB_ENV"
-          #echo "GITHUB_TAG=$( echo $(git describe --tags --abbrev=0) )" >> $GITHUB_ENV
+          echo "GITHUB_TAG=$( echo $(git describe --tags --abbrev=0) )" >> $GITHUB_ENV
 
       - name: Test
         run: |
           echo "Github event -  ${GITHUB_REV}"
-          #echo "Github tag - ${GITHUB_TAG}"
+          echo "Github tag - ${GITHUB_TAG}"
           touch test.txt && echo 'test'>>test.txt
           touch test.txt && echo 'test'>>test_f0.8fff_linux
           touch test.txt && echo 'test'>>test_0.5ffff_windows.txt
