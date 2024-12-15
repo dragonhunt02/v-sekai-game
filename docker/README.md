@@ -1,2 +1,2 @@
 ## Release Automation - Docker images
-Works as **Docker images** or **Github Action**. See instructions in folders.
+Works as **Docker images** or **Github Actions**. See instructions in folders.
