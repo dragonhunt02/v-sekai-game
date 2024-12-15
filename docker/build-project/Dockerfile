@@ -57,12 +57,12 @@ RUN GIT_REV=$(cat ./src/version.txt | tr -d '\n') \
           done
 
 # Copy output to github
-RUN if [ -d "/github/workflows/" ]; then \
-        echo "Copying to Github output..."; \
-        cp ./src/$BIN/* /github/workflows/; \
-    else \
-        echo "Skipping Github output copy!"; \
-    fi
+#RUN if [ -d "/github/workflows/" ]; then \
+#        echo "Copying to Github output..."; \
+#        cp ./src/$BIN/* /github/workflows/; \
+#    else \
+#        echo "Skipping Github output copy!"; \
+#    fi
 
 RUN echo "Test" > $HOMEDIR/src/$BIN/file_0.0.1_windows_le.test 
 CMD ls . && echo "HOME\n" && ls $HOME && echo "WORKSPACE\n" && ls ${GITHUB_WORKSPACE} && echo "ROOT\n" && ls /root/ && \
