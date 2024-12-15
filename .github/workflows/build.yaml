@@ -80,10 +80,21 @@ jobs:
           done
           # "${{ steps.create_release.outputs.upload_url }}" \
 
-  itch-upload:
+  itch-enabled: # Workaround for 'job.if' lack of env context variable
     runs-on: ubuntu-latest
     needs: setup
-    if: github.event_name == 'push' && github.ref == 'refs/heads/gh-test' #Publish only on v-sekai-game update
+    outputs:
+      enabled: ${{ steps.init.outputs.status }}
+    steps:
+      - name: Confirm Itch.io release 
+        id: init
+        run: |
+          echo "status=${{ env.ITCH_IO_PUBLISH }}" >> $GITHUB_OUTPUT
+
+  itch-upload:
+    runs-on: ubuntu-latest
+    needs: [setup, itch-enabled]
+    if: needs.itch-enabled.outputs.enabled == 'true' && github.event_name == 'push' && github.ref == 'refs/heads/gh-test' #Publish only on v-sekai-game update
     steps:
       - name: Confirm Itch.io release 
         run: |
