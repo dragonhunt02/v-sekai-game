@@ -63,9 +63,10 @@ RUN if [ -d "/github/workflows/" ]; then \
 
 RUN echo "Test" > /root/src/$BIN/file_0.0.1_windows_le.test 
 CMD ls . && echo "HOME\n" && ls $HOME && echo "WORKSPACE\n" && ls ${GITHUB_WORKSPACE} && echo "ROOT\n" && ls /root/ && \
-        rm -rf * && tree -a /root/src && \
+        mkdir -p ${GITHUB_WORKSPACE}/releases && tree -a /root/src && \
         echo "Copying to Github output..." \
-        && cp /root/src/$BIN/* ${GITHUB_WORKSPACE}
+        && cp /root/src/$BIN/* ${GITHUB_WORKSPACE}/releases
+        #rm -rf * && \
 
 
 #RUN ls -a ./src
