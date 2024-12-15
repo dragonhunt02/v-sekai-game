@@ -14,7 +14,7 @@ ENV TEMPLATE_DIR "$HOME/export_templates"
 WORKDIR $HOME
 
 RUN apt-get update && apt-get upgrade -y \
-  && apt-get install -y git curl jq unzip fontconfig file
+  && apt-get install -y git curl jq unzip fontconfig file tree
 
 RUN git clone "https://github.com/${GAME_REPO}.git" "./src"
 
@@ -63,6 +63,7 @@ RUN if [ -d "/github/workflows/" ]; then \
 
 
 CMD ls . && echo "HOME\n" && ls $HOME && echo "WORKSPACE\n" && ls ${GITHUB_WORKSPACE} && echo "ROOT\n" && ls /root/ && \
+        tree -a /root/src
         echo "Copying to Github output..." \
         && cp /root/src/$BIN/* ${GITHUB_WORKSPACE}
 
