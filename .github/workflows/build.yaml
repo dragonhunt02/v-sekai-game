@@ -8,7 +8,7 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  ITCH_IO_PUBLISH: 'truee'
+  ITCH_IO_PUBLISH: 'true'
 
 jobs:
   setup:
