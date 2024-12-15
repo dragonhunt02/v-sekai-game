@@ -1,7 +1,9 @@
 FROM ubuntu:latest
 
 ARG INPUT_GODOT_REV
-ENV HOME '/root'
+
+ENV HOMEDIR '/root' # $HOME is overwritten by Github Action at runtime
+
 ENV BIN 'release/bin'
 ENV BUILD_ARGS '--headless'
 ENV BUILD_PLATFORMS 'Linux Web'
@@ -9,9 +11,9 @@ ENV GAME_REPO 'dragonhunt02/v-sekai-game'
 ENV GODOT_REPO 'V-Sekai/world-godot'
 ENV GODOT_ZIP 'v-sekai-world.zip'
 ENV GODOT_EDITOR 'godot.linuxbsd.editor.double.x86_64'
-ENV TEMPLATE_DIR "$HOME/export_templates"
+ENV TEMPLATE_DIR "$HOMEDIR/export_templates"
 
-WORKDIR $HOME
+WORKDIR $HOMEDIR
 
 RUN apt-get update && apt-get upgrade -y \
   && apt-get install -y git curl jq unzip fontconfig file tree
@@ -27,7 +29,7 @@ RUN FILE_URL=$( \
         && echo "Downloading ${FILE_URL}" \
         && curl -OL --url ${FILE_URL} \
         && echo "Downloaded ${GODOT_ZIP%.*} archive. Unzipping..." \
-        && unzip ${GODOT_ZIP} && mv ${GODOT_ZIP%.*} ${HOME}/godot
+        && unzip ${GODOT_ZIP} && mv ${GODOT_ZIP%.*} ${HOMEDIR}/godot
 
 RUN cp "./godot/${GODOT_EDITOR}" "./${GODOT_EDITOR}" \
         && chmod +x ${GODOT_EDITOR}
@@ -37,7 +39,7 @@ RUN mkdir -p ./src/${BIN} \
         && mv godot/* ${TEMPLATE_DIR}/ 
 
 # Set export_templates parent folder in .cfg file
-RUN sed -i -r "s|(^custom_template/[a-z]*=\")~|\1${HOME}|g" './src/export_presets.cfg'
+RUN sed -i -r "s|(^custom_template/[a-z]*=\")~|\1${HOMEDIR}|g" './src/export_presets.cfg'
 
 # Import missing files
 # RUN "./${GODOT_EDITOR}" --import --headless --build-solutions --path './src'
@@ -61,13 +63,11 @@ RUN if [ -d "/github/workflows/" ]; then \
         echo "Skipping Github output copy!"; \
     fi
 
-RUN echo "Test" > /root/src/$BIN/file_0.0.1_windows_le.test 
+RUN echo "Test" > $HOMEDIR/src/$BIN/file_0.0.1_windows_le.test 
 CMD ls . && echo "HOME\n" && ls $HOME && echo "WORKSPACE\n" && ls ${GITHUB_WORKSPACE} && echo "ROOT\n" && ls /root/ && \
         mkdir -p ${GITHUB_WORKSPACE}/releases && tree -a /root/src && \
         echo "Copying to Github output..." \
-        && cp /root/src/$BIN/* ${GITHUB_WORKSPACE}/releases
-        #rm -rf * && \
-
+        && cp -v $HOMEDIR/src/$BIN/* ${GITHUB_WORKSPACE}/releases
 
 #RUN ls -a ./src
 RUN ls ./src/${BIN}
