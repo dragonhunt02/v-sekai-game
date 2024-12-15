@@ -96,13 +96,6 @@ jobs:
     needs: [setup, itch-enabled]
     if: needs.itch-enabled.outputs.enabled == 'true' && github.event_name == 'push' && github.ref == 'refs/heads/gh-test' #Publish only on v-sekai-game update
     steps:
-      - name: Confirm Itch.io release 
-        run: |
-          if [ ${ITCH_IO_PUBLISH} != "true" ]; then \
-            echo "Itch.io release is disabled!"
-            exit 1; \
-          fi
-
       - name: Checkout
         uses: actions/checkout@v4
 
