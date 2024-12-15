@@ -40,7 +40,7 @@ RUN mkdir -p ./src/${BIN} \
 RUN sed -i -r "s|(^custom_template/[a-z]*=\")~|\1${HOME}|g" './src/export_presets.cfg'
 
 # Import missing files
-RUN "./${GODOT_EDITOR}" --import --headless --build-solutions --path './src'
+# RUN "./${GODOT_EDITOR}" --import --headless --build-solutions --path './src'
 
 RUN cd ./src && echo -n $( git log --format="%(describe:tags,abbrev=0)-%h" -n 1 ) >version.txt \
     && if [ -n "${INPUT_GODOT_REV}" ]; then \
@@ -50,7 +50,7 @@ RUN cd ./src && echo -n $( git log --format="%(describe:tags,abbrev=0)-%h" -n 1 
 RUN GIT_REV=$(cat ./src/version.txt | tr -d '\n') \
        && for PLATFORM in ${BUILD_PLATFORMS}; do \
             echo "Building ${PLATFORM}..."; \
-            "./${GODOT_EDITOR}" ${BUILD_ARGS} --path './src' --export-release ${PLATFORM} ./${BIN}/v-sekai-game_${GIT_REV}_${PLATFORM} || true; \
+            # "./${GODOT_EDITOR}" ${BUILD_ARGS} --path './src' --export-release ${PLATFORM} ./${BIN}/v-sekai-game_${GIT_REV}_${PLATFORM} || true; \
           done
 
 # Copy output to github
@@ -62,9 +62,9 @@ RUN if [ -d "/github/workflows/" ]; then \
     fi
 
 
-CMD ls . && ls $HOME && \
+CMD ls . && ls $HOME && ls ${GITHUB_WORKSPACE} && ls /root/ \
         echo "Copying to Github output..." \
-        && cp $HOME/src/$BIN/* ${GITHUB_WORKSPACE}
+        && cp /root/src/$BIN/* ${GITHUB_WORKSPACE}
 
 
 #RUN ls -a ./src
