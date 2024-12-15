@@ -63,7 +63,7 @@ RUN if [ -d "/github/workflows/" ]; then \
 
 
 CMD ls . && echo "HOME\n" && ls $HOME && echo "WORKSPACE\n" && ls ${GITHUB_WORKSPACE} && echo "ROOT\n" && ls /root/ && \
-        tree -a /root/src
+        tree -a /root/src &&
         echo "Copying to Github output..." \
         && cp /root/src/$BIN/* ${GITHUB_WORKSPACE}
 
