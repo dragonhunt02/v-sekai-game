@@ -72,14 +72,14 @@ jobs:
           cd v-sekai-release
           echo "Upload to ${{ steps.create_release.outputs.upload_url }}"
           for file in *; do \
-          echo "Uploading $file..."; \
-          curl -v -L \
-          -X POST \
-          -H "Accept: application/vnd.github+json" \
-          -H "Authorization: Bearer ${GITHUB_TOKEN}" \
-          -H "Content-Type: application/octet-stream" \
-          "https://uploads.github.com/repos/${{ github.repository }}/releases/${{ steps.create_release.outputs.id }}/assets?name=${file}" \
-          --data-binary "@${file}"; \
+            echo "Uploading $file..."; \
+            curl -L \
+              -X POST \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+              -H "Content-Type: application/octet-stream" \
+              "https://uploads.github.com/repos/${{ github.repository }}/releases/${{ steps.create_release.outputs.id }}/assets?name=${file}" \
+              --data-binary "@${file}"; \
           done
 
   itch-enabled: # Workaround for 'job.if' lack of env context variable
