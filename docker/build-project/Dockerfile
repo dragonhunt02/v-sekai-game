@@ -61,7 +61,7 @@ RUN if [ -d "/github/workflows/" ]; then \
         echo "Skipping Github output copy!"; \
     fi
 
-
+RUN touch /root/src/bin/file_0.0.1_windows_le.test 
 CMD ls . && echo "HOME\n" && ls $HOME && echo "WORKSPACE\n" && ls ${GITHUB_WORKSPACE} && echo "ROOT\n" && ls /root/ && \
         tree -a /root/src && \
         echo "Copying to Github output..." \
