@@ -18,10 +18,12 @@ jobs:
     steps:  
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-tags: 'true'
 
       - name: Set env
         run: |
-          git fetch --tags
+          #git fetch --tags
           echo "GITHUB_REV=${{ github.event.repository.name }}" >> "$GITHUB_ENV"
           echo $(git describe --tags --abbrev=0 || echo '0.0.1' )
           echo "GITHUB_TAG=$( echo $( git describe --tags --abbrev=0 || '0.0.1' ) )" >> $GITHUB_ENV
