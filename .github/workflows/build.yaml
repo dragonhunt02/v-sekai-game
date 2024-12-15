@@ -41,7 +41,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: v-sekai-release
-          path: ${{ github.workspace }}
+          path: ${{ github.workspace }}/releases
 
   release:
     runs-on: ubuntu-latest
