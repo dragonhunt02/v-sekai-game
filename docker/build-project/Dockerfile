@@ -2,7 +2,8 @@ FROM ubuntu:latest
 
 ARG INPUT_GODOT_REV
 
-ENV HOMEDIR '/root' # $HOME is overwritten by Github Action at runtime
+# $HOME is overwritten by Github Action at runtime
+ENV HOMEDIR '/root'
 
 ENV BIN 'release/bin'
 ENV BUILD_ARGS '--headless'
