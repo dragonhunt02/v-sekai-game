@@ -22,6 +22,14 @@ RUN apt-get update && apt-get upgrade -y \
 
 RUN git clone "https://github.com/${GAME_REPO}.git" "./src"
 
+RUN FILE_URL2=$( \
+        curl -sS -L \
+        -H "Accept: application/vnd.github+json" \
+        "https://api.github.com/repos/${GODOT_REPO}/releases" \
+        | jq -r '.[0].assets.[] | select(.name | startswith(env.GODOT_TPZ)).browser_download_url | @sh' \
+    ) \
+        && echo "Downloading ${FILE_URL}"
+
 RUN FILE_URL=$( \
         curl -sS -L \
         -H "Accept: application/vnd.github+json" \
