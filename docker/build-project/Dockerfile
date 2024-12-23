@@ -22,13 +22,17 @@ RUN apt-get update && apt-get upgrade -y \
 
 RUN git clone "https://github.com/${GAME_REPO}.git" "./src"
 
-RUN FILE_URL2=$( \
+RUN TPZ_URLS=$( \
         curl -sS -L \
         -H "Accept: application/vnd.github+json" \
         "https://api.github.com/repos/${GODOT_REPO}/releases" \
         | jq -r '.[0].assets.[] | select(.name | startswith(env.GODOT_TPZ)).browser_download_url | @sh' \
     ) \
-        && echo "Downloading ${FILE_URL2}"
+        && echo "${TPZ_URLS}" | while read -r URL; do \
+            echo "Downloading ${URL}"; \
+            && curl -OL --url ${URL}; \
+            && echo "Downloaded ${URL} archive."; \
+        done
 
 RUN exit 1
 
