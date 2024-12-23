@@ -10,7 +10,7 @@ ENV BUILD_ARGS '--headless'
 ENV BUILD_PLATFORMS 'Linux Web'
 ENV GAME_REPO 'dragonhunt02/v-sekai-game'
 ENV GODOT_REPO 'V-Sekai/world-godot'
-ENV GODOT_ZIP 'v-sekai-world.zip'
+ENV GODOT_ZIP 'v-sekai-godot-linuxbsd.zip'
 ENV GODOT_EDITOR 'godot.linuxbsd.editor.double.x86_64'
 ENV TEMPLATE_DIR "$HOMEDIR/export_templates"
 
