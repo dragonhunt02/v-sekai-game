@@ -28,7 +28,9 @@ RUN FILE_URL2=$( \
         "https://api.github.com/repos/${GODOT_REPO}/releases" \
         | jq -r '.[0].assets.[] | select(.name | startswith(env.GODOT_TPZ)).browser_download_url | @sh' \
     ) \
-        && echo "Downloading ${FILE_URL}"
+        && echo "Downloading ${FILE_URL2}"
+
+RUN exit 1
 
 RUN FILE_URL=$( \
         curl -sS -L \
