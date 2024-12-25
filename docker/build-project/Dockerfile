@@ -70,7 +70,7 @@ ENV INPUT_GODOT_REV 'tttest'
 
 RUN cd ./src && echo -n $( git log --format="%(describe:tags,abbrev=0)" -n 1 ) >version.txt \
     && if [ -n "${INPUT_GODOT_REV}" ]; then \
-         echo -n $( git log --format="%(-%h)" )  >>version.txt; \
+         echo -n $( git log --format="%(-%h)" -n 1 )  >>version.txt; \
          echo -n "_editor-${INPUT_GODOT_REV}" >>version.txt; \
        fi
 
@@ -79,7 +79,7 @@ RUN cat ./src/version.txt
 RUN GIT_REV=$(cat ./src/version.txt | tr -d '\n') \
        && for PLATFORM in ${BUILD_PLATFORMS}; do \
             echo "Building ${PLATFORM}..."; \
-            # "./${GODOT_EDITOR}" ${BUILD_ARGS} --path './src' --export-release ${PLATFORM} ./${BIN}/v-sekai-game_${GIT_REV}_${PLATFORM} || true; \
+            "./${GODOT_EDITOR}" ${BUILD_ARGS} --path './src' --export-release ${PLATFORM} ./${BIN}/v-sekai-game_${GIT_REV}_${PLATFORM} || true; \
           done
 
 # Copy output to github
