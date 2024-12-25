@@ -31,11 +31,11 @@ RUN TPZ_URLS=$( \
         && echo "${TPZ_URLS}" | while read -r URL; do \
             echo "Downloading ${URL}"; \
             curl -OL --url "${URL}" \
-            && echo "Downloaded ${URL} archive. Unzipping..." \
+            && echo "Downloaded ${URL} archive."; \
+        done && echo Unzipping..." \
             && zip -m -s- "${GODOT_TPZ%.*}.zip" -O templates.zip \
             && unzip templates.zip \
-            && rm templates.zip; \
-        done
+            && rm templates.zip
 
 RUN tree
 RUN exit 1
