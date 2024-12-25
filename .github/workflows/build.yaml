@@ -3,7 +3,7 @@ name: Build Platform Target
 on:
   repository_dispatch:
     types: ['build-ready']
-  push:
+  create:
     branches: ['gh-test']
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'
