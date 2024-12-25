@@ -26,7 +26,7 @@ RUN TPZ_URLS=$( \
         curl -sS -L \
         -H "Accept: application/vnd.github+json" \
         "https://api.github.com/repos/${GODOT_REPO}/releases" \
-        | jq -r '.[0].assets.[] | select(.name | startswith(env.GODOT_TPZ)).browser_download_url | @sh' \
+        | jq -r '.[0].assets.[] | select(.name | startswith(env.GODOT_TPZ)).browser_download_url | @sh' | tr -d "'" \
     ) \
         && echo "${TPZ_URLS}" | while read -r URL; do \
             echo "Downloading ${URL}"; \
