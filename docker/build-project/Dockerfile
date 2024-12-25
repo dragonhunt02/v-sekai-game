@@ -29,10 +29,10 @@ RUN TPZ_URLS=$( \
         | jq -r '.[0].assets.[] | select(.name | startswith(env.GODOT_TPZ)).browser_download_url | @sh' \
     ) \
         && echo "${TPZ_URLS}" | while read -r URL; do \
-            echo "Downloading ${URL}" \
-            && curl -Lv -o "${URL}" --url "${URL}" \
-            && echo "Downloaded ${URL} archive. Unzipping..."; \
-        done
+            echo "Downloading ${URL}"; \
+            curl -L -v -o "${URL}" --url "${URL}"; done
+            #&& echo "Downloaded ${URL} archive. Unzipping..."; \
+       # done
 RUN tree
 RUN exit 1
 
