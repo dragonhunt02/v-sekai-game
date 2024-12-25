@@ -51,7 +51,7 @@ RUN FILE_URL=$( \
         && echo "Downloaded ${GODOT_ZIP%.*} archive. Unzipping..." \
         && unzip ${GODOT_ZIP} && mv ${GODOT_ZIP%.*} ${HOMEDIR}/godot
 
-RUN tree ${HOMEDIR} && exit 1
+RUN tree ${HOMEDIR}
 
 RUN cp "./godot/${GODOT_EDITOR}" "./${GODOT_EDITOR}" \
         && chmod +x ${GODOT_EDITOR}
@@ -66,10 +66,15 @@ RUN sed -i -r "s|(^custom_template/[a-z]*=\")~|\1${HOMEDIR}|g" './src/export_pre
 # Import missing files
 # RUN "./${GODOT_EDITOR}" --import --headless --build-solutions --path './src'
 
-RUN cd ./src && echo -n $( git log --format="%(describe:tags,abbrev=0)-%h" -n 1 ) >version.txt \
+ENV INPUT_GODOT_REV 'tttest'
+
+RUN cd ./src && echo -n $( git log --format="%(describe:tags,abbrev=0)" -n 1 ) >version.txt \
     && if [ -n "${INPUT_GODOT_REV}" ]; then \
+         echo -n $( git log --format="%(-%h)" )  >>version.txt; \
          echo -n "_editor-${INPUT_GODOT_REV}" >>version.txt; \
        fi
+
+RUN cat ./src/version.txt 
 
 RUN GIT_REV=$(cat ./src/version.txt | tr -d '\n') \
        && for PLATFORM in ${BUILD_PLATFORMS}; do \
