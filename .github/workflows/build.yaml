@@ -128,4 +128,4 @@ jobs:
           api_key: ${{ secrets.ITCH_IO_API_KEY }}
           filepath: v-sekai-release
           itchio_project: projectname
-          release_version: 0.0.1
+          release_version: ${{ needs.build.outputs.GITHUB_TAG }}
