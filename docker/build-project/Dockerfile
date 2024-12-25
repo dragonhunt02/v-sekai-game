@@ -30,9 +30,10 @@ RUN TPZ_URLS=$( \
     ) \
         && echo "${TPZ_URLS}" | while read -r URL; do \
             echo "Downloading ${URL}"; \
-            curl -L -v -O --url "${URL}"; done
-            #&& echo "Downloaded ${URL} archive. Unzipping..."; \
-       # done
+            curl -OL --url "${URL}" \
+            && echo "Downloaded ${URL} archive. Unzipping..."; \
+        done
+
 RUN tree
 RUN exit 1
 
