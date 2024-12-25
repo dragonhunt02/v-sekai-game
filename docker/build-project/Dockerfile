@@ -18,7 +18,7 @@ ENV TEMPLATE_DIR "$HOMEDIR/export_templates"
 WORKDIR $HOMEDIR
 
 RUN apt-get update && apt-get upgrade -y \
-  && apt-get install -y git curl jq unzip fontconfig file tree
+  && apt-get install -y git curl jq zip unzip fontconfig file tree
 
 #RUN git clone "https://github.com/${GAME_REPO}.git" "./src"
 
@@ -33,7 +33,7 @@ RUN TPZ_URLS=$( \
             curl -OL --url "${URL}" \
             && echo "Downloaded ${URL} archive. Unzipping..." \
             && zip -m -s- "${GODOT_TPZ%.*}.zip" -O templates.zip \
-            && unzip templates.zip; \
+            && unzip -m templates.zip; \
         done
 
 RUN tree
