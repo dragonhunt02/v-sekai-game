@@ -64,13 +64,13 @@ RUN mkdir -p ./src/${BIN} \
 RUN sed -i -r "s|(^custom_template/[a-z]*=\")~|\1${HOMEDIR}|g" './src/export_presets.cfg'
 
 # Import missing files
-# RUN "./${GODOT_EDITOR}" --import --headless --build-solutions --path './src'
+RUN "./${GODOT_EDITOR}" --import --headless --build-solutions --path './src'
 
 ENV INPUT_GODOT_REV 'tttest'
 
 RUN cd ./src && echo -n $( git log --format="%(describe:tags,abbrev=0)" -n 1 ) >version.txt \
     && if [ -n "${INPUT_GODOT_REV}" ]; then \
-         echo -n $( git log --format="%(-%h)" -n 1 )  >>version.txt; \
+         echo -n $( git log --format="-%h" -n 1 )  >>version.txt; \
          echo -n "_editor-${INPUT_GODOT_REV}" >>version.txt; \
        fi
 
@@ -91,8 +91,8 @@ RUN GIT_REV=$(cat ./src/version.txt | tr -d '\n') \
 #    fi
 
 RUN echo "Test" > $HOMEDIR/src/$BIN/file_0.0.1_windows_le.test 
-CMD ls . && echo "HOME\n" && ls $HOME && echo "WORKSPACE\n" && ls ${GITHUB_WORKSPACE} && echo "ROOT\n" && ls /root/ && \
-        mkdir -p ${GITHUB_WORKSPACE}/releases && tree -a /root/src && \
+#CMD ls . && echo "HOME\n" && ls $HOME && echo "WORKSPACE\n" && ls ${GITHUB_WORKSPACE} && echo "ROOT\n" && ls /root/ && \
+CMD mkdir -p ${GITHUB_WORKSPACE}/releases && tree -a /root/src && \
         echo "Copying to Github output..." \
         && cp -v $HOMEDIR/src/$BIN/* ${GITHUB_WORKSPACE}/releases
 
