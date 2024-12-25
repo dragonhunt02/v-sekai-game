@@ -20,7 +20,7 @@ WORKDIR $HOMEDIR
 RUN apt-get update && apt-get upgrade -y \
   && apt-get install -y git curl jq unzip fontconfig file tree
 
-RUN git clone "https://github.com/${GAME_REPO}.git" "./src"
+#RUN git clone "https://github.com/${GAME_REPO}.git" "./src"
 
 RUN TPZ_URLS=$( \
         curl -sS -L \
@@ -32,10 +32,7 @@ RUN TPZ_URLS=$( \
             echo "Downloading ${URL}"; \
             && curl -OL --url ${URL}; \
             && echo "Downloaded ${URL} archive. Unzipping..."; \
-        done \
-        && zip -m -s- "${GODOT_TPZ%.*}.zip" -O templates.zip \
-        && unzip templates.zip
-
+        done
 RUN tree
 RUN exit 1
 
