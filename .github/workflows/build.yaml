@@ -6,7 +6,7 @@ on:
   push:
     branches: ['gh-test']
     tags:
-      - '**'
+      - '*'
 
 env:
   ITCH_IO_PUBLISH: 'false'
