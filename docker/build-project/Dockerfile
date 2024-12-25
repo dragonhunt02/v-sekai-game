@@ -20,7 +20,7 @@ WORKDIR $HOMEDIR
 RUN apt-get update && apt-get upgrade -y \
   && apt-get install -y git curl jq zip unzip fontconfig file tree
 
-#RUN git clone "https://github.com/${GAME_REPO}.git" "./src"
+RUN git clone "https://github.com/${GAME_REPO}.git" "./src"
 
 RUN TPZ_URLS=$( \
         curl -sS -L \
