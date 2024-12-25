@@ -26,7 +26,7 @@ RUN TPZ_URLS=$( \
         curl -sS -L \
         -H "Accept: application/vnd.github+json" \
         "https://api.github.com/repos/${GODOT_REPO}/releases" \
-        | jq -r '.[0].assets.[] | select(.name | startswith(env.GODOT_TPZ)).browser_download_url | @sh' | tr -d \' \
+        | jq -r '.[0].assets.[] | select(.name | startswith(env.GODOT_TPZ)).browser_download_url | @sh' | tr -d "\'" \
     ) \
         && echo "${TPZ_URLS}" | while read -r URL; do \
             echo "Downloading ${URL}"; \
@@ -70,7 +70,7 @@ ENV INPUT_GODOT_REV 'tttest'
 
 RUN cd ./src && echo -n $( git log --format="%(describe:tags,abbrev=0)" -n 1 ) >version.txt \
     && if [ -n "${INPUT_GODOT_REV}" ]; then \
-         echo -n $( git log --format="-%h" -n 1 )  >>version.txt; \
+         echo -n "-$( git rev-parse --short HEAD )" >>version.txt; \
          echo -n "_editor-${INPUT_GODOT_REV}" >>version.txt; \
        fi
 
