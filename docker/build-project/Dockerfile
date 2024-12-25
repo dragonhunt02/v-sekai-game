@@ -32,7 +32,7 @@ RUN TPZ_URLS=$( \
             echo "Downloading ${URL}"; \
             curl -OL --url "${URL}" \
             && echo "Downloaded ${URL} archive."; \
-        done && echo Unzipping..." \
+        done && echo "Unzipping..." \
             && zip -m -s- "${GODOT_TPZ%.*}.zip" -O templates.zip \
             && unzip templates.zip \
             && rm templates.zip
