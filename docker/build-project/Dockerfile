@@ -34,7 +34,7 @@ RUN TPZ_URLS=$( \
             && echo "Downloaded ${URL} archive. Unzipping..." \
             && zip -m -s- "${GODOT_TPZ%.*}.zip" -O templates.zip \
             && unzip templates.zip \
-            && rm templates.zip
+            && rm templates.zip; \
         done
 
 RUN tree
