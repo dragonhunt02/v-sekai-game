@@ -5,8 +5,8 @@ on:
     types: ['build-ready']
   push:
     branches: ['gh-test']
-    #tags:
-    #  - '**'
+    tags:
+      - '**'
 
 env:
   ITCH_IO_PUBLISH: 'false'
