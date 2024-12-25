@@ -33,12 +33,12 @@ RUN TPZ_URLS=$( \
             curl -OL --url "${URL}" \
             && echo "Downloaded ${URL} archive."; \
         done && echo "Unzipping..." \
-            && zip -m -s- "${GODOT_TPZ%.*}.zip" -O templates.zip \
+            && zip -s- "${GODOT_TPZ%.*}.zip" -O templates.zip \
+            && rm ${GODOT_TPZ}* && \
             && unzip templates.zip \
             && rm templates.zip
 
 RUN tree
-RUN exit 1
 
 RUN FILE_URL=$( \
         curl -sS -L \
@@ -50,6 +50,8 @@ RUN FILE_URL=$( \
         && curl -OL --url ${FILE_URL} \
         && echo "Downloaded ${GODOT_ZIP%.*} archive. Unzipping..." \
         && unzip ${GODOT_ZIP} && mv ${GODOT_ZIP%.*} ${HOMEDIR}/godot
+
+RUN exit 1
 
 RUN cp "./godot/${GODOT_EDITOR}" "./${GODOT_EDITOR}" \
         && chmod +x ${GODOT_EDITOR}
