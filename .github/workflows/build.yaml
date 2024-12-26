@@ -66,7 +66,7 @@ jobs:
           echo "Github is tag push - ${{ steps.setenv.outputs.TAG_PUSH }}"
           echo "Github release tag name - ${{ steps.setenv.outputs.TAG_NAME }}"
           #echo "Github event -  ${GITHUB_REV}"
-          echo "Github tag - ${GIT_TAG}"
+          #echo "Github tag - ${GIT_TAG}"
           touch test.txt && echo 'test'>>test.txt
           touch test.txt && echo 'test'>>test_f0.8fff_linux
           touch test.txt && echo 'test'>>test_0.5ffff_windows.txt
