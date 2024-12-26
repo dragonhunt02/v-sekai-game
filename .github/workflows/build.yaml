@@ -1,6 +1,7 @@
 name: Build Platform Target
 
 on:
+  workflow_dispatch:
   repository_dispatch:
     types: ['build-ready']
   push:
