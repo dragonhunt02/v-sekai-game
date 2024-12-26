@@ -31,11 +31,10 @@ jobs:
 
       - name: Check Timestamp
         id: check-timestamp
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: last-timestamp
-          key: last-timestamp-1735229275
-          #${{ steps.timestamp.outputs.TIMESTAMP }}
+          key: last-timestamp-${{ steps.timestamp.outputs.TIMESTAMP }}
 
       - name: Tag check
         run: |
