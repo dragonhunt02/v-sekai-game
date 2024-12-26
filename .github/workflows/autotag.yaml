@@ -57,7 +57,12 @@ jobs:
 
       - name: Create cache file
         run: |
-          PREV_TIMESTAMP="$( cat last-timestamp/version.txt | tr -d "\n" )"
+          if [ -f 'last-timestamp/timestamp.txt' ]; then \
+            echo "Previous timestamp found";\
+            PREV_TIMESTAMP="$( cat last-timestamp/version.txt | tr -d "\n" )"; \
+          else \
+            PREV_TIMESTAMP=""; \
+          fi
           echo "Previous ${PREV_TIMESTAMP}"
           if [ "${TIMESTAMP}" != "${PREV_TIMESTAMP}" ]; then \
             echo "Timestamp changed"; \
