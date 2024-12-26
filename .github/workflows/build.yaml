@@ -17,6 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       GITHUB_TAG: ${{ steps.setenv.outputs.GITHUB_TAG }}
+      TAG_PUSH: ${{ steps.setenv.outputs.TAG_PUSH }}
     steps:  
       - name: Checkout
         uses: actions/checkout@v4
@@ -29,9 +30,12 @@ jobs:
         run: |
           echo "test $(git tag -l --contains HEAD)"
           echo "Event type ${{ github.event_name }}"
-          if [ -n "$(git tag -l --contains HEAD)" ]; then \
+          if [ -n "$(git tag -l --contains HEAD)" ] && \
+             [ ${{ github.event_name }} != "repository_dispatch" ]; then \
             echo "Tag Release"; \
             echo "TAG_PUSH=true" >> $GITHUB_OUTPUT; \
+          else \
+            echo "TAG_PUSH=false" >> $GITHUB_OUTPUT; \
           fi
           #git fetch --tags
           echo "GITHUB_REV=${{ github.event.repository.name }}" >> $GITHUB_OUTPUT
@@ -42,6 +46,7 @@ jobs:
         run: |
           echo "Github event - ${{ steps.setenv.outputs.GITHUB_REV }}"
           echo "Github tag - ${{ steps.setenv.outputs.GITHUB_TAG }}"
+          echo "Github is tag push - ${{ steps.setenv.outputs.TAG_PUSH }}"
           #echo "Github event -  ${GITHUB_REV}"
           #echo "Github tag - ${GITHUB_TAG}"
           touch test.txt && echo 'test'>>test.txt
