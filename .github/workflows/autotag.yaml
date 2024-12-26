@@ -63,8 +63,9 @@ jobs:
             PREV_TIMESTAMP=""; \
           fi
           echo "Previous ${PREV_TIMESTAMP}"
-          if [ "${TIMESTAMP}" != "${PREV_TIMESTAMP}" ]; then \
-            echo "Timestamp changed"; \
+          if [ -z "${PREV_TIMESTAMP}" ] \
+          || [ "${TIMESTAMP}" != "${PREV_TIMESTAMP}" ]; then \
+            echo "Timestamp update..."; \
             mkdir -p last-timestamp; \
             TIMESTAMP="$(git log -1 --format=%ct)"; \
             echo "${TIMESTAMP}" > last-timestamp/timestamp.txt; \
