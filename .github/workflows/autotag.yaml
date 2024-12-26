@@ -87,8 +87,8 @@ jobs:
       - name: Create new tag
         run: |
           echo "Create Tag..."
-          #git config --local user.email "action@github.com"
-          #git config --local user.name "GitHub Action"
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
           GIT_TAG="${{ needs.test_timestamp.outputs.GIT_TAG }}"
           MAJOR=$( echo ${GIT_TAG} | cut -d '.' -f0 | tr -d 'v' )
           MINOR=$( echo ${GIT_TAG} | cut -d '.' -f2 )
