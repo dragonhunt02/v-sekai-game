@@ -9,7 +9,7 @@ jobs:
     name: Scheduled tag check
     runs-on: ubuntu-latest
     env:
-      MODE: 'disabled'
+      MODE: 'smart'
       # smart: Auto Tag release every 5 days if no new commits
       # timed: Auto Tag release every 5 days
       # disabled: Auto Tag disable
@@ -85,7 +85,9 @@ jobs:
           echo "Create Tag..."
           #git config --local user.email "action@github.com"
           #git config --local user.name "GitHub Action"
-          #git tag -a "v${{ github.run_number }}"
+          GIT_TAG="$( git describe --tags --abbrev=0 || '0.0.1' )"
+          echo "Release tag: ${GIT_TAG}"
+          #git tag -a "v${GIT_TAG}"
           #-m "Release v${{ github.run_number }}"
-          #git push origin "v${{ github.run_number }}"
+          #git push origin "v${GIT_TAG}"
 
