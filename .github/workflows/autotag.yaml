@@ -34,7 +34,7 @@ jobs:
         run: |
           if [ ${{ env.MODE }} == 'smart' ] \
           && [ ${{ steps.check-timestamp.outputs.cache-hit }} == 'true' ] \
-          && [ ${GIT_SHA} ==  ]; then \
+          && [ -n "$(git tag -l --contains HEAD)" ]; then \
             TAG_PUSH=true; \
           fi
           
