@@ -22,7 +22,7 @@ jobs:
       TAG_NAME: ${{ steps.setenv.outputs.TAG_NAME }}
     steps:
       - name: Dump vars context
-        run: echo "${{ toJSON(github.env) }}"
+        run: echo "${{ toJSON(env) }}"
       - name: Checkout
         uses: actions/checkout@v4
         with:
