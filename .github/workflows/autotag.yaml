@@ -32,13 +32,16 @@ jobs:
 
       - name: Tag check
         run: |
-          if [ ${{ env.MODE }} == 'timed' ] \
-          || [ ${{ steps.check-timestamp.outputs.cache-hit }} == 'true' ]; then \
+          if [ ${{ env.MODE }} == 'smart' ] \
+          && [ ${{ steps.check-timestamp.outputs.cache-hit }} == 'true' ] \
+          && [ ${GIT_SHA} ==  ]; then \
             TAG_PUSH=true; \
-          else \
-            TAG_PUSH=false; \
           fi
           
+          if [ ${{ env.MODE }} == 'timed' ]; then \
+            TAG_PUSH=true; \
+          fi
+
           if [ ${{ env.MODE }} == 'disabled' ]; then \
             TAG_PUSH=false; \
           fi
