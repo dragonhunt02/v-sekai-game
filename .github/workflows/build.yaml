@@ -27,6 +27,7 @@ jobs:
       - name: Set env
         id: setenv
         run: |
+          echo "test $(git tag -l --contains HEAD)"
           if [ -z "$(git tag -l --contains HEAD)" ]; then \
             echo "Tag Release"; \
             echo "TAG_PUSH=true" >> $GITHUB_OUTPUT; \
