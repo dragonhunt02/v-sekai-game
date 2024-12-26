@@ -6,7 +6,7 @@ on:
 
 jobs:
   test_timestamp:
-    name: Test schedule
+    name: Scheduled tag check
     runs-on: ubuntu-latest
     env:
       MODE: 'disabled'
@@ -74,12 +74,13 @@ jobs:
           fi
 
   tag:
+    name: Create Tag
     runs-on: ubuntu-latest
     needs: test_timestamp
     if: ${{ needs.test_timestamp.outputs.TAG_PUSH == 'true' }}
     steps:
       - uses: actions/checkout@v2
-      - name: Create Tag
+      - name: Create new tag
         run: |
           echo "Create Tag..."
           #git config --local user.email "action@github.com"
