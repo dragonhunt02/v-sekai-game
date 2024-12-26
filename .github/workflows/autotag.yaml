@@ -28,7 +28,7 @@ jobs:
         id: timestamp
         run: |
           TIMESTAMP="$(git log -1 --format=%ct)"
-          echo "TIMESTAMP=${TIMESTAMP}" >>> ${GITHUB_OUTPUT}
+          echo "TIMESTAMP=${TIMESTAMP}" >> ${GITHUB_OUTPUT}
 
       - name: Check Timestamp
         id: check-timestamp
@@ -53,7 +53,7 @@ jobs:
             TAG_PUSH=false; \
           fi
           
-          echo "TAG_PUSH=${TAG_PUSH}" >>> ${GITHUB_OUTPUT}
+          echo "TAG_PUSH=${TAG_PUSH}" >> ${GITHUB_OUTPUT}
 
       - name: Create cache file
         run: |
