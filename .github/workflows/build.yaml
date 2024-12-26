@@ -18,7 +18,7 @@ jobs:
     outputs:
       TAG_PUSH: ${{ steps.setenv.outputs.TAG_PUSH }}
       PRERELEASE: ${{ steps.setenv.outputs.PRERELEASE }}
-      GITHUB_TAG: ${{ steps.setenv.outputs.GITHUB_TAG }}
+      GIT_TAG: ${{ steps.setenv.outputs.GIT_TAG }}
       TAG_NAME: ${{ steps.setenv.outputs.TAG_NAME }}
     steps:  
       - name: Checkout
@@ -30,7 +30,7 @@ jobs:
       - name: Set env
         id: setenv
         run: |
-          echo "test $(git tag -l --contains HEAD)"
+          #echo "test $(git tag -l --contains HEAD)"
           echo "Event type ${{ github.event_name }}"
           if [ -n "$(git tag -l --contains HEAD)" ] && \
              [ ${{ github.event_name }} != "repository_dispatch" ]; then \
@@ -41,14 +41,8 @@ jobs:
             TAG_PUSH=false; \
             PRERELEASE=true; \
           fi
-          echo "TAG_PUSH=${TAG_PUSH}" >> $GITHUB_OUTPUT;
-          echo "PRERELEASE=${PRERELEASE}" >> $GITHUB_OUTPUT;
-          #git fetch --tags
-          echo "GITHUB_REV=${{ github.event.repository.name }}" >> $GITHUB_OUTPUT
-          #echo $(git describe --tags --abbrev=0 || echo '0.0.1' )
-          echo "GITHUB_TAG=$( echo $( git describe --tags --abbrev=0 || '0.0.1' ) )" >> $GITHUB_OUTPUT
-          
-          TAG_NAME=${GITHUB_TAG}
+          GIT_TAG="$( echo $( git describe --tags --abbrev=0 || '0.0.1' ) )"
+          TAG_NAME=${GIT_TAG}
           if [ $TAG_PUSH == "false" ]; then \
             TAG_NAME="${TAG_NAME}-${GITHUB_SHA}"; \
           fi
@@ -56,15 +50,23 @@ jobs:
           if [ ${{ github.event_name }} == "repository_dispatch" ]; then \
             TAG_NAME="${TAG_NAME}_editor-${{ github.event.client_payload.commit_sha }}"; \
           fi
+          
+          echo "TAG_PUSH=${TAG_PUSH}" >> $GITHUB_OUTPUT;
+          echo "PRERELEASE=${PRERELEASE}" >> $GITHUB_OUTPUT;
+          #git fetch --tags
+          echo "GITHUB_REV=${{ github.event.repository.name }}" >> $GITHUB_OUTPUT
+          #echo $(git describe --tags --abbrev=0 || echo '0.0.1' )
+          echo "GIT_TAG=${GIT_TAG}" >> $GITHUB_OUTPUT
+          echo "TAG_NAME=${TAG_NAME}" >> $GITHUB_OUTPUT
 
       - name: Test
         run: |
           echo "Github event - ${{ steps.setenv.outputs.GITHUB_REV }}"
-          echo "Github tag - ${{ steps.setenv.outputs.GITHUB_TAG }}"
+          echo "Github tag - ${{ steps.setenv.outputs.GIT_TAG }}"
           echo "Github is tag push - ${{ steps.setenv.outputs.TAG_PUSH }}"
           echo "Github release tag name - ${{ steps.setenv.outputs.TAG_NAME }}"
           #echo "Github event -  ${GITHUB_REV}"
-          #echo "Github tag - ${GITHUB_TAG}"
+          echo "Github tag - ${GIT_TAG}"
           touch test.txt && echo 'test'>>test.txt
           touch test.txt && echo 'test'>>test_f0.8fff_linux
           touch test.txt && echo 'test'>>test_0.5ffff_windows.txt
@@ -107,8 +109,8 @@ jobs:
 
       - name: Upload Release Asset
         run: |
-          echo "Tag release ${{ needs.build.outputs.GITHUB_TAG }}
-          #${GITHUB_TAG}"
+          echo "Tag release ${{ needs.build.outputs.GIT_TAG }}
+          #${GIT_TAG}"
           cd v-sekai-release
           echo "Upload to ${{ steps.create_release.outputs.upload_url }}"
           for file in *; do \
@@ -156,4 +158,4 @@ jobs:
           api_key: ${{ secrets.ITCH_IO_API_KEY }}
           filepath: v-sekai-release
           itchio_project: projectname
-          release_version: ${{ needs.build.outputs.GITHUB_TAG }}
+          release_version: ${{ needs.build.outputs.GIT_TAG }}
