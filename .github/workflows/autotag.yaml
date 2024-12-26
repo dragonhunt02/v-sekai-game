@@ -12,37 +12,48 @@ jobs:
       MODE: 'smart'
       # smart: Auto Tag release every 5 days if no new commits
       # timed: Auto Tag release every 5 days
+      # disabled: Auto Tag disable
     outputs:
-      LAST_TIMESTAMP: ${{ steps.timestamp.outputs.LAST_TIMESTAMP }}
+      TIMESTAMP: ${{ steps.timestamp.outputs.TIMESTAMP }}
       TAG_PUSH: ${{ steps.check-timestamp.outputs.cache-hit }}
     steps:
       - name: Set timestamp
         id: timestamp
         run: |
-          LAST_TIMESTAMP="$(git log -1 --format=%ct)"
-          echo "LAST_TIMESTAMP=${LAST_TIMESTAMP}" >>> ${GITHUB_OUTPUT}
+          TIMESTAMP="$(git log -1 --format=%ct)"
+          echo "TIMESTAMP=${TIMESTAMP}" >>> ${GITHUB_OUTPUT}
 
       - name: Check Timestamp
         id: check-timestamp
         uses: actions/cache@v1
         with:
           path: last-timestamp
-          key: last-timestamp-${{ steps.timestamp.outputs.LAST_TIMESTAMP }}
+          key: last-timestamp-${{ steps.timestamp.outputs.TIMESTAMP }}
 
-      - name: Cache check
+      - name: Tag check
         run: |
           if [ ${{ env.MODE }} == 'timed' ] \
           || [ ${{ steps.check-timestamp.outputs.cache-hit }} == 'true' ]; then \
-            echo "TAG_PUSH=true" >>> ${GITHUB_OUTPUT}; \
+            TAG_PUSH=true; \
           else \
-            echo "TAG_PUSH=false" >>> ${GITHUB_OUTPUT}; \
+            TAG_PUSH=false; \
           fi
+          
+          if [ ${{ env.MODE }} == 'disabled' ]; then \
+            TAG_PUSH=false; \
+          fi
+          
+          echo "TAG_PUSH=${TAG_PUSH}" >>> ${GITHUB_OUTPUT}
 
       - name: Create cache file
         run: |
-          mkdir -p last-timestamp
-          LAST_TIMESTAMP="$(git log -1 --format=%ct)"
-          echo "${LAST_TIMESTAMP}" > timestamp.txt
+          PREV_TIMESTAMP="$( cat last-timestamp/version.txt | tr -d "\n" )"
+          if [ "${TIMESTAMP}" == "${PREV_TIMESTAMP}" ]; then \
+            echo "Timestamp didn't change"; \
+            mkdir -p last-timestamp; \
+            TIMESTAMP="$(git log -1 --format=%ct)"; \
+            echo "${TIMESTAMP}" > timestamp.txt; \
+          fi
 
   tag:
     runs-on: ubuntu-latest
@@ -52,8 +63,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Create Tag
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          #git config --local user.email "action@github.com"
+          #git config --local user.name "GitHub Action"
           git tag -a "v${{ github.run_number }}" -m "Release v${{ github.run_number }}"
           git push origin "v${{ github.run_number }}"
 
