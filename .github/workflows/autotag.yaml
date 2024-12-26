@@ -40,6 +40,7 @@ jobs:
       - name: Set mode
         id: 'set-mode'
         run: |
+          echo "Contains HEAD $(git tag -l --contains HEAD)"
           if [ ${{ env.MODE }} == 'smart' ] \
           && [ ${{ steps.check-timestamp.outputs.cache-hit }} == 'true' ] \
           && [ -n "$(git tag -l --contains HEAD)" ]; then \
