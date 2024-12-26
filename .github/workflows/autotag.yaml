@@ -97,7 +97,7 @@ jobs:
           MINOR=$((++MINOR))
           NEW_TAG="v${GIT_MAJOR}.${GIT_MINOR}.0"
 
-          echo ${GIT_TAG}
+          echo ${GIT_TAG} 
           echo "Release tag: ${NEW_TAG}"
           git tag -a "${NEW_TAG}"
           #-m "Release v${{ github.run_number }}"
