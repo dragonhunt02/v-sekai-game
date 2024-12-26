@@ -34,8 +34,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: last-timestamp
-          key: last-timestamp-1735229737
-          #${{ steps.timestamp.outputs.TIMESTAMP }}
+          key: last-timestamp-${{ steps.timestamp.outputs.TIMESTAMP }}
 
       - name: Tag check
         run: |
@@ -59,7 +58,7 @@ jobs:
         run: |
           if [ -f 'last-timestamp/timestamp.txt' ]; then \
             echo "Previous timestamp found";\
-            PREV_TIMESTAMP="$( cat last-timestamp/version.txt | tr -d "\n" )"; \
+            PREV_TIMESTAMP="$( cat last-timestamp/timestamp.txt | tr -d "\n" )"; \
           else \
             PREV_TIMESTAMP=""; \
           fi
