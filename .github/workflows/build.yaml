@@ -3,7 +3,7 @@ name: Build Platform Target
 on:
   repository_dispatch:
     types: ['build-ready']
-  create:
+  push:
     branches: ['gh-test']
     tags:
       - '**'
@@ -27,6 +27,10 @@ jobs:
       - name: Set env
         id: setenv
         run: |
+          if [ -z "$(git tag -l --contains HEAD)" ]; then \
+            echo "Tag Release"; \
+            echo "TAG_PUSH=true" >> $GITHUB_OUTPUT; \
+          fi
           #git fetch --tags
           echo "GITHUB_REV=${{ github.event.repository.name }}" >> $GITHUB_OUTPUT
           echo $(git describe --tags --abbrev=0 || echo '0.0.1' )
