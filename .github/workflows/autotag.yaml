@@ -90,12 +90,12 @@ jobs:
           #git config --local user.email "action@github.com"
           #git config --local user.name "GitHub Action"
           GIT_TAG="${{ needs.test_timestamp.outputs.GIT_TAG }}"
-          MAJOR=$( echo ${GIT_TAG} | cut -d '.' -f1 | tr -d 'v' )
+          MAJOR=$( echo ${GIT_TAG} | cut -d '.' -f0 | tr -d 'v' )
           MINOR=$( echo ${GIT_TAG} | cut -d '.' -f2 )
           PATCH=$( echo ${GIT_TAG} | cut -d '.' -f3 )
 
           MINOR=$((++MINOR))
-          NEW_TAG="v${GIT_MAJOR}.{GIT_MINOR}.0"
+          NEW_TAG="v${GIT_MAJOR}.${GIT_MINOR}.0"
 
           echo "Release tag: ${NEW_TAG}"
           git tag -a "${NEW_TAG}"
