@@ -34,7 +34,8 @@ jobs:
         uses: actions/cache@v3
         with:
           path: last-timestamp
-          key: last-timestamp-${{ steps.timestamp.outputs.TIMESTAMP }}
+          key: last-timestamp-1735229737
+          #${{ steps.timestamp.outputs.TIMESTAMP }}
 
       - name: Tag check
         run: |
