@@ -91,7 +91,14 @@ jobs:
           #git config --local user.name "GitHub Action"
           GIT_TAG="${{ needs.test_timestamp.outputs.GIT_TAG }}"
           
-          echo $( echo ${GIT_TAG} | cut -d '.' -f3 )
+          MAJOR=$( echo ${GIT_TAG} | cut -d '.' -f1 | tr -d 'v' )
+          MINOR=$( echo ${GIT_TAG} | cut -d '.' -f2 )
+          PATCH=$( echo ${GIT_TAG} | cut -d '.' -f3 )
+
+          echo "PATCH $PATCH"
+          PATCH=$((++PATCH))
+          echo "PATCH $PATCH"
+          
           echo "Release tag: ${GIT_TAG}"
           #git tag -a "v${GIT_TAG}"
           #-m "Release v${{ github.run_number }}"
