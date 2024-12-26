@@ -1,44 +1,54 @@
 name: Automated Tagging
 on:
   schedule:
-    - cron: "00 12 */3 * *"
+    - cron: "00 12 */5 * *"
 
 jobs:
-  test_commit:
+  test_timestamp:
     name: Test schedule
     runs-on: ubuntu-latest
+    env:
+      ENABLED: 'true'
+      MODE: 'smart'
+      # smart: Auto Tag release every 5 days if no new commits
+      # timed: Auto Tag release every 5 days
+    outputs:
+      LAST_TIMESTAMP: ${{ steps.timestamp.outputs.LAST_TIMESTAMP }}
+      TAG_PUSH: ${{ steps.check-timestamp.outputs.cache-hit }}
     steps:
       - name: Set timestamp
         id: timestamp
         run: |
           LAST_TIMESTAMP="$(git log -1 --format=%ct)"
-          echo "${LAST_TIMESTAMP}" >>> ${GITHUB_OUTPUT}
+          echo "LAST_TIMESTAMP=${LAST_TIMESTAMP}" >>> ${GITHUB_OUTPUT}
 
       - name: Check Timestamp
         id: check-timestamp
         uses: actions/cache@v1
         with:
           path: last-timestamp
-          key: last-timestamp-${{ github.sha }}
+          key: last-timestamp-${{ steps.timestamp.outputs.LAST_TIMESTAMP }}
 
       - name: Cache check
-        if: steps.check-timestamp.outputs.cache-hit != 'true'
-        run: echo "TAG_PUSH=true" >>> ${GITHUB_OUTPUT}
+        run: |
+          if [ ${{ env.MODE }} == 'timed' ] \
+          || [ ${{ steps.check-timestamp.outputs.cache-hit }} == 'true' ]; then \
+            echo "TAG_PUSH=true" >>> ${GITHUB_OUTPUT}; \
+          else \
+            echo "TAG_PUSH=false" >>> ${GITHUB_OUTPUT}; \
+          fi
 
       - name: Create cache file
         run: |
-          rm -r last-timestamp
-          mkdir last-timestamp
+          mkdir -p last-timestamp
           LAST_TIMESTAMP="$(git log -1 --format=%ct)"
           echo "${LAST_TIMESTAMP}" > timestamp.txt
 
   tag:
     runs-on: ubuntu-latest
-    #needs: check-timestamp
+    needs: test_timestamp
+    if: ${{ needs.test_timestamp.outputs.TAG_PUSH == true }}
     steps:
-      - name: Check last commit
-        run: |
-          LAST_COMMIT="$(git log -1 --format=%ct)"
       - uses: actions/checkout@v2
       - name: Create Tag
         run: |
