@@ -20,7 +20,9 @@ jobs:
       PRERELEASE: ${{ steps.setenv.outputs.PRERELEASE }}
       GIT_TAG: ${{ steps.setenv.outputs.GIT_TAG }}
       TAG_NAME: ${{ steps.setenv.outputs.TAG_NAME }}
-    steps:  
+    steps:
+      - name: Dump vars context
+        run: echo "${{ toJSON(github.env) }}"
       - name: Checkout
         uses: actions/checkout@v4
         with:
