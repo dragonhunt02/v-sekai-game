@@ -34,8 +34,7 @@ jobs:
         uses: actions/cache@v1
         with:
           path: last-timestamp
-          key: last-timestamp-1735228784
-          #${{ steps.timestamp.outputs.TIMESTAMP }}
+          key: last-timestamp-${{ steps.timestamp.outputs.TIMESTAMP }}
 
       - name: Tag check
         run: |
@@ -68,7 +67,7 @@ jobs:
             echo "Timestamp changed"; \
             mkdir -p last-timestamp; \
             TIMESTAMP="$(git log -1 --format=%ct)"; \
-            echo "${TIMESTAMP}" > timestamp.txt; \
+            echo "${TIMESTAMP}" > last-timestamp/timestamp.txt; \
           fi
 
   tag:
