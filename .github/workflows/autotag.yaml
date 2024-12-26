@@ -9,7 +9,6 @@ jobs:
     name: Test schedule
     runs-on: ubuntu-latest
     env:
-      ENABLED: 'true'
       MODE: 'disabled'
       # smart: Auto Tag release every 5 days if no new commits
       # timed: Auto Tag release every 5 days
@@ -35,7 +34,8 @@ jobs:
         uses: actions/cache@v1
         with:
           path: last-timestamp
-          key: last-timestamp-${{ steps.timestamp.outputs.TIMESTAMP }}
+          key: last-timestamp-1735228784
+          #${{ steps.timestamp.outputs.TIMESTAMP }}
 
       - name: Tag check
         run: |
@@ -74,7 +74,7 @@ jobs:
   tag:
     runs-on: ubuntu-latest
     needs: test_timestamp
-    if: ${{ needs.test_timestamp.outputs.TAG_PUSH == true }}
+    if: ${{ needs.test_timestamp.outputs.TAG_PUSH == 'true' }}
     steps:
       - uses: actions/checkout@v2
       - name: Create Tag
