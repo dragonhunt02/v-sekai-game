@@ -86,7 +86,7 @@ jobs:
           #latest.v-sekai-editor-${{ github.run_number }}
           release_name: Latest Release of V-Sekai Game
           draft: false
-          prerelease: true
+          prerelease: ${{ needs.build.outputs.PRERELEASE }}
 
       - name: Download Artifacts
         uses: actions/download-artifact@v4
