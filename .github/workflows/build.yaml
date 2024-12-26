@@ -19,6 +19,7 @@ jobs:
       TAG_PUSH: ${{ steps.setenv.outputs.TAG_PUSH }}
       PRERELEASE: ${{ steps.setenv.outputs.PRERELEASE }}
       GIT_TAG: ${{ steps.setenv.outputs.GIT_TAG }}
+      GIT_SHA: ${{ steps.setenv.outputs.GIT_SHA }}
       TAG_NAME: ${{ steps.setenv.outputs.TAG_NAME }}
     steps:
       - name: Dump vars context
@@ -44,9 +45,12 @@ jobs:
             PRERELEASE=true; \
           fi
           GIT_TAG="$( echo $( git describe --tags --abbrev=0 || '0.0.1' ) )"
+          GIT_SHA=""
           TAG_NAME=${GIT_TAG}
+
+          # Rolling release
           if [ $TAG_PUSH == "false" ]; then \
-            TAG_NAME="${TAG_NAME}-${GITHUB_SHA}"; \
+            TAG_NAME="${TAG_NAME}-${GIT_SHA}"; \
           fi
           # Add Godot editor commit hash
           if [ ${{ github.event_name }} == "repository_dispatch" ]; then \
