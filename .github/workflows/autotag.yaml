@@ -1,9 +1,10 @@
 name: Automated Tagging
 on:
-  #push
-  schedule:
+  push:
+    branches: master
+  #schedule:
     #- cron: "00 12 */5 * *"
-    - cron: "*/6 * * * *"
+    #- cron: "*/6 * * * *"
 
 permissions:
   actions: write
