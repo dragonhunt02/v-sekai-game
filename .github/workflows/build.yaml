@@ -18,6 +18,7 @@ jobs:
     outputs:
       GITHUB_TAG: ${{ steps.setenv.outputs.GITHUB_TAG }}
       TAG_PUSH: ${{ steps.setenv.outputs.TAG_PUSH }}
+      PRERELEASE: ${{ steps.setenv.outputs.PRERELEASE }}
     steps:  
       - name: Checkout
         uses: actions/checkout@v4
@@ -32,11 +33,15 @@ jobs:
           echo "Event type ${{ github.event_name }}"
           if [ -n "$(git tag -l --contains HEAD)" ] && \
              [ ${{ github.event_name }} != "repository_dispatch" ]; then \
-            echo "Tag Release"; \
-            echo "TAG_PUSH=true" >> $GITHUB_OUTPUT; \
+            echo "Tagged Release"; \
+            TAG_PUSH=true; \
+            PRERELEASE=false; \
           else \
-            echo "TAG_PUSH=false" >> $GITHUB_OUTPUT; \
+            TAG_PUSH=false; \
+            PRERELEASE=true; \
           fi
+          echo "TAG_PUSH=${TAG_PUSH}" >> $GITHUB_OUTPUT;
+          echo "PRERELEASE=${PRERELEASE}" >> $GITHUB_OUTPUT;
           #git fetch --tags
           echo "GITHUB_REV=${{ github.event.repository.name }}" >> $GITHUB_OUTPUT
           echo $(git describe --tags --abbrev=0 || echo '0.0.1' )
