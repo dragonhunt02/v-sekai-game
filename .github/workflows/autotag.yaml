@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ENABLED: 'true'
-      MODE: 'smart'
+      MODE: 'disabled'
       # smart: Auto Tag release every 5 days if no new commits
       # timed: Auto Tag release every 5 days
       # disabled: Auto Tag disable
@@ -48,8 +48,8 @@ jobs:
       - name: Create cache file
         run: |
           PREV_TIMESTAMP="$( cat last-timestamp/version.txt | tr -d "\n" )"
-          if [ "${TIMESTAMP}" == "${PREV_TIMESTAMP}" ]; then \
-            echo "Timestamp didn't change"; \
+          if [ "${TIMESTAMP}" != "${PREV_TIMESTAMP}" ]; then \
+            echo "Timestamp changed"; \
             mkdir -p last-timestamp; \
             TIMESTAMP="$(git log -1 --format=%ct)"; \
             echo "${TIMESTAMP}" > timestamp.txt; \
