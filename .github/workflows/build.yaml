@@ -45,7 +45,7 @@ jobs:
             PRERELEASE=true; \
           fi
           GIT_TAG="$( echo $( git describe --tags --abbrev=0 || '0.0.1' ) )"
-          GIT_SHA=""
+          GIT_SHA="$( git rev-parse --short HEAD )"
           TAG_NAME=${GIT_TAG}
 
           # Rolling release
@@ -69,6 +69,7 @@ jobs:
         run: |
           echo "Github event - ${{ steps.setenv.outputs.GITHUB_REV }}"
           echo "Github tag - ${{ steps.setenv.outputs.GIT_TAG }}"
+          echo "Github commit sha - ${{ steps.setenv.outputs.GIT_SHA }}"
           echo "Github is tag push - ${{ steps.setenv.outputs.TAG_PUSH }}"
           echo "Github release tag name - ${{ steps.setenv.outputs.TAG_NAME }}"
           #echo "Github event -  ${GITHUB_REV}"
