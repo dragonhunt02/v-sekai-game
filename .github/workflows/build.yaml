@@ -28,6 +28,7 @@ jobs:
         id: setenv
         run: |
           echo "test $(git tag -l --contains HEAD)"
+          echo "Event type ${{ github.event_name }}"
           if [ -n "$(git tag -l --contains HEAD)" ]; then \
             echo "Tag Release"; \
             echo "TAG_PUSH=true" >> $GITHUB_OUTPUT; \
