@@ -16,9 +16,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      GITHUB_TAG: ${{ steps.setenv.outputs.GITHUB_TAG }}
       TAG_PUSH: ${{ steps.setenv.outputs.TAG_PUSH }}
       PRERELEASE: ${{ steps.setenv.outputs.PRERELEASE }}
+      GITHUB_TAG: ${{ steps.setenv.outputs.GITHUB_TAG }}
+      TAG_NAME: ${{ steps.setenv.outputs.TAG_NAME }}
     steps:  
       - name: Checkout
         uses: actions/checkout@v4
@@ -44,15 +45,16 @@ jobs:
           echo "PRERELEASE=${PRERELEASE}" >> $GITHUB_OUTPUT;
           #git fetch --tags
           echo "GITHUB_REV=${{ github.event.repository.name }}" >> $GITHUB_OUTPUT
-          echo $(git describe --tags --abbrev=0 || echo '0.0.1' )
+          #echo $(git describe --tags --abbrev=0 || echo '0.0.1' )
           echo "GITHUB_TAG=$( echo $( git describe --tags --abbrev=0 || '0.0.1' ) )" >> $GITHUB_OUTPUT
           
           TAG_NAME=${GITHUB_TAG}
           if [ $TAG_PUSH == "false" ]; then \
             TAG_NAME="${TAG_NAME}-${GITHUB_SHA}"; \
           fi
+          # Add Godot editor commit hash
           if [ ${{ github.event_name }} == "repository_dispatch" ]; then \
-            TAG_NAME="${TAG_NAME}_editor-${GODOT_SHA}"; \
+            TAG_NAME="${TAG_NAME}_editor-${{ github.event.client_payload.commit_sha }}"; \
           fi
 
       - name: Test
@@ -60,6 +62,7 @@ jobs:
           echo "Github event - ${{ steps.setenv.outputs.GITHUB_REV }}"
           echo "Github tag - ${{ steps.setenv.outputs.GITHUB_TAG }}"
           echo "Github is tag push - ${{ steps.setenv.outputs.TAG_PUSH }}"
+          echo "Github release tag name - ${{ steps.setenv.outputs.TAG_NAME }}"
           #echo "Github event -  ${GITHUB_REV}"
           #echo "Github tag - ${GITHUB_TAG}"
           touch test.txt && echo 'test'>>test.txt
@@ -90,9 +93,9 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         with:
-          tag_name: ${{ needs.build.outputs.GITHUB_TAG }}
+          tag_name: ${{ needs.build.outputs.TAG_NAME }}
           #latest.v-sekai-editor-${{ github.run_number }}
-          release_name: Latest Release of V-Sekai Game
+          release_name: ${{ needs.build.outputs.TAG_NAME }} V-Sekai Game Release
           draft: false
           prerelease: ${{ needs.build.outputs.PRERELEASE }}
 
