@@ -15,7 +15,7 @@ jobs:
       # disabled: Auto Tag disable
     outputs:
       TIMESTAMP: ${{ steps.timestamp.outputs.TIMESTAMP }}
-      TAG_PUSH: ${{ steps.check-timestamp.outputs.cache-hit }}
+      TAG_PUSH: ${{ steps.set-mode.outputs.TAG_PUSH }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,7 +37,8 @@ jobs:
           key: last-timestamp-1735229957
           #${{ steps.timestamp.outputs.TIMESTAMP }}
 
-      - name: Tag check
+      - name: Set mode
+        id: 'set-mode'
         run: |
           if [ ${{ env.MODE }} == 'smart' ] \
           && [ ${{ steps.check-timestamp.outputs.cache-hit }} == 'true' ] \
