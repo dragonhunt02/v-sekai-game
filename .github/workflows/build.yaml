@@ -14,11 +14,11 @@ env:
   # Set ITCH_IO_API_KEY in Repository Secrets
 
 # Github 'on: create' sends event 'push' on tags push and 'create' on new branches.
-# job 'build' filters only push events
+# job 'build' filters out create events
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.event.type == 'push'
+    if: github.event.type != 'create'
     outputs:
       TAG_PUSH: ${{ steps.setenv.outputs.TAG_PUSH }}
       PRERELEASE: ${{ steps.setenv.outputs.PRERELEASE }}
