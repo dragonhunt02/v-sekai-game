@@ -5,7 +5,6 @@ on:
   repository_dispatch:
     types: ['build-ready']
   create:
-  #push:
     branches: ['gh-test']
     tags:
       - '**'
@@ -14,9 +13,12 @@ env:
   ITCH_IO_PUBLISH: 'false'
   # Set ITCH_IO_API_KEY in Repository Secrets
 
+# Github 'on: create' sends event 'push' on tags push and 'create' on new branches.
+# job 'build' filters only push events
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: github.event.type == 'push'
     outputs:
       TAG_PUSH: ${{ steps.setenv.outputs.TAG_PUSH }}
       PRERELEASE: ${{ steps.setenv.outputs.PRERELEASE }}
