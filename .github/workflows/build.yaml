@@ -60,6 +60,7 @@ jobs:
 
           # Rolling release
           if [ $TAG_PUSH == "false" ]; then \
+            TAG_NAME="$(echo "${TAG_NAME}" | cut -d '-' -f1 )"
             TAG_NAME="${TAG_NAME}-${GIT_SHA}"; \
           fi
           # Add Godot editor commit hash
