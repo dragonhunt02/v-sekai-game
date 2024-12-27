@@ -35,6 +35,10 @@ jobs:
         id: setenv
         run: |
           #echo "test $(git tag -l --contains HEAD)"
+
+          if [ -n "${{ github.event.commits }}" ]; then \
+            echo "Commit found"; \
+          fi
           echo "Event type ${{ github.event_name }}"
           # If HEAD commit contains tag, event is tag push or manual workflow dispatch rerun
           if [ -n "$(git tag -l --contains HEAD)" ] && \
