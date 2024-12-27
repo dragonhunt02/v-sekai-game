@@ -8,6 +8,7 @@ on:
     branches: ['gh-test']
     tags:
       - '**'
+  push:
 
 env:
   ITCH_IO_PUBLISH: 'false'
