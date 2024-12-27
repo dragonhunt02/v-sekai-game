@@ -127,7 +127,7 @@ jobs:
 
       - name: Upload Release Asset
         run: |
-          echo "Tag release ${{ needs.build.outputs.GIT_TAG }}
+          echo "Release Tag: ${{ needs.build.outputs.GIT_TAG }}. Uploading..."
           cd v-sekai-release
           echo "Upload to ${{ steps.create_release.outputs.upload_url }}"
           for file in *; do \
