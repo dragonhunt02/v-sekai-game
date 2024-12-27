@@ -36,7 +36,7 @@ jobs:
         run: |
           #echo "test $(git tag -l --contains HEAD)"
           echo "Event type ${{ github.event_name }}"
-          # If HEAD commit contains tag, event is tag puah or manual workflow dispatch rerun
+          # If HEAD commit contains tag, event is tag push or manual workflow dispatch rerun
           if [ -n "$(git tag -l --contains HEAD)" ] && \
              [ ${{ github.event_name }} != "repository_dispatch" ]; then \
             echo "Tagged Release"; \
