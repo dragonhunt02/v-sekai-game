@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 
-ARG INPUT_GODOT_REV
+ARG INPUT_NIGHTLY
 
 # $HOME is overwritten by Github Action at runtime
 ENV HOMEDIR '/root'
@@ -91,8 +91,6 @@ RUN sed -i -r "s|(^custom_template/[a-z]*=\")~|\1${HOMEDIR}|g" './src/export_pre
 
 # Import missing files
 RUN "./${GODOT_EDITOR}" --import --headless --build-solutions --path './src'
-
-ENV INPUT_NIGHTLY 'true'
 
 RUN cd ./src && echo -n $( git log --format="%(describe:tags,abbrev=0)" -n 1 | cut -d '-' -f1 ) >version.txt \
     && if [ "${INPUT_NIGHTLY}" == 'true' ]; then \
