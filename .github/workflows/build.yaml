@@ -5,7 +5,7 @@ on:
   repository_dispatch:
     types: ['build-ready']
   #create:
-    push:
+  push:
     branches: ['gh-test']
     tags:
       - '**'
