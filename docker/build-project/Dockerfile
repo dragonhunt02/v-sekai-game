@@ -23,6 +23,26 @@ SHELL [ "/bin/bash", "-c" ]
 RUN apt-get update && apt-get upgrade -y \
   && apt-get install -y git curl jq zip unzip fontconfig file tree
 
+RUN git clone "https://github.com/${GAME_REPO}.git" "./src"
+
+RUN TPZ_URLS=$( \
+        curl -sS -L \
+        -H "Accept: application/vnd.github+json" \
+        "https://api.github.com/repos/${GODOT_REPO}/releases" \
+        | jq -r '.[0].assets.[] | select(.name | startswith(env.GODOT_TPZ)).browser_download_url | @sh' | tr -d "\'" \
+    ) \
+        && echo "${TPZ_URLS}" | while read -r URL; do \
+            echo "Downloading ${URL}"; \
+            curl -OL --url "${URL}" \
+            && echo "Downloaded ${URL} archive."; \
+        done && echo "Unzipping..." \
+            && zip -s- "${GODOT_TPZ%.*}.zip" -O templates.zip \
+            && rm ${GODOT_TPZ}* \
+            && unzip templates.zip \
+            && rm templates.zip
+
+RUN tree
+
 # Get latest Godot editor metadata
 RUN curl -sS \
     -H "Accept: application/vnd.github+json" \
@@ -47,52 +67,12 @@ RUN GODOT_TAG=$( cat 'godot_editor_json.txt' | jq -r '.tag_name') \
     && echo "Godot Editor SHA: ${GODOT_SHA}" \
     && echo "${GODOT_SHA}" > godot_editor_sha.txt
 
-RUN git clone "https://github.com/${GAME_REPO}.git" "./src"
+RUN cat godot_editor_sha.txt
 
-RUN TPZ_URLS=$( \
-        curl -sS -L \
-        -H "Accept: application/vnd.github+json" \
-        "https://api.github.com/repos/${GODOT_REPO}/releases" \
-        | jq -r '.[0].assets.[] | select(.name | startswith(env.GODOT_TPZ)).browser_download_url | @sh' | tr -d "\'" \
-    ) \
-        && echo "${TPZ_URLS}" | while read -r URL; do \
-            echo "Downloading ${URL}"; \
-            curl -OL --url "${URL}" \
-            && echo "Downloaded ${URL} archive."; \
-        done && echo "Unzipping..." \
-            && zip -s- "${GODOT_TPZ%.*}.zip" -O templates.zip \
-            && rm ${GODOT_TPZ}* \
-            && unzip templates.zip \
-            && rm templates.zip
-
-RUN tree
-
-RUN curl -sS \
-    -H "Accept: application/vnd.github+json" \
-    "https://api.github.com/repos/${GODOT_REPO}/releases" \
-    | jq -r '.[0]' > editor_json.txt
-
-# Get editor commit SHA
-RUN GODOT_TAG=$( cat 'editor_json.txt' | jq -r '.tag_name') \
-    && read obj_type obj_sha < <( echo $( \
-        curl -sS \
-        -H "Accept: application/vnd.github+json" \
-        "https://api.github.com/repos/${GODOT_REPO}/git/ref/tags/${GODOT_TAG}" \
-        | jq -r '.object.type, .object.sha' ) ) \
-    && if [ $obj_type == "commit" ]; then \
-           GODOT_SHA=${obj_sha}; \
-       else \
-           GODOT_SHA=$( curl -sS -H "Accept: application/vnd.github+json" "https://api.github.com/repos/${GODOT_REPO}/git/tags/${obj_sha}" | jq '.object.sha' ); \
-       fi \
-    && echo "Godot Editor SHA: ${GODOT_SHA}" \
-    && echo "${GODOT_SHA}" > godot_sha.txt
-          
-
+# Get editor
 RUN FILE_URL=$( \
-        curl -sS -L \
-        -H "Accept: application/vnd.github+json" \
-        "https://api.github.com/repos/${GODOT_REPO}/releases" \
-        | jq -r '.[0].assets.[] | select(.name == env.GODOT_ZIP).browser_download_url' \
+        cat 'godot_editor_json.txt' \
+        | jq -r '.assets.[] | select(.name == env.GODOT_ZIP).browser_download_url' \
     ) \
         && echo "Downloading ${FILE_URL}" \
         && curl -OL --url ${FILE_URL} \
