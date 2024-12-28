@@ -86,7 +86,7 @@ jobs:
           echo "ITCH_IO_PUBLISH=${{ env.ITCH_IO_PUBLISH }}" >> $GITHUB_OUTPUT
 
           GODOT_SHA=$( curl -sS \
-          -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+          -H "Authorization: token ${GITHUB_TOKEN}" \
           -H "Content-Type: application/json" \
           -d '{ \
           "query": "{repository(owner:\"'"dragonhunt02"'\", name:\"'"v-sekai-game"'\"){releases(first: 1){tagCommit {abbreviatedOid}}}}" \
