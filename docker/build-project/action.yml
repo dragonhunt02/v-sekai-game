@@ -9,4 +9,5 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   env:
-    - ${{ inputs.nightly }}
+    NIGHTLY: ${{ inputs.nightly }}
+    INPUT_NIGHTLY: ${{ inputs.nightly }}
