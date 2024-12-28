@@ -119,7 +119,8 @@ RUN echo "Test" > $HOMEDIR/src/$BIN/file_0.0.1_windows_le.test
 #CMD ls . && echo "HOME\n" && ls $HOME && echo "WORKSPACE\n" && ls ${GITHUB_WORKSPACE} && echo "ROOT\n" && ls /root/ && \
 CMD mkdir -p ${GITHUB_WORKSPACE}/releases && tree -a /root/src && \
         echo "Copying to Github output..." \
-        && cp -v $HOMEDIR/src/$BIN/* ${GITHUB_WORKSPACE}/releases
+        && cp -v $HOMEDIR/src/$BIN/* ${GITHUB_WORKSPACE}/releases \
+        && echo "INPUT_NIGHTLY: $INPUT_NIGHTLY"
 
 #RUN ls -a ./src
 RUN ls ./src/${BIN}
