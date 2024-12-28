@@ -94,12 +94,12 @@ jobs:
           "https://api.github.com/repos/${GODOT_REPO}/releases" | jq -r '.[0]' )
 
           echo "${EDITOR_JSON}"
-          tag=$( echo "${EDITOR_JSON}" | jq -r '.tag_name')
-          echo "tag $tag"
-          read type tag_sha < <(echo $(curl -s "https://api.github.com/repos/${GODOT_REPO}/git/ref/tags/$tag" | 
-          jq -r '.object.type,.object.sha'))
+          GODOT_TAG=$( echo "${EDITOR_JSON}" | jq -r '.tag_name')
+          echo "tag $GODOT_TAG"
+          read type tag_sha < <( curl -sS "https://api.github.com/repos/${GODOT_REPO}/git/ref/tags/${GODOT_TAG}" | 
+          jq -r '.object.type, .object.sha' )
 
-          if [ $type == "commit1" ]; then
+          if [ $type == "commit" ]; then
             echo "commit sha: $tag_sha"
           else
             sha=$(curl -s "https://api.github.com/repos/${GODOT_REPO}/git/tags/$tag_sha" | jq '.object.sha')
