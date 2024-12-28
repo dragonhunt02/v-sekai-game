@@ -1,10 +1,10 @@
 name: 'build-project'
 description: 'Build project with latest Godot editor from V-Sekai/world-godot'
 inputs:
-  godot_rev:
-    description: 'Godot editor build'
+  nightly:
+    description: 'Nightly build mode'
     required: false
-    default: ''
+    default: 'false'
 runs:
   using: 'docker'
   image: 'Dockerfile'
