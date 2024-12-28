@@ -39,10 +39,10 @@ RUN TPZ_URLS=$( \
             && zip -s- "${GODOT_TPZ%.*}.zip" -O templates.zip \
             && rm ${GODOT_TPZ}* \
             && unzip templates.zip \
-            && rm templates.zip && ls -a .
+            && rm templates.zip
 
 RUN tree
-RUN exit 1
+
 # Get latest Godot editor metadata
 RUN curl -sS \
     -H "Accept: application/vnd.github+json" \
@@ -84,7 +84,7 @@ RUN cp "./godot/${GODOT_EDITOR}" "./${GODOT_EDITOR}" \
 
 RUN mkdir -p ./src/${BIN} \
         && mkdir -p ${TEMPLATE_DIR} \
-        && mv -v godot/* ${TEMPLATE_DIR}/ 
+        && mv -v v-sekai-godot-templates/* ${TEMPLATE_DIR}/ 
 
 # Set export_templates parent folder in .cfg file
 RUN sed -i -r "s|(^custom_template/[a-z]*=\")~|\1${HOMEDIR}|g" './src/export_presets.cfg'
