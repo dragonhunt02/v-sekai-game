@@ -17,9 +17,11 @@ ENV TEMPLATE_DIR "$HOMEDIR/export_templates"
 
 WORKDIR $HOMEDIR
 
+# Using process substitution
+SHELL [ "/bin/bash", "-c" ]
+
 RUN apt-get update && apt-get upgrade -y \
   && apt-get install -y git curl jq zip unzip fontconfig file tree
-
 
 
 RUN curl -sS \
