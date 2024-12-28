@@ -17,7 +17,7 @@ ENV TEMPLATE_DIR "$HOMEDIR/export_templates"
 
 WORKDIR $HOMEDIR
 
-# Using process substitution (not POSIX)
+# Using process substitution feature (not POSIX)
 SHELL [ "/bin/bash", "-c" ]
 
 RUN apt-get update && apt-get upgrade -y \
@@ -94,9 +94,9 @@ RUN "./${GODOT_EDITOR}" --import --headless --build-solutions --path './src'
 
 ENV INPUT_NIGHTLY 'true'
 
-RUN cd ./src && echo -n $( git log --format="%(describe:tags,abbrev=0)" -n 1 ) >version.txt \
+RUN cd ./src && echo -n $( git log --format="%(describe:tags,abbrev=0)" -n 1 | cut -d '-' -f1 ) >version.txt \
     && if [ "${INPUT_NIGHTLY}" == 'true' ]; then \
-         echo -n "-$( git rev-parse --short HEAD | cut -d '-' -f1 )" >>version.txt; \
+         echo -n "-$( git rev-parse --short HEAD )" >>version.txt; \
          GODOT_SHA=$( cat ${HOMEDIR}/'godot_editor_sha.txt' ); \
          echo -n "_editor-${GODOT_SHA:0:7}" >>version.txt; \
        fi
