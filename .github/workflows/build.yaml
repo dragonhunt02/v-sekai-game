@@ -99,8 +99,8 @@ jobs:
 
           GODOT_REPO=v-sekai/world-godot
           EDITOR_JSON=$( \
-          curl -sS -L -H "Accept: application/vnd.github+json" \
-          "https://api.github.com/repos/${GODOT_REPO}/releases" | jq -r '.[0]' )
+          curl -sS -L -H "Accept: application/vnd.github+json" \
+          "https://api.github.com/repos/${GODOT_REPO}/releases" | jq -r '.[0]' )
 
           echo "${EDITOR_JSON}"
           tag=$( echo "${EDITOR_JSON}" | jq -r '.tag_name')
