@@ -4,11 +4,12 @@ on:
   workflow_dispatch:
   repository_dispatch:
     types: ['build-ready']
-  create:
+  #create:
+    push:
     branches: ['gh-test']
     tags:
       - '**'
-  push:
+  #push:
 
 env:
   ITCH_IO_PUBLISH: 'false'
@@ -19,7 +20,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.event.type != 'create'
+    #if: github.event.type != 'create'
     outputs:
       TAG_PUSH: ${{ steps.setenv.outputs.TAG_PUSH }}
       PRERELEASE: ${{ steps.setenv.outputs.PRERELEASE }}
@@ -60,9 +61,9 @@ jobs:
 
           # Rolling release
           if [ $TAG_PUSH == "false" ]; then \
-            DATE="$( date +"%Y-%m-%d" )"
+            TAG_DATE="$( date +"%Y-%m-%d" )"
             TAG_NAME="$( echo "${TAG_NAME}" | cut -d '-' -f1 )"
-            TAG_NAME="${TAG_NAME}-nightly-${DATE}-${GIT_SHA}"; \
+            TAG_NAME="${TAG_NAME}-nightly-${TAG_DATE}-${GIT_SHA}"; \
           fi
           # Add Godot editor commit hash
           if [ ${{ github.event_name }} == "repository_dispatch" ]; then \
