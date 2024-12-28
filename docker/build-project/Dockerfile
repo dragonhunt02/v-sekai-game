@@ -89,6 +89,8 @@ RUN mkdir -p ./src/${BIN} \
 # Set export_templates parent folder in .cfg file
 RUN sed -i -r "s|(^custom_template/[a-z]*=\")~|\1${HOMEDIR}|g" './src/export_presets.cfg'
 
+RUN cat './src/export_presets.cfg'
+
 # Import missing files
 RUN "./${GODOT_EDITOR}" --import --headless --build-solutions --path './src'
 
