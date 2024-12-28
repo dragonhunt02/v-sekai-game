@@ -60,8 +60,9 @@ jobs:
 
           # Rolling release
           if [ $TAG_PUSH == "false" ]; then \
-            TAG_NAME="$(echo "${TAG_NAME}" | cut -d '-' -f1 )"
-            TAG_NAME="${TAG_NAME}-nightly-${GIT_SHA}"; \
+            DATE="$( date +"%Y-%m-%d" )"
+            TAG_NAME="$( echo "${TAG_NAME}" | cut -d '-' -f1 )"
+            TAG_NAME="${TAG_NAME}-nightly-${DATE}-${GIT_SHA}"; \
           fi
           # Add Godot editor commit hash
           if [ ${{ github.event_name }} == "repository_dispatch" ]; then \
