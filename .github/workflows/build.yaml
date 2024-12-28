@@ -121,11 +121,13 @@ jobs:
           touch test.txt && echo 'test'>>test_0.5ffff_windows.txt
           touch test.txt && echo 'test'>>test_0.2.2_Mac_editor4aaa.txt
           echo "Github event -  ${{ github.event.client_payload.commit_sha }}"
+          
+          #godot_rev: ${{ github.event.client_payload.commit_sha }}
 
       - name: Docker build project
         uses: ./docker/build-project
         with:
-          godot_rev: ${{ github.event.client_payload.commit_sha }}
+          nightly: 'true' 
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
