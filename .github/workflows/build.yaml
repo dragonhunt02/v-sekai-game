@@ -98,6 +98,7 @@ jobs:
           echo "tag $GODOT_TAG"
           read obj_type obj_sha < <( echo $( curl -sS -H "Accept: application/vnd.github+json" "https://api.github.com/repos/${GODOT_REPO}/git/ref/tags/${GODOT_TAG}" \ 
           | jq -r '.object.type, .object.sha' ) )
+          echo "ok"
           if [ $obj_type == "commit" ]; then \
             GODOT_SHA=${obj_sha}; \
           else \
