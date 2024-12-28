@@ -43,11 +43,9 @@ RUN GODOT_TAG=$( cat 'godot_editor_json.txt' | jq -r '.tag_name') \
            -H "Accept: application/vnd.github+json" \
            "https://api.github.com/repos/${GODOT_REPO}/git/tags/${obj_sha}" \
            | jq '.object.sha' ); \
-       fi
-
-RUN echo "Godot Editor SHA: ${GODOT_SHA}" \
-    && echo "${GODOT_SHA}" > godot_sha.txt
-
+       fi \
+    && echo "Godot Editor SHA: ${GODOT_SHA}" \
+    && echo "${GODOT_SHA}" > godot_editor_sha.txt
 
 RUN git clone "https://github.com/${GAME_REPO}.git" "./src"
 
