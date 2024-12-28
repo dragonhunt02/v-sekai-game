@@ -11,8 +11,8 @@ on:
       - '**'
   #push:
 
-permissions:
-  contents: read
+#permissions:
+#  contents: read
 
 env:
   ITCH_IO_PUBLISH: 'false'
