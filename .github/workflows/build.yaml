@@ -11,6 +11,9 @@ on:
       - '**'
   #push:
 
+permissions:
+  contents: read
+
 env:
   ITCH_IO_PUBLISH: 'false'
   # Set ITCH_IO_API_KEY in Repository Secrets
