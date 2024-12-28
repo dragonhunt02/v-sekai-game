@@ -17,30 +17,32 @@ ENV TEMPLATE_DIR "$HOMEDIR/export_templates"
 
 WORKDIR $HOMEDIR
 
-# Using process substitution
+# Using process substitution (not POSIX)
 SHELL [ "/bin/bash", "-c" ]
 
 RUN apt-get update && apt-get upgrade -y \
   && apt-get install -y git curl jq zip unzip fontconfig file tree
 
-
+# Get latest Godot editor metadata
 RUN curl -sS \
     -H "Accept: application/vnd.github+json" \
     "https://api.github.com/repos/${GODOT_REPO}/releases" \
-    | jq -r '.[0]' > editor_json.txt
+    | jq -r '.[0]' > godot_editor_json.txt
 
 # Get editor commit SHA
-RUN GODOT_TAG=$( cat 'editor_json.txt' | jq -r '.tag_name') \
+RUN GODOT_TAG=$( cat 'godot_editor_json.txt' | jq -r '.tag_name') \
     && read obj_type obj_sha < <( echo $( \
         curl -sS \
         -H "Accept: application/vnd.github+json" \
         "https://api.github.com/repos/${GODOT_REPO}/git/ref/tags/${GODOT_TAG}" \
-        | jq -r '.object.type, .object.sha' ) )
-        
-RUN if [ $obj_type == "commit" ]; then \
+        | jq -r '.object.type, .object.sha' ) ) \
+    && if [ $obj_type == "commit" ]; then \
            GODOT_SHA=${obj_sha}; \
        else \
-           GODOT_SHA=$( curl -sS -H "Accept: application/vnd.github+json" "https://api.github.com/repos/${GODOT_REPO}/git/tags/${obj_sha}" | jq '.object.sha' ); \
+           GODOT_SHA=$( curl -sS \
+           -H "Accept: application/vnd.github+json" \
+           "https://api.github.com/repos/${GODOT_REPO}/git/tags/${obj_sha}" \
+           | jq '.object.sha' ); \
        fi
 
 RUN echo "Godot Editor SHA: ${GODOT_SHA}" \
