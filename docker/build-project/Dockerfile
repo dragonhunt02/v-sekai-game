@@ -19,7 +19,7 @@ WORKDIR $HOMEDIR
 
 # Using process substitution feature (not POSIX)
 SHELL [ "/bin/bash", "-c" ]
-
+RUN echo "${INPUT_NIGHTLY}"
 RUN apt-get update && apt-get upgrade -y \
   && apt-get install -y git curl jq zip unzip fontconfig file tree
 
