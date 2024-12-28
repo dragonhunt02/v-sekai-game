@@ -88,15 +88,6 @@ jobs:
 
           echo "ITCH_IO_PUBLISH=${{ env.ITCH_IO_PUBLISH }}" >> $GITHUB_OUTPUT
 
-          GODOT_SHA=$( curl -sS \
-          -H "Authorization: token ${GITHUB_TOKEN}" \
-          -H "Content-Type: application/json" \
-          -d '{ \
-          "query": "{repository(owner:\"'"dragonhunt02"'\", name:\"'"v-sekai-game"'\"){releases(first: 1){tagCommit {abbreviatedOid}}}}" \
-          }' https://api.github.com/graphql )
-          #| jq -r '.data.repository.releases.[0].tagCommit.oid' )
-          echo "${GODOT_SHA}"
-
           GODOT_REPO=v-sekai/world-godot
           EDITOR_JSON=$( \
           curl -sS -L -H "Accept: application/vnd.github+json" \
@@ -108,7 +99,7 @@ jobs:
           read type tag_sha < <(echo $(curl -s "https://api.github.com/repos/${GODOT_REPO}/git/ref/tags/$tag" | 
           jq -r '.object.type,.object.sha'))
 
-          if [ $type == "commit" ]; then
+          if [ $type == "commit1" ]; then
             echo "commit sha: $tag_sha"
           else
             sha=$(curl -s "https://api.github.com/repos/${GODOT_REPO}/git/tags/$tag_sha" | jq '.object.sha')
