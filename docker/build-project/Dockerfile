@@ -40,6 +40,27 @@ RUN TPZ_URLS=$( \
 
 RUN tree
 
+RUN curl -sS \
+    -H "Accept: application/vnd.github+json" \
+    "https://api.github.com/repos/${GODOT_REPO}/releases" \
+    | jq -r '.[0]' > editor_json.txt
+
+# Get editor commit SHA
+RUN GODOT_TAG=$( cat 'editor_json.txt' | jq -r '.tag_name') \
+    && read obj_type obj_sha < <( echo $( \
+        curl -sS \
+        -H "Accept: application/vnd.github+json" \
+        "https://api.github.com/repos/${GODOT_REPO}/git/ref/tags/${GODOT_TAG}" \
+        | jq -r '.object.type, .object.sha' ) ) \
+    && if [ $obj_type == "commit" ]; then \
+           GODOT_SHA=${obj_sha}; \
+       else \
+           GODOT_SHA=$( curl -sS -H "Accept: application/vnd.github+json" "https://api.github.com/repos/${GODOT_REPO}/git/tags/${obj_sha}" | jq '.object.sha' ); \
+       fi \
+    && echo "Godot Editor SHA: ${GODOT_SHA}" \
+    && echo "${GODOT_SHA}" > godot_sha.txt
+          
+
 RUN FILE_URL=$( \
         curl -sS -L \
         -H "Accept: application/vnd.github+json" \
