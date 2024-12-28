@@ -90,7 +90,8 @@ jobs:
           -H "Content-Type: application/json" \
           -d '{ \
           "query": "{repository(owner:\"'"dragonhunt02"'\", name:\"'"v-sekai-game"'\"){releases(first: 1){tagCommit {abbreviatedOid}}}}" \
-          }' https://api.github.com/graphql | jq -r '.data.repository.releases.[0].tagCommit.oid' )
+          }' https://api.github.com/graphql )
+          #| jq -r '.data.repository.releases.[0].tagCommit.oid' )
           echo "${GODOT_SHA}"
 
       - name: Test
