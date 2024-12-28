@@ -67,8 +67,6 @@ RUN GODOT_TAG=$( cat 'godot_editor_json.txt' | jq -r '.tag_name') \
     && echo "Godot Editor SHA: ${GODOT_SHA}" \
     && echo "${GODOT_SHA}" > godot_editor_sha.txt
 
-RUN cat godot_editor_sha.txt
-
 # Get editor
 RUN FILE_URL=$( \
         cat 'godot_editor_json.txt' \
@@ -94,12 +92,13 @@ RUN sed -i -r "s|(^custom_template/[a-z]*=\")~|\1${HOMEDIR}|g" './src/export_pre
 # Import missing files
 RUN "./${GODOT_EDITOR}" --import --headless --build-solutions --path './src'
 
-ENV INPUT_GODOT_REV 'tttest'
+ENV INPUT_NIGHTLY 'true'
 
 RUN cd ./src && echo -n $( git log --format="%(describe:tags,abbrev=0)" -n 1 ) >version.txt \
-    && if [ -n "${INPUT_GODOT_REV}" ]; then \
+    && if [ "${INPUT_NIGHTLY}" == 'true' ]; then \
          echo -n "-$( git rev-parse --short HEAD )" >>version.txt; \
-         echo -n "_editor-${INPUT_GODOT_REV}" >>version.txt; \
+         GODOT_SHA=$( cat 'godot_editor_sha.txt' ); \
+         echo -n "_editor-${GODOT_SHA:0:7}" >>version.txt; \
        fi
 
 RUN cat ./src/version.txt 
