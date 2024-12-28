@@ -1,6 +1,6 @@
 FROM ubuntu:latest
 
-ARG INPUT_NIGHTLY
+#ARG INPUT_NIGHTLY
 
 # $HOME is overwritten by Github Action at runtime
 ENV HOMEDIR '/root'
