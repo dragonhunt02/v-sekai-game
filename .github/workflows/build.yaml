@@ -97,8 +97,8 @@ jobs:
           GODOT_TAG=$( echo "${EDITOR_JSON}" | jq -r '.tag_name')
           echo "tag $GODOT_TAG"
           read obj_type obj_sha < <( echo $( curl -sS -H "Accept: application/vnd.github+json" "https://api.github.com/repos/${GODOT_REPO}/git/ref/tags/${GODOT_TAG}" \ 
-          | jq -r '.object.type, .object.sha' ) ) \
-          && if [ $obj_type == "commit" ]; then \
+          | jq -r '.object.type, .object.sha' ) )
+          if [ $obj_type == "commit" ]; then \
             GODOT_SHA=${obj_sha}; \
           else \
             GODOT_SHA=$( curl -sS -H "Accept: application/vnd.github+json" "https://api.github.com/repos/${GODOT_REPO}/git/tags/${obj_sha}" | jq '.object.sha' ); \
