@@ -103,8 +103,8 @@ jobs:
           MINOR=$( echo ${GIT_TAG} | cut -d '.' -f2 )
           PATCH=$( echo ${GIT_TAG} | cut -d '.' -f3 | cut -d '-' -f1 )
 
-          MINOR=$((++MINOR))
-          NEW_TAG="v${MAJOR}.${MINOR}.0"
+          PATCH=$((++PATCH))
+          NEW_TAG="v${MAJOR}.${MINOR}.${PATCH}"
           echo ${GIT_TAG}
           echo "Release tag: ${NEW_TAG}"
           git tag "${NEW_TAG}"
