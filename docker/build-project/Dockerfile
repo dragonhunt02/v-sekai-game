@@ -7,7 +7,7 @@ ENV HOMEDIR '/root'
 
 ENV BIN 'release/bin'
 ENV BUILD_ARGS '--headless'
-ENV BUILD_PLATFORMS 'Linux Windows Web Android macOS'
+ENV BUILD_PLATFORMS 'Linux Windows Web QuestAndroid'
 ENV GAME_REPO 'dragonhunt02/v-sekai-game'
 ENV GODOT_REPO 'V-Sekai/world-godot'
 ENV GODOT_ZIP 'v-sekai-godot-linuxbsd.zip'
