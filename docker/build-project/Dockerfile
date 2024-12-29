@@ -86,8 +86,10 @@ RUN mkdir -p ./src/${BIN} \
         && mkdir -p ${TEMPLATE_DIR} \
         && mv -v v-sekai-godot-templates/* ${TEMPLATE_DIR}/ 
 
-# Set export_templates parent folder in .cfg file
-RUN sed -i -r "s|(^custom_template/[a-z]*=\")~|\1${HOMEDIR}|g" './src/export_presets.cfg'
+# Set export_templates parent folder in .cfg file and copy editor settings
+RUN sed -i -r "s|(^custom_template/[a-z]*=\")~|\1${HOMEDIR}|g" './src/export_presets.cfg' \
+    && mkdir -p ${HOMEDIR}/.config/godot/ \
+    && cp -v ./src/editor_settings-4.tres ${HOMEDIR}/.config/godot/editor_settings-4.tres
 
 # Import missing files
 RUN "./${GODOT_EDITOR}" --import --headless --build-solutions --path './src'
