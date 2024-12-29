@@ -21,7 +21,7 @@ WORKDIR $HOMEDIR
 SHELL [ "/bin/bash", "-c" ]
 
 RUN apt-get update && apt-get upgrade -y \
-  && apt-get install -y git curl jq zip unzip fontconfig file tree
+  && apt-get install -y git curl jq zip unzip fontconfig openjdk-17-jdk file tree
 
 RUN git clone "https://github.com/${GAME_REPO}.git" "./src"
 
