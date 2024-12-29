@@ -96,7 +96,7 @@ RUN curl -sS -OL 'https://dl.google.com/android/repository/commandlinetools-linu
     && sed -i -r "s|(^export/android/android_sdk_path = \")~|\1${HOMEDIR}|g" './src/editor_settings-4.tres' \
     && mkdir -p ./src/android/plugins ./src/android/build \
     && touch ./src/android/build/.gdignore \
-    && echo 4.4.dev >> ./src/android/.build_version
+    && echo 4.4.dev >> ./src/android/.build_version \
     && unzip ${TEMPLATE_DIR}/godot_android_source.zip  -d ./src/android/build
 
 
