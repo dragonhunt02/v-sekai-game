@@ -4,17 +4,16 @@ ARG INPUT_NIGHTLY
 
 # $HOME is overwritten by Github Action at runtime
 ENV HOMEDIR '/root'
-#Linux Windows Web 
+
 ENV BIN 'release/bin'
 ENV BUILD_ARGS '--headless'
-ENV BUILD_PLATFORMS 'QuestAndroid'
+ENV BUILD_PLATFORMS 'Linux Windows Web'
 ENV GAME_REPO 'dragonhunt02/v-sekai-game'
 ENV GODOT_REPO 'V-Sekai/world-godot'
 ENV GODOT_ZIP 'v-sekai-godot-linuxbsd.zip'
 ENV GODOT_TPZ 'v-sekai-godot-templates.z'
 ENV GODOT_EDITOR 'godot.linuxbsd.editor.double.x86_64'
 ENV TEMPLATE_DIR "$HOMEDIR/export_templates"
-ENV ANDROID_SDK_ROOT "$HOMEDIR/android_sdk"
 
 WORKDIR $HOMEDIR
 
@@ -22,7 +21,7 @@ WORKDIR $HOMEDIR
 SHELL [ "/bin/bash", "-c" ]
 
 RUN apt-get update && apt-get upgrade -y \
-  && apt-get install -y git curl jq zip unzip fontconfig openjdk-17-jdk file tree
+  && apt-get install -y git curl jq zip unzip fontconfig file tree
 
 RUN git clone "https://github.com/${GAME_REPO}.git" "./src"
 
@@ -86,19 +85,6 @@ RUN cp "./godot/${GODOT_EDITOR}" "./${GODOT_EDITOR}" \
 RUN mkdir -p ./src/${BIN} \
         && mkdir -p ${TEMPLATE_DIR} \
         && mv -v v-sekai-godot-templates/* ${TEMPLATE_DIR}/
-
-# Setup Android
-RUN curl -sS -OL 'https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip' \
-    && unzip commandlinetools-linux-11076708_latest.zip \
-    && mkdir -p ${ANDROID_SDK_ROOT} \
-    && yes | ./cmdline-tools/bin/sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --licenses \
-    && yes | ./cmdline-tools/bin/sdkmanager --sdk_root=${ANDROID_SDK_ROOT} "ndk;23.2.8568313" 'cmdline-tools;latest' 'build-tools;34.0.0' 'platforms;android-34' 'cmake;3.22.1' \
-    && sed -i -r "s|(^export/android/android_sdk_path = \")~|\1${HOMEDIR}|g" './src/editor_settings-4.tres' \
-    && mkdir -p ./src/android/plugins ./src/android/build \
-    && touch ./src/android/build/.gdignore \
-    && echo 4.4.dev >> ./src/android/.build_version \
-    && unzip ${TEMPLATE_DIR}/android_source.zip  -d ./src/android/build
-
 
 # Set export_templates parent folder in .cfg file and copy editor settings
 RUN sed -i -r "s|(^custom_template/[a-z]*=\")~|\1${HOMEDIR}|g" './src/export_presets.cfg' \
