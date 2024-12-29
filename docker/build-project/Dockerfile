@@ -104,12 +104,12 @@ RUN cat ./src/version.txt
 RUN GIT_REV=$(cat ./src/version.txt | tr -d '\n') \
        && for PLATFORM in ${BUILD_PLATFORMS}; do \
             echo "Building ${PLATFORM}..."; \
-            EXT='' \
-            && if [ "${PLATFORM}" == 'Windows' ]; then \
-                   EXT='.exe'; \
-               else if [ "${PLATFORM}" == 'Android' ]; then \
-                   EXT='.apk'; \
-               fi; \
+            EXT=''; \
+            if [ "${PLATFORM}" == 'Windows' ]; then \
+                EXT='.exe'; \
+            elif [ "${PLATFORM}" == 'Android' ]; then \
+                EXT='.apk'; \
+            fi; \
             "./${GODOT_EDITOR}" ${BUILD_ARGS} --path './src' --export-release ${PLATFORM} ./${BIN}/v-sekai-game_${GIT_REV}_${PLATFORM}${EXT} || true; \
           done
 
