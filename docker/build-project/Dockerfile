@@ -93,7 +93,7 @@ RUN curl -sS -OL 'https://dl.google.com/android/repository/commandlinetools-linu
     && mkdir -p ${ANDROID_SDK_ROOT} \
     && yes | ./cmdline-tools/bin/sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --licenses \
     && yes | ./cmdline-tools/bin/sdkmanager --sdk_root=${ANDROID_SDK_ROOT} "ndk;23.2.8568313" 'cmdline-tools;latest' 'build-tools;34.0.0' 'platforms;android-34' 'cmake;3.22.1' \
-    && sed -i -r "s|(^export/android/android_sdk_path=\")~|\1${HOMEDIR}|g" './src/editor_settings-4.tres'
+    && sed -i -r "s|(^export/android/android_sdk_path = \")~|\1${HOMEDIR}|g" './src/editor_settings-4.tres'
 
 # Set export_templates parent folder in .cfg file and copy editor settings
 RUN sed -i -r "s|(^custom_template/[a-z]*=\")~|\1${HOMEDIR}|g" './src/export_presets.cfg' \
