@@ -111,10 +111,6 @@ RUN GIT_REV=$(cat ./src/version.txt | tr -d '\n') \
                 EXT='.exe'; \
             elif [ "${PLATFORM}" == 'Android' ]; then \
                 EXT='.apk'; \
-            elif [ "${PLATFORM}" == 'Web' ]; then \
-                BUILD_DIR="./${BIN}/vsekaigameWeb"; \
-                echo "make webdir: ${BUILD_DIR}"; \
-                mkdir -p ${BUILD_DIR}; \
             fi; \
             echo "make webdir2: ${BUILD_DIR}"; \
             tree "./${BIN}"; \
