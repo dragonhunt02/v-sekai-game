@@ -4,10 +4,10 @@ ARG INPUT_NIGHTLY
 
 # $HOME is overwritten by Github Action at runtime
 ENV HOMEDIR '/root'
-
+#Linux Windows Web'
 ENV BIN 'release/bin'
 ENV BUILD_ARGS '--headless'
-ENV BUILD_PLATFORMS 'Linux Windows Web'
+ENV BUILD_PLATFORMS 'Web'
 ENV GAME_REPO 'dragonhunt02/v-sekai-game'
 ENV GODOT_REPO 'V-Sekai/world-godot'
 ENV GODOT_ZIP 'v-sekai-godot-linuxbsd.zip'
@@ -113,15 +113,17 @@ RUN GIT_REV=$(cat ./src/version.txt | tr -d '\n') \
                 EXT='.apk'; \
             elif [ "${PLATFORM}" == 'Web' ]; then \
                 BUILD_DIR="${BUILD_DIR}/v-sekai-game_${GIT_REV}_${PLATFORM}"; \
+                echo "make webdir: ${BUILD_DIR}"; \
                 mkdir -p ${BUILD_DIR}; \
             fi; \
             "./${GODOT_EDITOR}" ${BUILD_ARGS} --path './src' --export-release ${PLATFORM} ${BUILD_DIR}/v-sekai-game_${GIT_REV}_${PLATFORM}${EXT} || true; \
             if [ "${PLATFORM}" == 'Web' ]; then \
-                zip -r "v-sekai-game_${GIT_REV}_${PLATFORM}.zip" ${BUILD_DIR}; \
-                rm -r ${BUILD_DIR}; \
+                echo 'make webzip'; \
+                zip -v -r "v-sekai-game_${GIT_REV}_${PLATFORM}.zip" ${BUILD_DIR}; \
             fi; \
           done
 
+                #rm -r ${BUILD_DIR}; \
 # Copy output to github
 #RUN if [ -d "/github/workflows/" ]; then \
 #        echo "Copying to Github output..."; \
