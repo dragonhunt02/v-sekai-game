@@ -112,7 +112,7 @@ RUN GIT_REV=$(cat ./src/version.txt | tr -d '\n') \
             elif [ "${PLATFORM}" == 'Android' ]; then \
                 EXT='.apk'; \
             elif [ "${PLATFORM}" == 'Web' ]; then \
-                BUILD_DIR="${BUILD_DIR}/v-sekai-game_${GIT_REV}_${PLATFORM}"; \
+                BUILD_DIR="${BUILD_DIR}/v-sekai-game_${PLATFORM}"; \
                 echo "make webdir: ${BUILD_DIR}"; \
                 mkdir -p ${BUILD_DIR}; \
             fi; \
@@ -123,7 +123,7 @@ RUN GIT_REV=$(cat ./src/version.txt | tr -d '\n') \
             fi; \
           done
 
-                #rm -r ${BUILD_DIR}; \
+                #rm -r ${BUILD_DIR}; \ _${GIT_REV}
 # Copy output to github
 #RUN if [ -d "/github/workflows/" ]; then \
 #        echo "Copying to Github output..."; \
