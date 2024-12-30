@@ -106,21 +106,15 @@ RUN cat ./src/version.txt
 RUN GIT_REV=$(cat ./src/version.txt | tr -d '\n') \
        && for PLATFORM in ${BUILD_PLATFORMS}; do \
             echo "Building ${PLATFORM}..."; \
-            BUILD_DIR="./${BIN}"; EXT=''; \
+            EXT=''; \
             if [ "${PLATFORM}" == 'Windows' ]; then \
                 EXT='.exe'; \
             elif [ "${PLATFORM}" == 'Android' ]; then \
                 EXT='.apk'; \
             fi; \
-            echo "make webdir2: ${BUILD_DIR}"; \
-            tree "./${BIN}"; \
             "./${GODOT_EDITOR}" ${BUILD_ARGS} --path './src' --export-release ${PLATFORM} ./${BIN}/v-sekai-game_${GIT_REV}_${PLATFORM}${EXT} || true; \
-            if [ "${PLATFORM}" == 'Web' ]; then \
-                echo 'make webzip' && tree ./$BIN ; \
-            fi; \
           done
 
-                #rm -r ${BUILD_DIR}; \ _${GIT_REV}
 # Copy output to github
 #RUN if [ -d "/github/workflows/" ]; then \
 #        echo "Copying to Github output..."; \
