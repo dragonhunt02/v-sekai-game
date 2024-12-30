@@ -112,10 +112,12 @@ RUN GIT_REV=$(cat ./src/version.txt | tr -d '\n') \
             elif [ "${PLATFORM}" == 'Android' ]; then \
                 EXT='.apk'; \
             elif [ "${PLATFORM}" == 'Web' ]; then \
-                BUILD_DIR="${BUILD_DIR}/v-sekai-game_${PLATFORM}"; \
+                BUILD_DIR="./${BIN}/vsekaigameWeb"; \
                 echo "make webdir: ${BUILD_DIR}"; \
                 mkdir -p ${BUILD_DIR}; \
             fi; \
+            echo "make webdir2: ${BUILD_DIR}"; \
+            tree "./${BIN}"; \
             "./${GODOT_EDITOR}" ${BUILD_ARGS} --path './src' --export-release ${PLATFORM} ${BUILD_DIR}/v-sekai-game_${GIT_REV}_${PLATFORM}${EXT} || true; \
             if [ "${PLATFORM}" == 'Web' ]; then \
                 echo 'make webzip'; \
