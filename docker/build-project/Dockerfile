@@ -106,13 +106,20 @@ RUN cat ./src/version.txt
 RUN GIT_REV=$(cat ./src/version.txt | tr -d '\n') \
        && for PLATFORM in ${BUILD_PLATFORMS}; do \
             echo "Building ${PLATFORM}..."; \
-            EXT=''; \
+            BUILD_DIR="./${BIN}"; EXT=''; \
             if [ "${PLATFORM}" == 'Windows' ]; then \
                 EXT='.exe'; \
             elif [ "${PLATFORM}" == 'Android' ]; then \
                 EXT='.apk'; \
+            elif [ "${PLATFORM}" == 'Web' ]; then \
+                BUILD_DIR="${BUILD_DIR}/v-sekai-game_${GIT_REV}_${PLATFORM}"; \
+                mkdir -p "./src/${BUILD_DIR}"; \
             fi; \
-            "./${GODOT_EDITOR}" ${BUILD_ARGS} --path './src' --export-release ${PLATFORM} ./${BIN}/v-sekai-game_${GIT_REV}_${PLATFORM}${EXT} || true; \
+            "./${GODOT_EDITOR}" ${BUILD_ARGS} --path './src' --export-release ${PLATFORM} ${BUILD_DIR}/v-sekai-game_${GIT_REV}_${PLATFORM}${EXT} || true; \
+            if [ "${PLATFORM}" == 'Web' ]; then \
+                zip -r "v-sekai-game_${GIT_REV}_${PLATFORM}.zip" ${BUILD_DIR}; \
+                rm -r ${BUILD_DIR}; \
+            fi; \
           done
 
 # Copy output to github
