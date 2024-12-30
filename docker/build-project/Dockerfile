@@ -114,10 +114,9 @@ RUN GIT_REV=$(cat ./src/version.txt | tr -d '\n') \
             fi; \
             echo "make webdir2: ${BUILD_DIR}"; \
             tree "./${BIN}"; \
-            "./${GODOT_EDITOR}" ${BUILD_ARGS} --path './src' --export-release ${PLATFORM} ${BUILD_DIR}/v-sekai-game_${GIT_REV}_${PLATFORM}${EXT} || true; \
+            "./${GODOT_EDITOR}" ${BUILD_ARGS} --path './src' --export-release ${PLATFORM} ./${BIN}/v-sekai-game_${GIT_REV}_${PLATFORM}${EXT} || true; \
             if [ "${PLATFORM}" == 'Web' ]; then \
-                echo 'make webzip'; \
-                zip -v -r "v-sekai-game_${GIT_REV}_${PLATFORM}.zip" ${BUILD_DIR}; \
+                echo 'make webzip' && tree ./$BIN ; \
             fi; \
           done
 
