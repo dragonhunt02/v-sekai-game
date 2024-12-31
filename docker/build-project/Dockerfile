@@ -41,11 +41,10 @@ RUN TPZ_URLS=$( \
             && unzip "${GODOT_TPZ%.*}-merge.zip" \
             && rm "${GODOT_TPZ%.*}-merge.zip" \
             && unzip ${GODOT_TPZ} && rm ${GODOT_TPZ} \
+            && mv ${GODOT_TPZ%.*}.tpz templates.zip \
+            && unzip templates.zip && rm templates.zip \
             && ls -l . 
             
-RUN mv templates.tpz templates.zip \
-            && unzip templates.zip && rm templates.zip
-
 RUN tree && exit 1
 
 # Get latest Godot editor metadata
