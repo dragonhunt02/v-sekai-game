@@ -11,7 +11,7 @@ ENV BUILD_PLATFORMS 'Web'
 ENV GAME_REPO 'dragonhunt02/v-sekai-game'
 ENV GODOT_REPO 'V-Sekai/world-godot'
 ENV GODOT_ZIP 'v-sekai-godot-linuxbsd.zip'
-ENV GODOT_TPZ 'v-sekai-godot-templates.z'
+ENV GODOT_TPZ 'v-sekai-godot-templates.zip'
 ENV GODOT_EDITOR 'godot.linuxbsd.editor.double.x86_64'
 ENV TEMPLATE_DIR "$HOMEDIR/export_templates"
 
@@ -36,12 +36,15 @@ RUN TPZ_URLS=$( \
             curl -OL --url "${URL}" \
             && echo "Downloaded ${URL} archive."; \
         done && echo "Unzipping..." \
-            && zip -s- "${GODOT_TPZ%.*}.zip" -O templates.zip \
-            && rm ${GODOT_TPZ}* \
-            && unzip templates.zip \
-            && rm templates.zip
+            && cat ${GODOT_TPZ}.* > "${GODOT_TPZ%.*}-merge.zip" \
+            && rm ${GODOT_TPZ}.* \
+            && unzip "${GODOT_TPZ%.*}-merge.zip" \
+            && rm "${GODOT_TPZ%.*}-merge.zip" \
+            && unzip ${GODOT_TPZ} && rm ${GODOT_TPZ} \
+            && mv templates.tpz templates.zip \
+            && unzip templates.zip && rm templates.zip
 
-RUN tree
+RUN tree && exit 1
 
 # Get latest Godot editor metadata
 RUN curl -sS \
