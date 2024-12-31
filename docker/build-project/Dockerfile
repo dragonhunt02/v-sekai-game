@@ -7,16 +7,16 @@ ENV HOMEDIR '/root'
 #Linux Windows Web'
 ENV BIN 'release/bin'
 ENV BUILD_ARGS '--headless'
-ENV BUILD_PLATFORMS 'Web'
+ENV BUILD_PLATFORMS 'Linux Web'
 ENV GAME_REPO 'dragonhunt02/v-sekai-game'
 ENV GODOT_REPO 'V-Sekai/world-godot'
 ENV GODOT_ZIP 'v-sekai-godot-linuxbsd.zip'
 ENV GODOT_TPZ 'v-sekai-godot-templates.zip'
 ENV GODOT_EDITOR 'godot.linuxbsd.editor.double.x86_64'
-ENV XDG_DATA_HOME '/usr/local/share'
-ENV TEMPLATE_DIR "$XDG_DATA_HOME/godot/export_templates/4.4.dev"
+#ENV XDG_DATA_HOME '/usr/local/share'
+#ENV TEMPLATE_DIR "$XDG_DATA_HOME/godot/export_templates/4.4.dev"
 
-#ENV TEMPLATE_DIR '/usr/local/share/godot/export_templates/4.4.dev'
+ENV TEMPLATE_DIR '$HOME/.local/share/godot/export_templates/4.4.dev'
 #EXPORT_$HOMEDIR${GODOT_VERSION}.stable
 WORKDIR $HOMEDIR
 
