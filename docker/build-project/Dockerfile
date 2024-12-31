@@ -40,7 +40,9 @@ RUN TPZ_URLS=$( \
             && rm ${GODOT_TPZ}.* \
             && unzip "${GODOT_TPZ%.*}-merge.zip" \
             && rm "${GODOT_TPZ%.*}-merge.zip" \
-            && unzip ${GODOT_TPZ} && rm ${GODOT_TPZ} \
+            && ls -l . 
+            
+RUN unzip ${GODOT_TPZ} && rm ${GODOT_TPZ} \
             && mv templates.tpz templates.zip \
             && unzip templates.zip && rm templates.zip
 
