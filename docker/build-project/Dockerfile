@@ -16,7 +16,7 @@ ENV GODOT_EDITOR 'godot.linuxbsd.editor.double.x86_64'
 #ENV XDG_DATA_HOME '/usr/local/share'
 #ENV TEMPLATE_DIR "$XDG_DATA_HOME/godot/export_templates/4.4.dev"
 
-ENV TEMPLATE_DIR '$HOME/.local/share/godot/export_templates/4.4.dev'
+ENV TEMPLATE_DIR "$HOME/.local/share/godot/export_templates/4.4.dev"
 #EXPORT_$HOMEDIR${GODOT_VERSION}.stable
 WORKDIR $HOMEDIR
 
