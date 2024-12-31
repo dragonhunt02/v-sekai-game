@@ -13,7 +13,7 @@ ENV GODOT_REPO 'V-Sekai/world-godot'
 ENV GODOT_ZIP 'v-sekai-godot-linuxbsd.zip'
 ENV GODOT_TPZ 'v-sekai-godot-templates.zip'
 ENV GODOT_EDITOR 'godot.linuxbsd.editor.double.x86_64'
-ENV TEMPLATE_DIR "$HOMEDIR/export_templates"
+ENV TEMPLATE_DIR "$HOMEDIR/.local/share/godot/templates/4.4.dev"
 
 WORKDIR $HOMEDIR
 
@@ -36,16 +36,13 @@ RUN TPZ_URLS=$( \
             curl -OL --url "${URL}" \
             && echo "Downloaded ${URL} archive."; \
         done && echo "Unzipping..." \
-            && cat ${GODOT_TPZ}.* > "${GODOT_TPZ%.*}-merge.zip" \
-            && rm ${GODOT_TPZ}.* \
-            && unzip "${GODOT_TPZ%.*}-merge.zip" \
-            && rm "${GODOT_TPZ%.*}-merge.zip" \
+            && cat ${GODOT_TPZ}.* > "${GODOT_TPZ%.*}-merge.zip" && rm ${GODOT_TPZ}.* \
+            && unzip "${GODOT_TPZ%.*}-merge.zip" && rm "${GODOT_TPZ%.*}-merge.zip" \
             && unzip ${GODOT_TPZ} && rm ${GODOT_TPZ} \
             && mv ${GODOT_TPZ%.*}.tpz templates.zip \
-            && unzip templates.zip && rm templates.zip \
-            && ls -l . 
+            && unzip templates.zip && rm templates.zip
             
-RUN tree && exit 1
+RUN tree
 
 # Get latest Godot editor metadata
 RUN curl -sS \
@@ -88,7 +85,7 @@ RUN cp "./godot/${GODOT_EDITOR}" "./${GODOT_EDITOR}" \
 
 RUN mkdir -p ./src/${BIN} \
         && mkdir -p ${TEMPLATE_DIR} \
-        && mv -v v-sekai-godot-templates/* ${TEMPLATE_DIR}/
+        && mv -v templates/* ${TEMPLATE_DIR}/
 
 # Set export_templates parent folder in .cfg file and copy editor settings
 RUN sed -i -r "s|(^custom_template/[a-z]*=\")~|\1${HOMEDIR}|g" './src/export_presets.cfg' \
