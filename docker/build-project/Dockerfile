@@ -7,19 +7,14 @@ ENV HOMEDIR '/root'
 #Linux Windows Web'
 ENV BIN 'release/bin'
 ENV BUILD_ARGS '--headless'
-ENV BUILD_PLATFORMS 'Linux Web'
+ENV BUILD_PLATFORMS 'Mac Web'
 ENV GAME_REPO 'dragonhunt02/v-sekai-game'
 ENV GODOT_REPO 'V-Sekai/world-godot'
 ENV GODOT_ZIP 'v-sekai-godot-linuxbsd.zip'
 ENV GODOT_TPZ 'v-sekai-godot-templates.zip'
 ENV GODOT_EDITOR 'godot.linuxbsd.editor.double.x86_64'
-##ENV XDG_DATA_HOME '/usr/local/share'
-#ENV XDG_DATA_HOME '$HOMEDIR/.local/share'
-#ENV HOME '/root'
-##ENV TEMPLATE_DIR "$XDG_DATA_HOME/godot/export_templates/4.4.dev"
-
 ENV TEMPLATE_DIR "$HOMEDIR/.local/share/godot/export_templates/4.4.dev"
-##EXPORT_$HOMEDIR${GODOT_VERSION}.stable
+
 WORKDIR $HOMEDIR
 
 # Using process substitution feature (not POSIX)
@@ -117,6 +112,8 @@ RUN GIT_REV=$(cat ./src/version.txt | tr -d '\n') \
                 EXT='.exe'; \
             elif [ "${PLATFORM}" == 'Android' ]; then \
                 EXT='.apk'; \
+            elif [ "${PLATFORM}" == 'Mac' ]; then \
+                EXT='.zip'; \
             elif [ "${PLATFORM}" == 'Web' ]; then \
                 BUILD_DIR="${BUILD_DIR}/v-sekai-game_${GIT_REV}_${PLATFORM}"; \
                 mkdir -p "./src/${BUILD_DIR}"; \
