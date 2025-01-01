@@ -13,13 +13,13 @@ ENV GODOT_REPO 'V-Sekai/world-godot'
 ENV GODOT_ZIP 'v-sekai-godot-linuxbsd.zip'
 ENV GODOT_TPZ 'v-sekai-godot-templates.zip'
 ENV GODOT_EDITOR 'godot.linuxbsd.editor.double.x86_64'
-#ENV XDG_DATA_HOME '/usr/local/share'
-ENV XDG_DATA_HOME '$HOMEDIR/.local/share'
-ENV HOME '/root'
-#ENV TEMPLATE_DIR "$XDG_DATA_HOME/godot/export_templates/4.4.dev"
+##ENV XDG_DATA_HOME '/usr/local/share'
+#ENV XDG_DATA_HOME '$HOMEDIR/.local/share'
+#ENV HOME '/root'
+##ENV TEMPLATE_DIR "$XDG_DATA_HOME/godot/export_templates/4.4.dev"
 
 ENV TEMPLATE_DIR "$HOMEDIR/.local/share/godot/export_templates/4.4.dev"
-#EXPORT_$HOMEDIR${GODOT_VERSION}.stable
+##EXPORT_$HOMEDIR${GODOT_VERSION}.stable
 WORKDIR $HOMEDIR
 
 # Using process substitution feature (not POSIX)
