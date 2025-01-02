@@ -12,7 +12,7 @@ on:
   #push:
 
 #permissions:
-#  contents: read
+#  contents: read 
 
 env:
   ITCH_IO_PUBLISH: 'false'
