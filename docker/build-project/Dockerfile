@@ -91,6 +91,7 @@ RUN mkdir -p ./src/${BIN} \
 # Set export_templates parent folder in .cfg file and copy editor settings
 RUN sed -i -r "s|(^custom_template/[a-z]*=\")~|\1${HOMEDIR}|g" './src/export_presets.cfg' \
     && mkdir -p ${HOMEDIR}/.config/godot/ \
+    && sed -i -r "s|(^export/android/android_sdk_path = \")~|\1${HOMEDIR}|g" './src/editor_settings-4.tres' \
     && cp -v ./src/editor_settings-4.tres ${HOMEDIR}/.config/godot/editor_settings-4.4.tres
 
 
@@ -104,13 +105,12 @@ RUN curl -sS -OL 'https://dl.google.com/android/repository/commandlinetools-linu
     && yes | ./cmdline-tools/bin/sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --licenses \
     && yes | ./cmdline-tools/bin/sdkmanager --sdk_root=${ANDROID_SDK_ROOT} "ndk;23.2.8568313" 'cmdline-tools;latest' 'build-tools;34.0.0' 'platforms;android-34' 'cmake;3.22.1' \
     && unzip platform-tools-latest-linux.zip -d ${ANDROID_SDK_ROOT} \
-    && sed -i -r "s|(^export/android/android_sdk_path = \")~|\1${HOMEDIR}|g" './src/editor_settings-4.4.tres' \
     && mkdir -p ./src/android/plugins ./src/android/build \
     && touch ./src/android/build/.gdignore \
     && echo 4.4.dev >> ./src/android/.build_version \
     && unzip ${TEMPLATE_DIR}/android_source.zip -d ./src/android/build
 
-RUN echo $( cat './src/editor_settings-4.4.tres' ) && echo 'Testroot' && tree ${ANDROID_SDK_ROOT}
+RUN echo $( cat './src/editor_settings-4.tres' ) && echo 'Testroot' && tree ${ANDROID_SDK_ROOT}
 #RUN exit 1
 
 # Import missing files
