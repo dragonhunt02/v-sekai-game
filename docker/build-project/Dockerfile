@@ -113,7 +113,7 @@ RUN curl -sS -OL 'https://dl.google.com/android/repository/commandlinetools-linu
 
 RUN keytool -v -genkey -keystore release.keystore -alias vsekaidebug -keyalg RSA -validity 10000 -dname "cn=Unknown, ou=Unknown, o=Unknown, c=Unknown" -storepass android
 
-RUN echo $( cat './src/editor_settings-4.tres' ) && $( cat './src/export_presets.cfg' ) \
+RUN echo $( cat './src/editor_settings-4.tres' ) && echo $( cat './src/export_presets.cfg' ) \
     && mv release.keystore ${HOMEDIR} && ls ${HOMEDIR} && echo 'Testroot' && tree ${ANDROID_SDK_ROOT}
 #RUN exit 1
 
