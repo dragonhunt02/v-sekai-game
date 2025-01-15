@@ -110,8 +110,8 @@ RUN curl -sS -OL 'https://dl.google.com/android/repository/commandlinetools-linu
     && echo 4.4.dev >> ./src/android/.build_version \
     && unzip ${TEMPLATE_DIR}/android_source.zip -d ./src/android/build
 
-RUN echo $( cat './src/editor_settings-4.tres' ) && tree .
-RUN exit 1
+RUN echo $( cat './src/editor_settings-4.tres' ) && echo 'Testroot' && tree ${ANDROID_SDK_ROOT}
+#RUN exit 1
 
 # Import missing files
 RUN "./${GODOT_EDITOR}" --import --headless --build-solutions --path './src'
