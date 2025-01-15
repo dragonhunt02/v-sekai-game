@@ -108,8 +108,8 @@ RUN curl -sS -OL 'https://dl.google.com/android/repository/commandlinetools-linu
     && mkdir -p ./src/android/plugins ./src/android/build \
     && touch ./src/android/build/.gdignore \
     && echo 4.4.dev >> ./src/android/.build_version \
-    && unzip ${TEMPLATE_DIR}/android_source.zip  -d ./src/android/build
-    
+    && unzip ${TEMPLATE_DIR}/android_source.zip -d ./src/android/build
+
 RUN echo $( cat './src/editor_settings-4.tres' ) && tree .
 RUN exit 1
 
