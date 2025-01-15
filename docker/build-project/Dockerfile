@@ -42,7 +42,7 @@ RUN TPZ_URLS=$( \
             && unzip templates.zip && rm templates.zip
             
 RUN tree
-RUN exit 1
+
 # Get latest Godot editor metadata
 RUN curl -sS \
     -H "Accept: application/vnd.github+json" \
