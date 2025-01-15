@@ -171,8 +171,9 @@ jobs:
               -H "Authorization: Bearer ${GITHUB_TOKEN}" \
               -H "Content-Type: application/octet-stream" \
               "https://uploads.github.com/repos/${{ github.repository }}/releases/${{ steps.create_release.outputs.id }}/assets?name=${file}" \
-              --data-binary "@${file}"; \
+              -T "${file}"; \
           done
+          # --data-binary "@${file}"; \
 
   itch-enabled: # Workaround for 'job.if' lack of env context variable
     runs-on: ubuntu-latest
