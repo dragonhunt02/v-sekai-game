@@ -27,25 +27,6 @@ RUN apt-get update && apt-get upgrade -y \
 
 RUN git clone "https://github.com/${GAME_REPO}.git" "./src"
 
-RUN curl -sS -OL 'https://dl.google.com/android/repository/platform-tools-latest-linux.zip'
-#RUN mkdir temp && unzip platform-tools-latest-linux.zip -d temp && tree && exit 1
-
-# Setup Android
-RUN curl -sS -OL 'https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip' \
-    && unzip commandlinetools-linux-11076708_latest.zip \
-    && mkdir -p ${ANDROID_SDK_ROOT} \
-    && yes | ./cmdline-tools/bin/sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --licenses \
-    && yes | ./cmdline-tools/bin/sdkmanager --sdk_root=${ANDROID_SDK_ROOT} "ndk;23.2.8568313" 'cmdline-tools;latest' 'build-tools;34.0.0' 'platforms;android-34' 'cmake;3.22.1' \
-    && unzip platform-tools-latest-linux.zip -d ${ANDROID_SDK_ROOT} \
-    && sed -i -r "s|(^export/android/android_sdk_path = \")~|\1${HOMEDIR}|g" './src/editor_settings-4.tres' \
-    && mkdir -p ./src/android/plugins ./src/android/build \
-    && touch ./src/android/build/.gdignore \
-    && echo 4.4.dev >> ./src/android/.build_version \
-    && unzip ${TEMPLATE_DIR}/android_source.zip  -d ./src/android/build
-
-RUN echo $( cat './src/editor_settings-4.tres' ) && tree .
-RUN exit 1
-
 RUN TPZ_URLS=$( \
         curl -sS -L \
         -H "Accept: application/vnd.github+json" \
@@ -111,6 +92,26 @@ RUN mkdir -p ./src/${BIN} \
 RUN sed -i -r "s|(^custom_template/[a-z]*=\")~|\1${HOMEDIR}|g" './src/export_presets.cfg' \
     && mkdir -p ${HOMEDIR}/.config/godot/ \
     && cp -v ./src/editor_settings-4.tres ${HOMEDIR}/.config/godot/editor_settings-4.tres
+
+
+RUN curl -sS -OL 'https://dl.google.com/android/repository/platform-tools-latest-linux.zip'
+#RUN mkdir temp && unzip platform-tools-latest-linux.zip -d temp && tree && exit 1
+
+# Setup Android
+RUN curl -sS -OL 'https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip' \
+    && unzip commandlinetools-linux-11076708_latest.zip \
+    && mkdir -p ${ANDROID_SDK_ROOT} \
+    && yes | ./cmdline-tools/bin/sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --licenses \
+    && yes | ./cmdline-tools/bin/sdkmanager --sdk_root=${ANDROID_SDK_ROOT} "ndk;23.2.8568313" 'cmdline-tools;latest' 'build-tools;34.0.0' 'platforms;android-34' 'cmake;3.22.1' \
+    && unzip platform-tools-latest-linux.zip -d ${ANDROID_SDK_ROOT} \
+    && sed -i -r "s|(^export/android/android_sdk_path = \")~|\1${HOMEDIR}|g" './src/editor_settings-4.tres' \
+    && mkdir -p ./src/android/plugins ./src/android/build \
+    && touch ./src/android/build/.gdignore \
+    && echo 4.4.dev >> ./src/android/.build_version \
+    && unzip ${TEMPLATE_DIR}/android_source.zip  -d ./src/android/build
+    
+RUN echo $( cat './src/editor_settings-4.tres' ) && tree .
+RUN exit 1
 
 # Import missing files
 RUN "./${GODOT_EDITOR}" --import --headless --build-solutions --path './src'
