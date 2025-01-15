@@ -4,16 +4,18 @@ ARG INPUT_NIGHTLY
 
 # $HOME is overwritten by Github Action at runtime
 ENV HOMEDIR '/root'
-#Linux Windows Web'
+#Linux Windows Mac Web Linux_arm64'
 ENV BIN 'release/bin'
 ENV BUILD_ARGS '--headless'
-ENV BUILD_PLATFORMS 'Mac Web Linux_arm64'
+ENV BUILD_PLATFORMS 'QuestAndroid'
 ENV GAME_REPO 'dragonhunt02/v-sekai-game'
 ENV GODOT_REPO 'V-Sekai/world-godot'
 ENV GODOT_ZIP 'v-sekai-godot-linuxbsd.zip'
 ENV GODOT_TPZ 'v-sekai-godot-templates.zip'
 ENV GODOT_EDITOR 'godot.linuxbsd.editor.double.x86_64'
 ENV TEMPLATE_DIR "$HOMEDIR/.local/share/godot/export_templates/4.4.dev"
+ENV ANDROID_SDK_ROOT "$HOMEDIR/android_sdk"
+ENV ANDROID_HOME "$HOMEDIR/android_sdk"
 
 WORKDIR $HOMEDIR
 
@@ -21,9 +23,25 @@ WORKDIR $HOMEDIR
 SHELL [ "/bin/bash", "-c" ]
 
 RUN apt-get update && apt-get upgrade -y \
-  && apt-get install -y git curl jq zip unzip fontconfig file tree
+  && apt-get install -y git curl jq zip unzip fontconfig openjdk-17-jdk file tree
 
 RUN git clone "https://github.com/${GAME_REPO}.git" "./src"
+
+RUN curl -sS -OL 'https://dl.google.com/android/repository/platform-tools-latest-linux.zip'
+RUN mkdir temp && unzip platform-tools-latest-linux.zip -d temp && tree && exit 1
+
+# Setup Android
+RUN curl -sS -OL 'https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip' \
+    && unzip commandlinetools-linux-11076708_latest.zip \
+    && mkdir -p ${ANDROID_SDK_ROOT} \
+    && yes | ./cmdline-tools/bin/sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --licenses \
+    && yes | ./cmdline-tools/bin/sdkmanager --sdk_root=${ANDROID_SDK_ROOT} "ndk;23.2.8568313" 'cmdline-tools;latest' 'build-tools;34.0.0' 'platforms;android-34' 'cmake;3.22.1' \
+    && unzip platform-tools-latest-linux.zip -d ${ANDROID_SDK_ROOT} \
+    && sed -i -r "s|(^export/android/android_sdk_path = \")~|\1${HOMEDIR}|g" './src/editor_settings-4.tres' \
+    && mkdir -p ./src/android/plugins ./src/android/build \
+    && touch ./src/android/build/.gdignore \
+    && echo 4.4.dev >> ./src/android/.build_version \
+    && unzip ${TEMPLATE_DIR}/android_source.zip  -d ./src/android/build
 
 RUN TPZ_URLS=$( \
         curl -sS -L \
