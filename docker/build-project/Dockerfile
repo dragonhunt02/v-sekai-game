@@ -92,8 +92,8 @@ RUN mkdir -p ./src/${BIN} \
 RUN sed -i -r "s|(^custom_template/[a-z]*=\")~|\1${HOMEDIR}|g" './src/export_presets.cfg' \
     && mkdir -p ${HOMEDIR}/.config/godot/ \
     && sed -i -r "s|(^export/android/android_sdk_path = \")~|\1${HOMEDIR}|g" './src/editor_settings-4.tres' \
+    && sed -i -r "s|(^export/android/debug_keystore = \")~|\1${HOMEDIR}|g" './src/editor_settings-4.tres' \
     && cp -v ./src/editor_settings-4.tres ${HOMEDIR}/.config/godot/editor_settings-4.4.tres
-
 
 RUN curl -sS -OL 'https://dl.google.com/android/repository/platform-tools-latest-linux.zip'
 #RUN mkdir temp && unzip platform-tools-latest-linux.zip -d temp && tree && exit 1
@@ -109,6 +109,8 @@ RUN curl -sS -OL 'https://dl.google.com/android/repository/commandlinetools-linu
     && touch ./src/android/build/.gdignore \
     && echo 4.4.dev >> ./src/android/.build_version \
     && unzip ${TEMPLATE_DIR}/android_source.zip -d ./src/android/build
+
+RUN keytool -v -genkey -keystore debug.keystore -alias vsekaidebug -keyalg RSA -validity 10000 -dname "cn=Unknown, ou=Unknown, o=Unknown, c=Unknown" -storepass android
 
 RUN echo $( cat './src/editor_settings-4.tres' ) && echo 'Testroot' && tree ${ANDROID_SDK_ROOT}
 #RUN exit 1
