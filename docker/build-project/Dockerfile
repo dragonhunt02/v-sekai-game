@@ -90,6 +90,7 @@ RUN mkdir -p ./src/${BIN} \
 
 # Set export_templates parent folder in .cfg file and copy editor settings
 RUN sed -i -r "s|(^custom_template/[a-z]*=\")~|\1${HOMEDIR}|g" './src/export_presets.cfg' \
+    && sed -i -r "s|(^[a-z]*/[a-z]*=\")~|\1${HOMEDIR}|g" './src/export_presets.cfg' \
     && mkdir -p ${HOMEDIR}/.config/godot/ \
     && sed -i -r "s|(^export/android/android_sdk_path = \")~|\1${HOMEDIR}|g" './src/editor_settings-4.tres' \
     && sed -i -r "s|(^export/android/debug_keystore = \")~|\1${HOMEDIR}|g" './src/editor_settings-4.tres' \
