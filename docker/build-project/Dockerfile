@@ -38,12 +38,11 @@ RUN TPZ_URLS=$( \
         done && echo "Unzipping..." \
             && cat ${GODOT_TPZ}.* > "${GODOT_TPZ%.*}-merge.zip" && rm ${GODOT_TPZ}.* \
             && unzip "${GODOT_TPZ%.*}-merge.zip" && rm "${GODOT_TPZ%.*}-merge.zip" \
-            && unzip ${GODOT_TPZ} && rm ${GODOT_TPZ} \
-            && mv ${GODOT_TPZ%.*}.tpz templates.zip \
+            && mv ${GODOT_TPZ%.*}/${GODOT_TPZ%.*}.tpz templates.zip && rmdir ${GODOT_TPZ%.*} \
             && unzip templates.zip && rm templates.zip
             
 RUN tree
-
+RUN exit 1
 # Get latest Godot editor metadata
 RUN curl -sS \
     -H "Accept: application/vnd.github+json" \
