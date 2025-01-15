@@ -28,7 +28,7 @@ RUN apt-get update && apt-get upgrade -y \
 RUN git clone "https://github.com/${GAME_REPO}.git" "./src"
 
 RUN curl -sS -OL 'https://dl.google.com/android/repository/platform-tools-latest-linux.zip'
-RUN mkdir temp && unzip platform-tools-latest-linux.zip -d temp && tree && exit 1
+#RUN mkdir temp && unzip platform-tools-latest-linux.zip -d temp && tree && exit 1
 
 # Setup Android
 RUN curl -sS -OL 'https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip' \
@@ -42,6 +42,9 @@ RUN curl -sS -OL 'https://dl.google.com/android/repository/commandlinetools-linu
     && touch ./src/android/build/.gdignore \
     && echo 4.4.dev >> ./src/android/.build_version \
     && unzip ${TEMPLATE_DIR}/android_source.zip  -d ./src/android/build
+
+RUN echo $( cat './src/editor_settings-4.tres' ) && tree .
+RUN exit 1
 
 RUN TPZ_URLS=$( \
         curl -sS -L \
