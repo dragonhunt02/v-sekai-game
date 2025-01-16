@@ -120,6 +120,7 @@ RUN keytool -v -genkey -keystore release.keystore -alias vsekaidebug -keyalg RSA
 
 RUN echo $( cat './src/editor_settings-4.tres' ) && echo $( cat './src/export_presets.cfg' ) \
     && ls ${HOMEDIR} && echo 'Testroot' && tree ${ANDROID_SDK_ROOT}
+RUN echo 'Testroot2' && tree ./src/android/build
 #RUN && mv release.keystore ${HOMEDIR} exit 1
 
 # Import missing files
