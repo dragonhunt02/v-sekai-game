@@ -137,7 +137,7 @@ RUN GIT_REV=$(cat ./src/version.txt | tr -d '\n') \
             BUILD_DIR="./${BIN}"; EXT=''; \
             if [ "${PLATFORM}" == 'Windows' ]; then \
                 EXT='.exe'; \
-            elif [ "${PLATFORM}" == 'Android' ]; then \
+            elif [ "${PLATFORM}" == 'QuestAndroid' ]; then \
                 EXT='.apk'; \
             elif [ "${PLATFORM}" == 'Mac' ]; then \
                 EXT='.zip'; \
