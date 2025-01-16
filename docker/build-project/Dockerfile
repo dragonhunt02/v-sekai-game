@@ -119,7 +119,9 @@ RUN echo $( cat './src/editor_settings-4.tres' ) && echo $( cat './src/export_pr
 #RUN && mv release.keystore ${HOMEDIR} exit 1
 
 # Import missing files
-RUN "./${GODOT_EDITOR}" --import --headless --build-solutions --path './src'
+#RUN "./${GODOT_EDITOR}" --import --headless --build-solutions --path './src'
+
+RUN timeout 120s "./${GODOT_EDITOR}" --editor --headless --path './src'
 
 RUN cd ./src && echo -n $( git log --format="%(describe:tags,abbrev=0)" -n 1 | cut -d '-' -f1 ) >version.txt \
     && if [ "${INPUT_NIGHTLY}" == 'true' ]; then \
