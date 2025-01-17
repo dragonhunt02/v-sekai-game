@@ -13,7 +13,7 @@ ENV GODOT_REPO 'dragonhunt02/world-godot'
 ENV GODOT_ZIP 'v-sekai-godot-linuxbsd.zip'
 ENV GODOT_TPZ 'v-sekai-godot-templates.zip'
 ENV GODOT_EDITOR 'godot.linuxbsd.editor.double.x86_64'
-ENV TEMPLATE_DIR "$HOMEDIR/.local/share/godot/export_templates/4.4.dev"
+ENV TEMPLATE_DIR "$HOMEDIR/.local/share/godot/export_templates/4.4.beta"
 ENV ANDROID_SDK_ROOT "$HOMEDIR/android_sdk"
 ENV ANDROID_HOME "$HOMEDIR/android_sdk"
 
@@ -113,7 +113,7 @@ RUN curl -sS -OL 'https://dl.google.com/android/repository/commandlinetools-linu
     && unzip platform-tools-latest-linux.zip -d ${ANDROID_SDK_ROOT} \
     && mkdir -p ./src/android/plugins ./src/android/build \
     && touch ./src/android/build/.gdignore \
-    && echo 4.4.dev >> ./src/android/.build_version \
+    && echo 4.4.beta >> ./src/android/.build_version \
     && unzip ${TEMPLATE_DIR}/android_source.zip -d ./src/android/build
 
 RUN keytool -v -genkey -keystore release.keystore -alias vsekaidebug -keyalg RSA -validity 10000 -dname "cn=Unknown, ou=Unknown, o=Unknown, c=Unknown" -storepass android
