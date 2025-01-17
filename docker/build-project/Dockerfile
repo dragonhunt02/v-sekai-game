@@ -151,7 +151,7 @@ RUN GIT_REV=$(cat ./src/version.txt | tr -d '\n') \
                 BUILD_DIR="${BUILD_DIR}/v-sekai-game_${GIT_REV}_${PLATFORM}"; \
                 mkdir -p "./src/${BUILD_DIR}"; \
             fi; \
-            "./${GODOT_EDITOR}" ${BUILD_ARGS} --path './src' --export-debug ${PLATFORM} ${BUILD_DIR}/v-sekai-game_${GIT_REV}_${PLATFORM}${EXT} || true; \
+            "./${GODOT_EDITOR}" ${BUILD_ARGS} --path './src' --export-release ${PLATFORM} ${BUILD_DIR}/v-sekai-game_${GIT_REV}_${PLATFORM}${EXT} || true; \
             if [ "${PLATFORM}" == 'Web' ]; then \
                 zip -r "./src/${BIN}/v-sekai-game_${GIT_REV}_${PLATFORM}.zip" ./src/${BUILD_DIR}; \
                 rm -r ./src/${BUILD_DIR}; \
