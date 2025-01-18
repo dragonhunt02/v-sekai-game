@@ -4,6 +4,8 @@ extends TabContainer
 
 @export var player_head_height : float = 0.1
 
+const XRToolsUserSettings = preload("res://addons/godot-xr-tools/user_settings/user_settings.gd")
+
 func _update():
 	# Input
 	$Input/SnapTurning/SnapTurningCB.button_pressed = XRToolsUserSettings.snap_turning
