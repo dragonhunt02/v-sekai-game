@@ -179,6 +179,8 @@ var _head_shape_cast : ShapeCast3D
 ## Default physics (if not specified by the user or the current ground)
 @onready var default_physics = _guaranteed_physics()
 
+## XR user settings
+@onready var XRToolsUserSettings = get_tree().root.get_node("XRToolsUserSettings")
 
 ## Function to sort movement providers by order
 func sort_by_order(a, b) -> bool:
