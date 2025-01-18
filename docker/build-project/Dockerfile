@@ -21,12 +21,15 @@ WORKDIR $HOMEDIR
 
 # Using process substitution feature (not POSIX)
 SHELL [ "/bin/bash", "-c" ]
+RUN apt-get update && apt-get upgrade -y \
+  && apt-get install -y git
+RUN git clone "https://github.com/${GAME_REPO}.git" "./src"
+RUN cd ./src && git switch origin/gh2 && git pull
 
+  
 RUN apt-get update && apt-get upgrade -y \
   && apt-get install -y git curl jq zip unzip fontconfig openjdk-17-jdk imagemagick file tree
 
-RUN git clone "https://github.com/${GAME_REPO}.git" "./src"
-RUN cd v-sekai-game && git switch gh2 
 
 RUN convert -density 1200 -resize 432x432 './src/vsk_default/icon/v_sekai_logo_bg.svg' './src/vsk_default/icon/adaptive_background_432x432.png'
 RUN ls -a './src/vsk_default/icon/'
