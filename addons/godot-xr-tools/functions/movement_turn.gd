@@ -42,6 +42,7 @@ var _turn_step : float = 0.0
 # Controller node
 @onready var _controller : XRController3D = get_parent()
 
+@onready var XRToolsUserSettings = get_tree().root.get_node("XRToolsUserSettings")
 
 func _ready():
 	# In Godot 4 we must now manually call our super class ready function
