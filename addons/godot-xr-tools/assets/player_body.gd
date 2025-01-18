@@ -129,6 +129,8 @@ var _previous_ground_global : Vector3 = Vector3.ZERO
 ## Player body collision node
 @onready var _collision_node : CollisionShape3D = $CharacterBody3D/CollisionShape3D
 
+## XR user settings
+@onready var XRToolsUserSettings = get_tree().root.get_node("XRToolsUserSettings")
 
 ## Function to sort movement providers by order
 func sort_by_order(a, b) -> bool:
