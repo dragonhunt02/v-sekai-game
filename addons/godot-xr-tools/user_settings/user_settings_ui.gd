@@ -4,7 +4,7 @@ extends TabContainer
 
 @export var player_head_height : float = 0.1
 
-const XRToolsUserSettings = get_tree().root.get_node("XRToolsUserSettings")
+var XRToolsUserSettings = get_tree().root.get_node("XRToolsUserSettings")
 
 func _update():
 	# Input
