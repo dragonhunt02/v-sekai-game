@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: xr1
+          ref: xr11
       - name: Dispatch to workflow 
         run: |
             sudo apt install -y tree
@@ -27,11 +27,11 @@ jobs:
 
 
 
-            sha256sum "addons/godot-xr-tools-slim/hands/animations/left/Grip 2.res"
-            sha256sum "addons/godot-xr-tools/hands/animations/left/Grip 2.res"
+            #sha256sum "addons/godot-xr-tools-slim/hands/animations/left/Grip 2.res"
+            #sha256sum "addons/godot-xr-tools/hands/animations/left/Grip 2.res"
 
-            diff -rs addons/godot-xr-tools-slim/ addons/godot-xr-tools/
-            exit 1
+            #diff -rs addons/godot-xr-tools-slim/ addons/godot-xr-tools/
+            #exit 1
 
             
             #git switch origin/xr1
@@ -56,15 +56,17 @@ jobs:
 
             mv temp/addons/godot-xr-tools/ addons/$DIR2
             rm -rf temp
+            rm -rf addons/godot-xr-tools/
+            mv -v addons/$DIR2 addons/godot-xr-tools/
             cd addons/
-            tree godot-xr-tools-slim
+            tree godot-xr-tools
             
             git status
             git config --global user.email "jackhunt43@libero.it"
             git config --global user.name "dragonhunt02"
             git add -A
-            git commit -a -m 'Test'
+            git commit -a -m 'Remove unused stale Godot XR Tools code'
             git log
             git status
             #git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ matrix.repo }}.git
-            #git push
+            git push
