@@ -24,6 +24,15 @@ jobs:
         run: |
             sudo apt install -y tree
             git status
+
+
+
+            sha256sum "addons/godot-xr-tools-slim/hands/animations/left/Grip 2.res"
+            sha256sum "addons/godot-xr-tools/hands/animations/left/Grip 2.res"
+
+            exit 1
+
+            
             #git switch origin/xr1
             git log
 
@@ -57,4 +66,4 @@ jobs:
             git log
             git status
             #git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ matrix.repo }}.git
-            git push
+            #git push
