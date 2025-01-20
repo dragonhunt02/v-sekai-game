@@ -30,7 +30,7 @@ jobs:
             sha256sum "addons/godot-xr-tools-slim/hands/animations/left/Grip 2.res"
             sha256sum "addons/godot-xr-tools/hands/animations/left/Grip 2.res"
 
-            diff -r addons/godot-xr-tools-slim/ addons/godot-xr-tools/
+            diff -rs addons/godot-xr-tools-slim/ addons/godot-xr-tools/
             exit 1
 
             
