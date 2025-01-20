@@ -24,7 +24,6 @@ jobs:
         run: |
             sudo apt install -y tree
             git status
-            exit 1
             git switch origin/xr1
             git log
 
