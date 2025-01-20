@@ -20,11 +20,14 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: xr-patch
+          depth: 0
       - name: Dispatch to workflow 
         run: |
             sudo apt install -y tree
             git status
 
+            git log
+            exit 1
 
 
             #sha256sum "addons/godot-xr-tools-slim/hands/animations/left/Grip 2.res"
