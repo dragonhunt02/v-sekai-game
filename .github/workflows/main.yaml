@@ -18,10 +18,13 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: xr1
       - name: Dispatch to workflow 
         run: |
             sudo apt install -y tree
             git status
+            exit 1
             git switch origin/xr1
             git log
 
