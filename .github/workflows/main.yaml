@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: xr11
+          ref: xr-patch
       - name: Dispatch to workflow 
         run: |
             sudo apt install -y tree
@@ -52,6 +52,9 @@ jobs:
             tar cvf - addons/godot-xr-tools/hands/scenes/highpoly/left_fullglove_hand.tscn | tar xvf - -C $DIR
 
             tar cvf - addons/godot-xr-tools/hands/textures/* | tar xvf - -C $DIR
+            tar cvf - addons/godot-xr-tools/LICENSE | tar xvf - -C $DIR
+            tar cvf - addons/godot-xr-tools/VERSIONS.md | tar xvf - -C $DIR
+            tar cvf - addons/godot-xr-tools/CONTRIBUTORS.md | tar xvf - -C $DIR
 
 
             mv temp/addons/godot-xr-tools/ addons/$DIR2
@@ -62,6 +65,7 @@ jobs:
             tree godot-xr-tools
             
             git status
+            git log
             git config --global user.email "jackhunt43@libero.it"
             git config --global user.name "dragonhunt02"
             git add -A
