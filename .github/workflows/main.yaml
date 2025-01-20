@@ -57,4 +57,4 @@ jobs:
             git log
             git status
             #git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ matrix.repo }}.git
-            #git push
+            git push
