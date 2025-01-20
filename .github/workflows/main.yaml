@@ -1,0 +1,57 @@
+name: Squash
+on:
+  push:
+    branches: [xr2]
+permissions:
+  contents: write
+jobs:
+  dispatch:
+    name: Dispatch
+    env:
+     # GITHUB_TOKEN: ${{ secrets.SQUASH1 }}
+      INPUT_REPO_TOKEN: GITHUB_TOKEN
+      INPUT_BRANCH: main
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repo: ['dragonhunt02/godot']
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v3
+      - name: Dispatch to workflow 
+        run: |
+            sudo apt install -y tree
+            git switch xr1
+            git log
+
+            DIR="temp"
+            DIR2="godot-xr-tools-slim/"
+            mkdir -p $DIR 
+
+            tar cvf - addons/godot-xr-tools/hands/model/hand_r.gltf* | tar xvf - -C $DIR
+            tar cvf - addons/godot-xr-tools/hands/model/hand_l.gltf* | tar xvf - -C $DIR
+            tar cvf - addons/godot-xr-tools/hands/materials/cleaning_glove.material | tar xvf - -C $DIR
+            tar cvf - addons/godot-xr-tools/hands/materials/labglove.material | tar xvf - -C $DIR
+            tar cvf - addons/godot-xr-tools/assets/hand.gd* | tar xvf - -C $DIR
+            tar cvf - addons/godot-xr-tools/editor/icons/hand.svg* | tar xvf - -C $DIR
+            tar cvf - addons/godot-xr-tools/hands/animations/* | tar xvf - -C $DIR
+            tar cvf - addons/godot-xr-tools/hands/scenes/highpoly/right_fullglove_hand.tscn | tar xvf - -C $DIR
+            tar cvf - addons/godot-xr-tools/hands/scenes/highpoly/left_fullglove_hand.tscn | tar xvf - -C $DIR
+
+            tar cvf - addons/godot-xr-tools/hands/textures/* | tar xvf - -C $DIR
+
+
+            mv temp/addons/godot-xr-tools/ addons/$DIR2
+            rm -rf temp
+            cd addons/
+            tree godot-xr-tools-slim
+            
+            git status
+            git config --global user.email "jackhunt43@libero.it"
+            git config --global user.name "dragonhunt02"
+            git add -A
+            git commit -a -m 'Test'
+            git log
+            git status
+            #git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ matrix.repo }}.git
+            #git push
