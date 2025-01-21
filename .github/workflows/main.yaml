@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: xr-patch
+          ref: push_error
           fetch-depth: 0
       - name: Dispatch to workflow 
         run: |
@@ -27,6 +27,16 @@ jobs:
             git status
 
             git log
+
+            find . -type f -name "*.gd" -exec sed -i -e 's/printerr/push_error/g' {} +
+            git config --global user.email "jackhunt43@libero.it"
+            git config --global user.name "dragonhunt02"
+            git add -A
+            git commit -a -m 'Replace printerr with push_error'
+            git log
+            git status
+            #git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ matrix.repo }}.git
+            git push
             exit 1
 
 
