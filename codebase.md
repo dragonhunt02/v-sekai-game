@@ -1,6 +1,6 @@
 ```mermaid
 flowchart TB
-  A[<a target="_top" href='#test'>works</a>]
+  A[<a href='javascript:top.window.location.href='#test'>works</a>]
 ```
 <p>worksworksworksworksworksworksworksworksworksworksworks
 worksworksworksworksworksworksworksworks
