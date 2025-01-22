@@ -19,26 +19,26 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: assert-fix
-          fetch-depth: 3
+          ref: assert-fix2
+          fetch-depth: 0
       - name: Dispatch to workflow 
         run: |
             sudo apt install -y tree
             git status
 
-            git log
+            git log -n 5
+            git reset --soft HEAD~31
 
-            #find . -type f -name "*.gd" -exec sed -i -e 's/assert\(()\)/push_error/g' {} +
-            find . -type f -name "*.gd" -exec sed -i -e 's/\(\t*\)assert(false, \(.*\))/\1push_error(\2)\n\1return/g' {} +
-            find . -type f -name "*.gd" -exec sed -i -e 's/\(\t*\)assert(\(.*\) == OK)/\1if \(\2 != OK\):\n\1\tpush_error\(\)\n\1\treturn/g' {} +
+            #######find . -type f -name "*.gd" -exec sed -i -e 's/assert\(()\)/push_error/g' {} +
+            #find . -type f -name "*.gd" -exec sed -i -e 's/\(\t*\)assert(false, \(.*\))/\1push_error(\2)\n\1return/g' {} +
+            #find . -type f -name "*.gd" -exec sed -i -e 's/\(\t*\)assert(\(.*\) == OK)/\1if \(\2 != OK\):\n\1\tpush_error\(\)\n\1\treturn/g' {} +
             git config --global user.email "jackhunt43@libero.it"
             git config --global user.name "dragonhunt02"
             git add -A
-            git commit -a -m 'Replace assert statements'
-            git log
+            git commit -a -m 'Rewrite asserts into conditional statements'
+            git log -n 5
             git status
-            #git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ matrix.repo }}.git
-            git push
+            git push -f
             exit 1
 
 
