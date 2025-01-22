@@ -1,6 +1,6 @@
 ```mermaid
 flowchart TB
-  A[<a href='javascript:top.window.location.href='#test'>works</a>]
+  A[<a href='https://github.com/dragonhunt02/v-sekai-game/tree/codebase.md#test'>works</a>]
 ```
 <p>worksworksworksworksworksworksworksworksworksworksworks
 worksworksworksworksworksworksworksworks
