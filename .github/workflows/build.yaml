@@ -62,7 +62,7 @@ jobs:
             PRERELEASE=true; \
           fi
 
-          GIT_TAG="$( git describe --tags --abbrev=0 || '0.0.1' )"
+          GIT_TAG='0.0.1'
           GIT_SHA="$( git rev-parse --short HEAD )"
           TAG_NAME=${GIT_TAG}
 
