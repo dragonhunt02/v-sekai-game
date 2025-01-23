@@ -6,7 +6,7 @@ on:
     types: ['build-ready']
   #create:
   push:
-    branches: ['gh2']
+    branches: ['gh3']
     tags:
       - '**'
   #push:
