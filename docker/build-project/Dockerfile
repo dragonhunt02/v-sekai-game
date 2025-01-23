@@ -7,7 +7,7 @@ ENV HOMEDIR '/root'
 #Linux Windows Mac Web Linux_arm64'V-Sekai
 ENV BIN 'release/bin'
 ENV BUILD_ARGS '--headless'
-ENV BUILD_PLATFORMS 'QuestAndroid'
+ENV BUILD_PLATFORMS 'Linux'
 ENV GAME_REPO 'dragonhunt02/v-sekai-game'
 ENV GODOT_REPO 'dragonhunt02/world-godot'
 ENV GODOT_ZIP 'v-sekai-godot-linuxbsd.zip'
@@ -129,7 +129,7 @@ RUN echo 'Testroot2' && tree ./src/android/build
 
 # Import missing files
 #RUN "./${GODOT_EDITOR}" --import --headless --build-solutions --path './src'
-RUN "./${GODOT_EDITOR}" --editor --headless --quit --path './src'
+RUN "./${GODOT_EDITOR}" --editor --headless --quit --path './src' 2>&1 >/dev/null
 #RUN timeout --preserve-status 120s "./${GODOT_EDITOR}" --editor --headless --path './src' || true
 
 RUN cd ./src && echo -n $( git log --format="%(describe:tags,abbrev=0)" -n 1 | cut -d '-' -f1 ) >version.txt \
