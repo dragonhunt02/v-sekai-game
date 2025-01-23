@@ -24,7 +24,7 @@ SHELL [ "/bin/bash", "-c" ]
 RUN apt-get update && apt-get upgrade -y \
   && apt-get install -y git
 RUN git clone "https://github.com/${GAME_REPO}.git" "./src"
-RUN cd ./src && git switch gh2 && git pull
+RUN cd ./src && git switch gh3 && git pull
 
   
 RUN apt-get update && apt-get upgrade -y \
