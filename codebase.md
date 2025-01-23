@@ -5,7 +5,7 @@ mindmap
       ("Point<br>mass")
       ("System of<br>particles")
       ("Rigid<br>body")
-      ("Elastic<br>[body](https://github.com)[<a href='https://github.com/dragonhunt02/v-sekai-game/blob/docs/codebase.md#test'>works</a>]")
+      ("Elastic<br> [body](https://github.com)  [<a href='https://github.com/dragonhunt02/v-sekai-game/blob/docs/codebase.md#test'>works</a>]")
     ("Fluids")
       ("Liquid")
         ("Newtonian<br>fluid")
