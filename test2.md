@@ -7,10 +7,11 @@ Map of `addon/` components.
 ```mermaid
 %%{init: {'themeVariables': { 'fontSize': '22px' }}}%%
 flowchart TD
-        Audio --> addon14[**kenney_ui_audio**<hr>UI sound sfx .wav library]
-        Audio --> addon9[**godot_speech** ⚙️<hr>Audio packets decoder/encoder]
-        Network --> addon25[**network_manager**<hr>Manages network settings, logic, physics, spawning commands...]
-        Network --> addon26[**godot_uro**<hr>Uro API server interface to send requests for login, avatars, maps upload/download]
+        Audio --> addon1[**kenney_ui_audio**<hr>UI sound sfx .wav library]
+        Audio --> addon2[**godot_speech** ⚙️<hr>Audio packets decoder/encoder]
+        Network --> addon3[**network_manager**<hr>Manages network settings, logic, physics, spawning commands...]
+        Network --> addon4[**godot_uro**<hr>Uro API server interface to send requests for login, avatars, maps upload/download]
+
     classDef Category font-size:30px
     class Audio,Network Category
 ```
@@ -19,12 +20,12 @@ flowchart TD
 %%{init: {'themeVariables': { 'fontSize': '22px' }}}%%
 flowchart TD
         UI --> Menu
-        Menu --> addon3[**vsk_menu**<hr>Main title menus and in-game menus]
-        Menu --> addon24[**navigation_controller**<hr>Menu state controller for menu switching]
-        UI --> addon28[**fade_manager**<hr>Controls full screen fading including in VR]
-        UI --> addon31[**canvas_plane**<hr>Utility to position Godot control nodes in 3D space]
-        UI --> addon7[**textureRectUrl**<hr>Image preview controls for UI item grids]
-        UI --> addon15[**emote_theme**<hr>Font files and theme settings]
+        Menu --> addon5[**vsk_menu**<hr>Main title menus and in-game menus]
+        Menu --> addon6[**navigation_controller**<hr>Menu state controller for menu switching]
+        UI --> addon7[**fade_manager**<hr>Controls full screen fading including in VR]
+        UI --> addon8[**canvas_plane**<hr>Utility to position Godot control nodes in 3D space]
+        UI --> addon9[**textureRectUrl**<hr>Image preview controls for UI item grids]
+        UI --> addon10[**emote_theme**<hr>Font files and theme settings]
 
     classDef Category font-size:30px
     class UI Category
@@ -33,13 +34,14 @@ flowchart TD
 ```mermaid
 %%{init: {'themeVariables': { 'fontSize': '22px' }}}%%
 flowchart TD
-        Game --> addon38[**vsk_manager**<hr>Main game logic]
-            addon38 --> ctrl1{" "}
-            ctrl1 --> dir5{**vsk_startup_manager.gd**<hr>Game Entrypoint}
-            ctrl1 --> dir6[**outside_game_root_vr.tscn**<hr>Debug Menu scene]
-            ctrl1 --> dir7[**vsk_asset_manager.gd**<hr>Manages http or local requests of assets]
-            ctrl1 --> dir8[**xr_vignette/**<hr>test]
-        Game --> addon16[**background_loader**<hr>Interface for resource load requests with whitelist]
+        Game --> addon11[**vsk_manager**<hr>Main game logic]
+            addon11 --> ctrl1{" "}
+            ctrl1 --> dir1{**vsk_startup_manager.gd**<hr>Game Entrypoint}
+            ctrl1 --> dir2[**outside_game_root_vr.tscn**<hr>Debug Menu scene]
+            ctrl1 --> dir3[**vsk_asset_manager.gd**<hr>Manages http or local requests of assets]
+            ctrl1 --> dir4[**xr_vignette/**<hr>test]
+        Game --> addon12[**background_loader**<hr>Interface for resource load requests with whitelist]
+
     classDef Category font-size:30px
     class Game Category
 
@@ -48,16 +50,16 @@ flowchart TD
 ```mermaid
 %%{init: {'themeVariables': { 'fontSize': '22px' }}}%%
 flowchart TD
-        Entities --> addon35[**vsk_avatar**<hr>Avatar definition, load/setup of bones, IK, hand poses]
-        Entities --> addon4[**vsk_map**<hr>Class definitions for game Maps]
-        Entities --> addon30[**entity_manager**<hr>Manages in-game entities and logic, physics, scene spawing and network coordination]
-        Entities --> addon36[**vsk_entities**<hr>Game entities initialization. Contains player avatar main scene.]
-            addon36 --> ctrl0{" "}
-            ctrl0 --> dir2[**vsk_player_old.tscn**<hr>Current player Avatar entity instance]
-            ctrl0 --> dir3[**vsk_player.tscn** ⚠️<hr>Unused experimental player entity with a godot head and floating hands.]
-            ctrl0 --> dir4[**vsk_moving_platform.tscn** ⚠️<hr>Unused moving platform]
-        Entities --> addon40[**godot-xr-tools** ⚠️<hr>Godot XR Tools utilities]
-        addon40 --> dir3
+        Entities --> addon13[**vsk_avatar**<hr>Avatar definition, load/setup of bones, IK, hand poses]
+        Entities --> addon14[**vsk_map**<hr>Class definitions for game Maps]
+        Entities --> addon15[**entity_manager**<hr>Manages in-game entities and logic, physics, scene spawing and network coordination]
+        Entities --> addon16[**vsk_entities**<hr>Game entities initialization. Contains player avatar main scene.]
+            addon16 --> ctrl1{" "}
+            ctrl1 --> dir1[**vsk_player_old.tscn**<hr>Current player Avatar entity instance]
+            ctrl1 --> dir2[**vsk_player.tscn** ⚠️<hr>Unused experimental player entity with a godot head and floating hands.]
+            ctrl1 --> dir3[**vsk_moving_platform.tscn** ⚠️<hr>Unused moving platform]
+        Entities --> addon17[**godot-xr-tools** ⚠️<hr>Godot XR Tools utilities]
+        addon17 --> dir3
 
     classDef Category font-size:30px
     class Entities Category
@@ -67,13 +69,13 @@ flowchart TD
 ```mermaid
 %%{init: {'themeVariables': { 'fontSize': '22px' }}}%%
 flowchart TD
-        Actor --> addon6[**state_machine**<hr>Base class for state machines]
-        Actor --> addon27[**godot_state_charts**<hr>Base class for Actor animation states]
-        Actor --> addon32[**actor**<hr>Player actor state machine and camera controller]
-            addon32 --> dir1["**states**<hr>Actor states(jump, fall...) for state machine"]
-            addon32 --> dir10[**senses.gd**⚠️<hr>Unused]
-        Editor --> addon33[**vsk_importer_exporter**<hr>Avatar/scene import and export validation]
-        Editor --> addon34[**vsk_editor**<hr>Editor plugin for uploading Maps/Avatars to Uro server]
+        Actor --> addon18[**state_machine**<hr>Base class for state machines]
+        Actor --> addon19[**godot_state_charts**<hr>Base class for Actor animation states]
+        Actor --> addon20[**actor**<hr>Player actor state machine and camera controller]
+            addon20 --> dir1["**states**<hr>Actor states(jump, fall...) for state machine"]
+            addon20 --> dir2[**senses.gd**⚠️<hr>Unused]
+        Editor --> addon21[**vsk_importer_exporter**<hr>Avatar/scene import and export validation]
+        Editor --> addon22[**vsk_editor**<hr>Editor plugin for uploading Maps/Avatars to Uro server]
 
     classDef Category font-size:30px
     class Actor Category
@@ -84,17 +86,18 @@ flowchart TD
 %%{init: {'themeVariables': { 'fontSize': '22px' }}}%%
 flowchart TD
         VR-XR --> Input
-        Input --> addon21[**input_manager**<hr>Input device setup for Joypad/Mouse]
-        Input --> addon20[**sar1_vr_manager**<hr>Main VR Controller. Manages HMD settings, trackers, render tree.]
-            addon20 --> dir0[**components**<hr>Lasso, Teleport, Hand Pose, Locomotion functions]
+        Input --> addon23[**input_manager**<hr>Input device setup for Joypad/Mouse]
+        Input --> addon24[**sar1_vr_manager**<hr>Main VR Controller. Manages HMD settings, trackers, render tree.]
+            addon24 --> dir1[**components**<hr>Lasso, Teleport, Hand Pose, Locomotion functions]
         VR-XR --> Render
-        Render --> ctrl5{" "}
-        ctrl5 --> addon13[**spatial_game_viewport_manager**<hr>Manages viewport size changes]
-        ctrl5 --> addon29["**flat_viewport**<hr>Control for handling offscreen rendering (from a VR device for example)"]
-        ctrl5 --> addon0[**xr_vignette**<hr>Experimental camera tunnel shader to reduce motion sickness]
+            Render --> ctrl1{" "}
+            ctrl1 --> addon25[**spatial_game_viewport_manager**<hr>Manages viewport size changes]
+            ctrl1 --> addon26["**flat_viewport**<hr>Control for handling offscreen rendering (from a VR device for example)"]
+            ctrl1 --> addon27[**xr_vignette**<hr>Experimental camera tunnel shader to reduce motion sickness]
         VR-XR --> Utils
-        Utils --> addon18[**sar1_mocap_manager** ⚠️<hr>Motion capture reading/recording in a custom format]
-        Utils --> addon19[**sar1_screenshot_manager**<hr>Utility to capture screenshots]
+            Utils --> addon28[**sar1_mocap_manager** ⚠️<hr>Motion capture reading/recording in a custom format]
+            Utils --> addon29[**sar1_screenshot_manager**<hr>Utility to capture screenshots]
+
     classDef Category font-size:30px
     class VR-XR Category
 
@@ -103,9 +106,10 @@ flowchart TD
 ```mermaid
 %%{init: {'themeVariables': { 'fontSize': '22px' }}}%%
 flowchart TD
-        VRM --> addon10[**vrm**<hr>Godot VRM Avatar implementation]
-        VRM --> addon11[**Godot-MToon-Shader**<hr>Godot Toon shader for VRM Avatars]
-        VRM --> addon1[**vsk_vrm_avatar_tool**<hr>VRM Avatar Converter]
+        VRM --> addon30[**vrm**<hr>Godot VRM Avatar implementation]
+        VRM --> addon31[**Godot-MToon-Shader**<hr>Godot Toon shader for VRM Avatars]
+        VRM --> addon32[**vsk_vrm_avatar_tool**<hr>VRM Avatar Converter]
+
     classDef Category font-size:30px
     class VRM Category
 ```
@@ -114,15 +118,16 @@ flowchart TD
 %%{init: {'themeVariables': { 'fontSize': '22px' }}}%%
 flowchart TD
         Misc --> Utils
-        Utils --> addon2[**vsk_version**<hr>Version Strings]
-        Utils --> addon8[**gd_util**<hr>Generic utility functions for 3d transforms, camera]
-        Utils --> addon23[**math_util**<hr>Utility math functions]
+            Utils --> addon33[**vsk_version**<hr>Version Strings]
+            Utils --> addon34[**gd_util**<hr>Generic utility functions for 3d transforms, camera]
+            Utils --> addon35[**math_util**<hr>Utility math functions]
         Misc --> 3D
-        3D --> ctrl6{" "}
-        ctrl6 --> addon5[**splerger** ⚠️<hr>Mesh splitting with 3d grid for Map culling or pre-upload transform]
-        ctrl6 --> addon22[**line_renderer** ⚠️<hr>Experimental line render for 3d pen writing function]
-        ctrl6 --> addon17[**extended_kinematic_body**<hr>Improved CharacterBody3d with better tolerance for stairs/slopes]
-        Misc --> addon12[**smoothing**<hr>Fixed timestep interpolation addon for framerate independent physics]
+            3D --> ctrl1{" "}
+            ctrl1 --> addon36[**splerger** ⚠️<hr>Mesh splitting with 3d grid for Map culling or pre-upload transform]
+            ctrl1 --> addon37[**line_renderer** ⚠️<hr>Experimental line render for 3d pen writing function]
+            ctrl1 --> addon38[**extended_kinematic_body**<hr>Improved CharacterBody3d with better tolerance for stairs/slopes]
+        Misc --> addon39[**smoothing**<hr>Fixed timestep interpolation addon for framerate independent physics]
+
     classDef Category font-size:30px
     class Misc Category
 ```
@@ -137,23 +142,3 @@ Deprecated by native lerp, needs replacement. See https://github.com/godotengine
 
 ### splerger
 Test scene is https://github.com/V-Sekai/TEST_splerger
-
-
-```mermaid
-flowchart TB
-  A[<a href='https://github.com/dragonhunt02/v-sekai-game/blob/docs/codebase.md#test'>works</a>]
-```
-    B --> addon39[**xr_vignette/**<hr>test]
-    B --> addon40[**xr_vignette/**<hr>test]
-```
-```mermaid
-%%{init: {'themeVariables': { 'fontSize': '30px' }}}%%
-    subgraph one
-        C --> D[Keep]
-    end
-    C --> E[Edit Definition]
-    E --> B
-    D --> F[Save Image and Code]
-    F --> B
-
-<a id='test'>works</a>
