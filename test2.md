@@ -1,8 +1,13 @@
+<h1 align="center">V-Sekai GDScript</h1>
+
+- :gear: Engine C++ Interface
+- :warning: Unused
+
 ```mermaid
 %%{init: {'themeVariables': { 'fontSize': '22px' }}}%%
 flowchart TD
         Audio --> addon14[**kenney_ui_audio**<hr>UI sound sfx .wav library]
-        Audio --> addon9[**godot_speech**<hr>Audio packets decoder/encoder]
+        Audio --> addon9[**godot_speech** ⚙️<hr>Audio packets decoder/encoder]
         Network --> addon25[**network_manager**<hr>Manages network settings, logic, physics, spawning commands...]
         Network --> addon26[**godot_uro**<hr>Uro API server interface to send requests for login, avatars, maps upload/download]
     classDef Category font-size:30px
@@ -48,8 +53,8 @@ flowchart TD
         Entities --> addon36[**vsk_entities**<hr>Game entities initialization. Contains player avatar main scene.]
             addon36 --> ctrl0{" "}
             ctrl0 --> dir2[**vsk_player_old.tscn**<hr>Current player Avatar entity instance]
-            ctrl0 --> dir3[**vsk_player.tscn**<hr>Unused experimental player entity with a godot head and floating hands.]
-            ctrl0 --> dir4[**vsk_moving_platform.tscn**<hr>Unused]
+            ctrl0 --> dir3[**vsk_player.tscn** ⚠️<hr>Unused experimental player entity with a godot head and floating hands.]
+            ctrl0 --> dir4[**vsk_moving_platform.tscn** ⚠️<hr>Unused moving platform]
 
     classDef Category font-size:30px
     class Entities Category
@@ -84,7 +89,7 @@ flowchart TD
         ctrl5 --> addon29["**flat_viewport**<hr>Control for handling offscreen rendering (from a VR device for example)"]
         ctrl5 --> addon0[**xr_vignette**<hr>Experimental camera tunnel shader to reduce motion sickness]
         VR-XR --> Utils
-        Utils --> addon18[**sar1_mocap_manager**<hr>Motion capture reading/recording in a custom format]
+        Utils --> addon18[**sar1_mocap_manager** ⚠️<hr>Motion capture reading/recording in a custom format]
         Utils --> addon19[**sar1_screenshot_manager**<hr>Utility to capture screenshots]
     classDef Category font-size:30px
     class VR-XR Category
@@ -111,8 +116,8 @@ flowchart TD
         Utils --> addon23[**math_util**<hr>Utility math functions]
         Misc --> 3D
         3D --> ctrl6{" "}
-        ctrl6 --> addon5[**splerger**<hr>Mesh splitting with 3d grid for Map culling or pre-upload transform]
-        ctrl6 --> addon22[**line_renderer**<hr>Experimental line render for 3d pen writing function]
+        ctrl6 --> addon5[**splerger** ⚠️<hr>Mesh splitting with 3d grid for Map culling or pre-upload transform]
+        ctrl6 --> addon22[**line_renderer** ⚠️<hr>Experimental line render for 3d pen writing function]
         ctrl6 --> addon17[**extended_kinematic_body**<hr>Improved CharacterBody3d with better tolerance for stairs/slopes]
         Misc --> addon12[**smoothing**<hr>Fixed timestep interpolation addon for framerate independent physics]
     classDef Category font-size:30px
