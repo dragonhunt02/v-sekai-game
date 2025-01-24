@@ -1,7 +1,7 @@
 <h1 align="center">V-Sekai GDScript</h1>
 
 - :gear: Engine C++ Interface
-- :warning: Unused
+- :warning: Unused (See [Notes](#notes))
 
 ```mermaid
 %%{init: {'themeVariables': { 'fontSize': '22px' }}}%%
@@ -55,6 +55,8 @@ flowchart TD
             ctrl0 --> dir2[**vsk_player_old.tscn**<hr>Current player Avatar entity instance]
             ctrl0 --> dir3[**vsk_player.tscn** ⚠️<hr>Unused experimental player entity with a godot head and floating hands.]
             ctrl0 --> dir4[**vsk_moving_platform.tscn** ⚠️<hr>Unused moving platform]
+        Entities --> addon40[**godot-xr-tools** ⚠️<hr>Godot XR Tools utilities]
+        addon40 --> dir3
 
     classDef Category font-size:30px
     class Entities Category
@@ -68,6 +70,7 @@ flowchart TD
         Actor --> addon27[**godot_state_charts**<hr>Base class for Actor animation states]
         Actor --> addon32[**actor**<hr>Player actor state machine and camera controller]
             addon32 --> dir1["**states**<hr>Actor states(jump, fall...) for state machine"]
+            addon32 --> dir10[**senses.gd**⚠️<hr>Unused]
         Editor --> addon33[**vsk_importer_exporter**<hr>Avatar/scene import and export validation]
         Editor --> addon34[**vsk_editor**<hr>Editor plugin for uploading Maps/Avatars to Uro server]
 
@@ -106,7 +109,6 @@ flowchart TD
     class VRM Category
 ```
 
-
 ```mermaid
 %%{init: {'themeVariables': { 'fontSize': '22px' }}}%%
 flowchart TD
@@ -123,6 +125,18 @@ flowchart TD
     classDef Category font-size:30px
     class Misc Category
 ```
+
+## Warnings
+
+### vsk_entities/vsk_player.tscn
+Unused code is also in addons/vsk_entities/extensions.
+
+### smoothing
+Deprecated by native lerp, needs replacement. See https://github.com/godotengine/godot-docs/pull/10197
+
+### splerger
+Test scene is https://github.com/V-Sekai/TEST_splerger
+
 
 ```mermaid
 flowchart TB
