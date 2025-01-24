@@ -15,7 +15,7 @@ flowchart LR
     B --> UI
     UI --> addon3[**vsk_menu**<hr>Main title menus and in-game menus]
     UI --> addon7[**textureRectUrl**<hr>Image preview controls for UI item grids]
-    UI --> addon24[**navigation_controller**<hr>Menu state controller (menu switching)]
+    UI --> addon24[**navigation_controller**<hr>Menu state controller for menu switching]
     UI --> addon15[**emote_theme**<hr>Font files and theme settings]
     B --> Audio
     Audio --> addon14[**kenney_ui_audio**<hr>UI sound sfx .wav library]
