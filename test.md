@@ -48,12 +48,12 @@ flowchart LR
     Entities --> addon36[**vsk_entities**<hr>Game entities initialization. Contains player avatar main scene.]
     addon36 --> dir2[**vsk_player_old.tscn**<hr>Current player Avatar entity instance]
     addon36 --> dir3[**vsk_player.tscn**<hr>Unused experimental player entity with a godot head and floating hands.]
-    addon36 --> dir4[**xr_vignette/**<hr>test]
-    Entities --> addon6[**state_machine**<hr>Base class for state machines]
+    addon36 --> dir4[**vsk_moving_platform.tscn**<hr>Unused]
     B --> Editor
     Editor --> addon33[**vsk_importer_exporter**<hr>Avatar/scene import and export validation]
     Editor --> addon34[**vsk_editor**<hr>Editor plugin for uploading Maps/Avatars to Uro server]
     B --> Actor
+    Actor --> addon6[**state_machine**<hr>Base class for state machines]
     Actor --> addon27[**godot_state_charts**<hr>Base class for Actor animation states]
     Actor --> addon32[**actor**<hr>Player actor state machine and camera controller]
     addon32 --> dir1["**states**<hr>Actor states(jump, fall...) for state machine"]
