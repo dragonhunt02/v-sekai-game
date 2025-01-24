@@ -59,7 +59,7 @@ flowchart TD
             ctrl1 --> dir2[**vsk_player.tscn** ⚠️<hr>Unused experimental player entity with a godot head and floating hands.]
             ctrl1 --> dir3[**vsk_moving_platform.tscn** ⚠️<hr>Unused moving platform]
         Entities --> addon17[**godot-xr-tools** ⚠️<hr>Godot XR Tools utilities]
-        addon17 --> dir3
+        addon17 --> dir2
 
     classDef Category font-size:30px
     class Entities Category
