@@ -1,7 +1,7 @@
 <h1 align="center">V-Sekai GDScript</h1>
 
 - :gear: Engine C++ Interface
-- :warning: Unused (See [Notes](#notes))
+- :warning: Unused (See also [Warnings](#warnings))
 
 ```mermaid
 %%{init: {'themeVariables': { 'fontSize': '22px' }}}%%
