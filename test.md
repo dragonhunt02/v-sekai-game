@@ -7,20 +7,26 @@ flowchart LR
     B --> addon6[**state_machine**<hr>Base class for state machines]
     B --> addon8[**gd_util**<hr>Generic utility functions for 3d transforms, camera]
     B --> VRM
-    VRM --> addon10[**vrm**<hr></br>Godot VRM Avatar implementation]
+    VRM --> addon10[**vrm**<hr>Godot VRM Avatar implementation]
     VRM --> addon11[**Godot-MToon-Shader**<hr>Godot Toon shader for VRM Avatars]
     VRM --> addon1[**vsk_vrm_avatar_tool**<hr>VRM Avatar Converter]
     B --> Misc
-    Misc --> addon2[**vsk_version**<hr></br>Version Strings]
+    Misc --> addon2[**vsk_version**<hr>Version Strings]
     B --> UI
     UI --> addon3[**vsk_menu**<hr>Main title menus and in-game menus]
     UI --> addon7[**textureRectUrl**<hr>Image previews for UI item grids]
     B --> Audio
+    Audio --> addon14[**kenney_ui_audio**<hr>UI sound sfx .wav library]
     Audio --> addon9[**godot_speech**<hr>Audio packets decoder/encoder]
-    B --> addon[**xr_vignette/**<hr></br>test]
-    B --> addon[**xr_vignette/**<hr></br>test]
-    B --> addon[**xr_vignette/**<hr></br>test]
-
+    B --> addon12[**smoothing**<hr>Fixed timestep interpolation addon for framerate independent physics]
+    B --> addon13[**spatial_game_viewport_manager**<hr>Manages viewport size changes]
+    B --> addon15[**xr_vignette/**<hr>test]
+    B --> addon15[**xr_vignette/**<hr>test]
+    B --> addon15[**xr_vignette/**<hr>test]
+    B --> addon15[**xr_vignette/**<hr>test]
+    B --> addon15[**xr_vignette/**<hr>test]
+    B --> addon15[**xr_vignette/**<hr>test]
+    B --> addon15[**xr_vignette/**<hr>test]
 ```
 
 ```mermaid
