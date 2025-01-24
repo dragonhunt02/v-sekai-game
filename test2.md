@@ -1,5 +1,6 @@
 <h1 align="center">V-Sekai GDScript</h1>
 
+Map of `addon/` components.
 - :gear: Engine C++ Interface
 - :warning: Unused (See also [Warnings](#warnings))
 
