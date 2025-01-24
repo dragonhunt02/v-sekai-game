@@ -21,6 +21,7 @@ flowchart LR
     Misc --> addon12[**smoothing**<hr>Fixed timestep interpolation addon for framerate independent physics]
     Misc --> addon5[**splerger**<hr>Mesh splitting with 3d grid for Map culling or pre-upload transform]
     Misc --> addon22[**line_renderer**<hr>Experimental line render for 3d pen writing function]
+    Misc --> addon17[**extended_kinematic_body**<hr>Improved CharacterBody3d with better tolerance for stairs/slopes]
     B --> UI
     UI --> addon3[**vsk_menu**<hr>Main title menus and in-game menus]
     UI --> addon24[**navigation_controller**<hr>Menu state controller for menu switching]
@@ -59,7 +60,6 @@ flowchart LR
     Actor --> addon27[**godot_state_charts**<hr>Base class for Actor animation states]
     Actor --> addon32[**actor**<hr>Player actor state machine and camera controller]
     addon32 --> dir1["**states**<hr>Actor states(jump, fall...) for state machine"]
-    Actor --> addon17[**extended_kinematic_body**<hr>Improved CharacterBody3d with better tolerance for stairs/slopes]
     B --> addon39[**xr_vignette/**<hr>test]
     B --> addon40[**xr_vignette/**<hr>test]
 
