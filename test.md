@@ -31,21 +31,16 @@ flowchart LR
     B --> Audio
     Audio --> addon14[**kenney_ui_audio**<hr>UI sound sfx .wav library]
     Audio --> addon9[**godot_speech**<hr>Audio packets decoder/encoder]
-    B --> addon16[**background_loader**<hr>Interface for resource load requests with whitelist]
-    B --> addon17[**extended_kinematic_body**<hr>Improved CharacterBody3d with better tolerance for stairs/slopes]
     B --> Network
     Network --> addon25[**network_manager**<hr>Manages network settings, logic, physics, spawning commands...]
     Network --> addon26[**godot_uro**<hr>Uro API server interface to send requests for login, avatars, maps upload/download]
-    B --> addon27[**godot_state_charts**<hr>Base class for Actor animation states]
-    B --> addon32[**actor**<hr>Player actor state machine and camera controller]
-    addon32 --> dir1["**states**<hr>Actor states(jump, fall...) for state machine"]
-    B --> addon33[**vsk_importer_exporter**<hr>Avatar/scene import and export validation]
-    B --> addon34[**vsk_editor**<hr>Editor plugin for uploading Maps/Avatars to Uro server]
-    B --> addon38[**vsk_manager**<hr>Main game logic]
+    B --> Game
+    Game --> addon38[**vsk_manager**<hr>Main game logic]
     addon38 --> dir5{**vsk_startup_manager.gd**<hr>Game Entrypoint}
     addon38 --> dir6[**outside_game_root_vr.tscn**<hr>Debug Menu scene]
     addon38 --> dir7[**vsk_asset_manager.gd**<hr>Manages http or local requests of assets]
     addon38 --> dir8[**xr_vignette/**<hr>test]
+    Game --> addon16[**background_loader**<hr>Interface for resource load requests with whitelist]
     B --> Entities
     Entities --> addon35[**vsk_avatar**<hr>Avatar definition, load/setup of bones, IK, hand poses]
     Entities --> addon4[**vsk_map**<hr>Class definitions for game Maps]
@@ -55,6 +50,14 @@ flowchart LR
     addon36 --> dir3[**vsk_player.tscn**<hr>Unused experimental player entity with a godot head and floating hands.]
     addon36 --> dir4[**xr_vignette/**<hr>test]
     Entities --> addon6[**state_machine**<hr>Base class for state machines]
+    B --> Editor
+    Editor --> addon33[**vsk_importer_exporter**<hr>Avatar/scene import and export validation]
+    Editor --> addon34[**vsk_editor**<hr>Editor plugin for uploading Maps/Avatars to Uro server]
+    B --> Actor
+    Actor --> addon27[**godot_state_charts**<hr>Base class for Actor animation states]
+    Actor --> addon32[**actor**<hr>Player actor state machine and camera controller]
+    addon32 --> dir1["**states**<hr>Actor states(jump, fall...) for state machine"]
+    Actor --> addon17[**extended_kinematic_body**<hr>Improved CharacterBody3d with better tolerance for stairs/slopes]
     B --> addon39[**xr_vignette/**<hr>test]
     B --> addon40[**xr_vignette/**<hr>test]
 ```
