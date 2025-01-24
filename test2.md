@@ -91,9 +91,10 @@ flowchart TD
             addon24 --> dir1[**components**<hr>Lasso, Teleport, Hand Pose, Locomotion functions]
         VR-XR --> Render
             Render --> ctrl1{" "}
-            ctrl1 --> addon25[**spatial_game_viewport_manager**<hr>Manages viewport size changes]
-            ctrl1 --> addon26["**flat_viewport**<hr>Control for handling offscreen rendering (from a VR device for example)"]
-            ctrl1 --> addon27[**xr_vignette**<hr>Experimental camera tunnel shader to reduce motion sickness]
+            ctrl1 --> ctrl2{" "}
+            ctrl2 --> addon25[**spatial_game_viewport_manager**<hr>Manages viewport size changes]
+            ctrl2 --> addon26["**flat_viewport**<hr>Control for handling offscreen rendering (from a VR device for example)"]
+            ctrl2 --> addon27[**xr_vignette**<hr>Experimental camera tunnel shader to reduce motion sickness]
         VR-XR --> Utils
             Utils --> addon28[**sar1_mocap_manager** ⚠️<hr>Motion capture reading/recording in a custom format]
             Utils --> addon29[**sar1_screenshot_manager**<hr>Utility to capture screenshots]
