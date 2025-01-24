@@ -1,15 +1,15 @@
 ```mermaid
 flowchart LR
     A[v-sekai-game] --> B(addons/)
-    B --> VR/XR
-    VR/XR --> addon13[**spatial_game_viewport_manager**<hr>Manages viewport size changes]
-    VR/XR --> addon29["**flat_viewport**<hr>Control for handling offscreen rendering (from a VR device for example)"]
-    VR/XR --> addon21[**input_manager**<hr>Input device setup for Joypad/Mouse]
-    VR/XR --> addon20[**sar1_vr_manager**<hr>Main VR Controller. Manages HMD settings, trackers, render tree.]
+    B --> VR-XR
+    VR-XR --> addon13[**spatial_game_viewport_manager**<hr>Manages viewport size changes]
+    VR-XR --> addon29["**flat_viewport**<hr>Control for handling offscreen rendering (from a VR device for example)"]
+    VR-XR --> addon21[**input_manager**<hr>Input device setup for Joypad/Mouse]
+    VR-XR --> addon20[**sar1_vr_manager**<hr>Main VR Controller. Manages HMD settings, trackers, render tree.]
         addon20 --> dir0[**components**<hr>Lasso, Teleport, Hand Pose, Locomotion functions]
-    VR/XR --> addon18[**sar1_mocap_manager**<hr>Motion capture reading/recording in a custom format]
-    VR/XR --> addon19[**sar1_screenshot_manager**<hr>Utility to capture screenshots]
-    VR/XR --> addon0[**xr_vignette**<hr>Experimental camera tunnel shader to reduce motion sickness]
+    VR-XR --> addon18[**sar1_mocap_manager**<hr>Motion capture reading/recording in a custom format]
+    VR-XR --> addon19[**sar1_screenshot_manager**<hr>Utility to capture screenshots]
+    VR-XR --> addon0[**xr_vignette**<hr>Experimental camera tunnel shader to reduce motion sickness]
     B --> VRM
     VRM --> addon10[**vrm**<hr>Godot VRM Avatar implementation]
     VRM --> addon11[**Godot-MToon-Shader**<hr>Godot Toon shader for VRM Avatars]
@@ -62,6 +62,10 @@ flowchart LR
     Actor --> addon17[**extended_kinematic_body**<hr>Improved CharacterBody3d with better tolerance for stairs/slopes]
     B --> addon39[**xr_vignette/**<hr>test]
     B --> addon40[**xr_vignette/**<hr>test]
+
+    classDef Category font-size:30px
+    class A,B,Actor,Audio,Editor,Entities,Game,UI,Misc,Network,VR-XR,VRM Category
+
 ```
 
 ```mermaid
