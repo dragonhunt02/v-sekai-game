@@ -48,11 +48,11 @@ flowchart LR
     addon36 --> dir2[**vsk_player_old.tscn**<hr>Current player Avatar entity instance]
     addon36 --> dir3[**vsk_player.tscn**<hr>Unused experimental player entity with a godot head and floating hands.]
     addon36 --> dir4[**xr_vignette/**<hr>test]
-    B --> addon38[**xr_vignette/**<hr>test]
-    B --> addon38[**xr_vignette/**<hr>test]
-    B --> addon38[**xr_vignette/**<hr>test]
-    B --> addon38[**xr_vignette/**<hr>test]
-    B --> addon38[**xr_vignette/**<hr>test]
+    B --> addon38[**vsk_manager**<hr>Main game logic]
+    addon38 --> dir5{**vsk_startup_manager.gd**<hr>Game Entrypoint}
+    addon38 --> dir6[**outside_game_root_vr.tscn**<hr>Debug Menu scene]
+    addon38 --> dir7[**vsk_asset_manager.gd**<hr>Manages http or local requests of assets]
+    addon38 --> dir8[**xr_vignette/**<hr>test]
     B --> addon38[**xr_vignette/**<hr>test]
     B --> addon38[**xr_vignette/**<hr>test]
 ```
