@@ -1,4 +1,5 @@
 ```mermaid
+%%{init: {'themeVariables': { 'fontSize': '30px' }}}%%
 flowchart LR
     A[v-sekai-game] --> B(addons/)
     B --> VR-XR
@@ -61,7 +62,7 @@ flowchart LR
         Actor --> addon32[**actor**<hr>Player actor state machine and camera controller]
             addon32 --> dir1["**states**<hr>Actor states(jump, fall...) for state machine"]
 
-    classDef Category font-size:30px
+    classDef Category font-size:40px
     class A,B,Actor,Audio,Editor,Entities,Game,UI,Misc,Network,VR-XR,VRM Category
 
 ```
