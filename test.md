@@ -10,6 +10,8 @@ flowchart LR
     VR/XR --> addon20[**sar1_vr_manager**<hr>Main VR Controller. Manages HMD settings, trackers, render tree.]
     addon20 --> dir0[**components**<hr>Lasso, Teleport, Hand Pose, Locomotion functions]
     VR/XR --> addon21[**input_manager**<hr>Input device setup for Joypad/Mouse]
+    VR/XR --> addon13[**spatial_game_viewport_manager**<hr>Manages viewport size changes]
+    VR/XR --> addon29["**flat_viewport**<hr>Control for handling offscreen rendering (from a VR device for example)"]
     B --> VRM
     VRM --> addon10[**vrm**<hr>Godot VRM Avatar implementation]
     VRM --> addon11[**Godot-MToon-Shader**<hr>Godot Toon shader for VRM Avatars]
@@ -30,7 +32,6 @@ flowchart LR
     B --> Audio
     Audio --> addon14[**kenney_ui_audio**<hr>UI sound sfx .wav library]
     Audio --> addon9[**godot_speech**<hr>Audio packets decoder/encoder]
-    B --> addon13[**spatial_game_viewport_manager**<hr>Manages viewport size changes]
     B --> addon16[**background_loader**<hr>Interface for resource load requests with whitelist]
     B --> addon17[**extended_kinematic_body**<hr>Improved CharacterBody3d with better tolerance for stairs/slopes]
     B --> addon22[**line_renderer**<hr>Experimental line render for 3d pen writing function]
@@ -38,7 +39,6 @@ flowchart LR
     Network --> addon25[**network_manager**<hr>Manages network settings, logic, physics, spawning commands...]
     Network --> addon26[**godot_uro**<hr>Uro API server interface to send requests for login, avatars, maps upload/download]
     B --> addon27[**godot_state_charts**<hr>Base class for Actor animation states]
-    B --> addon29["**flat_viewport**<hr>Control for handling offscreen rendering (from a VR device for example)"]
     B --> addon30[**entity_manager**<hr>Manages in-game entities and logic, physics, scene spawing and network coordination]
     B --> addon32[**actor**<hr>Player actor state machine and camera controller]
     addon32 --> dir1["**states**<hr>Actor states(jump, fall..) for state machine"]
