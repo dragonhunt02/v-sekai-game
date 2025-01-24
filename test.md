@@ -15,6 +15,7 @@ flowchart LR
     B --> UI
     UI --> addon3[**vsk_menu**<hr>Main title menus and in-game menus]
     UI --> addon28[**fade_manager**<hr>Controls full screen fading including in VR]
+    UI --> addon31[**canvas_plane**<hr>Utility to position Godot control nodes in 3D space]
     UI --> addon7[**textureRectUrl**<hr>Image preview controls for UI item grids]
     UI --> addon24[**navigation_controller**<hr>Menu state controller for menu switching]
     UI --> addon15[**emote_theme**<hr>Font files and theme settings]
@@ -37,10 +38,15 @@ flowchart LR
     Network --> addon26[**godot_uro**<hr>Uro API server interface to send requests for login, avatars, maps upload/download]
     B --> addon27[**godot_state_charts**<hr>Base class for Actor animation states]
     B --> addon29["**flat_viewport**<hr>Control for handling offscreen rendering (from a VR device for example)"]
-    B --> addon30[**xr_vignette/**<hr>test]
-    B --> addon31[**xr_vignette/**<hr>test]
-    B --> addon32[**xr_vignette/**<hr>test]
-    B --> addon33[**xr_vignette/**<hr>test]
+    B --> addon30[**entity_manager**<hr>Manages in-game entities and logic, physics, scene spawing and network coordination]
+    B --> addon32[**actor**<hr>Player actor state machine and camera controller]
+    addon32 --> dir1["**states**<hr>Actor states(jump, fall..) for state machine"]
+    B --> addon33[**vsk_importer_exporter**<hr>Avatar/scene import and export validation]
+    B --> addon34[**vsk_editor**<hr>Editor plugin for uploading Maps/Avatars to Uro server]
+    B --> addon35[**vsk_avatar**<hr>Avatar definition, load/setup of bones, IK, hand poses]
+    B --> addon36[**xr_vignette/**<hr>test]
+    B --> addon37[**xr_vignette/**<hr>test]
+    B --> addon38[**xr_vignette/**<hr>test]
 ```
 
 ```mermaid
