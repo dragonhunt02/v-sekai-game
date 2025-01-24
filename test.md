@@ -53,8 +53,8 @@ flowchart LR
     addon38 --> dir6[**outside_game_root_vr.tscn**<hr>Debug Menu scene]
     addon38 --> dir7[**vsk_asset_manager.gd**<hr>Manages http or local requests of assets]
     addon38 --> dir8[**xr_vignette/**<hr>test]
-    B --> addon38[**xr_vignette/**<hr>test]
-    B --> addon38[**xr_vignette/**<hr>test]
+    B --> addon39[**xr_vignette/**<hr>test]
+    B --> addon40[**xr_vignette/**<hr>test]
 ```
 
 ```mermaid
