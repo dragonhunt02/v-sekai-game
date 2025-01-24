@@ -14,19 +14,19 @@ flowchart LR
     Misc --> addon2[**vsk_version**<hr>Version Strings]
     B --> UI
     UI --> addon3[**vsk_menu**<hr>Main title menus and in-game menus]
-    UI --> addon7[**textureRectUrl**<hr>Image previews for UI item grids]
+    UI --> addon7[**textureRectUrl**<hr>Image preview controls for UI item grids]
+    UI --> addon15[**emote_theme**<hr>Font files and theme settings]
     B --> Audio
     Audio --> addon14[**kenney_ui_audio**<hr>UI sound sfx .wav library]
     Audio --> addon9[**godot_speech**<hr>Audio packets decoder/encoder]
     B --> addon12[**smoothing**<hr>Fixed timestep interpolation addon for framerate independent physics]
     B --> addon13[**spatial_game_viewport_manager**<hr>Manages viewport size changes]
-    B --> addon15[**xr_vignette/**<hr>test]
-    B --> addon15[**xr_vignette/**<hr>test]
-    B --> addon15[**xr_vignette/**<hr>test]
-    B --> addon15[**xr_vignette/**<hr>test]
-    B --> addon15[**xr_vignette/**<hr>test]
-    B --> addon15[**xr_vignette/**<hr>test]
-    B --> addon15[**xr_vignette/**<hr>test]
+    B --> addon16[**background_loader**<hr>Interface for resource load requests with whitelist]
+    B --> addon17[**xr_vignette/**<hr>test]
+    B --> addon18[**xr_vignette/**<hr>test]
+    B --> addon19[**xr_vignette/**<hr>test]
+    B --> addon20[**xr_vignette/**<hr>test]
+    B --> addon21[**xr_vignette/**<hr>test]
 ```
 
 ```mermaid
