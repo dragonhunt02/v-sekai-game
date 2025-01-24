@@ -36,19 +36,21 @@ flowchart LR
     Network --> addon26[**godot_uro**<hr>Uro API server interface to send requests for login, avatars, maps upload/download]
     B --> Game
     Game --> addon38[**vsk_manager**<hr>Main game logic]
-    addon38 --> dir5{**vsk_startup_manager.gd**<hr>Game Entrypoint}
-    addon38 --> dir6[**outside_game_root_vr.tscn**<hr>Debug Menu scene]
-    addon38 --> dir7[**vsk_asset_manager.gd**<hr>Manages http or local requests of assets]
-    addon38 --> dir8[**xr_vignette/**<hr>test]
+    addon38 --> ctrl1{" "}
+    ctrl1 --> dir5{**vsk_startup_manager.gd**<hr>Game Entrypoint}
+    ctrl1 --> dir6[**outside_game_root_vr.tscn**<hr>Debug Menu scene]
+    ctrl1 --> dir7[**vsk_asset_manager.gd**<hr>Manages http or local requests of assets]
+    ctrl1 --> dir8[**xr_vignette/**<hr>test]
     Game --> addon16[**background_loader**<hr>Interface for resource load requests with whitelist]
     B --> Entities
     Entities --> addon35[**vsk_avatar**<hr>Avatar definition, load/setup of bones, IK, hand poses]
     Entities --> addon4[**vsk_map**<hr>Class definitions for game Maps]
     Entities --> addon30[**entity_manager**<hr>Manages in-game entities and logic, physics, scene spawing and network coordination]
     Entities --> addon36[**vsk_entities**<hr>Game entities initialization. Contains player avatar main scene.]
-    addon36 --> dir2[**vsk_player_old.tscn**<hr>Current player Avatar entity instance]
-    addon36 --> dir3[**vsk_player.tscn**<hr>Unused experimental player entity with a godot head and floating hands.]
-    addon36 --> dir4[**vsk_moving_platform.tscn**<hr>Unused]
+    addon36 --> ctrl0{" "}
+    ctrl0 --> dir2[**vsk_player_old.tscn**<hr>Current player Avatar entity instance]
+    ctrl0 --> dir3[**vsk_player.tscn**<hr>Unused experimental player entity with a godot head and floating hands.]
+    ctrl0 --> dir4[**vsk_moving_platform.tscn**<hr>Unused]
     B --> Editor
     Editor --> addon33[**vsk_importer_exporter**<hr>Avatar/scene import and export validation]
     Editor --> addon34[**vsk_editor**<hr>Editor plugin for uploading Maps/Avatars to Uro server]
