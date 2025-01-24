@@ -1,13 +1,15 @@
 ```mermaid
 %%{init: {'themeVariables': { 'fontSize': '22px' }}}%%
 flowchart TD
+        VR-XR --> Input
         VR-XR --> addon13[**spatial_game_viewport_manager**<hr>Manages viewport size changes]
         VR-XR --> addon29["**flat_viewport**<hr>Control for handling offscreen rendering (from a VR device for example)"]
-        VR-XR --> addon21[**input_manager**<hr>Input device setup for Joypad/Mouse]
-        VR-XR --> addon20[**sar1_vr_manager**<hr>Main VR Controller. Manages HMD settings, trackers, render tree.]
+        Input --> addon21[**input_manager**<hr>Input device setup for Joypad/Mouse]
+        Input --> addon20[**sar1_vr_manager**<hr>Main VR Controller. Manages HMD settings, trackers, render tree.]
             addon20 --> dir0[**components**<hr>Lasso, Teleport, Hand Pose, Locomotion functions]
-        VR-XR --> addon18[**sar1_mocap_manager**<hr>Motion capture reading/recording in a custom format]
-        VR-XR --> addon19[**sar1_screenshot_manager**<hr>Utility to capture screenshots]
+        VR-XR --> Utils
+        Utils --> addon18[**sar1_mocap_manager**<hr>Motion capture reading/recording in a custom format]
+        Utils --> addon19[**sar1_screenshot_manager**<hr>Utility to capture screenshots]
         VR-XR --> addon0[**xr_vignette**<hr>Experimental camera tunnel shader to reduce motion sickness]
     classDef Category font-size:30px
     class A,B,Actor,Audio,Editor,Entities,Game,UI,Misc,Network,VR-XR,VRM Category
@@ -26,9 +28,10 @@ flowchart TD
 ```mermaid
 %%{init: {'themeVariables': { 'fontSize': '22px' }}}%%
 flowchart TD
-        Misc --> addon2[**vsk_version**<hr>Version Strings]
-        Misc --> addon8[**gd_util**<hr>Generic utility functions for 3d transforms, camera]
-        Misc --> addon23[**math_util**<hr>Utility math functions]
+        Misc --> Utils
+        Utils --> addon2[**vsk_version**<hr>Version Strings]
+        Utils --> addon8[**gd_util**<hr>Generic utility functions for 3d transforms, camera]
+        Utils --> addon23[**math_util**<hr>Utility math functions]
         Misc --> addon12[**smoothing**<hr>Fixed timestep interpolation addon for framerate independent physics]
         Misc --> addon5[**splerger**<hr>Mesh splitting with 3d grid for Map culling or pre-upload transform]
         Misc --> addon22[**line_renderer**<hr>Experimental line render for 3d pen writing function]
@@ -40,8 +43,9 @@ flowchart TD
 ```mermaid
 %%{init: {'themeVariables': { 'fontSize': '22px' }}}%%
 flowchart TD
-        UI --> addon3[**vsk_menu**<hr>Main title menus and in-game menus]
-        UI --> addon24[**navigation_controller**<hr>Menu state controller for menu switching]
+        UI --> Menu
+        Menu --> addon3[**vsk_menu**<hr>Main title menus and in-game menus]
+        Menu --> addon24[**navigation_controller**<hr>Menu state controller for menu switching]
         UI --> addon28[**fade_manager**<hr>Controls full screen fading including in VR]
         UI --> addon31[**canvas_plane**<hr>Utility to position Godot control nodes in 3D space]
         UI --> addon7[**textureRectUrl**<hr>Image preview controls for UI item grids]
