@@ -44,8 +44,16 @@ flowchart LR
     B --> addon33[**vsk_importer_exporter**<hr>Avatar/scene import and export validation]
     B --> addon34[**vsk_editor**<hr>Editor plugin for uploading Maps/Avatars to Uro server]
     B --> addon35[**vsk_avatar**<hr>Avatar definition, load/setup of bones, IK, hand poses]
-    B --> addon36[**xr_vignette/**<hr>test]
-    B --> addon37[**xr_vignette/**<hr>test]
+    B --> addon36[**vsk_entities**<hr>Game entities initialization. Contains player avatar main scene.]
+    addon36 --> dir2[**vsk_player_old.tscn**<hr>Current player Avatar entity instance]
+    addon36 --> dir3[**vsk_player.tscn**<hr>Unused experimental player entity with a godot head and floating hands.]
+    addon36 --> dir4[**xr_vignette/**<hr>test]
+    B --> addon38[**xr_vignette/**<hr>test]
+    B --> addon38[**xr_vignette/**<hr>test]
+    B --> addon38[**xr_vignette/**<hr>test]
+    B --> addon38[**xr_vignette/**<hr>test]
+    B --> addon38[**xr_vignette/**<hr>test]
+    B --> addon38[**xr_vignette/**<hr>test]
     B --> addon38[**xr_vignette/**<hr>test]
 ```
 
