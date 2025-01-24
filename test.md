@@ -2,14 +2,14 @@
 flowchart LR
     A[v-sekai-game] --> B(addons/)
     B --> VR/XR
-    VR/XR --> addon0[**xr_vignette**<hr>Experimental camera tunnel shader to reduce motion sickness]
-    VR/XR --> addon18[**sar1_mocap_manager**<hr>Motion capture reading/recording in a custom format]
-    VR/XR --> addon19[**sar1_screenshot_manager**<hr>Utility to capture screenshots]
-    VR/XR --> addon20[**sar1_vr_manager**<hr>Main VR Controller. Manages HMD settings, trackers, render tree.]
-    addon20 --> dir0[**components**<hr>Lasso, Teleport, Hand Pose, Locomotion functions]
-    VR/XR --> addon21[**input_manager**<hr>Input device setup for Joypad/Mouse]
     VR/XR --> addon13[**spatial_game_viewport_manager**<hr>Manages viewport size changes]
     VR/XR --> addon29["**flat_viewport**<hr>Control for handling offscreen rendering (from a VR device for example)"]
+    VR/XR --> addon21[**input_manager**<hr>Input device setup for Joypad/Mouse]
+    VR/XR --> addon20[**sar1_vr_manager**<hr>Main VR Controller. Manages HMD settings, trackers, render tree.]
+        addon20 --> dir0[**components**<hr>Lasso, Teleport, Hand Pose, Locomotion functions]
+    VR/XR --> addon18[**sar1_mocap_manager**<hr>Motion capture reading/recording in a custom format]
+    VR/XR --> addon19[**sar1_screenshot_manager**<hr>Utility to capture screenshots]
+    VR/XR --> addon0[**xr_vignette**<hr>Experimental camera tunnel shader to reduce motion sickness]
     B --> VRM
     VRM --> addon10[**vrm**<hr>Godot VRM Avatar implementation]
     VRM --> addon11[**Godot-MToon-Shader**<hr>Godot Toon shader for VRM Avatars]
@@ -23,10 +23,10 @@ flowchart LR
     Misc --> addon22[**line_renderer**<hr>Experimental line render for 3d pen writing function]
     B --> UI
     UI --> addon3[**vsk_menu**<hr>Main title menus and in-game menus]
+    UI --> addon24[**navigation_controller**<hr>Menu state controller for menu switching]
     UI --> addon28[**fade_manager**<hr>Controls full screen fading including in VR]
     UI --> addon31[**canvas_plane**<hr>Utility to position Godot control nodes in 3D space]
     UI --> addon7[**textureRectUrl**<hr>Image preview controls for UI item grids]
-    UI --> addon24[**navigation_controller**<hr>Menu state controller for menu switching]
     UI --> addon15[**emote_theme**<hr>Font files and theme settings]
     B --> Audio
     Audio --> addon14[**kenney_ui_audio**<hr>UI sound sfx .wav library]
