@@ -25,7 +25,7 @@ SHELL [ "/bin/bash", "-c" ]
 RUN apt-get update && apt-get upgrade -y \
   && apt-get install -y git curl jq zip unzip fontconfig openjdk-17-jdk imagemagick file tree
 
-RUN git clone "https://github.com/${GAME_REPO}.git" "./src"
+RUN mkdir -p "./src" "./src/vsk_default/icon/"
 
 RUN convert -density 1200 -resize 432x432 './src/vsk_default/icon/v_sekai_logo_bg.svg' './src/vsk_default/icon/adaptive_background_432x432.png'
 RUN ls -a './src/vsk_default/icon/'
@@ -46,8 +46,6 @@ RUN TPZ_URLS=$( \
             && mv ${GODOT_TPZ%.*}/${GODOT_TPZ%.*}.tpz templates.zip && rmdir ${GODOT_TPZ%.*} \
             && unzip templates.zip && rm templates.zip
 
-RUN mv -v templates/lib_release.aar templates/godot-lib_release.aar \
-    && mv -v templates/lib_debug.aar templates/godot-lib_debug.aar
 RUN tree
 
 # Get latest Godot editor metadata
@@ -123,10 +121,6 @@ RUN echo $( cat './src/editor_settings-4.tres' ) && echo $( cat './src/export_pr
 RUN echo 'Testroot2' && tree ./src/android/build
 #RUN && mv release.keystore ${HOMEDIR} exit 1
 
-# Import missing files
-#RUN "./${GODOT_EDITOR}" --import --headless --build-solutions --path './src'
-RUN "./${GODOT_EDITOR}" --editor --headless --quit --path './src'
-#RUN timeout --preserve-status 120s "./${GODOT_EDITOR}" --editor --headless --path './src' || true
 
 RUN cd ./src && echo -n $( git log --format="%(describe:tags,abbrev=0)" -n 1 | cut -d '-' -f1 ) >version.txt \
     && if [ "${INPUT_NIGHTLY}" == 'true' ]; then \
@@ -134,45 +128,6 @@ RUN cd ./src && echo -n $( git log --format="%(describe:tags,abbrev=0)" -n 1 | c
          GODOT_SHA=$( cat ${HOMEDIR}/'godot_editor_sha.txt' ); \
          echo -n "_editor-${GODOT_SHA:0:7}" >>version.txt; \
        fi
+COPY build.sh build.sh
 
-RUN cat ./src/version.txt 
-
-RUN GIT_REV=$(cat ./src/version.txt | tr -d '\n') \
-       && for PLATFORM in ${BUILD_PLATFORMS}; do \
-            echo "Building ${PLATFORM}..."; \
-            BUILD_DIR="./${BIN}"; EXT=''; \
-            if [ "${PLATFORM}" == 'Windows' ]; then \
-                EXT='.exe'; \
-            elif [ "${PLATFORM}" == 'QuestAndroid' ]; then \
-                EXT='.apk'; \
-            elif [ "${PLATFORM}" == 'Mac' ]; then \
-                EXT='.zip'; \
-            elif [ "${PLATFORM}" == 'Web' ]; then \
-                BUILD_DIR="${BUILD_DIR}/v-sekai-game_${GIT_REV}_${PLATFORM}"; \
-                mkdir -p "./src/${BUILD_DIR}"; \
-            fi; \
-            "./${GODOT_EDITOR}" ${BUILD_ARGS} --path './src' --export-release ${PLATFORM} ${BUILD_DIR}/v-sekai-game_${GIT_REV}_${PLATFORM}${EXT} || true; \
-            if [ "${PLATFORM}" == 'Web' ]; then \
-                zip -r "./src/${BIN}/v-sekai-game_${GIT_REV}_${PLATFORM}.zip" ./src/${BUILD_DIR}; \
-                rm -r ./src/${BUILD_DIR}; \
-            fi; \
-          done
-
-# Copy output to github
-#RUN if [ -d "/github/workflows/" ]; then \
-#        echo "Copying to Github output..."; \
-#        cp ./src/$BIN/* /github/workflows/; \
-#    else \
-#        echo "Skipping Github output copy!"; \
-#    fi
-
-RUN echo "Test" > $HOMEDIR/src/$BIN/file_0.0.1_windows_le.test 
-#CMD ls . && echo "HOME\n" && ls $HOME && echo "WORKSPACE\n" && ls ${GITHUB_WORKSPACE} && echo "ROOT\n" && ls /root/ && \
-CMD mkdir -p ${GITHUB_WORKSPACE}/releases && tree -a /root/src && \
-        echo "Copying to Github output..." \
-        && cp -v $HOMEDIR/src/$BIN/* ${GITHUB_WORKSPACE}/releases \
-        && echo "INPUT_NIGHTLY: $INPUT_NIGHTLY"
-
-#RUN ls -a ./src
-RUN ls ./src/${BIN}
-RUN file ./src/${BIN}/v-sekai*
+CMD build.sh
