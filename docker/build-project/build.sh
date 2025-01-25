@@ -4,7 +4,11 @@ cd $HOMEDIR
 
 git clone "https://github.com/${GAME_REPO}.git" "./src"
 
-GIT_REV=$(cat ./src/version.txt | tr -d '\n')
+if [ "${INPUT_NIGHTLY}" == 'true' ]; then
+    GIT_REV=$(cat ./src/version-nightly.txt | tr -d '\n');
+else
+    GIT_REV=$(cat ./src/version.txt | tr -d '\n');
+fi
 
 # Import
 "./${GODOT_EDITOR}" --editor --headless --quit --path './src'
