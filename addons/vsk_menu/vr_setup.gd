@@ -77,6 +77,11 @@ func _on_VREnabled_pressed():
 	VRManager.toggle_vr()
 
 
+func _on_camera_mode_changed(p_id: int) -> void:
+	VRManager.vr_user_preferences.camera_mode = p_id
+	update_menu_button_text(camera_mode_button, VRManager.vr_user_preferences.camera_mode, VRManager.camera_mode_names)
+
+
 func save_changes() -> void:
 	super.save_changes()
 
