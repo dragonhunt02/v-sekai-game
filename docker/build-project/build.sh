@@ -2,8 +2,17 @@ set -e
 
 cd $HOMEDIR
 
-git clone "https://github.com/${GAME_REPO}.git" "./src"
+git clone "https://github.com/${GAME_REPO}.git" "./src1"
 
+mv ./src1/* ./src
+
+cd ./src && echo -n $( git log --format="%(describe:tags,abbrev=0)" -n 1 | cut -d '-' -f1 ) >version.txt \
+    && cp version.txt version-nightly.txt \
+    && echo -n "-$( git rev-parse --short HEAD )" >>version-nightly.txt \
+    && GODOT_SHA=$( cat ${HOMEDIR}/'godot_editor_sha.txt' ) \
+    && echo -n "_editor-${GODOT_SHA:0:7}" >>version-nightly.txt \
+    && cd ..
+    
 if [ "${INPUT_NIGHTLY}" == 'true' ]; then
     GIT_REV=$(cat ./src/version-nightly.txt | tr -d '\n');
 else
