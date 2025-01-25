@@ -122,12 +122,7 @@ RUN echo 'Testroot2' && tree ./src/android/build
 #RUN && mv release.keystore ${HOMEDIR} exit 1
 
 
-RUN cd ./src && echo -n $( git log --format="%(describe:tags,abbrev=0)" -n 1 | cut -d '-' -f1 ) >version.txt \
-    && cp version.txt version-nightly.txt \
-    && echo -n "-$( git rev-parse --short HEAD )" >>version-nightly.txt \
-    && GODOT_SHA=$( cat ${HOMEDIR}/'godot_editor_sha.txt' ) \
-    && echo -n "_editor-${GODOT_SHA:0:7}" >>version-nightly.txt
-         
+     
 COPY build.sh build.sh
 
 CMD build.sh
