@@ -4,6 +4,10 @@ set -e
 cd $HOMEDIR
 
 git clone "https://github.com/${GAME_REPO}.git" "./src1"
+#cd src1 && git switch gh2
+#cd ..
+
+export HOME=$HOMEDIR
 
 shopt -s dotglob
 mv ./src1/* ./src
