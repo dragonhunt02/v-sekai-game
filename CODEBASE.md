@@ -39,7 +39,6 @@ flowchart TD
             ctrl1 --> dir1{**vsk_startup_manager.gd**<hr>Game Entrypoint}
             ctrl1 --> dir2[**outside_game_root_vr.tscn**<hr>Debug Menu scene]
             ctrl1 --> dir3[**vsk_asset_manager.gd**<hr>Manages http or local requests of assets]
-            ctrl1 --> dir4[**xr_vignette/**<hr>test]
         Game --> addon12[**background_loader**⚙️<hr>Interface for resource load requests with whitelist]
 
     classDef Category font-size:30px
