@@ -113,6 +113,8 @@ jobs:
 
       - name: Upload Release Asset
         run: |
+          echo "Test1 ${{ needs.build.outputs.PRERELEASE }}"
+          echo "Test2 ${{ ! needs.build.outputs.PRERELEASE }}"
           echo "Release Tag: ${{ needs.build.outputs.TAG_NAME }}."
           cd v-sekai-release
           echo "Uploading to ${{ steps.create_release.outputs.upload_url }}"
@@ -132,7 +134,7 @@ jobs:
     needs: [build]
 
     # Publish only on v-sekai-game tag update
-    if: needs.build.outputs.ITCH_IO_PUBLISH == 'true' && needs.build.outputs.TAG_PUSH == 'true'
+    if: github.ref == 'refs/heads/gh-bash' && needs.build.outputs.ITCH_IO_PUBLISH == 'true' && needs.build.outputs.TAG_PUSH == 'true'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
