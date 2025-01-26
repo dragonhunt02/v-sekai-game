@@ -5,8 +5,18 @@ cd $HOMEDIR
 git clone "https://github.com/${GAME_REPO}.git" "./src1"
 
 mv ./src1/* ./src
+
 convert -density 1200 -resize 432x432 './src/vsk_default/icon/v_sekai_logo_bg.svg' './src/vsk_default/icon/adaptive_background_432x432.png'
 ls -a './src/vsk_default/icon/'
+
+
+# Set export_templates parent folder in .cfg file and copy editor settings
+sed -i -r "s|(^[a-z]*/[a-z]*=\")~|\1${HOMEDIR}|g" './src/export_presets.cfg' \
+    && mkdir -p ${HOMEDIR}/.config/godot/ \
+    && sed -i -r "s|(^export/android/android_sdk_path = \")~|\1${HOMEDIR}|g" './src/editor_settings-4.tres' \
+    && sed -i -r "s|(^export/android/debug_keystore = \")~|\1${HOMEDIR}|g" './src/editor_settings-4.tres' \
+    && cp -v ./src/editor_settings-4.tres ${HOMEDIR}/.config/godot/editor_settings-4.4.tres
+
 
 cd ./src && echo -n $( git log --format="%(describe:tags,abbrev=0)" -n 1 | cut -d '-' -f1 ) >version.txt \
     && cp version.txt version-nightly.txt \
