@@ -17,6 +17,10 @@ For local builds we use [just](https://github.com/casey/just) command-line utili
 ```
 sudo apt install just
 ```
+**Fedora**
+```
+dnf install just
+```
 **Windows** (Chocolatey)
 ```
 choco install just
