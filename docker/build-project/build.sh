@@ -76,6 +76,8 @@ mkdir -p ${GITHUB_WORKSPACE}/releases && tree -a /root/src && \
     echo "Copying to Github output..." \
     && cp -v $HOMEDIR/src/$BIN/* ${GITHUB_WORKSPACE}/releases \
     && echo "INPUT_NIGHTLY: $INPUT_NIGHTLY"
+
+echo "VERSION_TAG=${GIT_REV}" >> ${GITHUB_OUTPUT:=/dev/null}
 #RUN ls -a ./src
 ls ./src/${BIN}
 file ./src/${BIN}/v-sekai*
