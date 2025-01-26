@@ -5,6 +5,9 @@ inputs:
     description: 'Nightly build mode'
     required: false
     default: 'false'
+outputs:
+  version_tag:
+    description: 'Auto-generated version tag'
 runs:
   using: 'docker'
   image: 'Dockerfile'
