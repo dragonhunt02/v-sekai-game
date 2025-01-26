@@ -4,15 +4,16 @@ set -e
 cd $HOMEDIR
 
 git clone "https://github.com/${GAME_REPO}.git" "./src1"
-#cd src1 && git switch gh2
-#cd ..
+cd src1 && git switch gh-bash
+cd ..
 
 export HOME=$HOMEDIR
 
 shopt -s dotglob
 mv ./src1/* ./src
 
-convert -density 1200 -resize 432x432 './src/vsk_default/icon/v_sekai_logo_bg.svg' './src/vsk_default/icon/adaptive_background_432x432.png'
+#convert -density 1200 -resize 432x432 './src/vsk_default/icon/v_sekai_logo_bg.svg' './src/vsk_default/icon/adaptive_background_432x432.png'
+#convert -density 1200 -resize 432x432 './src/vsk_default/icon/v_sekai_logo_bg.svg' './src/vsk_default/icon/adaptive_background_432x432.png'
 ls -a './src/vsk_default/icon/'
 
 
