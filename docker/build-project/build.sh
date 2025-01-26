@@ -20,6 +20,8 @@ sed -i -r "s|(^[a-z]*/[a-z]*=\")~|\1${HOMEDIR}|g" './src/export_presets.cfg' \
     && cp -v ./src/editor_settings-4.tres ${HOMEDIR}/.config/godot/editor_settings-4.4.tres
 
 cat ${HOMEDIR}/.config/godot/editor_settings-4.4.tres
+cat './src/export_presets.cfg'
+exit 1
 
 cd ./src && echo -n $( git log --format="%(describe:tags,abbrev=0)" -n 1 | cut -d '-' -f1 ) >version.txt \
     && cp version.txt version-nightly.txt \
