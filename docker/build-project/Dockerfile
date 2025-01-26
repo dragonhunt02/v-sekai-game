@@ -17,8 +17,9 @@ ENV TEMPLATE_DIR "$HOMEDIR/.local/share/godot/export_templates/4.4.beta"
 ENV ANDROID_SDK_ROOT "$HOMEDIR/android_sdk"
 ENV ANDROID_HOME "$HOMEDIR/android_sdk"
 
-COPY ./build.sh .
-RUN ls .
+COPY ./build.sh /
+RUN chmod +x /build.sh
+RUN ls /
 
 WORKDIR $HOMEDIR
 
@@ -115,7 +116,7 @@ RUN echo 'Testroot2' && tree ./src/android/build
 
 
      
-COPY ./build.sh .
-RUN ls .
-ENTRYPOINT ["/bin/bash", "-c", "./build.sh"] 
+#COPY ./build.sh .
+#RUN ls .
+ENTRYPOINT ["/bin/bash", "-c", "/build.sh"] 
 #CMD ["build.sh"]
