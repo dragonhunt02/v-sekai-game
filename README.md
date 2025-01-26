@@ -72,9 +72,14 @@ We are looking for developers and content creators for avatar and maps.
 3. Ask on [**Discord**](https://discord.gg/H3s3PD49XC) for manual account approval and further instructions.
 
 ### Game development
-V-Sekai requires our [custom Godot Engine fork](https://github.com/V-Sekai/world-godot). For information about building the Godot Engine, see the [official documentation](https://docs.godotengine.org/en/latest/contributing/development/compiling/).
+V-Sekai requires our [custom Godot Engine fork](https://github.com/V-Sekai/world-godot).
 
+For information about building our custom Godot Engine, see [BUILDING.md](BUILDING.md). More information is available in the [official documentation](https://docs.godotengine.org/en/latest/contributing/development/compiling/).
+
+Game logic components are in `addons/` folder.
 An overview of GDScript game code is available in [CODEBASE.md](CODEBASE.md).
+
+Our server backend is [Uro](https://github.com/V-Sekai/uro), powered by Elixir/Phoenix. It manages assets, accounts and public instances.
 
 ## License :page_facing_up:
 
