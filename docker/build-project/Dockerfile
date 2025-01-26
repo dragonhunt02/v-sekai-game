@@ -117,5 +117,5 @@ RUN echo 'Testroot2' && tree ./src/android/build
      
 COPY ./build.sh .
 RUN ls .
-ENTRYPOINT ["/bin/bash", "-c", "build.sh"] 
+ENTRYPOINT ["/bin/bash", "-c", "./build.sh"] 
 #CMD ["build.sh"]
