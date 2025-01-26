@@ -51,37 +51,19 @@ just build-target-macos-editor-double
 **All export templates**
 ```
 PLATFORMS="linuxbsd windows android web"
-for in ; do
+for platform in "$PLATFORMS"; do
 just fetch-openjdk setup-android-sdk fetch-llvm-ming setup-arm64
-just build-platform-templates ${{ matrix.platform }} ${{ matrix.architecture }} ${{ matrix.precision }}';
-done
- build-platform-templates macos
-```case "${{ matrix.platform }}" in  
-            android)  
-              PLATFORM_ARGS="fetch-openjdk setup-android-sdk fetch-llvm-ming setup-arm64"  
-              ;;  
-            web)  
-              PLATFORM_ARGS="setup-emscripten"
-              if [ ${{ matrix.target }} == 'template_debug' ]; then
-                  EXTRA_OPTIONS="optimize=none"; # Fix Github runner out of RAM
-              fi
-              ;;  
-            windows)  
-              PLATFORM_ARGS="fetch-llvm-mingw"  
-              ;;  
-            macos)  
-              PLATFORM_ARGS="build-osxcross fetch-vulkan-sdk"  
-              ;;  
-            *)  
-              PLATFORM_ARGS="nil"  
-              ;;  
-          esac
-          if "${{ matrix.architecture == 'arm64' }}"; then
-              PLATFORM_ARGS="setup-arm64 $PLATFORM_ARGS"
-          fi
-          if [ ${{ matrix.platform }} == 'android' ] && [ ${{ matrix.target }} == 'template_release' ]; then
-              # Combined debug/release templates step
-              hyperfine --show-output --runs 1 'just $PLATFORM_ARGS && 
-          else
-              hyperfine --show-output --runs 1 'just $PLATFORM_ARGS && just build-platform-target ${{ matrix.platform }} ${{ matrix.target }} ${{ matrix.architecture }} ${{ matrix.precision }} yes $EXTRA_OPTIONS';
-          fi
+just build-platform-templates linuxbsd x86_64
+just build-platform-templates windows x86_64
+just build-platform-templates web wasm32
+just build-platform-templates ios
+just build-platform-templates android arm64
+just build-platform-templates macos arm64
+
+if [ ${{ matrix.platform }} == 'x86_64' ]; then
+    hyperfine
+else if [ ${{ matrix.platform }} == 'arm64' ];
+    hyperfine
+fi    
+    
+```
