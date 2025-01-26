@@ -30,7 +30,7 @@ jobs:
       GIT_TAG: ${{ steps.setenv.outputs.GIT_TAG }}
       GIT_SHA: ${{ steps.setenv.outputs.GIT_SHA }}
       ITCH_IO_PUBLISH: ${{ steps.setenv.outputs.ITCH_IO_PUBLISH }}
-      TAG_NAME: ${{ steps.tag.outputs.VERSION_TAG }}
+      TAG_NAME: ${{ steps.tag.outputs.TAG_NAME }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -101,9 +101,9 @@ jobs:
           if [ ${{ steps.setenv.outputs.TAG_PUSH }} == "false" ]; then \
             TAG_DATE="$( date +"%Y-%m-%d" )"; \
             TAG_VERSION="$( echo "${{ steps.docker.outputs.VERSION_TAG }}" | cut -d '-' -f2- )"; \
-            TAG_NAME="${TAG_NAME}-nightly-${TAG_DATE}${TAG_VERSION}"; \
+            TAG_NAME="${TAG_NAME}-nightly-${TAG_DATE}-${TAG_VERSION}"; \
           fi
-          echo "VERSION_TAG=${TAG_NAME}" >> $GITHUB_OUTPUT
+          echo "TAG_NAME=${TAG_NAME}" >> $GITHUB_OUTPUT
 
   release:
     runs-on: ubuntu-latest
@@ -130,9 +130,9 @@ jobs:
 
       - name: Upload Release Asset
         run: |
-          echo "Release Tag: ${{ needs.build.outputs.GIT_TAG }}. Uploading..."
+          echo "Release Tag: ${{ needs.build.outputs.TAG_NAME }}."
           cd v-sekai-release
-          echo "Upload to ${{ steps.create_release.outputs.upload_url }}"
+          echo "Uploading to ${{ steps.create_release.outputs.upload_url }}"
           for file in *; do \
             echo "Uploading $file..."; \
             curl -L \
@@ -143,7 +143,6 @@ jobs:
               "https://uploads.github.com/repos/${{ github.repository }}/releases/${{ steps.create_release.outputs.id }}/assets?name=${file}" \
               -T "${file}"; \
           done
-          # --data-binary "@${file}"; \
 
   itch-enabled: # Workaround for 'job.if' lack of env context variable
     runs-on: ubuntu-latest
