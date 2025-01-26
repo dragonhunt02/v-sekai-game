@@ -11,7 +11,7 @@ You can use Github Actions or our automated build scripts (local).
 ## Using Justfile
 For local builds with debug symbols we use [just](https://github.com/casey/just) command-line utility.
 
-#### Install `just` package
+### Install `just` package
 **Ubuntu 24.04+/Debian 13+** (For earlier versions, see `Install 'just' all platforms`)
 ```
 sudo apt install just golang
@@ -29,17 +29,18 @@ brew install just go
 ```
 [Install 'just' all platforms](https://github.com/casey/just?tab=readme-ov-file#packages)
 
-#### Clone build tools repository
+### Clone build tools repository
 ```
 git clone https://github.com/V-Sekai/world-godot.git
 cd world-godot
 ```
 
-#### Build editor
+### Build editor
  **Ubuntu/Debian/Fedora**
 ```
 just install_packages
 just build-platform-target linuxbsd editor
+# Available platforms: linuxbsd windows android web macos
 ```
 **macOS**
 ```
@@ -47,11 +48,9 @@ just fetch-vulkan-sdk
 just build-target-macos-editor-double
 ```
 
-#### Build export templates
+### Build export templates
 **All export templates**
 ```
-PLATFORMS="linuxbsd windows android web"
-for platform in "$PLATFORMS"; do
 just fetch-openjdk setup-android-sdk fetch-llvm-ming setup-arm64
 just build-platform-templates linuxbsd x86_64
 just build-platform-templates windows x86_64
@@ -65,5 +64,4 @@ if [ ${{ matrix.platform }} == 'x86_64' ]; then
 else if [ ${{ matrix.platform }} == 'arm64' ];
     hyperfine
 fi    
-    
 ```
