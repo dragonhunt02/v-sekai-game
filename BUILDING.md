@@ -40,17 +40,21 @@ git clone https://github.com/V-Sekai/world-godot.git
 cd world-godot
 ```
 
-#### Build
+#### Build editor
  **Ubuntu/Debian/Fedora**
 ```
 just install_packages
-
+just build-platform-target linuxbsd editor
 ```
 **Windows**
 ```
-choco install just
 ```
 **macOS**
 ```
-port install just
+just fetch-vulkan-sdk
+just build-target-macos-editor-double
 ```
+
+
+
+just build-platform-templates macos
