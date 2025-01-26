@@ -123,6 +123,6 @@ RUN echo 'Testroot2' && tree ./src/android/build
 
 
      
-COPY build.sh build.sh
+COPY build.sh .
 
-CMD build.sh
+ENTRYPOINT ["build.sh"]
