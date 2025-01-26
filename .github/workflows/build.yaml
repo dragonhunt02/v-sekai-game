@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       TAG_PUSH: ${{ steps.setenv.outputs.TAG_PUSH }}
-      PRERELEASE: ${{ ! steps.setenv.outputs.TAG_PUSH }}
+      PRERELEASE: ! ${{ steps.setenv.outputs.TAG_PUSH }}
       GIT_TAG: ${{ steps.setenv.outputs.GIT_TAG }}
       ITCH_IO_PUBLISH: ${{ steps.setenv.outputs.ITCH_IO_PUBLISH }}
       TAG_NAME: ${{ steps.tag.outputs.TAG_NAME }}
