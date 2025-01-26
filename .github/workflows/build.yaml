@@ -98,7 +98,7 @@ jobs:
         run: |
           # Rolling release
           TAG_NAME="$( echo "${{ steps.docker.outputs.VERSION_TAG }}" | cut -d '-' -f1 )"
-          if [ $TAG_PUSH == "false" ]; then \
+          if [ ${{ steps.setenv.outputs.TAG_PUSH }} == "false" ]; then \
             TAG_DATE="$( date +"%Y-%m-%d" )"; \
             TAG_VERSION="$( echo "${{ steps.docker.outputs.VERSION_TAG }}" | cut -d '-' -f2- )"; \
             TAG_NAME="${TAG_NAME}-nightly-${TAG_DATE}${TAG_VERSION}"; \
