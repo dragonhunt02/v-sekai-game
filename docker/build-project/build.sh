@@ -5,6 +5,8 @@ cd $HOMEDIR
 git clone "https://github.com/${GAME_REPO}.git" "./src1"
 
 mv ./src1/* ./src
+convert -density 1200 -resize 432x432 './src/vsk_default/icon/v_sekai_logo_bg.svg' './src/vsk_default/icon/adaptive_background_432x432.png'
+ls -a './src/vsk_default/icon/'
 
 cd ./src && echo -n $( git log --format="%(describe:tags,abbrev=0)" -n 1 | cut -d '-' -f1 ) >version.txt \
     && cp version.txt version-nightly.txt \
