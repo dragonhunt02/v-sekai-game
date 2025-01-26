@@ -17,14 +17,14 @@ ENV TEMPLATE_DIR "$HOMEDIR/.local/share/godot/export_templates/4.4.beta"
 ENV ANDROID_SDK_ROOT "$HOMEDIR/android_sdk"
 ENV ANDROID_HOME "$HOMEDIR/android_sdk"
 
+COPY ./build.sh .
+RUN ls .
+
 WORKDIR $HOMEDIR
 
 # Using process substitution feature (not POSIX)
 SHELL [ "/bin/bash", "-c" ]
 
-COPY ./build.sh .
-RUN ls .
-ENTRYPOINT ["/bin/bash", "-c", "build.sh"] 
 RUN apt-get update && apt-get upgrade -y \
   && apt-get install -y git curl jq zip unzip fontconfig openjdk-17-jdk imagemagick file tree
 
