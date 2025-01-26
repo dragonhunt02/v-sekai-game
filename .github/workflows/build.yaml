@@ -30,6 +30,7 @@ jobs:
       GIT_TAG: ${{ steps.setenv.outputs.GIT_TAG }}
       GIT_SHA: ${{ steps.setenv.outputs.GIT_SHA }}
       ITCH_IO_PUBLISH: ${{ steps.setenv.outputs.ITCH_IO_PUBLISH }}
+      TAG_NAME: ${{ steps.docker.outputs.VERSION_TAG }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -81,6 +82,7 @@ jobs:
           #godot_rev: ${{ github.event.client_payload.commit_sha }}
 
       - name: Docker build project
+        id: docker
         uses: ./docker/build-project
         with:
           nightly: 'true' 
