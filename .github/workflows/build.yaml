@@ -55,7 +55,7 @@ jobs:
           GIT_TAG=${GIT_TAG:=0.0.1}
 
           echo "TAG_PUSH=${TAG_PUSH}" >> $GITHUB_OUTPUT
-          echo "PRERELEASE=${{ ! TAG_PUSH }}" >> $GITHUB_OUTPUT
+          echo "PRERELEASE=${{ ! env.TAG_PUSH }}" >> $GITHUB_OUTPUT
           echo "GIT_TAG=${GIT_TAG}" >> $GITHUB_OUTPUT
 
           echo "ITCH_IO_PUBLISH=${{ env.ITCH_IO_PUBLISH }}" >> $GITHUB_OUTPUT
