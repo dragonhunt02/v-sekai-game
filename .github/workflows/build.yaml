@@ -54,30 +54,14 @@ jobs:
             PRERELEASE=true; \
           fi
 
-          GIT_TAG="$( git describe --tags --abbrev=0 || '0.0.1' )"
+          GIT_TAG="$( git describe --tags --abbrev=0 )"
+          GIT_TAG=${GIT_TAG:=0.0.1}
 
           echo "TAG_PUSH=${TAG_PUSH}" >> $GITHUB_OUTPUT;
           echo "PRERELEASE=${PRERELEASE}" >> $GITHUB_OUTPUT;
           echo "GIT_TAG=${GIT_TAG}" >> $GITHUB_OUTPUT
 
           echo "ITCH_IO_PUBLISH=${{ env.ITCH_IO_PUBLISH }}" >> $GITHUB_OUTPUT
-
-      - name: Test
-        run: |
-          echo "Github event - ${{ steps.setenv.outputs.GITHUB_REV }}"
-          echo "Github tag - ${{ steps.setenv.outputs.GIT_TAG }}"
-          echo "Github commit sha - ${{ steps.setenv.outputs.GIT_SHA }}"
-          echo "Github is tag push - ${{ steps.setenv.outputs.TAG_PUSH }}"
-          echo "Github release tag name - ${{ steps.setenv.outputs.TAG_NAME }}"
-          #echo "Github event -  ${GITHUB_REV}"
-          #echo "Github tag - ${GIT_TAG}"
-          touch test.txt && echo 'test'>>test.txt
-          touch test.txt && echo 'test'>>test_f0.8fff_linux
-          touch test.txt && echo 'test'>>test_0.5ffff_windows.txt
-          touch test.txt && echo 'test'>>test_0.2.2_Mac_editor4aaa.txt
-          echo "Github event -  ${{ github.event.client_payload.commit_sha }}"
-          
-          #godot_rev: ${{ github.event.client_payload.commit_sha }}
 
       - name: Docker build project
         id: docker
@@ -94,13 +78,15 @@ jobs:
       - name: Set tag name
         id: tag
         run: |
-          # Rolling release
           TAG_NAME="$( echo "${{ steps.docker.outputs.VERSION_TAG }}" | cut -d '-' -f1 )"
+
+          # Rolling release tag
           if [ ${{ steps.setenv.outputs.TAG_PUSH }} == "false" ]; then \
             TAG_DATE="$( date +"%Y-%m-%d" )"; \
             TAG_VERSION="$( echo "${{ steps.docker.outputs.VERSION_TAG }}" | cut -d '-' -f2- )"; \
             TAG_NAME="${TAG_NAME}-nightly-${TAG_DATE}-${TAG_VERSION}"; \
           fi
+
           echo "TAG_NAME=${TAG_NAME}" >> $GITHUB_OUTPUT
 
   release:
@@ -115,7 +101,6 @@ jobs:
         uses: actions/create-release@v1
         with:
           tag_name: ${{ needs.build.outputs.TAG_NAME }}
-          #latest.v-sekai-editor-${{ github.run_number }}
           release_name: ${{ needs.build.outputs.TAG_NAME }} V-Sekai Game Release
           draft: false
           prerelease: ${{ needs.build.outputs.PRERELEASE }}
@@ -141,17 +126,6 @@ jobs:
               "https://uploads.github.com/repos/${{ github.repository }}/releases/${{ steps.create_release.outputs.id }}/assets?name=${file}" \
               -T "${file}"; \
           done
-
-  itch-enabled: # Workaround for 'job.if' lack of env context variable
-    runs-on: ubuntu-latest
-    needs: build
-    outputs:
-      enabled: ${{ steps.init.outputs.status }}
-    steps:
-      - name: Confirm Itch.io release 
-        id: init
-        run: |
-          echo "status=${{ env.ITCH_IO_PUBLISH }}" >> $GITHUB_OUTPUT
 
   itch-upload:
     runs-on: ubuntu-latest
