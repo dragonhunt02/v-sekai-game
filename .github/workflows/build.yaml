@@ -50,12 +50,13 @@ jobs:
             echo "Rolling Release"; \
             TAG_PUSH=false; \
           fi
+          PRERELEASE=${{ ! env.TAG_PUSH }}
 
           GIT_TAG="$( git describe --tags --abbrev=0 )"
           GIT_TAG=${GIT_TAG:=0.0.1}
 
           echo "TAG_PUSH=${TAG_PUSH}" >> $GITHUB_OUTPUT
-          echo "PRERELEASE=${{ ! env.TAG_PUSH }}" >> $GITHUB_OUTPUT
+          echo "PRERELEASE=${PRERELEASE}" >> $GITHUB_OUTPUT
           echo "GIT_TAG=${GIT_TAG}" >> $GITHUB_OUTPUT
 
           echo "ITCH_IO_PUBLISH=${{ env.ITCH_IO_PUBLISH }}" >> $GITHUB_OUTPUT
@@ -64,7 +65,7 @@ jobs:
         id: docker
         uses: ./docker/build-project
         with:
-          nightly: 'true' 
+          nightly: ${{ steps.setenv.outputs.PRERELEASE }}
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
@@ -110,7 +111,6 @@ jobs:
 
       - name: Upload Release Asset
         run: |
-          echo "PR ${{ needs.build.outputs.PRERELEASE }}"
           echo "Release Tag: ${{ needs.build.outputs.TAG_NAME }}."
           cd v-sekai-release
           echo "Uploading to ${{ steps.create_release.outputs.upload_url }}"
