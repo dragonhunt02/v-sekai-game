@@ -22,6 +22,9 @@ WORKDIR $HOMEDIR
 # Using process substitution feature (not POSIX)
 SHELL [ "/bin/bash", "-c" ]
 
+COPY ./build.sh .
+RUN ls .
+ENTRYPOINT ["/bin/bash", "-c", "build.sh"] 
 RUN apt-get update && apt-get upgrade -y \
   && apt-get install -y git curl jq zip unzip fontconfig openjdk-17-jdk imagemagick file tree
 
@@ -112,6 +115,7 @@ RUN echo 'Testroot2' && tree ./src/android/build
 
 
      
-COPY build.sh .
-
-ENTRYPOINT ["build.sh"]
+COPY ./build.sh .
+RUN ls .
+ENTRYPOINT ["/bin/bash", "-c", "build.sh"] 
+#CMD ["build.sh"]
