@@ -23,10 +23,9 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    #if: github.event.type != 'create'
     outputs:
       TAG_PUSH: ${{ steps.setenv.outputs.TAG_PUSH }}
-      PRERELEASE: ${{ steps.setenv.outputs.PRERELEASE }}
+      PRERELEASE: ${{ ! steps.setenv.outputs.TAG_PUSH }}
       GIT_TAG: ${{ steps.setenv.outputs.GIT_TAG }}
       ITCH_IO_PUBLISH: ${{ steps.setenv.outputs.ITCH_IO_PUBLISH }}
       TAG_NAME: ${{ steps.tag.outputs.TAG_NAME }}
@@ -47,18 +46,15 @@ jobs:
              [ ${{ github.event_name }} != "repository_dispatch" ]; then \
             echo "Tagged Release"; \
             TAG_PUSH=true; \
-            PRERELEASE=false; \
           else \
             echo "Rolling Release"; \
             TAG_PUSH=false; \
-            PRERELEASE=true; \
           fi
 
           GIT_TAG="$( git describe --tags --abbrev=0 )"
           GIT_TAG=${GIT_TAG:=0.0.1}
 
           echo "TAG_PUSH=${TAG_PUSH}" >> $GITHUB_OUTPUT;
-          echo "PRERELEASE=${PRERELEASE}" >> $GITHUB_OUTPUT;
           echo "GIT_TAG=${GIT_TAG}" >> $GITHUB_OUTPUT
 
           echo "ITCH_IO_PUBLISH=${{ env.ITCH_IO_PUBLISH }}" >> $GITHUB_OUTPUT
@@ -113,8 +109,6 @@ jobs:
 
       - name: Upload Release Asset
         run: |
-          echo "Test1 ${{ needs.build.outputs.PRERELEASE }}"
-          echo "Test2 ${{ ! needs.build.outputs.PRERELEASE }}"
           echo "Release Tag: ${{ needs.build.outputs.TAG_NAME }}."
           cd v-sekai-release
           echo "Uploading to ${{ steps.create_release.outputs.upload_url }}"
