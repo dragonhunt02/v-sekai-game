@@ -19,6 +19,8 @@ sed -i -r "s|(^[a-z]*/[a-z]*=\")~|\1${HOMEDIR}|g" './src/export_presets.cfg' \
     && sed -i -r "s|(^export/android/debug_keystore = \")~|\1${HOMEDIR}|g" './src/editor_settings-4.tres' \
     && cp -v ./src/editor_settings-4.tres ${HOMEDIR}/.config/godot/editor_settings-4.4.tres
 
+cat ${HOMEDIR}/.config/godot/editor_settings-4.4.tres
+
 cd ./src && echo -n $( git log --format="%(describe:tags,abbrev=0)" -n 1 | cut -d '-' -f1 ) >version.txt \
     && cp version.txt version-nightly.txt \
     && echo -n "-$( git rev-parse --short HEAD )" >>version-nightly.txt \
@@ -32,8 +34,12 @@ else
     GIT_REV=$(cat ./src/version.txt | tr -d '\n');
 fi
 
+echo "GIT_REV: $GIT_REV"
+ls .
+ls ./src
+tree -L 3 ./src 
 # Import
-"./${GODOT_EDITOR}" --editor --headless --quit --path './src'
+"./${GODOT_EDITOR}" --editor --headless --quit --path './src' 2>&1 >/dev/null
 
 for PLATFORM in ${BUILD_PLATFORMS}; do \
     echo "Building ${PLATFORM}..."; \
