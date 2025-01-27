@@ -58,7 +58,7 @@ jobs:
         id: docker
         uses: ./docker/build-project
         with:
-          repo: ${{ env.GITHUb_REPOSITORY }}
+          repo: ${{ env.GITHUB_REPOSITORY }}
           nightly: ${{ steps.setenv.outputs.PRERELEASE }}
 
       - name: Upload Build Artifacts
