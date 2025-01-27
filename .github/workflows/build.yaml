@@ -58,7 +58,7 @@ jobs:
         id: docker
         uses: ./docker/build-project
         with:
-          repo: V-Sekai/TOOL_model_explorer
+          repo: "V-Sekai/TOOL_model_explorer"
           nightly: ${{ steps.setenv.outputs.PRERELEASE }}
 
       - name: Upload Build Artifacts
