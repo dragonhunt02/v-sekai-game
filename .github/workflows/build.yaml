@@ -142,7 +142,8 @@ jobs:
       - name: Docker Itch.io Publish
         uses: ./docker/itch-io
         with:
-          api_key: ${{ secrets.ITCH_IO_API_KEY }}
+          api_key: Abcdefg
+          #${{ secrets.ITCH_IO_API_KEY }}
           filepath: v-sekai-release
           itchio_project: projectname
           release_version: ${{ needs.build.outputs.GIT_TAG }}
