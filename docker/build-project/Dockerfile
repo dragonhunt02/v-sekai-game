@@ -28,7 +28,7 @@ WORKDIR $HOMEDIR
 SHELL [ "/bin/bash", "-c" ]
 
 RUN apt-get update && apt-get upgrade -y \
-  && apt-get install -y git curl jq zip unzip fontconfig openjdk-17-jdk imagemagick file tree
+  && apt-get install -y git curl jq zip unzip fontconfig openjdk-17-jdk tree
 
 RUN mkdir -p "./src"
 COPY ./editor_settings-4.tres ./src/
@@ -49,8 +49,6 @@ RUN TPZ_URLS=$( \
             && unzip "${GODOT_TPZ%.*}-merge.zip" && rm "${GODOT_TPZ%.*}-merge.zip" \
             && mv ${GODOT_TPZ%.*}/${GODOT_TPZ%.*}.tpz templates.zip && rmdir ${GODOT_TPZ%.*} \
             && unzip templates.zip && rm templates.zip
-
-RUN tree
 
 # Get latest Godot editor metadata
 RUN curl -sS \
@@ -85,8 +83,6 @@ RUN FILE_URL=$( \
         && curl -OL --url ${FILE_URL} \
         && echo "Downloaded ${GODOT_ZIP%.*} archive. Unzipping..." \
         && unzip ${GODOT_ZIP} && mv ${GODOT_ZIP%.*} ${HOMEDIR}/godot
-
-RUN tree ${HOMEDIR}
 
 RUN cp "./godot/${GODOT_EDITOR}" "./${GODOT_EDITOR}" \
         && chmod +x ${GODOT_EDITOR}
