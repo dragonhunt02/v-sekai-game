@@ -89,13 +89,10 @@ RUN cp "./godot/${GODOT_EDITOR}" "./${GODOT_EDITOR}" \
         && chmod +x ${GODOT_EDITOR}
 
 RUN mkdir -p ./src/${BIN} \
-        && cp templates/version.txt ${HOMEDIR} \
-        && GODOT_VERSION=$( cat ${HOMEDIR}/version.txt ) \
-        && mkdir -p ${TEMPLATE_DIR}/${GODOT_VERSION} \
-        && mv -v templates/* ${TEMPLATE_DIR}/${GODOT_VERSION}/
-
-RUN curl -sS -OL 'https://dl.google.com/android/repository/platform-tools-latest-linux.zip'
-#RUN mkdir temp && unzip platform-tools-latest-linux.zip -d temp && tree && exit 1
+    && cp templates/version.txt ${HOMEDIR} \
+    && GODOT_VERSION=$( cat ${HOMEDIR}/version.txt ) \
+    && mkdir -p ${TEMPLATE_DIR}/${GODOT_VERSION} \
+    && mv -v templates/* ${TEMPLATE_DIR}/${GODOT_VERSION}/
 
 # Setup Android
 RUN curl -sS -OL 'https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip' \
@@ -103,6 +100,7 @@ RUN curl -sS -OL 'https://dl.google.com/android/repository/commandlinetools-linu
     && mkdir -p ${ANDROID_SDK_ROOT} \
     && yes | ./cmdline-tools/bin/sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --licenses \
     && yes | ./cmdline-tools/bin/sdkmanager --sdk_root=${ANDROID_SDK_ROOT} "ndk;23.2.8568313" 'cmdline-tools;latest' 'build-tools;34.0.0' 'platforms;android-34' 'cmake;3.22.1' \
+    && curl -sS -OL 'https://dl.google.com/android/repository/platform-tools-latest-linux.zip'
     && unzip platform-tools-latest-linux.zip -d ${ANDROID_SDK_ROOT} \
     && mkdir -p ./src/android/plugins ./src/android/build \
     && touch ./src/android/build/.gdignore \
@@ -112,14 +110,5 @@ RUN curl -sS -OL 'https://dl.google.com/android/repository/commandlinetools-linu
 
 RUN keytool -v -genkey -keystore release.keystore -alias vsekaidebug -keyalg RSA -validity 10000 -dname "cn=Unknown, ou=Unknown, o=Unknown, c=Unknown" -storepass android
 
-#RUN echo $( cat './src/editor_settings-4.tres' ) && echo $( cat './src/export_presets.cfg' ) \
-#    && ls ${HOMEDIR} && echo 'Testroot' && tree ${ANDROID_SDK_ROOT}
-RUN echo 'Testroot2' && tree ./src/android/build
-##RUN && mv release.keystore ${HOMEDIR} exit 1
 
-
-     
-#COPY ./build.sh .
-#RUN ls .
 ENTRYPOINT ["/bin/bash", "-c", "/build.sh"] 
-#CMD ["build.sh"]
