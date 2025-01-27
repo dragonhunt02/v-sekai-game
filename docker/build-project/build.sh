@@ -4,7 +4,7 @@ set -e
 export HOME=$HOMEDIR
 cd $HOMEDIR
 
-git clone "https://github.com/${GAME_REPO}.git" "./source"
+git clone "https://github.com/${INPUT_REPO}.git" "./source"
 
 if [ -n "$INPUT_GAME_NAME" ]; then
     GAME_NAME=$INPUT_GAME_NAME;
