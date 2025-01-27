@@ -13,8 +13,10 @@ else
 fi
 
 if [ "${INPUT_DEFAULT_EXPORT}" == 'true' ]; then
-    echo "default_export enabled. Setting up default exports presets..."
-    mv -v ${HOMEDIR}/defaults/export_presets.cfg ./source/
+    echo "default_export enabled. Default exports presets will be used.";
+else
+    # Don't clobber
+    rm -f ./src/export_presets.cfg;
 fi
 
 
