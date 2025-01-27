@@ -5,7 +5,12 @@ export HOME=$HOMEDIR
 cd $HOMEDIR
 
 git clone "https://github.com/${GAME_REPO}.git" "./source"
-GAME_NAME=$( echo ${GAME_REPO} | cut -d '/' -f2 )
+
+if [ -n "$INPUT_GAME_NAME" ]; then
+    GAME_NAME=$INPUT_GAME_NAME;
+else
+    GAME_NAME=$( echo ${GAME_REPO} | cut -d '/' -f2 );
+fi
 
 shopt -s dotglob
 mv ./src/* ./source/ && rmdir ./src/ && mv ./source ./src
