@@ -13,7 +13,7 @@ ENV GODOT_REPO 'dragonhunt02/world-godot'
 ENV GODOT_ZIP 'v-sekai-godot-linuxbsd.zip'
 ENV GODOT_TPZ 'v-sekai-godot-templates.zip'
 ENV GODOT_EDITOR 'godot.linuxbsd.editor.double.x86_64'
-ENV TEMPLATE_DIR "$HOMEDIR/.local/share/godot/export_templates/4.4.beta"
+ENV TEMPLATE_DIR "$HOMEDIR/.local/share/godot/export_templates"
 ENV ANDROID_SDK_ROOT "$HOMEDIR/android_sdk"
 ENV ANDROID_HOME "$HOMEDIR/android_sdk"
 
@@ -89,8 +89,10 @@ RUN cp "./godot/${GODOT_EDITOR}" "./${GODOT_EDITOR}" \
         && chmod +x ${GODOT_EDITOR}
 
 RUN mkdir -p ./src/${BIN} \
-        && mkdir -p ${TEMPLATE_DIR} \
-        && mv -v templates/* ${TEMPLATE_DIR}/
+        && cp templates/version.txt ${HOMEDIR} \
+        && GODOT_VERSION=$( cat ${HOMEDIR}/version.txt )
+        && mkdir -p ${TEMPLATE_DIR}/${GODOT_VERSION} \
+        && mv -v templates/* ${TEMPLATE_DIR}/${GODOT_VERSION} /
 
 RUN curl -sS -OL 'https://dl.google.com/android/repository/platform-tools-latest-linux.zip'
 #RUN mkdir temp && unzip platform-tools-latest-linux.zip -d temp && tree && exit 1
@@ -104,8 +106,9 @@ RUN curl -sS -OL 'https://dl.google.com/android/repository/commandlinetools-linu
     && unzip platform-tools-latest-linux.zip -d ${ANDROID_SDK_ROOT} \
     && mkdir -p ./src/android/plugins ./src/android/build \
     && touch ./src/android/build/.gdignore \
-    && echo 4.4.beta >> ./src/android/.build_version \
-    && unzip ${TEMPLATE_DIR}/android_source.zip -d ./src/android/build
+    && GODOT_VERSION=$( cat ${HOMEDIR}/version.txt ) \
+    && echo ${GODOT_VERSION} >> ./src/android/.build_version \
+    && unzip ${TEMPLATE_DIR}/${GODOT_VERSION}/android_source.zip -d ./src/android/build
 
 RUN keytool -v -genkey -keystore release.keystore -alias vsekaidebug -keyalg RSA -validity 10000 -dname "cn=Unknown, ou=Unknown, o=Unknown, c=Unknown" -storepass android
 
