@@ -4,22 +4,15 @@ on:
   workflow_dispatch:
   repository_dispatch:
     types: ['build-ready']
-  #create:
   push:
     branches: ['gh-bash']
     tags:
       - '**'
-  #push:
-
-#permissions:
-#  contents: read 
 
 env:
   ITCH_IO_PUBLISH: 'false'
   # Set ITCH_IO_API_KEY in Repository Secrets
 
-# Github 'on: create' sends event 'push' on tags push and 'create' on new branches.
-# job 'build' filters out create events
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -66,6 +59,7 @@ jobs:
         uses: ./docker/build-project
         with:
           repo: ${{ env.GITHUB_REPOSITORY }}
+          name: whatname
           nightly: ${{ steps.setenv.outputs.PRERELEASE }}
 
       - name: Upload Build Artifacts
