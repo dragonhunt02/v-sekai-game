@@ -7,11 +7,11 @@ ARG INPUT_NIGHTLY
 
 # $HOME is overwritten by Github Action at runtime
 ENV HOMEDIR '/root'
-#Linux Windows Mac Web Linux_arm64'V-Sekai
+
 ENV BIN 'release/bin'
 ENV BUILD_ARGS '--headless'
-ENV BUILD_PLATFORMS 'QuestAndroid'
-ENV GODOT_REPO 'dragonhunt02/world-godot'
+ENV BUILD_PLATFORMS 'Linux Windows Mac QuestAndroid Web Linux_arm64'
+ENV GODOT_REPO 'V-Sekai/world-godot'
 ENV GODOT_ZIP 'v-sekai-godot-linuxbsd.zip'
 ENV GODOT_TPZ 'v-sekai-godot-templates.zip'
 ENV GODOT_EDITOR 'godot.linuxbsd.editor.double.x86_64'
