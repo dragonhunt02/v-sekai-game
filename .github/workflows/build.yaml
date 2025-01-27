@@ -43,7 +43,7 @@ jobs:
             echo "Rolling Release"; \
             TAG_PUSH=false; \
           fi
-          PRERELEASE=${{ ! TAG_PUSH }}
+          PRERELEASE=${{ !(env.TAG_PUSH) }}
 
           GIT_TAG="$( git describe --tags --abbrev=0 )"
           GIT_TAG=${GIT_TAG:=0.0.1}
