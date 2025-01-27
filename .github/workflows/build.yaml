@@ -39,11 +39,12 @@ jobs:
              [ ${{ github.event_name }} != "repository_dispatch" ]; then \
             echo "Tagged Release"; \
             TAG_PUSH=true; \
+            PRERELEASE=false; \
           else \
             echo "Rolling Release"; \
             TAG_PUSH=false; \
+            PRERELEASE=true; \
           fi
-          PRERELEASE=${{ !(env.TAG_PUSH) }}
 
           GIT_TAG="$( git describe --tags --abbrev=0 )"
           GIT_TAG=${GIT_TAG:=0.0.1}
