@@ -8,6 +8,10 @@ inputs:
     description: 'Override default repository name in game name'
     required: false
     default: ''
+  default_export:
+    description: 'Override project export_presets.cfg with default configuration file'
+    required: false
+    default: 'false'
   nightly:
     description: 'Nightly build mode'
     required: false
