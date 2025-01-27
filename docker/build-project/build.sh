@@ -9,7 +9,7 @@ git clone "https://github.com/${INPUT_REPO}.git" "./source"
 if [ -n "$INPUT_GAME_NAME" ]; then
     GAME_NAME=$INPUT_GAME_NAME;
 else
-    GAME_NAME=$( echo ${GAME_REPO} | cut -d '/' -f2 );
+    GAME_NAME=$( echo ${INPUT_REPO} | cut -d '/' -f2 );
 fi
 
 shopt -s dotglob
