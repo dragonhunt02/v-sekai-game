@@ -10,7 +10,7 @@ on:
       - '**'
 
 env:
-  ITCH_IO_PUBLISH: 'false'
+  ITCH_IO_PUBLISH: 'true'
   # Set ITCH_IO_API_KEY in Repository Secrets
 
 jobs:
@@ -58,9 +58,8 @@ jobs:
         id: docker
         uses: ./docker/build-project
         with:
-          repo: "V-Sekai/TOOL_model_explorer"
+          repo: ${{ env.GITHUb_REPOSITORY }}
           nightly: ${{ steps.setenv.outputs.PRERELEASE }}
-          default_export: true
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
@@ -129,6 +128,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            ./docker/itch-io/
 
       - name: Download Artifacts
         uses: actions/download-artifact@v4
