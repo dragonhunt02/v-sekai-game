@@ -58,12 +58,12 @@ for PLATFORM in ${BUILD_PLATFORMS}; do \
     elif [ "${PLATFORM}" == 'Mac' ]; then \
         EXT='.zip'; \
     elif [ "${PLATFORM}" == 'Web' ]; then \
-        BUILD_DIR="${BUILD_DIR}/v-sekai-game_${GIT_REV}_${PLATFORM}"; \
+        BUILD_DIR="${BUILD_DIR}/${GAME_NAME}_${GIT_REV}_${PLATFORM}"; \
         mkdir -p "./src/${BUILD_DIR}"; \
     fi; \
     "./${GODOT_EDITOR}" ${BUILD_ARGS} --path './src' --export-release ${PLATFORM} ${BUILD_DIR}/${GAME_NAME}_${GIT_REV}_${PLATFORM}${EXT} || true; \
     if [ "${PLATFORM}" == 'Web' ]; then \
-         zip -r "./src/${BIN}/v-sekai-game_${GIT_REV}_${PLATFORM}.zip" ./src/${BUILD_DIR}; \
+         zip -r "./src/${BIN}/${GAME_NAME}_${GIT_REV}_${PLATFORM}.zip" ./src/${BUILD_DIR}; \
          rm -r ./src/${BUILD_DIR}; \
     fi; \
 done
