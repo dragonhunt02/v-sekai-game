@@ -10,7 +10,7 @@ ENV HOMEDIR '/root'
 ENV BIN 'release/bin'
 ENV BUILD_ARGS '--headless'
 ENV BUILD_PLATFORMS 'QuestAndroid'
-ENV GAME_REPO "$INPUT_REPO"
+ENV GAME_REPO INPUT_REPO
 ENV GODOT_REPO 'dragonhunt02/world-godot'
 ENV GODOT_ZIP 'v-sekai-godot-linuxbsd.zip'
 ENV GODOT_TPZ 'v-sekai-godot-templates.zip'
@@ -21,7 +21,7 @@ ENV ANDROID_HOME "$HOMEDIR/android_sdk"
 
 COPY ./build.sh /
 RUN chmod +x /build.sh
-RUN ls /
+RUN echo $GAME_REPO
 
 WORKDIR $HOMEDIR
 
