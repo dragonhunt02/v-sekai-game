@@ -3,19 +3,14 @@ set -e
 
 cd $HOMEDIR
 
-git clone "https://github.com/${GAME_REPO}.git" "./src1"
-cd src1 && git switch gh-bash
-cd ..
+git clone "https://github.com/${GAME_REPO}.git" "./source"
+#cd sources && git switch gh-bash
+#cd ..
 
 export HOME=$HOMEDIR
 
 shopt -s dotglob
-mv ./src1/* ./src
-
-#convert -density 1200 -resize 432x432 './src/vsk_default/icon/v_sekai_logo_bg.svg' './src/vsk_default/icon/adaptive_background_432x432.png'
-#convert -density 1200 -resize 432x432 './src/vsk_default/icon/v_sekai_logo_bg.svg' './src/vsk_default/icon/adaptive_background_432x432.png'
-ls -a './src/vsk_default/icon/'
-
+mv ./src/* ./source/ && rmdir ./src/ && mv ./source ./src
 
 # Set export_templates parent folder in .cfg file and copy editor settings
 sed -i -r "s|(^[a-z]*/[a-z]*=\")~|\1${HOMEDIR}|g" './src/export_presets.cfg' \
@@ -23,11 +18,6 @@ sed -i -r "s|(^[a-z]*/[a-z]*=\")~|\1${HOMEDIR}|g" './src/export_presets.cfg' \
     && sed -i -r "s|(^export/android/android_sdk_path = \")~|\1${HOMEDIR}|g" './src/editor_settings-4.tres' \
     && sed -i -r "s|(^export/android/debug_keystore = \")~|\1${HOMEDIR}|g" './src/editor_settings-4.tres' \
     && cp -v ./src/editor_settings-4.tres ${HOMEDIR}/.config/godot/editor_settings-4.4.tres
-
-cat ${HOMEDIR}/.config/godot/editor_settings-4.4.tres
-#cat './src/export_presets.cfg'
-tree -L 3 /usr/lib/jvm/
-#exit 1
 
 cd ./src && echo -n $( git log --format="%(describe:tags,abbrev=0)" -n 1 | cut -d '-' -f1 ) >version.txt \
     && cp version.txt version-nightly.txt \
@@ -42,11 +32,9 @@ else
     GIT_REV=$(cat ./src/version.txt | tr -d '\n');
 fi
 
-echo "GIT_REV: $GIT_REV"
-ls .
-ls ./src
-tree -L 3 ./src 
-# Import
+echo "Version: $GIT_REV"
+
+# Import resources
 "./${GODOT_EDITOR}" --editor --headless --quit --path './src' 2>&1 >/dev/null
 
 for PLATFORM in ${BUILD_PLATFORMS}; do \
@@ -70,15 +58,11 @@ for PLATFORM in ${BUILD_PLATFORMS}; do \
 done
 
 
-echo "Test" > $HOMEDIR/src/$BIN/file_0.0.1_windows_le.test 
-#ls . && echo "HOME\n" && ls $HOME && echo "WORKSPACE\n" && ls ${GITHUB_WORKSPACE} && echo "ROOT\n" && ls /root/ && \
 mkdir -p ${GITHUB_WORKSPACE}/releases && tree -a /root/src && \
     echo "Copying to Github output..." \
     && cp -v $HOMEDIR/src/$BIN/* ${GITHUB_WORKSPACE}/releases \
     && echo "INPUT_NIGHTLY: $INPUT_NIGHTLY"
 
-echo "VERSION_TAG=${GIT_REV}" >> $GITHUB_OUTPUT
-#:=/dev/null}
-#RUN ls -a ./src
 ls ./src/${BIN}
-file ./src/${BIN}/v-sekai*
+
+echo "VERSION_TAG=${GIT_REV}" >> $GITHUB_OUTPUT
