@@ -90,9 +90,9 @@ RUN cp "./godot/${GODOT_EDITOR}" "./${GODOT_EDITOR}" \
 
 RUN mkdir -p ./src/${BIN} \
         && cp templates/version.txt ${HOMEDIR} \
-        && GODOT_VERSION=$( cat ${HOMEDIR}/version.txt )
+        && GODOT_VERSION=$( cat ${HOMEDIR}/version.txt ) \
         && mkdir -p ${TEMPLATE_DIR}/${GODOT_VERSION} \
-        && mv -v templates/* ${TEMPLATE_DIR}/${GODOT_VERSION} /
+        && mv -v templates/* ${TEMPLATE_DIR}/${GODOT_VERSION}/
 
 RUN curl -sS -OL 'https://dl.google.com/android/repository/platform-tools-latest-linux.zip'
 #RUN mkdir temp && unzip platform-tools-latest-linux.zip -d temp && tree && exit 1
