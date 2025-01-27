@@ -7,7 +7,7 @@ inputs:
   game_name:
     description: 'Override default repository name in game name'
     required: false
-    default: 'false'
+    default: ''
   nightly:
     description: 'Nightly build mode'
     required: false
