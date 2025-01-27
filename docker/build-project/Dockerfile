@@ -32,6 +32,7 @@ RUN apt-get update && apt-get upgrade -y \
 
 RUN mkdir -p "./src"
 COPY ./editor_settings-4.tres ./src/
+COPY ./export_presets.cfg ./src/
 
 RUN TPZ_URLS=$( \
         curl -sS -L \
