@@ -1,6 +1,13 @@
 name: 'build-project'
 description: 'Build project with latest Godot editor from V-Sekai/world-godot'
 inputs:
+  repo:
+    description: 'Github project repository id "owner/myrepo"'
+    required: true
+  game_name:
+    description: 'Override default repository name in game name'
+    required: false
+    default: 'false'
   nightly:
     description: 'Nightly build mode'
     required: false
