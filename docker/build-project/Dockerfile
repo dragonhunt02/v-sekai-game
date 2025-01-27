@@ -30,6 +30,7 @@ RUN apt-get update && apt-get upgrade -y \
   && apt-get install -y git curl jq zip unzip fontconfig openjdk-17-jdk imagemagick file tree
 
 RUN mkdir -p "./src"
+COPY ./editor_settings-4.tres ./src/
 
 RUN TPZ_URLS=$( \
         curl -sS -L \
