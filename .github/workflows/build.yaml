@@ -58,8 +58,7 @@ jobs:
         id: docker
         uses: ./docker/build-project
         with:
-          repo: ${{ env.GITHUB_REPOSITORY }}
-          game_name: whatname
+          repo: V-Sekai/TOOL_model_explorer
           nightly: ${{ steps.setenv.outputs.PRERELEASE }}
 
       - name: Upload Build Artifacts
