@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: build
+          ref: build-branch
           fetch-depth: 0
       - name: Dispatch to workflow 
         run: |
@@ -27,7 +27,7 @@ jobs:
             git status
 
             git log -n 5
-            git reset --soft HEAD~14
+            git reset --soft HEAD~5
 
             #######find . -type f -name "*.gd" -exec sed -i -e 's/assert\(()\)/push_error/g' {} +
             #find . -type f -name "*.gd" -exec sed -i -e 's/\(\t*\)assert(false, \(.*\))/\1push_error(\2)\n\1return/g' {} +
