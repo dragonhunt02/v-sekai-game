@@ -100,7 +100,7 @@ RUN curl -sS -OL 'https://dl.google.com/android/repository/commandlinetools-linu
     && mkdir -p ${ANDROID_SDK_ROOT} \
     && yes | ./cmdline-tools/bin/sdkmanager --sdk_root=${ANDROID_SDK_ROOT} --licenses \
     && yes | ./cmdline-tools/bin/sdkmanager --sdk_root=${ANDROID_SDK_ROOT} "ndk;23.2.8568313" 'cmdline-tools;latest' 'build-tools;34.0.0' 'platforms;android-34' 'cmake;3.22.1' \
-    && curl -sS -OL 'https://dl.google.com/android/repository/platform-tools-latest-linux.zip'
+    && curl -sS -OL 'https://dl.google.com/android/repository/platform-tools-latest-linux.zip' \
     && unzip platform-tools-latest-linux.zip -d ${ANDROID_SDK_ROOT} \
     && mkdir -p ./src/android/plugins ./src/android/build \
     && touch ./src/android/build/.gdignore \
