@@ -60,6 +60,7 @@ jobs:
         with:
           repo: "V-Sekai/TOOL_model_explorer"
           nightly: ${{ steps.setenv.outputs.PRERELEASE }}
+          default_export: true
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
