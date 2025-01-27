@@ -1,8 +1,9 @@
 FROM ubuntu:latest
 
 ARG INPUT_REPO
-ARG INPUT_NIGHTLY
 ARG INPUT_GAME_NAME
+ARG INPUT_DEFAULT_EXPORT
+ARG INPUT_NIGHTLY
 
 # $HOME is overwritten by Github Action at runtime
 ENV HOMEDIR '/root'
