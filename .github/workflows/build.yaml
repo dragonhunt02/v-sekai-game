@@ -59,7 +59,7 @@ jobs:
         uses: ./docker/build-project
         with:
           repo: ${{ env.GITHUB_REPOSITORY }}
-          name: whatname
+          game_name: whatname
           nightly: ${{ steps.setenv.outputs.PRERELEASE }}
 
       - name: Upload Build Artifacts
