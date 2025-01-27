@@ -5,6 +5,8 @@ ARG INPUT_API_KEY
 ARG INPUT_ITCHIO_PROJECT
 ARG INPUT_FILEPATH
 
+ENV BUTLER_API_KEY $INPUT_API_KEY
+
 RUN apt-get update && apt-get install -y ca-certificates curl unzip
 
 # Install Itch.io Butler
