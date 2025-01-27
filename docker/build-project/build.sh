@@ -12,6 +12,12 @@ else
     GAME_NAME=$( echo ${INPUT_REPO} | cut -d '/' -f2 );
 fi
 
+if [ "${INPUT_DEFAULT_EXPORT}" == 'true' ]; then
+    echo "default_export enabled. Setting up default exports presets..."
+    mv -v ${HOMEDIR}/defaults/export_presets.cfg ./source/
+fi
+
+
 shopt -s dotglob
 mv ./src/* ./source/ && rmdir ./src/ && mv ./source ./src
 
