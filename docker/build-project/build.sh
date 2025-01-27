@@ -30,7 +30,7 @@ else
     GIT_REV=$(cat ./src/version.txt );
 fi
 
-echo "Game: ${GAME_NAME}\nVersion: ${GIT_REV}"
+echo -e "Game: ${GAME_NAME}\nVersion: ${GIT_REV}"
 
 # Import resources
 "./${GODOT_EDITOR}" --editor --headless --quit --path './src' 2>&1 >/dev/null
