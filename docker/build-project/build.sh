@@ -21,7 +21,7 @@ fi
 
 
 shopt -s dotglob
-mv ./src/* ./source/ && rmdir ./src/ && mv ./source ./src
+mv -f ./src/* ./source/ && rmdir ./src/ && mv ./source ./src
 
 # Set root folder in config files and copy editor settings
 sed -i -r "s|(^[a-z]*/[a-z]*=\")~|\1${HOMEDIR}|g" './src/export_presets.cfg' \
