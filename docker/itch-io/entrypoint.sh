@@ -1,5 +1,5 @@
 #!/bin/sh
-
+echo $BUTLER_API_KEY
 echo "Workspace release folder: ${GITHUB_WORKSPACE}/${INPUT_FILEPATH}"
 echo "Butler version:"
 butler -V
