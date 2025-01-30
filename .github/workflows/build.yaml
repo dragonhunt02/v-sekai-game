@@ -33,8 +33,7 @@ jobs:
         id: setenv
         run: |
           echo "Github Action Event: ${{ github.event_name }}"
-
-          git tag 0.18.0
+          git tag 0.18.1
           git push
           # If HEAD commit contains tag, event is tag push or manual workflow dispatch rerun
           if [ -n "$(git tag -l --contains HEAD)" ] && \
