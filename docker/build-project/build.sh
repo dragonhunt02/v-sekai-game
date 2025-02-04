@@ -22,7 +22,7 @@ fi
     curl -OL ${XR_PLUGIN_URL} \
     && mkdir ./xr_vendor_plugins && unzip 'godotopenxrvendorsaddon.zip' -d ./xr_vendor_plugins && rm 'godotopenxrvendorsaddon.zip' \
     && mkdir -p ./source/addons && mv ./xr_vendor_plugins/asset/addons/godotopenxrvendors/ ./source/addons/godotopenxrvendors/;
-    ls -R ./source/addons;
+    ls -R ./xr_vendor_plugins/asset/addons/ && ls -R ./source/addons;
 #fi
 
 if [ "${INPUT_DEFAULT_EXPORT}" == 'true' ]; then
