@@ -1,5 +1,5 @@
 <a id="readme-top"></a>
-
+ 
 <div align="center">
   <a href="https://github.com/V-Sekai/v-sekai-game">
     <img src="vsk_default/icon/v_sekai_logo_bg.svg" alt="Logo" width="300" height="300">
