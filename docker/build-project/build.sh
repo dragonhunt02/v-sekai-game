@@ -21,7 +21,8 @@ fi
     echo "Downloading XR vendor plugins from ${XR_PLUGIN_URL}";
     curl -OL ${XR_PLUGIN_URL} \
     && mkdir ./xr_vendor_plugins && unzip 'godotopenxrvendorsaddon.zip' -d ./xr_vendor_plugins && rm 'godotopenxrvendorsaddon.zip' \
-    && mkdir ./src/addons && mv ./xr_vendor_plugins/asset/addons/godotopenxrvendors/ ./src/addons/godotopenxrvendors/ && ls -R ./src/addons;
+    && mkdir -p ./source/addons && mv ./xr_vendor_plugins/asset/addons/godotopenxrvendors/ ./source/addons/godotopenxrvendors/;
+    ls -R ./source/addons;
 #fi
 
 if [ "${INPUT_DEFAULT_EXPORT}" == 'true' ]; then
