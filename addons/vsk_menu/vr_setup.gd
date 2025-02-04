@@ -41,7 +41,7 @@ func _ready() -> void:
 
 	camera_mode_button = get_node_or_null(camera_mode_nodepath)
 	setup_menu_button(camera_mode_button, VRManager.vr_user_preferences.camera_mode, VRManager.camera_mode_names)
-	if movement_type_button.get_popup().id_pressed.connect(self._on_camera_mode_changed) != OK:
+	if camera_mode_button.get_popup().id_pressed.connect(self._on_camera_mode_changed) != OK:
 		push_error("Could not connect 'id_pressed'!")
 
 	unindicate_restart_required()
