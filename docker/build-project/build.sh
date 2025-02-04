@@ -20,8 +20,8 @@ fi
     );
     echo "Downloading XR vendor plugins from ${XR_PLUGIN_URL}";
     curl -OL ${XR_PLUGIN_URL} \
-    && unzip 'godotopenxrvendorsaddon.zip' && rm 'godotopenxrvendorsaddon.zip' \
-    && mkdir ./src/addons && ls -R .;
+    && mkdir ./xr_vendor_plugins && unzip 'godotopenxrvendorsaddon.zip' -d ./xr_vendor_plugins && rm 'godotopenxrvendorsaddon.zip' \
+    && mkdir ./src/addons && mv ./xr_vendor_plugins/asset/addons/godotopenxrvendors/ ./src/addons/godotopenxrvendors/ && ls -R ./src/addons;
 #fi
 
 if [ "${INPUT_DEFAULT_EXPORT}" == 'true' ]; then
