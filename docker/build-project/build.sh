@@ -60,7 +60,7 @@ fi
 echo -e "Game: ${GAME_NAME}\nVersion: ${GIT_REV}\nGodot ${GODOT_SHORT}"
 
 # Import resources
-"./${GODOT_EDITOR}" --editor --headless --quit --path './src' 2>&1 >/dev/null
+"./${GODOT_EDITOR}" --editor --headless --quit --path './src' 2>&1 >/dev/null || true
 
 for PLATFORM in ${BUILD_PLATFORMS}; do \
     echo "Building ${PLATFORM}..."; \
