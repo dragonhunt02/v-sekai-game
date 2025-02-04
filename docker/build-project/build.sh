@@ -12,6 +12,18 @@ else
     GAME_NAME=$( echo ${INPUT_REPO} | cut -d '/' -f2 );
 fi
 
+#if [ "${INPUT_XR_PLUGINS}" == 'true' ]; then
+    XR_PLUGIN_URL=$( curl -sS -L \
+        -H "Accept: application/vnd.github+json" \
+        "https://api.github.com/repos/GodotVR/godot_openxr_vendors/releases" \
+        | jq -r '.[0].assets.[] | select(.name | startswith("godotopenxrvendorsaddon.zip")).browser_download_url | @sh' | tr -d "\'" \
+    );
+    echo "Downloading XR vendor plugins from ${XR_PLUGIN_URL}";
+    curl -OL ${XR_PLUGIN_URL} \
+    && unzip 'godotopenxrvendorsaddon.zip' && rm 'godotopenxrvendorsaddon.zip' \
+    && mkdir ./src/addons && ls -R .;
+#fi
+
 if [ "${INPUT_DEFAULT_EXPORT}" == 'true' ]; then
     echo "default_export enabled. Default exports presets will be used.";
 else
