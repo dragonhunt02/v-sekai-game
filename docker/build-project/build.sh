@@ -12,10 +12,10 @@ else
     GAME_NAME=$( echo ${INPUT_REPO} | cut -d '/' -f2 );
 fi
 
-#if [ "${INPUT_XR_PLUGINS}" == 'true' ]; then
+#if [ "${INPUT_XR_PLUGINS}" == 'true' ]; thenGodotVR
     XR_PLUGIN_URL=$( curl -sS -L \
         -H "Accept: application/vnd.github+json" \
-        "https://api.github.com/repos/GodotVR/godot_openxr_vendors/releases" \
+        "https://api.github.com/repos/dragonhunt02/godot_openxr_vendors/releases" \
         | jq -r '.[0].assets.[] | select(.name | startswith("godotopenxrvendorsaddon.zip")).browser_download_url | @sh' | tr -d "\'" \
     );
     echo "Downloading XR vendor plugins from ${XR_PLUGIN_URL}";
