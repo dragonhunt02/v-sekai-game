@@ -12,7 +12,7 @@ else
     GAME_NAME=$( echo ${INPUT_REPO} | cut -d '/' -f2 );
 fi
 
-#if [ "${INPUT_XR_PLUGINS}" == 'true' ]; thendragonhunt02
+#if [ "${INPUT_XR_PLUGINS}" == 'true' ]; thendragonhunt02  -d ./xr_vendor_plugins 
     XR_PLUGIN_URL=$( curl -sS -L \
         -H "Accept: application/vnd.github+json" \
         "https://api.github.com/repos/GodotVR/godot_openxr_vendors/releases" \
@@ -20,7 +20,7 @@ fi
     );
     echo "Downloading XR vendor plugins from ${XR_PLUGIN_URL}";
     curl -OL ${XR_PLUGIN_URL} \
-    && mkdir ./xr_vendor_plugins && unzip 'godotopenxrvendorsaddon.zip' -d ./xr_vendor_plugins && rm 'godotopenxrvendorsaddon.zip' \
+    && mkdir ./xr_vendor_plugins && cd ./xr_vendor_plugins && unzip '../godotopenxrvendorsaddon.zip' && rm '../godotopenxrvendorsaddon.zip' && cd .. \
     && tree ./xr_vendor_plugins \
     && mkdir -p ./source/addons && mv ./xr_vendor_plugins/asset/addons/godotopenxrvendors/ ./source/addons/godotopenxrvendors/;
     ls -R ./xr_vendor_plugins/asset/addons/ && ls -R ./source/addons;
