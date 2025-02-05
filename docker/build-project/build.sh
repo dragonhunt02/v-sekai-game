@@ -13,10 +13,10 @@ else
 fi
 shopt -s dotglob
 
-#if [ "${INPUT_XR_PLUGINS}" == 'true' ]; thendragonhunt02  
+#if [ "${INPUT_XR_PLUGINS}" == 'true' ]; thendragonhunt02  GodotVR
     XR_PLUGIN_URL=$( curl -sS -L \
         -H "Accept: application/vnd.github+json" \
-        "https://api.github.com/repos/GodotVR/godot_openxr_vendors/releases" \
+        "https://api.github.com/repos/dragonhunt02/godot_openxr_vendors/releases" \
         | jq -r '.[0].assets.[] | select(.name | startswith("godotopenxrvendorsaddon.zip")).browser_download_url | @sh' | tr -d "\'" \
     );
     echo "Downloading XR vendor plugins from ${XR_PLUGIN_URL}";
@@ -24,7 +24,7 @@ shopt -s dotglob
     && mkdir ./xr_vendor_plugins && unzip './godotopenxrvendorsaddon.zip' -d ./xr_vendor_plugins && rm './godotopenxrvendorsaddon.zip' \
     && tree -a ./xr_vendor_plugins \
     && mkdir -p ./source/addons && mv ./xr_vendor_plugins/asset/addons/godotopenxrvendors/ ./source/addons/godotopenxrvendors/;
-    ls -R ./xr_vendor_plugins/asset/addons/ && ls -R ./source/addons;
+    ls -R ./xr_vendor_plugins/asset/addons/ && ls -a -R ./source/addons;
 #fi
 
 if [ "${INPUT_DEFAULT_EXPORT}" == 'true' ]; then
