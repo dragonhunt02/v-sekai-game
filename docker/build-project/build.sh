@@ -13,7 +13,7 @@ else
 fi
 shopt -s dotglob
 
-#if [ "${INPUT_XR_PLUGINS}" == 'true' ]; thendragonhunt02  GodotVR
+if [ "${INPUT_XR_PLUGINS}" == 'true' ]; then #dragonhunt02  GodotVR
     XR_PLUGIN_URL=$( curl -sS -L \
         -H "Accept: application/vnd.github+json" \
         "https://api.github.com/repos/dragonhunt02/godot_openxr_vendors/releases" \
@@ -25,7 +25,7 @@ shopt -s dotglob
     && tree -a ./xr_vendor_plugins \
     && mkdir -p ./source/addons && mv ./xr_vendor_plugins/asset/addons/godotopenxrvendors/ ./source/addons/godotopenxrvendors/;
     ls -R ./xr_vendor_plugins/asset/addons/ && ls -a -R ./source/addons;
-#fi
+fi
 
 if [ "${INPUT_DEFAULT_EXPORT}" == 'true' ]; then
     echo "default_export enabled. Default exports presets will be used.";
