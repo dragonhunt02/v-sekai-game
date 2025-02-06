@@ -13,7 +13,7 @@ inputs:
     required: false
     default: 'false'
   xr_plugins:
-    description: 'Install Godot XR Vendor Plugins https://github.com/GodotVR/godot_openxr_vendors'
+    description: 'Install Godot XR Vendor Plugins, required for Meta Quest https://github.com/GodotVR/godot_openxr_vendors'
     required: false
     default: 'true'
   nightly:
