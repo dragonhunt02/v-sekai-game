@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:24.04
 
 ARG INPUT_REPO
 ARG INPUT_GAME_NAME
