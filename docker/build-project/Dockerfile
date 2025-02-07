@@ -1,4 +1,4 @@
-FROM ubuntu:24.04
+FROM ubuntu:latest
 
 ARG INPUT_REPO
 ARG INPUT_GAME_NAME
@@ -12,10 +12,10 @@ ENV HOMEDIR '/root'
 ENV BIN 'release/bin'
 ENV BUILD_ARGS '--headless'
 ENV BUILD_PLATFORMS 'Linux Windows Mac Android QuestAndroid Web Linux_arm64'
-ENV GODOT_REPO 'dragonhunt02/world-godot'
+ENV GODOT_REPO 'V-Sekai/world-godot'
 ENV GODOT_ZIP 'v-sekai-godot-linuxbsd.zip'
 ENV GODOT_TPZ 'v-sekai-godot-templates.zip'
-ENV GODOT_EDITOR 'godot.linuxbsd.editor.x86_64'
+ENV GODOT_EDITOR 'godot.linuxbsd.editor.double.x86_64'
 ENV TEMPLATE_DIR "$HOMEDIR/.local/share/godot/export_templates"
 ENV ANDROID_SDK_ROOT "$HOMEDIR/android_sdk"
 ENV ANDROID_HOME "$HOMEDIR/android_sdk"
