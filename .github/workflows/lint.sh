@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-
+ls -a -R .
 EXCLUDE="
 addons/vrm
 "
