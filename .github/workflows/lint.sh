@@ -2,30 +2,29 @@
 set -e
 #ls -a -R .
 EXCLUDE="
-addons/vrm
+./addons/vrm/*
 "
 
-EXCLUDE_DIRS=''
-
+DIR_PATHS=''
 # Separate by newline
 OLD=$IFS
 IFS='
 '
 for DIR in $EXCLUDE; do
-    EXCLUDE_DIRS="$EXCLUDE_DIRS--exclude-dir=$DIR "
+    DIR_PATHS="$DIR_PATHS-not -path $DIR "
 done
 IFS=$OLD
-EXCLUDE_DIRS=$( echo $EXCLUDE_DIRS | tr -d "\n" )
-echo "$EXCLUDE_DIRS"
+DIR_PATHS=$( echo $DIR_PATHS | tr -d "\n" )
+echo "$DIR_PATHS"
 
 EXCLUDE_DIRS="addons/vrm"
-
+#-not -path "./addons/vrm/*"
 echo "Linter: Start custom linter...";
 match_error=false;
 
 # Decision https://github.com/V-Sekai/v-sekai-game/issues/474#issuecomment-2603661420
 # Forbid assert()
-matches=$( find . -type f -name "*.gd" -not -path "./addons/vrm/*" -exec grep -nH "assert(" {} \; )
+matches=$( find . -type f -name "*.gd" $DIR_PATHS -exec grep -nH 'assert(' {} \; )
 #$( grep -rn --include='*.gd' --exclude-dir="./addons/vrm/" -e 'assert(' . || true )
 if [ -n "$matches" ]; then
     echo 'Linter: "assert()" usage is forbidden (assert checks are skipped in release versions causing potential undefined behaviour)';
