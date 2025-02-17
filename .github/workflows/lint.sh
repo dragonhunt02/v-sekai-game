@@ -18,12 +18,14 @@ IFS=$OLD
 EXCLUDE_DIRS=$( echo $EXCLUDE_DIRS | tr -d "\n" )
 echo "$EXCLUDE_DIRS"
 
+EXCLUDE_DIRS=addons/vrm
+
 echo "Linter: Start custom linter...";
 match_error=false;
 
 # Decision https://github.com/V-Sekai/v-sekai-game/issues/474#issuecomment-2603661420
 # Forbid assert()
-matches=$( grep -rn --include='*.gd' $EXCLUDE_DIRS -e 'assert(' . || true )
+matches=$( grep -rn --include='*.gd' --exclude-dir=$EXCLUDE_DIRS -e 'assert(' . || true )
 if [ -n "$matches" ]; then
     echo 'Linter: "assert()" usage is forbidden (assert checks are skipped in release versions causing potential undefined behaviour)';
     echo 'Linter: use constructs like "if not ...: push_error(...); return" instead';
