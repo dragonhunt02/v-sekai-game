@@ -2,7 +2,7 @@
 set -e
 
 EXCLUDE="
-./addons/vrm/
+addons/vrm/
 "
 
 EXCLUDE_DIRS=''
