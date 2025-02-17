@@ -18,7 +18,7 @@ IFS=$OLD
 EXCLUDE_DIRS=$( echo $EXCLUDE_DIRS | tr -d "\n" )
 echo "$EXCLUDE_DIRS"
 
-EXCLUDE_DIRS=addons/vrm
+EXCLUDE_DIRS="addons/vrm"
 
 echo "Linter: Start custom linter...";
 match_error=false;
