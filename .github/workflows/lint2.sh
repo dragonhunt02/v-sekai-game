@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-EXCLUDE="(./addons/vrm/*)"
+EXCLUDE="(./addons/vrm/*|./addons/entity_manager/*)"
 #./addons/entity_manager/*"
 
 export PATTERNS=()
@@ -19,7 +19,7 @@ IFS=$OLD
 '
 
 while IFS= read -r line; do
-    PATTERNS+=("-not -path \"$line\"")
+    PATTERNS+=("-not -regex \"$line\"")
 done <<< $EXCLUDE
 #PATTERNS[-1]="${PATTERNS[-1]:0:-3}"
 
