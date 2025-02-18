@@ -20,7 +20,7 @@ set +f
 IFS=$OLD
 DIR_PATHS=$( echo $DIR_PATHS | tr -d "\n" )
 echo "$DIR_PATHS"
-echo 'find . -type f -name "*.gd" '"${DIR_PATHS}"' -exec grep -nH "assert(" {} \;'
+#echo 'find . -type f -name "*.gd" '"${DIR_PATHS}"' -exec grep -nH "assert(" {} \;'
 EXCLUDE_DIRS="addons/vrm"
 #-not -path "./addons/vrm/*"
 echo "Linter: Start custom linter...";
@@ -30,7 +30,8 @@ match_error=false;
 
 # Decision https://github.com/V-Sekai/v-sekai-game/issues/474#issuecomment-2603661420
 # Forbid assert()
-matches=$( find . -type d -name "*.gd" ${DIR_PATHS} -exec grep -nH 'assert(' {} \; )
+matches=$( find . -type d ${DIR_PATHS} -exec grep -nH -include="*.gd" 'assert(' {} \; )
+#matches=$( find . -type f -name "*.gd" ${DIR_PATHS} -exec grep -nH 'assert(' {} \; )
 #$( grep -rn --include='*.gd' --exclude-dir="./addons/vrm/" -e 'assert(' . || true )
 if [ -n "$matches" ]; then
     echo 'Linter: "assert()" usage is forbidden (assert checks are skipped in release versions causing potential undefined behaviour)';
