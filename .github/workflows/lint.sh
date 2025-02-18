@@ -20,7 +20,8 @@ echo "$DIR_PATHS"
 EXCLUDE_DIRS="addons/vrm"
 #-not -path "./addons/vrm/*"
 echo "Linter: Start custom linter...";
-set -o noglob # Disable glob for parameter expansion
+#set -o noglob # Disable glob for parameter expansion
+set -f
 match_error=false;
 
 # Decision https://github.com/V-Sekai/v-sekai-game/issues/474#issuecomment-2603661420
