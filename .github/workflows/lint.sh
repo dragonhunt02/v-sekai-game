@@ -16,7 +16,7 @@ IFS='
 set -f
 for DIRE in $EXCLUDE; do
     DIR_PATHS="$DIR_PATHS-not -regex \'$DIR\' "
-    DIR_PATHS2+=(-not -regex \"$DIRE\")
+    DIR_PATHS2+=("-not -regex \"$DIRE\"")
 done
 DIR_PATHS="${DIR_PATHS%?}"
 set +f
