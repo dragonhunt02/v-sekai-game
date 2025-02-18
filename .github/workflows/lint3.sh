@@ -16,6 +16,8 @@ PATTERNS="${PATTERNS:0:-1}"
 echo "Linter: Start custom linter...";
 match_error=false;
 
+echo "$PATTERNS"
+
 # Decision https://github.com/V-Sekai/v-sekai-game/issues/474#issuecomment-2603661420
 # Forbid assert()
 echo $( bash -c "find . -type f -regextype egrep -name '*.gd' -and -not -regex \"${PATTERNS[@]}\" -exec echo {} \;" )
