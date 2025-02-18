@@ -5,12 +5,13 @@ EXCLUDE="./addons/vrm/.*
 ./addons/entity_manager/.*"
 #./addons/entity_manager/*"
 
-export PATTERNS=()
-
+#export PATTERNS=()
+PATTERNS=''
 while IFS= read -r line; do
     PATTERNS+=("${line}|")
 done <<< $EXCLUDE
-PATTERNS[-1]="${PATTERNS[-1]:0:-1}"
+#PATTERNS[-1]="${PATTERNS[-1]:0:-1}"
+PATTERNS="${PATTERNS:0:-1}"
 
 echo "Linter: Start custom linter...";
 match_error=false;
