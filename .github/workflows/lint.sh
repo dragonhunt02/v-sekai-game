@@ -16,6 +16,7 @@ set -f
 for DIR in $EXCLUDE; do
     DIR_PATHS="$DIR_PATHS-not -regex \'$DIR\' "
 done
+DIR_PATHS="${DIR_PATHS%?}"
 set +f
 
 IFS=$OLD
