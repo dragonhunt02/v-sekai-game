@@ -24,6 +24,7 @@ match_error=false;
 
 # Decision https://github.com/V-Sekai/v-sekai-game/issues/474#issuecomment-2603661420
 # Forbid assert()
+echo "find . -type f -name '*.gd' ${PATTERNS[@]} -exec echo {} \;"
 matches=$( bash -c "find . -type f -name '*.gd' ${PATTERNS[@]} -exec echo {} \;" )
 if [ -n "$matches" ]; then
     echo 'Linter: "assert()" usage is forbidden (assert checks are skipped in release versions causing potential undefined behaviour)';
