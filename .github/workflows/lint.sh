@@ -16,7 +16,7 @@ set -f
 for DIR in $EXCLUDE; do
     DIR_PATHS="$DIR_PATHS-not -path \"$DIR\" "
 done
-set +ffind
+set +f
 
 IFS=$OLD
 DIR_PATHS=$( echo $DIR_PATHS | tr -d "\n" )
