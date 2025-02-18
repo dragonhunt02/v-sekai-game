@@ -17,7 +17,7 @@ jobs:
 
       - name: pre-commit
         run: |
-          bash .github/workflows/lint.sh
+          bash .github/workflows/lint2.sh
      # - name: Install pre-commit
      #   run: pip install pre-commit
 
