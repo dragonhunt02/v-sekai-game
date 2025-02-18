@@ -1,10 +1,8 @@
 #!/bin/bash
 set -e
 
-EXCLUDE="
-./addons/vrm/.*
-./addons/entity_manager/.*
-"
+EXCLUDE="./addons/vrm/.*
+./addons/entity_manager/.*"
 
 export PATTERNS=()
 # Separate by newline
