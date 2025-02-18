@@ -2,7 +2,7 @@
 set -e
 
 # Exclude files/directories with regex
-EXCLUDE="./addons/vr/.*
+EXCLUDE="./addons/vrm/.*
 "
 
 # Start
