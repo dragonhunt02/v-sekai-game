@@ -20,11 +20,12 @@ echo "$DIR_PATHS"
 EXCLUDE_DIRS="addons/vrm"
 #-not -path "./addons/vrm/*"
 echo "Linter: Start custom linter...";
+set -f # Disable glob for parameter expansion
 match_error=false;
 
 # Decision https://github.com/V-Sekai/v-sekai-game/issues/474#issuecomment-2603661420
 # Forbid assert()
-matches=$( find . -type f -name "*.gd" "$DIR_PATHS" -exec grep -nH 'assert(' {} \; )
+matches=$( find . -type f -name "*.gd" $DIR_PATHS -exec grep -nH 'assert(' {} \; )
 #$( grep -rn --include='*.gd' --exclude-dir="./addons/vrm/" -e 'assert(' . || true )
 if [ -n "$matches" ]; then
     echo 'Linter: "assert()" usage is forbidden (assert checks are skipped in release versions causing potential undefined behaviour)';
@@ -35,7 +36,7 @@ fi
 
 # Decision https://github.com/V-Sekai/v-sekai-game/issues/475#issue-2802564439
 # Forbid printerr()
-matches=$( grep -rn --include='*.gd' $EXCLUDE_DIRS -e 'printerr(' . || true )
+matches=$( find . -type f -name "*.gd" $DIR_PATHS -exec grep -nH 'printerr(' {} \; )
 if [ -n "$matches" ]; then
     echo 'Linter: "printerr()" usage is forbidden (error output won'\''t be shown in Godot Debug panel)';
     echo 'Linter: use "push_error()" instead';
