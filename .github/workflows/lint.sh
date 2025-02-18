@@ -4,7 +4,7 @@ set -e
 #ls -a -R .
 #./addons/vrm/*
 EXCLUDE="
-./addons/vrm/*
+./addons/vrm/**/*
 "
 
 DIR_PATHS=''
