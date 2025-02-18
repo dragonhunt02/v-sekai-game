@@ -4,7 +4,7 @@ set -e
 #ls -a -R .
 #./addons/vrm/*
 EXCLUDE="
-./addons/vrm/**/*
+./addons/vrm/.*
 "
 
 DIR_PATHS=''
@@ -14,7 +14,7 @@ IFS='
 '
 set -f
 for DIR in $EXCLUDE; do
-    DIR_PATHS="$DIR_PATHS-not -path \"$DIR\" "
+    DIR_PATHS="$DIR_PATHS-not -regex \"$DIR\" "
 done
 set +f
 
