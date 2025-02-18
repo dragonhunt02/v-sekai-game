@@ -3,13 +3,14 @@ set -e
 
 # Exclude files/directories with regex
 EXCLUDE="./addons/vr/.*
-./addons/entity_manager/.*"
+./addons/entity_manager/.*
+"
 
 # Start
 PATTERNS=''
 while IFS= read -r line; do
     PATTERNS="${PATTERNS}${line}|"
-done <<< $EXCLUDE
+done <<< ${EXCLUDE:0:-1}
 PATTERNS="${PATTERNS:0:-1}"
 
 echo "Linter: Starting custom linter...";
