@@ -14,6 +14,8 @@ IFS='
 for DIR in $EXCLUDE; do
     DIR_PATHS="$DIR_PATHS-not -path \"$DIR\" "
 done
+set +f
+
 IFS=$OLD
 DIR_PATHS=$( echo $DIR_PATHS | tr -d "\n" )
 echo "$DIR_PATHS"
