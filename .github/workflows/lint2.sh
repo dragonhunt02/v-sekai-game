@@ -11,7 +11,7 @@ export PATTERNS=()
 #'
 test='set -f
 for PATTERN in $EXCLUDE; do
-    PATTERNS+=("-not -path \"$PATTERN\"")
+    PATTERNS+=("-not -regex \"$PATTERN\"")
 done
 set +f
 
@@ -19,7 +19,7 @@ IFS=$OLD
 '
 
 while IFS= read -r line; do
-    PATTERNS+=("-not -regex \"$line\"")
+    PATTERNS+=("-not -path \"$line\"")
 done <<< $EXCLUDE
 
 echo "Linter: Start custom linter...";
