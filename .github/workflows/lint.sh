@@ -16,7 +16,7 @@ IFS='
 set -f
 for DIR in $EXCLUDE; do
     DIR_PATHS="$DIR_PATHS-not -regex \'$DIR\' "
-    DIR_PATHS2+=(-not -regex $DIR)
+    DIR_PATHS2+=(-not -regex \"$DIR\")
 done
 DIR_PATHS="${DIR_PATHS%?}"
 set +f
@@ -24,6 +24,7 @@ set +f
 IFS=$OLD
 #DIR_PATHS=$( echo $DIR_PATHS | tr -d "\n" )
 echo "$DIR_PATHS"
+#echo "$DIR_PATHS2"
 #echo 'find . -type f -name "*.gd" '"${DIR_PATHS}"' -exec grep -nH "assert(" {} \;'
 echo "find . -type f -D -name '*.gd' ${DIR_PATHS} -exec echo {} \;"
 EXCLUDE_DIRS="addons/vrm"
