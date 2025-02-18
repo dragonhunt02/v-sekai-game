@@ -14,7 +14,7 @@ IFS='
 '
 set -f
 for DIR in $EXCLUDE; do
-    DIR_PATHS="$DIR_PATHS-not -regex \"$DIR\" "
+    DIR_PATHS="$DIR_PATHS-regex \"$DIR\" "
 done
 set +f
 
