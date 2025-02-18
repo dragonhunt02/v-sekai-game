@@ -19,9 +19,9 @@ IFS=$OLD
 '
 
 while IFS= read -r line; do
-    PATTERNS+=("\( -not -path \"$line\" \) -and ")
+    PATTERNS+=("\( -not -path \"$line\" \) -and")
 done <<< $EXCLUDE
-PATTERNS[-1]=${PATTERNS[-1]:0:-6}
+PATTERNS[-1]=${PATTERNS[-1]:0:-5}
 
 echo "Linter: Start custom linter...";
 match_error=false;
