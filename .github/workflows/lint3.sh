@@ -2,7 +2,7 @@
 set -e
 
 # Exclude files/directories with regex
-EXCLUDE="./addons/vrm/.*
+EXCLUDE="./addons/vr/.*
 ./addons/entity_manager/.*"
 
 # Start
@@ -19,7 +19,7 @@ echo -e "Exclusion Pattern: $PATTERNS\n"
 
 # Decision https://github.com/V-Sekai/v-sekai-game/issues/474#issuecomment-2603661420
 # Forbid assert()
-matches=$( bash -c "find . -type f -regextype egrep -name '*.gd' -and -not -regex \"${PATTERNS}\" -exec grep -nH 'printerr(' {} \;" )
+matches=$( bash -c "find . -type f -regextype egrep -name '*.gd' -and -not -regex \"${PATTERNS}\" -exec grep -nH 'assert(' {} \;" )
 if [ -n "$matches" ]; then
     echo 'Linter: "assert()" usage is forbidden (assert checks are skipped in release versions causing potential undefined behaviour)';
     echo 'Linter: use constructs like "if not ...: push_error(...); return" instead';
@@ -29,11 +29,11 @@ fi
 
 # Decision https://github.com/V-Sekai/v-sekai-game/issues/475#issue-2802564439
 # Forbid printerr()
-matches=$( find . -type f -name "*.gd" $DIR_PATHS -exec grep -nH 'printerr(' {} \; )
+matches=$( bash -c "find . -type f -regextype egrep -name '*.gd' -and -not -regex \"${PATTERNS}\" -exec grep -nH 'printerr(' {} \;" )
 if [ -n "$matches" ]; then
     echo 'Linter: "printerr()" usage is forbidden (error output won'\''t be shown in Godot Debug panel)';
     echo 'Linter: use "push_error()" instead';
-    echo "$matches";
+    echo -e "$matches\n\n";
     match_error=true;
 fi
 
