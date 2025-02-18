@@ -8,7 +8,7 @@ EXCLUDE="./addons/vrm/.*
 #export PATTERNS=()
 PATTERNS=''
 while IFS= read -r line; do
-    PATTERNS="${PATTERNS}${line}|")
+    PATTERNS="${PATTERNS}${line}|"
 done <<< $EXCLUDE
 #PATTERNS[-1]="${PATTERNS[-1]:0:-1}"
 PATTERNS="${PATTERNS:0:-1}"
