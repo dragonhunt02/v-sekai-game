@@ -8,16 +8,21 @@ EXCLUDE="
 
 export DIR_PATHS2=()
 # Separate by newline
-OLD=$IFS
-IFS='
-'
-set -f
+#OLD=$IFS
+#IFS='
+#'
+test='set -f
 for PATTERN in $EXCLUDE; do
     PATTERNS+=("-not -regex \"$PATTERN\"")
 done
 set +f
 
 IFS=$OLD
+'
+
+while IFS= read -r line; do
+    PATTERNS+=("-not -regex \"$line\"")
+done
 
 echo "Linter: Start custom linter...";
 match_error=false;
