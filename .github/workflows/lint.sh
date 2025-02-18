@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
-set -f
+
 #ls -a -R .
+#./addons/vrm/*
 EXCLUDE="
-./addons/vrm/*
 "
 
 DIR_PATHS=''
@@ -11,6 +11,7 @@ DIR_PATHS=''
 OLD=$IFS
 IFS='
 '
+set -f
 for DIR in $EXCLUDE; do
     DIR_PATHS="$DIR_PATHS-not -path \"$DIR\" "
 done
