@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-EXCLUDE="./addons/vrm/.*
-./addons/entity_manager/.*"
+EXCLUDE="./addons/vrm/*
+./addons/entity_manager/*"
 
 export PATTERNS=()
 # Separate by newline
@@ -11,7 +11,7 @@ export PATTERNS=()
 #'
 test='set -f
 for PATTERN in $EXCLUDE; do
-    PATTERNS+=("-not -regex \"$PATTERN\"")
+    PATTERNS+=("-not -path \"$PATTERN\"")
 done
 set +f
 
