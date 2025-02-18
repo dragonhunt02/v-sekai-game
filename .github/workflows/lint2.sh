@@ -4,7 +4,7 @@ set -e
 EXCLUDE="./addons/vrm/*
 ./addons/entity_manager/*"
 
-export PATTERNS=("")
+export PATTERNS=()
 # Separate by newline
 #OLD=$IFS
 #IFS='
