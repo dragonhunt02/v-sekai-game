@@ -3,6 +3,7 @@ set -e
 
 EXCLUDE="
 ./addons/vrm/.*
+./addons/entity_manager/.*
 "
 
 export DIR_PATHS2=()
