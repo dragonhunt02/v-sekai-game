@@ -22,7 +22,7 @@ IFS=$OLD
 
 while IFS= read -r line; do
     PATTERNS+=("-not -regex \"$line\"")
-done
+done <<< $EXCLUDE
 
 echo "Linter: Start custom linter...";
 match_error=false;
