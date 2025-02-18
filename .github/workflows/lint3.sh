@@ -15,7 +15,7 @@ PATTERNS="${PATTERNS:0:-1}"
 echo "Linter: Starting custom linter...";
 match_error=false;
 
-echo "Exclusion Pattern: $PATTERNS"
+echo -e "Exclusion Pattern: $PATTERNS\n"
 
 # Decision https://github.com/V-Sekai/v-sekai-game/issues/474#issuecomment-2603661420
 # Forbid assert()
