@@ -11,8 +11,8 @@ OLD=$IFS
 IFS='
 '
 set -f
-for DIRE in $EXCLUDE; do
-    DIR_PATHS2+=("-not -regex \"$DIRE\"")
+for PATTERN in $EXCLUDE; do
+    PATTERNS+=("-not -regex \"$PATTERN\"")
 done
 set +f
 
@@ -23,7 +23,7 @@ match_error=false;
 
 # Decision https://github.com/V-Sekai/v-sekai-game/issues/474#issuecomment-2603661420
 # Forbid assert()
-matches=$( bash -c "find . -type f -name '*.gd' ${DIR_PATHS2[@]} -exec echo {} \;" )
+matches=$( bash -c "find . -type f -name '*.gd' ${PATTERNS[@]} -exec echo {} \;" )
 if [ -n "$matches" ]; then
     echo 'Linter: "assert()" usage is forbidden (assert checks are skipped in release versions causing potential undefined behaviour)';
     echo 'Linter: use constructs like "if not ...: push_error(...); return" instead';
