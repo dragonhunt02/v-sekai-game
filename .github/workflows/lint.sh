@@ -14,9 +14,9 @@ OLD=$IFS
 IFS='
 '
 set -f
-for DIR in $EXCLUDE; do
+for DIRE in $EXCLUDE; do
     DIR_PATHS="$DIR_PATHS-not -regex \'$DIR\' "
-    DIR_PATHS2+=(-not -regex \"$DIR\")
+    DIR_PATHS2+=(-not -regex \"$DIRE\")
 done
 DIR_PATHS="${DIR_PATHS%?}"
 set +f
