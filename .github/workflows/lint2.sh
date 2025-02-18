@@ -19,7 +19,7 @@ IFS=$OLD
 '
 
 while IFS= read -r line; do
-    PATTERNS+=("( -not -path \"$line\" ) -a")
+    PATTERNS+=("\( -not -path \"$line\" \) -a")
 done <<< $EXCLUDE
 PATTERNS[-1]="${PATTERNS[-1]:0:-3}"
 
