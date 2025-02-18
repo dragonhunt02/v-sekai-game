@@ -5,18 +5,6 @@ EXCLUDE="./addons/vrm/.*|./addons/entity_manager/.*"
 #./addons/entity_manager/*"
 
 export PATTERNS=()
-# Separate by newline
-#OLD=$IFS
-#IFS='
-#'
-test='set -f
-for PATTERN in $EXCLUDE; do
-    PATTERNS+=("-not -regex \"$PATTERN\"")
-done
-set +f
-
-IFS=$OLD
-'
 
 while IFS= read -r line; do
     PATTERNS+=("-not -regex \"$line\"")
@@ -29,7 +17,7 @@ match_error=false;
 # Decision https://github.com/V-Sekai/v-sekai-game/issues/474#issuecomment-2603661420
 # Forbid assert()
 echo "find . -type f -regextype 'egrep' -name '*.gd' -and ${PATTERNS[@]} -exec echo {} \;"
-matches=$( bash -c "find . -type f -name '*.gd' ${PATTERNS[@]} -exec echo {} \;" )
+matches=$( bash -c "find . -type f -name '*.gd' -and -not -regex \"${EXCLUDE}\" -exec echo {} \;" )
 if [ -n "$matches" ]; then
     echo 'Linter: "assert()" usage is forbidden (assert checks are skipped in release versions causing potential undefined behaviour)';
     echo 'Linter: use constructs like "if not ...: push_error(...); return" instead';
