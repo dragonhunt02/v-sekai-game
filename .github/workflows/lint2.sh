@@ -6,7 +6,7 @@ EXCLUDE="
 ./addons/entity_manager/.*
 "
 
-export DIR_PATHS2=()
+export PATTERNS=()
 # Separate by newline
 #OLD=$IFS
 #IFS='
