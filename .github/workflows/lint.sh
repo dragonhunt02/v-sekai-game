@@ -3,7 +3,7 @@ set -e
 set -f
 #ls -a -R .
 EXCLUDE="
-./addons/vrm/.*
+./addons/vrm/*
 "
 
 DIR_PATHS=''
@@ -12,7 +12,7 @@ OLD=$IFS
 IFS='
 '
 for DIR in $EXCLUDE; do
-    DIR_PATHS="$DIR_PATHS-not -regex \"$DIR\" "
+    DIR_PATHS="$DIR_PATHS-not -path \"$DIR\" "
 done
 set +f
 
