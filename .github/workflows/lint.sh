@@ -16,12 +16,13 @@ set -f
 for DIR in $EXCLUDE; do
     DIR_PATHS="$DIR_PATHS-not -path \"$DIR\" "
 done
-set +f
+set +ffind
 
 IFS=$OLD
 DIR_PATHS=$( echo $DIR_PATHS | tr -d "\n" )
 echo "$DIR_PATHS"
 #echo 'find . -type f -name "*.gd" '"${DIR_PATHS}"' -exec grep -nH "assert(" {} \;'
+echo "find . -type f -name '*.gd' ${DIR_PATHS} -exec echo {} \;"
 EXCLUDE_DIRS="addons/vrm"
 #-not -path "./addons/vrm/*"
 echo "Linter: Start custom linter...";
