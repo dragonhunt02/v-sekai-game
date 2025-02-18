@@ -3,7 +3,6 @@ set -e
 
 # Exclude files/directories with regex
 EXCLUDE="./addons/vr/.*
-./addons/entity_manager/.*
 "
 
 # Start
@@ -19,7 +18,7 @@ match_error=false;
 echo -e "Exclusion Pattern: $PATTERNS\n"
 
 # Decision https://github.com/V-Sekai/v-sekai-game/issues/474#issuecomment-2603661420
-# Forbid assert()
+# Forbid assert() for game code. Usage in third-party addons is allowed after review of side-effects.
 matches=$( bash -c "find . -type f -regextype egrep -name '*.gd' -and -not -regex \"${PATTERNS}\" -exec grep -nH 'assert(' {} \;" )
 if [ -n "$matches" ]; then
     echo 'Linter: "assert()" usage is forbidden (assert checks are skipped in release versions causing potential undefined behaviour)';
