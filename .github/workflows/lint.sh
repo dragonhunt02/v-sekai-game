@@ -8,7 +8,7 @@ EXCLUDE="
 "
 
 DIR_PATHS=''
-DIR_PATHS2=()
+export DIR_PATHS2=()
 # Separate by newline
 OLD=$IFS
 IFS='
