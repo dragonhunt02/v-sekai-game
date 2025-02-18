@@ -14,7 +14,7 @@ IFS='
 '
 set -f
 for DIR in $EXCLUDE; do
-    DIR_PATHS="$DIR_PATHS-not -regex \'$DIR\' "
+    DIR_PATHS="$DIR_PATHS -regex \'$DIR\' "
 done
 set +f
 
@@ -32,7 +32,7 @@ match_error=false;
 
 # Decision https://github.com/V-Sekai/v-sekai-game/issues/474#issuecomment-2603661420
 # Forbid assert()
-matches=$( find . -type f -name "*.gd" ${DIR_PATHS} ) #-exec echo {} \; )
+matches=$( find . -type f -name "*.gd" ${DIR_PATHS} -printf "%h\n" ) #-exec echo {} \; )
 #matches=$( find . -type d ${DIR_PATHS} -exec grep -nH --include="*.gd" 'assert(' {}/* \; )
 #matches=$( find . -type f -name "*.gd" ${DIR_PATHS} -exec grep -nH 'assert(' {} \; )
 
