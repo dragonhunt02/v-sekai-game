@@ -19,7 +19,7 @@ done
 set +f
 
 IFS=$OLD
-DIR_PATHS=$( echo $DIR_PATHS | tr -d "\n" )
+#DIR_PATHS=$( echo $DIR_PATHS | tr -d "\n" )
 echo "$DIR_PATHS"
 #echo 'find . -type f -name "*.gd" '"${DIR_PATHS}"' -exec grep -nH "assert(" {} \;'
 echo "find . -type f -D -name '*.gd' ${DIR_PATHS} -exec echo {} \;"
@@ -32,10 +32,10 @@ match_error=false;
 
 # Decision https://github.com/V-Sekai/v-sekai-game/issues/474#issuecomment-2603661420
 # Forbid assert()
-matches=$( find . -type f -name "*.gd" -not -regex "./addons/vrm/.*" -exec echo {} \; )
+matches=$( find . -type f -name "*.gd" ${DIR_PATHS} -exec echo {} \; )
 #matches=$( find . -type d ${DIR_PATHS} -exec grep -nH --include="*.gd" 'assert(' {}/* \; )
 #matches=$( find . -type f -name "*.gd" ${DIR_PATHS} -exec grep -nH 'assert(' {} \; )
-
+#-not -regex "./addons/vrm/.*"
 
 #$( grep -rn --include='*.gd' --exclude-dir="./addons/vrm/" -e 'assert(' . || true )
 if [ -n "$matches" ]; then
