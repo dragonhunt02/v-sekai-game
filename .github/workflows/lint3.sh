@@ -23,7 +23,7 @@ matches=$( bash -c "find . -type f -regextype egrep -name '*.gd' -and -not -rege
 if [ -n "$matches" ]; then
     echo 'Linter: "assert()" usage is forbidden (assert checks are skipped in release versions causing potential undefined behaviour)';
     echo 'Linter: use constructs like "if not ...: push_error(...); return" instead';
-    echo "$matches";
+    echo "$matches\n\n";
     match_error=true;
 fi
 
