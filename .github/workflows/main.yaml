@@ -19,18 +19,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: api-test
+          ref: api-fix
           fetch-depth: 0
       - name: Dispatch to workflow 
         run: |
             sudo apt install -y tree
             git status
 
-            pip install "gdtoolkit==4.*"
-            gdformat addons/godot_uro/godot_uro_api.gd
+            #pip install "gdtoolkit==4.*"
+            #gdformat addons/godot_uro/godot_uro_api.gd
 
             git log -n 5
-            #git reset --soft HEAD~5
+            git reset --soft HEAD~13
 
             #######find . -type f -name "*.gd" -exec sed -i -e 's/assert\(()\)/push_error/g' {} +
             #find . -type f -name "*.gd" -exec sed -i -e 's/\(\t*\)assert(false, \(.*\))/\1push_error(\2)\n\1return/g' {} +
@@ -38,7 +38,7 @@ jobs:
             git config --global user.email "jackhunt43@libero.it"
             git config --global user.name "dragonhunt02"
             git add -A
-            git commit -a -m 'Format with gdformat'
+            git commit -a -m 'Add optional new api routes'
             git log -n 5
             git status
             git push -f
