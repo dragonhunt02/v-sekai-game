@@ -30,7 +30,7 @@ jobs:
             #gdformat addons/godot_uro/godot_uro_api.gd
 
             git log -n 5
-            git reset --soft HEAD~13
+            git reset --soft HEAD~4
 
             #######find . -type f -name "*.gd" -exec sed -i -e 's/assert\(()\)/push_error/g' {} +
             #find . -type f -name "*.gd" -exec sed -i -e 's/\(\t*\)assert(false, \(.*\))/\1push_error(\2)\n\1return/g' {} +
