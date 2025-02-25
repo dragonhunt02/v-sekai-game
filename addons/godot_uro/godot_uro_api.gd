@@ -42,7 +42,11 @@ static func populate_query(p_query_name: String, p_query_dictionary: Dictionary)
 func get_profile_async() -> Dictionary:
 	var query: Dictionary = {}
 
-	var profile_path = godot_uro_helper_const.NEW_PROFILE_PATH if godot_uro.new_api else godot_uro_helper_const.PROFILE_PATH
+	var profile_path = (
+		godot_uro_helper_const.NEW_PROFILE_PATH
+		if godot_uro.new_api
+		else godot_uro_helper_const.PROFILE_PATH
+	)
 
 	var result = await (requester.request(
 		godot_uro_helper_const.get_api_path() + profile_path,
@@ -77,7 +81,11 @@ func sign_in_async(p_username_or_email: String, p_password: String) -> Dictionar
 		"user[password]": p_password,
 	}
 
-	var signin_path = godot_uro_helper_const.NEW_LOGIN_PATH if godot_uro.new_api else godot_uro_helper_const.SESSION_PATH
+	var signin_path = (
+		godot_uro_helper_const.NEW_LOGIN_PATH
+		if godot_uro.new_api
+		else godot_uro_helper_const.SESSION_PATH
+	)
 
 	var new_requester = godot_uro.create_requester()
 
@@ -121,7 +129,11 @@ func register_async(
 		"user[email_notifications]": uro_api_const.bool_to_string(p_email_notifications)
 	}
 
-	var signup_path = godot_uro_helper_const.NEW_REGISTRATION_PATH if godot_uro.new_api else godot_uro_helper_const.REGISTRATION_PATH
+	var signup_path = (
+		godot_uro_helper_const.NEW_REGISTRATION_PATH
+		if godot_uro.new_api
+		else godot_uro_helper_const.REGISTRATION_PATH
+	)
 
 	var result = await (requester.request(
 		godot_uro_helper_const.get_api_path() + signup_path,
