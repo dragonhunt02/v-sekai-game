@@ -121,10 +121,10 @@ func register_async(
 		"user[email_notifications]": uro_api_const.bool_to_string(p_email_notifications)
 	}
 
-	var register_path = godot_uro.new_api? godot_uro_helper_const.NEW_REGISTRATION_PATH : godot_uro_helper_const.REGISTRATION_PATH
+	var signup_path = godot_uro.new_api? godot_uro_helper_const.NEW_REGISTRATION_PATH : godot_uro_helper_const.REGISTRATION_PATH
 
 	var result = await (requester.request(
-		godot_uro_helper_const.get_api_path() + register_path,
+		godot_uro_helper_const.get_api_path() + signup_path,
 		query,
 		godot_uro_requester_const.TokenType.NO_TOKEN,
 		{"method": HTTPClient.METHOD_POST, "encoding": "form"}
