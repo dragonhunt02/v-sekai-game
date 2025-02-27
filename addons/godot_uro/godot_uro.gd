@@ -12,7 +12,6 @@ const http_pool_const = preload("./http_pool.gd")
 # renewal_token and access_token have moved to GodotUroData.
 var cfg: ConfigFile = null
 
-var new_api: bool = false
 var use_localhost: bool = true
 var uro_host: String = godot_uro_helper_const.DEFAULT_URO_HOST
 var uro_port: int = godot_uro_helper_const.DEFAULT_URO_PORT
@@ -72,11 +71,6 @@ func create_requester():  # godot_uro_request_const
 
 
 func setup_configuration() -> void:
-	if !ProjectSettings.has_setting("services/uro/new_api"):
-		ProjectSettings.set_setting("services/uro/new_api", new_api)
-	else:
-		new_api = ProjectSettings.get_setting("services/uro/new_api")
-
 	if !ProjectSettings.has_setting("services/uro/use_localhost"):
 		ProjectSettings.set_setting("services/uro/use_localhost", use_localhost)
 	else:
