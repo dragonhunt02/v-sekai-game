@@ -5,7 +5,7 @@ on:
   repository_dispatch:
     types: ['build-ready']
   push:
-    branches: ['main']
+    branches: ['4.5-test']
     tags:
       - '**'
 
