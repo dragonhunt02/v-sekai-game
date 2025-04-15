@@ -93,7 +93,7 @@ RUN mkdir -p ./src/${BIN} \
     && echo "okzs $GODOT_VERSION" \
     && mkdir -p ${TEMPLATE_DIR}/${GODOT_VERSION} \
     && mv -v templates/* ${TEMPLATE_DIR}/${GODOT_VERSION}/
-RUN exit 1
+
 # Setup Android
 RUN curl -sS -OL 'https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip' \
     && unzip commandlinetools-linux-11076708_latest.zip \
