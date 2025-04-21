@@ -150,6 +150,9 @@ var player_avatar_paths = {}
 
 var player_instances: Dictionary = {}
 
+var prop_instances: Dictionary = {}
+const prop_scene: PackedScene = preload("res://addons/vsk_entities/vsk_test_entity.tscn")
+
 var signal_table: Array = [
 	{
 		"singleton": "NetworkManager",
@@ -358,6 +361,33 @@ func get_random_spawn_transform_for_spawners(p_spawners: Array) -> Transform3D:
 func get_random_spawn_transform() -> Transform3D:
 	var spawn_nodes: Array = get_tree().get_nodes_in_group(NETWORK_SPAWNER_GROUP_NAME)
 	return get_random_spawn_transform_for_spawners(spawn_nodes)
+
+##
+## Instantiates a prop scene, usually called by the server host when
+## a peer is about to enter the server.
+## p_master_id is network id for the client we're creating this player scene for.
+## Returns the node for the player scene
+##
+func add_prop_scene(p_master_id: int) -> Node:
+	print("Adding prop scene for {master_id}...".format({"master_id": str(p_master_id)}))
+
+	if !prop_instances.has(p_master_id):
+		var instantiate: Node = EntityManager.instantiate_entity_and_setup(
+			prop_scene,
+			{}, # {"avatar_path": VSKPlayerManager.avatar_path},
+			"NetEntity_Prop_{master_id}".format({"master_id": str(p_master_id)}),
+			p_master_id
+		)
+
+		prop_instances[p_master_id] = instantiate
+
+		if instantiate == null:
+			push_error("Could not instantiate prop!")
+
+		return instantiate
+	else:
+		push_error("Attempted to add duplicate client prop scene!")
+		return null
 
 
 ##
@@ -721,6 +751,8 @@ func _host_state_instance() -> Dictionary:
 	var map_instance: Node = null
 
 	var new_player_instances: Array = []
+	var new_prop_instances: Array = []
+
 	if !instance_map_result.is_empty():
 		map_instance = instance_map_result["node"]
 		if map_instance and map_instance is vsk_map_definition_runtime_const:
@@ -735,8 +767,15 @@ func _host_state_instance() -> Dictionary:
 
 				new_player_instances.push_back(player_instance)
 
+				var prop_instance: Node = add_prop_scene(
+					NetworkManager.network_constants_const.SERVER_MASTER_PEER_ID
+				)
+
+				new_prop_instances.push_back(prop_instance)
+
 	instanced_nodes["map"] = map_instance
 	instanced_nodes["players"] = new_player_instances
+	instanced_nodes["props"] = new_prop_instances
 
 	return instanced_nodes
 
