@@ -39,6 +39,7 @@ func spawn_ball() -> void:
 
 
 func test_spawning() -> void:
+	print("test spawning")
 	if InputManager.ingame_input_enabled():
 		var spawn_key_pressed_this_frame: bool = Input.is_key_pressed(KEY_P)
 		if !spawn_key_pressed_last_frame:
