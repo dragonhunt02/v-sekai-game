@@ -40,6 +40,12 @@ func spawn_ball() -> void:
 
 func test_spawning() -> void:
 	print("test spawning")
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	var current_seconds = int(Time.get_unix_time_from_system()) % 60
+	if current_seconds % 2 == 0:
+		print("The current seconds are even!")
+		self.spawn_ball()
+
 	if InputManager.ingame_input_enabled():
 		var spawn_key_pressed_this_frame: bool = Input.is_key_pressed(KEY_P)
 		if !spawn_key_pressed_last_frame:
