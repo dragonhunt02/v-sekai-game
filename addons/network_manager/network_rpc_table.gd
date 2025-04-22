@@ -166,6 +166,8 @@ func sanitise_rpc() -> void:
 
 
 func _ready():
+	if !Engine.is_editor_hint():
+		sanitise_rpc()
 	if !Engine.is_editor_hint() and get_tree().get_multiplayer().has_multiplayer_peer():
 		sender_id = get_tree().get_multiplayer().get_unique_id()
 	else:
@@ -173,5 +175,6 @@ func _ready():
 
 
 func _init():
-	if !Engine.is_editor_hint():
-		sanitise_rpc()
+	pass
+	#if !Engine.is_editor_hint():
+	#	sanitise_rpc()
