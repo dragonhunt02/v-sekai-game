@@ -383,6 +383,8 @@ func add_prop_scene(p_master_id: int) -> Node:
 
 		if instantiate == null:
 			push_error("Could not instantiate prop!")
+		else:
+			EntityManager.scene_tree_execution_command(EntityManager.scene_tree_execution_table.ADD_ENTITY, instantiate)
 
 		return instantiate
 	else:
