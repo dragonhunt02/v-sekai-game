@@ -143,7 +143,19 @@ func nm_rset_unreliable_id(peer_id: int, p_property: String, p_value):
 
 
 func sanitise_rpc() -> void:
-	pass
+	var rpc_config = get_rpc_config()   
+	for method in rpc_config.keys():
+		var config = rpc_config[method]
+		print("RPC Method:", method)
+		#print("Configuration:", config)
+		var rpc_mode: int = config.rpc_mode
+		if rpc_mode != MultiplayerAPI.RPC_MODE_DISABLED:
+			virtual_rpc_method_table[method] = {"rpc_mode": rpc_mode}
+			var new_config = rpc_config[method]
+			new_config.rpc_mode = MultiplayerAPI.RPC_MODE_DISABLED
+			rpc_config(method, new_config)
+
+	#pass
 	#var method_list: Array = get_method_list()
 	#for method in method_list:
 	#	# FIXME: rpc_get_mode is missing
