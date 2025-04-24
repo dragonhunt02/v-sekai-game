@@ -77,6 +77,7 @@ for PLATFORM in ${BUILD_PLATFORMS}; do \
     elif [ "${PLATFORM}" == 'Web' ]; then \
         BUILD_DIR="${BUILD_DIR}/${GAME_NAME}_${GIT_REV}_${PLATFORM}"; \
         mkdir -p "./src/${BUILD_DIR}"; \
+        EXT='.html'; \
     fi; \
     "./${GODOT_EDITOR}" ${BUILD_ARGS} --path './src' --export-release ${PLATFORM} ${BUILD_DIR}/${GAME_NAME}_${GIT_REV}_${PLATFORM}${EXT} || true; \
     if [ "${PLATFORM}" == 'Web' ]; then \
