@@ -65,3 +65,19 @@ else if [ ${{ matrix.platform }} == 'arm64' ];
     hyperfine
 fi    
 ```
+
+### Debugging
+ **Ubuntu/Debian/Fedora**
+ 
+ Ensure editor binary is in same folder as `.debugsymbols` file
+```
+# Clone sources
+git clone https://github.com/V-Sekai/world-godot.git ~/vsekai-godot
+
+# Start editor executable
+gdb godot/editor/path...
+
+# Set sources path in (gdb) session
+set substitute-path '/__w/world-godot/world-godot' ~/vsekai-godot
+start
+```
