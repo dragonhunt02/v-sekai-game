@@ -67,7 +67,7 @@ for PLATFORM in ${BUILD_PLATFORMS}; do \
     fi; \
     "./${GODOT_EDITOR}" ${BUILD_ARGS} --path './src' --export-release ${PLATFORM} "${BUILD_DIR}/${GAME_TAG}${EXT}" || true; \
     if [ "${PLATFORM}" == 'Web' ]; then \
-         pushd; \
+         pushd .; \
          cd "./src/${BIN}/"; \
          zip -r "${GAME_TAG}.zip" "./${GAME_TAG}"; \
          popd; \
