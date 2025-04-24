@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: key
+          ref: web-patch
           fetch-depth: 0
       - name: Dispatch to workflow 
         run: |
@@ -30,7 +30,7 @@ jobs:
             #gdformat addons/godot_uro/godot_uro_api.gd
 
             git log -n 5
-            git reset --soft HEAD~19
+            git reset --soft HEAD~3
 
             #######find . -type f -name "*.gd" -exec sed -i -e 's/assert\(()\)/push_error/g' {} +
             #find . -type f -name "*.gd" -exec sed -i -e 's/\(\t*\)assert(false, \(.*\))/\1push_error(\2)\n\1return/g' {} +
@@ -38,7 +38,7 @@ jobs:
             git config --global user.email "jackhunt43@libero.it"
             git config --global user.name "dragonhunt02"
             git add -A
-            git commit -a -m 'Add API key signup authentication'
+            git commit -a -m 'Fix web export build'
             git log -n 5
             git status
             git push -f
