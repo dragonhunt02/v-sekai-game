@@ -78,6 +78,8 @@ git clone https://github.com/V-Sekai/world-godot.git ~/vsekai-godot
 gdb godot/editor/path...
 
 # Set sources path in (gdb) session
+# This is only required if you want to use our pre-built editor and debug symbols
 set substitute-path '/__w/world-godot/world-godot' ~/vsekai-godot
+
 start
 ```
