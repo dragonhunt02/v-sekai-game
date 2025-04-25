@@ -72,7 +72,7 @@ for PLATFORM in ${BUILD_PLATFORMS}; do \
     elif [ "${PLATFORM}" == 'Android' ] \
         || [ "${PLATFORM}" == 'QuestAndroid' ]; then \
         if [ "${INPUT_XR_PLUGINS}" == 'true' ]; then \
-            cp -v ./xr_vendor_plugins/asset/addons/godotopenxrvendors/ ./src/addons/godotopenxrvendors/; \
+            cp -v -r ./xr_vendor_plugins/asset/addons/godotopenxrvendors/ ./src/addons/godotopenxrvendors/; \
         fi; \
         EXT='.apk'; \
     elif [ "${PLATFORM}" == 'Mac' ]; then \
