@@ -70,6 +70,8 @@ for PLATFORM in ${BUILD_PLATFORMS}; do \
     if [ "${INPUT_XR_PLUGINS}" == 'true' ] && [ "${PLATFORM}" == 'QuestAndroid' ]; then \
         echo "Installing addons/godotopenxrvendors..."; \
         mkdir -p ./src/addons/ && cp -v -r ./xr_vendor_plugins/asset/addons/godotopenxrvendors/ ./src/addons/godotopenxrvendors/; \
+        echo "Backing up .godot..."; \
+        cp -r ./src/.godot ./src/.godotbackup || true; \
     fi; \
     if [ "${PLATFORM}" == 'Windows' ]; then \
         EXT='.exe'; \
@@ -90,6 +92,8 @@ for PLATFORM in ${BUILD_PLATFORMS}; do \
     if [ "${INPUT_XR_PLUGINS}" == 'true' ] && [ "${PLATFORM}" == 'QuestAndroid' ]; then \
         echo "Removing addons/godotopenxrvendors..."; \
         rm -r ./src/addons/godotopenxrvendors/; \
+        echo "Restoring .godot..."; \
+        ( rm -r ./src/.godot && mv ./src/.godotbackup ./src/.godot ) || true; \
     fi; \
 done
 
