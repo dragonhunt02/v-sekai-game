@@ -22,9 +22,9 @@ if [ "${INPUT_XR_PLUGINS}" == 'true' ]; then #dragonhunt02  GodotVR V-Sekai
     echo "Downloading XR vendor plugins from ${XR_PLUGIN_URL}";
     curl -OL ${XR_PLUGIN_URL} \
     && mkdir ./xr_vendor_plugins && unzip './godotopenxrvendorsaddon.zip' -d ./xr_vendor_plugins && rm './godotopenxrvendorsaddon.zip' \
-    && tree -a ./xr_vendor_plugins \
-    && mkdir -p ./source/addons && mv ./xr_vendor_plugins/asset/addons/godotopenxrvendors/ ./source/addons/godotopenxrvendors/;
-    ls -R ./xr_vendor_plugins/asset/addons/ && ls -a -R ./source/addons;
+    && tree -a ./xr_vendor_plugins # \
+    #&& mkdir -p ./source/addons && mv ./xr_vendor_plugins/asset/addons/godotopenxrvendors/ ./source/addons/godotopenxrvendors/;
+    ls -R ./xr_vendor_plugins/asset/addons/ #&& ls -a -R ./source/addons;
 fi
 
 if [ "${INPUT_DEFAULT_EXPORT}" == 'true' ]; then
@@ -71,6 +71,9 @@ for PLATFORM in ${BUILD_PLATFORMS}; do \
         EXT='.exe'; \
     elif [ "${PLATFORM}" == 'Android' ] \
         || [ "${PLATFORM}" == 'QuestAndroid' ]; then \
+        if [ "${INPUT_XR_PLUGINS}" == 'true' ];
+            cp -v ./xr_vendor_plugins/asset/addons/godotopenxrvendors/ ./src/addons/godotopenxrvendors/;
+        fi;
         EXT='.apk'; \
     elif [ "${PLATFORM}" == 'Mac' ]; then \
         EXT='.zip'; \
@@ -83,6 +86,9 @@ for PLATFORM in ${BUILD_PLATFORMS}; do \
          zip -r "./src/${BIN}/${GAME_NAME}_${GIT_REV}_${PLATFORM}.zip" ./src/${BUILD_DIR}; \
          rm -r ./src/${BUILD_DIR}; \
     fi; \
+    if [ "${INPUT_XR_PLUGINS}" == 'true' ];
+        rm -r ./src/addons/godotopenxrvendors/ || true;
+    fi;
 done
 
 
