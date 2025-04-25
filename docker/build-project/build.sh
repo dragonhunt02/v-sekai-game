@@ -87,8 +87,8 @@ for PLATFORM in ${BUILD_PLATFORMS}; do \
          rm -r ./src/${BUILD_DIR}; \
     fi; \
     if [ "${INPUT_XR_PLUGINS}" == 'true' ]; then \
-        echo "Questq" && pwd; \
-        tree .; \
+        echo "questq" && pwd; \
+        tree ./src; \
         rm -r ./src/addons/godotopenxrvendors/ || echo "Error: can't remove addons/godotopenxrvendors folder"; \
     fi; \
 done
