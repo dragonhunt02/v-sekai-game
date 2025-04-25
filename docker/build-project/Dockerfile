@@ -19,7 +19,7 @@ ENV GODOT_EDITOR 'godot.linuxbsd.editor.double.x86_64'
 ENV TEMPLATE_DIR "$HOMEDIR/.local/share/godot/export_templates"
 ENV ANDROID_SDK_ROOT "$HOMEDIR/android_sdk"
 ENV ANDROID_HOME "$HOMEDIR/android_sdk"
-ENV XR_PLUGIN_REPO 'V-Sekai/godot_openxr_vendors'
+ENV XR_PLUGIN_REPO 'dragonhunt02/godot_openxr_vendors'
 
 COPY ./build.sh /
 RUN chmod +x /build.sh
