@@ -13,10 +13,10 @@ else
 fi
 shopt -s dotglob
 
-if [ "${INPUT_XR_PLUGINS}" == 'true' ]; then #dragonhunt02  GodotVR 
+if [ "${INPUT_XR_PLUGINS}" == 'true' ]; then #dragonhunt02  GodotVR V-Sekai
     XR_PLUGIN_URL=$( curl -sS -L \
         -H "Accept: application/vnd.github+json" \
-        "https://api.github.com/repos/V-Sekai/godot_openxr_vendors/releases" \
+        "https://api.github.com/repos/dragonhunt02/godot_openxr_vendors/releases" \
         | jq -r '.[0].assets.[] | select(.name | startswith("godotopenxrvendorsaddon.zip")).browser_download_url | @sh' | tr -d "\'" \
     );
     echo "Downloading XR vendor plugins from ${XR_PLUGIN_URL}";
