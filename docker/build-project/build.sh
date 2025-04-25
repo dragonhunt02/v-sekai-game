@@ -71,9 +71,9 @@ for PLATFORM in ${BUILD_PLATFORMS}; do \
         EXT='.exe'; \
     elif [ "${PLATFORM}" == 'Android' ] \
         || [ "${PLATFORM}" == 'QuestAndroid' ]; then \
-        if [ "${INPUT_XR_PLUGINS}" == 'true' ];
-            cp -v ./xr_vendor_plugins/asset/addons/godotopenxrvendors/ ./src/addons/godotopenxrvendors/;
-        fi;
+        if [ "${INPUT_XR_PLUGINS}" == 'true' ]; then \
+            cp -v ./xr_vendor_plugins/asset/addons/godotopenxrvendors/ ./src/addons/godotopenxrvendors/; \
+        fi; \
         EXT='.apk'; \
     elif [ "${PLATFORM}" == 'Mac' ]; then \
         EXT='.zip'; \
@@ -86,7 +86,7 @@ for PLATFORM in ${BUILD_PLATFORMS}; do \
          zip -r "./src/${BIN}/${GAME_NAME}_${GIT_REV}_${PLATFORM}.zip" ./src/${BUILD_DIR}; \
          rm -r ./src/${BUILD_DIR}; \
     fi; \
-    if [ "${INPUT_XR_PLUGINS}" == 'true' ]; then \
+    if [ "${INPUT_XR_PLUGINS}" == 'true' ]; then \ # Remove between runs
         rm -r ./src/addons/godotopenxrvendors/ || true; \
     fi; \
 done
