@@ -73,6 +73,7 @@ for PLATFORM in ${BUILD_PLATFORMS}; do \
         || [ "${PLATFORM}" == 'QuestAndroid' ]; then \
         if [ "${INPUT_XR_PLUGINS}" == 'true' ]; then \
             mkdir -p ./src/addons/ && cp -v -r ./xr_vendor_plugins/asset/addons/godotopenxrvendors/ ./src/addons/godotopenxrvendors/; \
+            ls -a ./src; \
         fi; \
         EXT='.apk'; \
     elif [ "${PLATFORM}" == 'Mac' ]; then \
@@ -88,7 +89,7 @@ for PLATFORM in ${BUILD_PLATFORMS}; do \
     fi; \
     if [ "${INPUT_XR_PLUGINS}" == 'true' ]; then \
         echo "questq" && pwd; \
-        tree ./src; \
+        ls -a ./src; \
         rm -r ./src/addons/godotopenxrvendors/ || echo "Error: can't remove addons/godotopenxrvendors folder"; \
     fi; \
 done
