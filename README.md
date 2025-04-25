@@ -1,4 +1,4 @@
-<a id="readme-top"></a>
+ <a id="readme-top"></a>
 
 <div align="center">
   <a href="https://github.com/V-Sekai/v-sekai-game">
