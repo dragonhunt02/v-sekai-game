@@ -71,9 +71,9 @@ for PLATFORM in ${BUILD_PLATFORMS}; do \
         EXT='.exe'; \
     elif [ "${PLATFORM}" == 'Android' ] \
         || [ "${PLATFORM}" == 'QuestAndroid' ]; then \
-        if [ "${INPUT_XR_PLUGINS}" == 'true' ]; then \
+        if [ "${INPUT_XR_PLUGINS}" == 'true' ] && [ "${PLATFORM}" == 'QuestAndroid' ]; then \
+            echo "Installing addons/godotopenxrvendors..."; \
             mkdir -p ./src/addons/ && cp -v -r ./xr_vendor_plugins/asset/addons/godotopenxrvendors/ ./src/addons/godotopenxrvendors/; \
-            ls -a ./src/addons; \
         fi; \
         EXT='.apk'; \
     elif [ "${PLATFORM}" == 'Mac' ]; then \
@@ -87,11 +87,9 @@ for PLATFORM in ${BUILD_PLATFORMS}; do \
          zip -r "./src/${BIN}/${GAME_NAME}_${GIT_REV}_${PLATFORM}.zip" ./src/${BUILD_DIR}; \
          rm -r ./src/${BUILD_DIR}; \
     fi; \
-    if [ "${INPUT_XR_PLUGINS}" == 'true' ]; then \
-        echo "questq" && pwd; \
-        ls -a ./src/addons && echo "after rm quest"; \
-        rm -r ./src/addons/godotopenxrvendors/ || echo "Error: can't remove addons/godotopenxrvendors folder"; \
-        ls -a ./src/addons; \
+    if [ "${INPUT_XR_PLUGINS}" == 'true' ] && [ "${PLATFORM}" == 'QuestAndroid' ]; then \
+        echo "Removing addons/godotopenxrvendors..."; \
+        rm -r ./src/addons/godotopenxrvendors/; \
     fi; \
 done
 
