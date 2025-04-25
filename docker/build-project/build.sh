@@ -67,14 +67,14 @@ echo -e "Game: ${GAME_NAME}\nVersion: ${GIT_REV}\nGodot ${GODOT_SHORT}"
 for PLATFORM in ${BUILD_PLATFORMS}; do \
     echo "Building ${PLATFORM}..."; \
     BUILD_DIR="./${BIN}"; EXT=''; \
+    if [ "${INPUT_XR_PLUGINS}" == 'true' ] && [ "${PLATFORM}" == 'QuestAndroid' ]; then \
+        echo "Installing addons/godotopenxrvendors..."; \
+        mkdir -p ./src/addons/ && cp -v -r ./xr_vendor_plugins/asset/addons/godotopenxrvendors/ ./src/addons/godotopenxrvendors/; \
+    fi; \
     if [ "${PLATFORM}" == 'Windows' ]; then \
         EXT='.exe'; \
     elif [ "${PLATFORM}" == 'Android' ] \
         || [ "${PLATFORM}" == 'QuestAndroid' ]; then \
-        if [ "${INPUT_XR_PLUGINS}" == 'true' ] && [ "${PLATFORM}" == 'QuestAndroid' ]; then \
-            echo "Installing addons/godotopenxrvendors..."; \
-            mkdir -p ./src/addons/ && cp -v -r ./xr_vendor_plugins/asset/addons/godotopenxrvendors/ ./src/addons/godotopenxrvendors/; \
-        fi; \
         EXT='.apk'; \
     elif [ "${PLATFORM}" == 'Mac' ]; then \
         EXT='.zip'; \
