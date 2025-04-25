@@ -86,9 +86,9 @@ for PLATFORM in ${BUILD_PLATFORMS}; do \
          zip -r "./src/${BIN}/${GAME_NAME}_${GIT_REV}_${PLATFORM}.zip" ./src/${BUILD_DIR}; \
          rm -r ./src/${BUILD_DIR}; \
     fi; \
-    if [ "${INPUT_XR_PLUGINS}" == 'true' ];
-        rm -r ./src/addons/godotopenxrvendors/ || true;
-    fi;
+    if [ "${INPUT_XR_PLUGINS}" == 'true' ]; then \
+        rm -r ./src/addons/godotopenxrvendors/ || true; \
+    fi; \
 done
 
 
