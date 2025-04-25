@@ -70,7 +70,7 @@ for PLATFORM in ${BUILD_PLATFORMS}; do \
         echo "Installing addons/godotopenxrvendors..."; \
         mkdir -p ./src/addons/ && cp -v -r ./xr_vendor_plugins/asset/addons/godotopenxrvendors/ ./src/addons/godotopenxrvendors/; \
         echo "Backing up .godot..."; \
-        cp -r ./src/.godot ./src/.godotbackup || true; \
+        cp -r ./src/.godot ./src/.godotbackup; \
     fi; \
     if [ "${PLATFORM}" == 'Windows' ]; then \
         EXT='.exe'; \
@@ -96,7 +96,7 @@ for PLATFORM in ${BUILD_PLATFORMS}; do \
         echo "Removing addons/godotopenxrvendors..."; \
         rm -r ./src/addons/godotopenxrvendors/; \
         echo "Restoring .godot..."; \
-        ( rm -r ./src/.godot && mv ./src/.godotbackup ./src/.godot ) || true; \
+        rm -r ./src/.godot && mv ./src/.godotbackup ./src/.godot; \
     fi; \
 done
 
