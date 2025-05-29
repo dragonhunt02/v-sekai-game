@@ -96,7 +96,8 @@ func _instantiate_scene() -> void:
 			return
 
 
-		var model_dictionary: Dictionary = $/root/ModelFormat.build_model_trees(instantiate)
+		#var model_dictionary: Dictionary = $/root/ModelFormat.build_model_trees(instantiate)
+		var model_dictionary: Dictionary = ModelFormat.build_model_trees(instantiate)
 
 		visual_nodes = model_dictionary.visual
 		physics_nodes = model_dictionary.physics
