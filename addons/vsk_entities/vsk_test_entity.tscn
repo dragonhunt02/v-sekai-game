@@ -11,7 +11,7 @@
 [sub_resource type="SphereMesh" id="SphereMesh_ees5n"]
 
 [node name="TestEntity" type="Node3D"]
-#transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
 script = ExtResource("18")
 simulation_logic_node/spawn_model = ExtResource("3")
 simulation_logic_node/rpc_table = NodePath("../TestEntityRPCTable")
