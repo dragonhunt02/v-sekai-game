@@ -8,7 +8,10 @@
 [ext_resource type="Script" path="res://addons/entity_manager/transform_notification.gd" id="16"]
 [ext_resource type="Script" path="res://addons/entity_manager/entity.gd" id="18"]
 
+[sub_resource type="SphereMesh" id="SphereMesh_ees5n"]
+
 [node name="TestEntity" type="Node3D"]
+#transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
 script = ExtResource("18")
 simulation_logic_node/spawn_model = ExtResource("3")
 simulation_logic_node/rpc_table = NodePath("../TestEntityRPCTable")
@@ -45,5 +48,8 @@ _entity_node_path = NodePath("..")
 [node name="NetworkIdentity" type="Node" parent="."]
 script = ExtResource("8")
 _entity_node_path = NodePath("..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_ees5n")
 
 [connection signal="transform_changed" from="TransformNotification" to="TestEntityController" method="_on_transform_changed"]
