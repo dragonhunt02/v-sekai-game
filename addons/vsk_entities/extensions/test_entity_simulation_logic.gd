@@ -127,7 +127,7 @@ func test_spawning() -> void:
 
 func _entity_physics_process(_delta: float):
 	#var prop_spawner = func(prop_scene):
-	#	get_node(rpc_table).nm_rpc_id(0, "spawn_prop", [prop_scene])
+	#	get_node(rpc_table).nm_rpc_id(0, "spawn_prop", [0, prop_scene])
 
 	#var callback = Callable(self, prop_spawner)
 	#load_prop_url("", )
