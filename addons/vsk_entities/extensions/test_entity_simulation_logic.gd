@@ -19,7 +19,7 @@ func spawn_ball_master(p_requester_id, _entity_callback_id: int) -> void:
 	var requester_player_entity: RefCounted = VSKNetworkManager.get_player_instance_ref(p_requester_id)  # EntityRef
 	#var requester_player_entity2 = VSKNetworkManager.get_player_instance_ref(NetworkManager.get_current_peer_id())
 	
-	var spawn_model=load("res://vsk_default/scenes/prefabs/beachball.tscn")
+	var spawn_model=load("res://vsk_default/scenes/prefabs/beachball_orange.tscn")
 	if requester_player_entity:
 		var requester_transform = requester_player_entity.get_last_transform()
 		requester_transform.origin.z += 8 + randi_range(1, 10)
