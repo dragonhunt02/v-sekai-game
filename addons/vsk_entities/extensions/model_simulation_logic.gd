@@ -83,17 +83,17 @@ func _instantiate_scene() -> void:
 			instantiate = Node3D.new()
 			instantiate.set_name("Dummy")
 
-		var model_format_node = get_node_or_null("/root/ModelFormat")
+		var model_format_node = get_node_or_null("$/root/ModelFormat")
 		if model_format_node:
 			pass
 			#model_format_node.build_model_trees(instantiate)
-		else:
+		#else:
 			#var model_format = Node.new()
 			##model_format.name = "ModelFormat"
 			##get_tree().get_root().add_child(model_format)
 			#print("ModelFormat node created.")
-			push_error("ModelFormat node not found in the scene tree!")
-			return
+			#push_error("ModelFormat node not found in the scene tree!")
+			#return
 
 
 		#var model_dictionary: Dictionary = $/root/ModelFormat.build_model_trees(instantiate)
