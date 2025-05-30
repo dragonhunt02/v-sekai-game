@@ -102,6 +102,11 @@ func spawn_ball_puppet(_entity_callback_id: int) -> void:
 func spawn_ball() -> void:
 	get_node(rpc_table).nm_rpc_id(0, "spawn_ball", [0])
 
+func spawn_prop_master(_entity_callback_id: int, prop_scene) -> void:
+	print("Spawn prop master")
+
+func spawn_prop_puppet(_entity_callback_id: int, prop_scene) -> void:
+	print("Spawn prop puppet")
 
 func test_spawning() -> void:
 	print("test spawning")
@@ -132,3 +137,6 @@ func _entity_physics_process(_delta: float):
 func _entity_ready() -> void:
 	assert(get_node(rpc_table).session_master_spawn.connect(self.spawn_ball_master) == OK)
 	assert(get_node(rpc_table).session_puppet_spawn.connect(self.spawn_ball_puppet) == OK)
+
+	#assert(get_node(rpc_table).session_master_spawn.connect(self.spawn_prop_master) == OK)
+	#assert(get_node(rpc_table).session_puppet_spawn.connect(self.spawn_prop_puppet) == OK)
