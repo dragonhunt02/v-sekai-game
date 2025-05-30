@@ -245,9 +245,16 @@ func _entity_representation_process(p_delta: float) -> void:
 
 func _entity_ready() -> void:
 	if !Engine.is_editor_hint():
-		assert(model_loaded.connect(self._update_physics_nodes) == OK)
+		if (model_loaded.connect(self._update_physics_nodes) != OK):
+			push_error(("Could not connect signal 'model_loaded' at prop_simulation_logic"))
+			return
 
 	super._entity_ready()
+
+	# model_load signal is triggered before this _entity_ready function, when node is first loaded
+	# We must force update here to get _update_physics_nodes to run and setup physics
+	# TODO: Investigate a better fix
+	schedule_model_update()
 
 	if !Engine.is_editor_hint():
 		if _target:
