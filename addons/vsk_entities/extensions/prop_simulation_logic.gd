@@ -61,7 +61,10 @@ func set_global_transform(p_global_transform: Transform3D, _p_update_physics: bo
 func _update_parented_node_state():
 	var parent: Node = get_entity_node().hierarchy_component_node.get_entity_parent()
 
-	assert(is_inside_tree())
+	#assert(is_inside_tree())
+	if (!is_inside_tree()):
+		push_error("Error in _update_parented_node_state: node is not inside tree")
+		return
 
 	if parent:
 		physics_node_root.freeze = true
@@ -123,11 +126,20 @@ func get_physics_node() -> RigidBody3D:
 		physics_node_root.physics_material_override = physics_material
 
 		physics_node_root.set_name("Physics")
-		assert(physics_node_root.body_entered.connect(self._on_body_entered) == OK)
-		assert(physics_node_root.touched_by_body.connect(self._on_touched_by_body) == OK)
-		assert(
-			physics_node_root.touched_by_body_with_network_id.connect(self._on_touched_by_body_with_network_id) == OK
-		)
+		if (physics_node_root.body_entered.connect(self._on_body_entered) != OK):
+			push_error("Could not connect signal 'physics_node_root.body_entered' at prop_simulation_logic")
+			return null
+		if (physics_node_root.touched_by_body.connect(self._on_touched_by_body) != OK):
+			push_error("Could not connect signal 'physics_node_root.touched_by_body' at prop_simulation_logic")
+			return null
+		if (physics_node_root.touched_by_body_with_network_id.connect(self._on_touched_by_body_with_network_id) != OK):
+			push_error("Could not connect signal 'physics_node_root.touched_by_body_with_network_id' at prop_simulation_logic")
+			return null
+		#assert(physics_node_root.body_entered.connect(self._on_body_entered) == OK)
+		#assert(physics_node_root.touched_by_body.connect(self._on_touched_by_body) == OK)
+		#assert(
+		#	physics_node_root.touched_by_body_with_network_id.connect(self._on_touched_by_body_with_network_id) == OK
+		#)
 
 		get_entity_node().add_child(physics_node_root, true)
 
