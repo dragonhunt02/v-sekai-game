@@ -258,7 +258,7 @@ func _entity_representation_process(p_delta: float) -> void:
 func _entity_ready() -> void:
 	if !Engine.is_editor_hint():
 		if (model_loaded.connect(self._update_physics_nodes) != OK):
-			push_error(("Could not connect signal 'model_loaded' at prop_simulation_logic"))
+			push_error("Could not connect signal 'model_loaded' at prop_simulation_logic")
 			return
 
 	super._entity_ready()
