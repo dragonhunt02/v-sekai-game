@@ -38,7 +38,7 @@ func get_random_prop_url():
 	print(typeof(random_prop))
 	var prop_url : String = ""
 	if map.has("user_content_data"):
-		prop_data_url = GodotUro.get_base_url() + prop["user_content_data"]
+		prop_url = GodotUro.get_base_url() + prop["user_content_data"]
 	else:
 		push_error("Error: 'user_content_data' key not found in return dictionary")
 	return prop_url
