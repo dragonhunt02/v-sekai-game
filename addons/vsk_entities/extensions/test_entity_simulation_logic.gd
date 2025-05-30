@@ -13,6 +13,37 @@ var spawned_balls: Array = []
 
 var spawn_key_pressed_last_frame: bool = false
 
+func get_prop_list() -> Array:
+	var return_dict: Dictionary = {"error": FAILED, "message": ""}
+	var prop_list = []
+
+	var async_result = await GodotUro.godot_uro_api.get_props_async()
+	if GodotUro.godot_uro_helper_const.requester_result_is_ok(async_result):
+		if async_result.has("output"):
+			if (async_result["output"].has("data") and async_result["output"]["data"].has("props")):
+				return_dict["error"] = OK
+				prop_list = p_result["output"]["data"]["props"]
+
+	if return_dict["error"] == FAILED:
+		push_error("Network request for /props failed")
+		return []
+	elif typeof(prop_list) != TYPE_ARRAY:
+		push_error("Invalid type in return dictionaryfor /props")
+		return []
+	return prop_list
+
+func get_random_prop_url():
+	var prop_list : Array = get_prop_list()
+	var random_prop = prop_list[randi() % prop_list.size()]
+	print(typeof(random_prop))
+	var prop_url : String = ""
+	if map.has("user_content_data"):
+		prop_data_url = GodotUro.get_base_url() + prop["user_content_data"]
+	else:
+		push_error("Error: 'user_content_data' key not found in return dictionary")
+	return prop_url
+
+
 func spawn_ball_master(p_requester_id, _entity_callback_id: int) -> void:
 	print("Spawn ball master")
 
