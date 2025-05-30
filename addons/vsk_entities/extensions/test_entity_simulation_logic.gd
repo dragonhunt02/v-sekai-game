@@ -12,12 +12,13 @@ var spawned_balls: Array = []
 @export var rpc_table: NodePath = NodePath()
 
 var spawn_key_pressed_last_frame: bool = false
+var background_loading_tasks: Dictionary = {}
 
 func get_prop_list() -> Array:
 	var return_dict: Dictionary = {"error": FAILED, "message": ""}
-	var prop_list = []
+	var prop_list : Array = []
 
-	var async_result = await GodotUro.godot_uro_api.get_props_async()
+	var async_result : Dictionary = await GodotUro.godot_uro_api.get_props_async()
 	if GodotUro.godot_uro_helper_const.requester_result_is_ok(async_result):
 		if async_result.has("output"):
 			if (async_result["output"].has("data") and async_result["output"]["data"].has("props")):
@@ -32,15 +33,41 @@ func get_prop_list() -> Array:
 		return []
 	return prop_list
 
-func get_random_prop_url():
+func get_random_prop_url() -> String:
 	var prop_list : Array = get_prop_list()
-	var random_prop = prop_list[randi() % prop_list.size()]
+	var random_prop : Dictionary = prop_list[randi() % prop_list.size()]
 	print(typeof(random_prop))
 	var prop_url : String = ""
 	if map.has("user_content_data"):
 		prop_url = GodotUro.get_base_url() + prop["user_content_data"]
 	else:
 		push_error("Error: 'user_content_data' key not found in return dictionary")
+	return prop_url
+
+func _background_loader_task_done(p_task_path: String, p_err: int, p_resource: Resource) -> void:
+	if background_loading_tasks.has(p_task_path):
+		var call_array: Array = background_loading_tasks[p_task_path].duplicate()
+		background_loading_tasks[p_task_path] = []
+		# Convert from standard Godot error enum to AssetManager enum
+		var asset_err: int = VSKAssetManager.ASSET_OK
+		if p_err != OK:
+			asset_err = VSKAssetManager.ASSET_RESOURCE_LOAD_FAILED
+		
+		for callback in call_array:
+			callback.call(p_resource)
+
+func load_prop_url(prop_url : String, callback : Callable) -> String:
+	if (prop_url == ""):
+		return ""
+	if BackgroundLoader.task_done.connect(self._background_loader_task_done) != OK:
+		push_error("Could not connect task_finished")
+		return false
+	background_loading_tasks[prop_url].push_back(callback)
+	# TODO: use whitelist function
+	BackgroundLoader.request_loading_task_bypass_whitelist(
+				prop_url, "PackedScene"
+			)
+	var prop_url : String = ""
 	return prop_url
 
 
@@ -94,6 +121,11 @@ func test_spawning() -> void:
 
 
 func _entity_physics_process(_delta: float):
+	#var prop_spawner = func(prop_scene):
+	#	get_node(rpc_table).nm_rpc_id(0, "spawn_prop", [prop_scene])
+
+	#var callback = Callable(self, prop_spawner)
+	#load_prop_url("", )
 	test_spawning()
 
 
