@@ -27,7 +27,7 @@ func spawn_ball_master(p_requester_id, _entity_callback_id: int) -> void:
 		print(str(spawn_model))
 		if (
 			(EntityManager.spawn_entity(
-				interactable_prop_const2,
+				interactable_prop_const,
 				{"transform": requester_transform, "model_scene": spawn_model},
 				"NetEntity",
 				p_requester_id
