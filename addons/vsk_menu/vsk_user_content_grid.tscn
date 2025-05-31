@@ -23,6 +23,7 @@ grow_horizontal = 2
 grow_vertical = 2
 follow_focus = true
 metadata/_edit_layout_mode = 1
+scroll_horizontal_enabled = false
 
 [node name="GridContainer" type="GridContainer" parent="ScrollContainer"]
 layout_mode = 2
