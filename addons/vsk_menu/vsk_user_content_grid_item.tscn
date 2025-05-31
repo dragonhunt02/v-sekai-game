@@ -5,6 +5,7 @@
 
 [node name="VSKUserContentItem" type="Button"]
 clip_contents = true
+; 16:9 ratio
 custom_minimum_size = Vector2(426, 240)
 anchors_preset = 15
 anchor_right = 1.0
