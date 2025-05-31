@@ -56,9 +56,9 @@ func _background_loader_task_done(p_task_path: String, p_err: int, p_resource: R
 		for callback in call_array:
 			callback.call(p_resource)
 
-func load_prop_url(prop_url : String, callback : Callable) -> String:
-	if (prop_url == ""):
-		return ""
+func load_prop_url(prop_url : String, callback : Callable) -> bool:
+	if (prop_url.strip_edges() == ""):
+		return false
 	if BackgroundLoader.task_done.connect(self._background_loader_task_done) != OK:
 		push_error("Could not connect task_finished")
 		return false
@@ -67,8 +67,7 @@ func load_prop_url(prop_url : String, callback : Callable) -> String:
 	BackgroundLoader.request_loading_task_bypass_whitelist(
 				prop_url, "PackedScene"
 			)
-	var prop_url : String = ""
-	return prop_url
+	return true
 
 
 func spawn_ball_master(p_requester_id, _entity_callback_id: int) -> void:
@@ -102,11 +101,38 @@ func spawn_ball_puppet(_entity_callback_id: int) -> void:
 func spawn_ball() -> void:
 	get_node(rpc_table).nm_rpc_id(0, "spawn_ball", [0])
 
-func spawn_prop_master(_entity_callback_id: int, prop_scene) -> void:
-	print("Spawn prop master")
 
-func spawn_prop_puppet(_entity_callback_id: int, prop_scene) -> void:
-	print("Spawn prop puppet")
+func spawn_prop_create(_entity_callback_id: int, prop_scene) -> void:
+	var requester_player_entity: RefCounted = VSKNetworkManager.get_player_instance_ref(p_requester_id)  # EntityRef
+	#var requester_player_entity2 = VSKNetworkManager.get_player_instance_ref(NetworkManager.get_current_peer_id())
+	
+	var spawn_model = prop_scene
+	#load(prop_scene_url)
+	if requester_player_entity:
+		var requester_transform = requester_player_entity.get_last_transform()
+		requester_transform.origin.z += 8 + randi_range(1, 10)
+		print(requester_player_entity.get_last_transform())
+		print(str(spawn_model))
+		if (
+			(EntityManager.spawn_entity(
+				interactable_prop_const,
+				{"transform": requester_transform, "model_scene": spawn_model},
+				"NetEntity",
+				p_requester_id
+			))
+			== null
+		):
+			printerr("Could not spawn prop!")
+
+func spawn_prop_master(_entity_callback_id: int, prop_scene_url : String) -> void:
+	print("Spawn prop master from ", prop_scene_url)
+	var prop_spawner = func(prop_scene):
+		spawn_prop_create(_entity_callback_id, prop_scene)
+	var callback = Callable(self, prop_spawner)
+	load_prop_url(prop_scene_url, callback)
+
+func spawn_prop_puppet(_entity_callback_id: int, prop_scene_url : String) -> void:
+	print("Spawn prop puppet from ", prop_scene_url)
 
 func test_spawning() -> void:
 	print("test spawning")
@@ -126,11 +152,13 @@ func test_spawning() -> void:
 
 
 func _entity_physics_process(_delta: float):
+	#var prop_scene_url = get_random_prop_url()
+	#var prop_scene_url = "res://vsk_default/scenes/prefabs/beachball_orange.tscn")
 	#var prop_spawner = func(prop_scene):
-	#	get_node(rpc_table).nm_rpc_id(0, "spawn_prop", [0, prop_scene])
+	#get_node(rpc_table).nm_rpc_id(0, "spawn_prop", [0, prop_scene_url])
 
 	#var callback = Callable(self, prop_spawner)
-	#load_prop_url("", )
+	#load_prop_url("", callback)
 	test_spawning()
 
 
