@@ -17,5 +17,5 @@ focused_sound = ExtResource("4")
 pressed_sound = ExtResource("3")
 
 [node name="ButtonAnimation" type="Node" parent="."]
-script = ExtResource("5 ")
+script = ExtResource("5")
 button_nodepath = NodePath("..")
