@@ -10,7 +10,12 @@ extends Node
 @export var focused_sound: AudioStream  # (AudioStream) = null
 @export var pressed_sound: AudioStream  # (AudioStream) = null
 
-@export var transition_time: float = 0.2 # seconds
+#@export var transition_time: float = 0.2 # seconds
+
+const anim_const_path = preload("res://addons/navigation_controller/navigation_controller.gd")
+const transition_time: float = anim_const_path.anim_transition_time
+#0.2 # seconds
+
 var active_tween: Tween =null
 
 func _on_pressed():
