@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://b427ep046njyo" path="res://addons/vsk_menu/vsk_menu_audio.gd" id="2"]
 [ext_resource type="AudioStream" uid="uid://cna2b0skj0pkg" path="res://addons/kenney_ui_audio/switch8.wav" id="3"]
 [ext_resource type="AudioStream" uid="uid://b52fwfkbnysgd" path="res://addons/kenney_ui_audio/rollover2.wav" id="4"]
-[ext_resource type="Script" uid="uid://co0fvaauu5yje" path="res://addons/vsk_menu/vsk_menu_btn_animation.gd" id="5"]
+;[ext_resource type="Script" uid="uid://co0fvaauu5yje" path="res://addons/vsk_menu/vsk_menu_btn_animation.gd" id="5"]
 
 
 [node name="VSKButton" type="Button"]
@@ -16,6 +16,6 @@ button_nodepath = NodePath("..")
 focused_sound = ExtResource("4")
 pressed_sound = ExtResource("3")
 
-[node name="ButtonAnimation" type="Node" parent="."]
-script = ExtResource("5")
-button_nodepath = NodePath("..")
+;[node name="ButtonAnimation" type="Node" parent="."]
+;script = ExtResource("5")
+;button_nodepath = NodePath("..")
