@@ -11,7 +11,7 @@ var view_controller_stack: Array = []
 
 var current_view_node: Control = null
 
-var ui_const_path = preload("res://addons/vsk_menu/vsk_menu_audio.gd")
+var ui_const_path = preload("res://addons/vsk_menu/vsk_menu_btn_animation.gd")
 var ui_const = ui_const_path.new()
 
 static func is_navigation_controller() -> bool:
