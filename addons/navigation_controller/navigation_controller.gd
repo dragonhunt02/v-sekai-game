@@ -14,7 +14,8 @@ var current_view_node: Control = null
 #var ui_const_path = preload("res://addons/vsk_menu/vsk_menu_audio.gd")
 #var ui_const = ui_const_path.new()
 
-#TODO: Improve global animation handling
+#TODO: Quick fix to provide a global button animation transition time.
+# Needs better handling and should be user-set in Options menu
 static anim_transition_time: float = 0.2
 
 static func is_navigation_controller() -> bool:
