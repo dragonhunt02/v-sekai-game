@@ -35,6 +35,10 @@ func get_prop_list() -> Array:
 
 func get_random_prop_url() -> String:
 	var prop_list : Array = await get_prop_list()
+	if prop_list.size() <= 0:
+		push_error("No prop available on server")
+		return ""
+
 	var random_prop : Dictionary = prop_list[randi() % prop_list.size()]
 	print(typeof(random_prop))
 	var prop_url : String = ""
@@ -134,6 +138,8 @@ func spawn_prop_master(p_requester_id, _entity_callback_id: int, prop_scene_url 
 func spawn_prop_puppet(_entity_callback_id: int, prop_scene_url : String) -> void:
 	print("Spawn prop puppet from ", prop_scene_url)
 
+static var flagtest = false
+
 func test_spawning() -> void:
 	print("test spawning")
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -141,6 +147,11 @@ func test_spawning() -> void:
 	if current_seconds % 4 == 0:
 		print("The current seconds are double even!")
 		self.spawn_ball()
+		
+	if flagtest == false:
+		var url = await get_random_prop_url()
+		print(url)
+		flagtest = true
 
 	if InputManager.ingame_input_enabled():
 		var spawn_key_pressed_this_frame: bool = Input.is_key_pressed(KEY_P)
