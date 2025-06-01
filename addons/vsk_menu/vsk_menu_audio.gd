@@ -10,7 +10,7 @@ extends Node
 @export var focused_sound: AudioStream  # (AudioStream) = null
 @export var pressed_sound: AudioStream  # (AudioStream) = null
 
-@export var transition_time: float = 0.2 #seconds
+@export var transition_time: float = 0.2 # seconds
 var active_tween: Tween =null
 
 func _on_pressed():
