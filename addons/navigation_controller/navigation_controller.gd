@@ -13,7 +13,9 @@ var current_view_node: Control = null
 
 #var ui_const_path = preload("res://addons/vsk_menu/vsk_menu_audio.gd")
 #var ui_const = ui_const_path.new()
-@export var anim_transition_time: float = 0.2
+
+#TODO: Improve global animation handling
+static anim_transition_time: float = 0.2
 
 static func is_navigation_controller() -> bool:
 	return true
