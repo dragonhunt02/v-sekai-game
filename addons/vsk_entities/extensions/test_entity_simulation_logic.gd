@@ -23,7 +23,7 @@ func get_prop_list() -> Array:
 		if async_result.has("output"):
 			if (async_result["output"].has("data") and async_result["output"]["data"].has("props")):
 				return_dict["error"] = OK
-				prop_list = p_result["output"]["data"]["props"]
+				prop_list = async_result["output"]["data"]["props"]
 
 	if return_dict["error"] == FAILED:
 		push_error("Network request for /props failed")
@@ -34,12 +34,12 @@ func get_prop_list() -> Array:
 	return prop_list
 
 func get_random_prop_url() -> String:
-	var prop_list : Array = get_prop_list()
+	var prop_list : Array = await get_prop_list()
 	var random_prop : Dictionary = prop_list[randi() % prop_list.size()]
 	print(typeof(random_prop))
 	var prop_url : String = ""
 	if random_prop.has("user_content_data"):
-		prop_url = GodotUro.get_base_url() + prop["user_content_data"]
+		prop_url = GodotUro.get_base_url() + random_prop["user_content_data"]
 	else:
 		push_error("Error: 'user_content_data' key not found in return dictionary")
 	return prop_url
@@ -102,7 +102,7 @@ func spawn_ball() -> void:
 	get_node(rpc_table).nm_rpc_id(0, "spawn_ball", [0])
 
 
-func spawn_prop_create(_entity_callback_id: int, prop_scene) -> void:
+func spawn_prop_create(p_requester_id, _entity_callback_id: int, prop_scene) -> void:
 	var requester_player_entity: RefCounted = VSKNetworkManager.get_player_instance_ref(p_requester_id)  # EntityRef
 	#var requester_player_entity2 = VSKNetworkManager.get_player_instance_ref(NetworkManager.get_current_peer_id())
 	
@@ -124,12 +124,12 @@ func spawn_prop_create(_entity_callback_id: int, prop_scene) -> void:
 		):
 			printerr("Could not spawn prop!")
 
-func spawn_prop_master(_entity_callback_id: int, prop_scene_url : String) -> void:
+func spawn_prop_master(p_requester_id, _entity_callback_id: int, prop_scene_url : String) -> void:
 	print("Spawn prop master from ", prop_scene_url)
 	var prop_spawner = func(prop_scene):
-		spawn_prop_create(_entity_callback_id, prop_scene)
-	var callback = Callable(self, prop_spawner)
-	load_prop_url(prop_scene_url, callback)
+		spawn_prop_create(p_requester_id, _entity_callback_id, prop_scene)
+	#var callback = Callable(self.instance(), prop_spawner)
+	load_prop_url(prop_scene_url, prop_spawner) #callback)
 
 func spawn_prop_puppet(_entity_callback_id: int, prop_scene_url : String) -> void:
 	print("Spawn prop puppet from ", prop_scene_url)
