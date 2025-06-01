@@ -47,7 +47,7 @@ func animate_click():
 		.set_ease(Tween.EASE_IN_OUT)
 	active_tween.tween_property(button_node,"scale", Vector2(0.9, 0.9), transition_time / 2)
 	active_tween.chain() \
-	.tween_property(button_node,"scale", Vector2(1.0,1.0), transition_time /2)
+	.tween_property(button_node,"scale", Vector2(1.0,1.0), transition_time / 2)
 	await active_tween.finished
 
 	button_node.scale = Vector2(1.0, 1.0)
