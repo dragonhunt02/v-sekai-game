@@ -16,7 +16,7 @@ var current_view_node: Control = null
 
 #TODO: Quick fix to provide a global button animation transition time.
 # Needs better handling and should be user-set in Options menu
-static anim_transition_time: float = 0.2
+static var anim_transition_time: float = 0.2
 
 static func is_navigation_controller() -> bool:
 	return true
