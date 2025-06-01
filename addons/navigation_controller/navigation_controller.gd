@@ -11,8 +11,9 @@ var view_controller_stack: Array = []
 
 var current_view_node: Control = null
 
-var ui_const_path = preload("res://addons/vsk_menu/vsk_menu_btn_animation.gd")
-var ui_const = ui_const_path.new()
+#var ui_const_path = preload("res://addons/vsk_menu/vsk_menu_audio.gd")
+#var ui_const = ui_const_path.new()
+@export var anim_transition_time: float = 0.2
 
 static func is_navigation_controller() -> bool:
 	return true
@@ -45,8 +46,8 @@ func clear_view_node(p_view_node: Control, p_delete: bool) -> void:
 
 
 func push_view_controller(p_view_controller: Control, p_animated: bool) -> void:
-	if true: #p_animated:
-		await get_tree().create_timer(ui_const.transition_time).timeout
+	if p_animated:
+		await get_tree().create_timer(anim_transition_time).timeout
 
 	view_controller_stack.push_front(p_view_controller)
 
