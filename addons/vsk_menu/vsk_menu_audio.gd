@@ -10,22 +10,45 @@ extends Node
 @export var focused_sound: AudioStream  # (AudioStream) = null
 @export var pressed_sound: AudioStream  # (AudioStream) = null
 
+var active_tween : Tween =null
 
 func _on_pressed():
 	VSKMenuManager.play_menu_sfx(pressed_sound)
+	#animate_click()
 
 
 func _on_focus_entered():
 	VSKMenuManager.play_menu_sfx(focused_sound)
-
+	animate_click(:
 
 func _on_mouse_entered():
 	var button_node = get_node_or_null(button_nodepath)
 	if button_node and button_node.has_focus():
 		VSKMenuManager.play_menu_sfx(focused_sound)
 
+func animate_click():
+	var button_node = get_node_or_null(button_nodepath)
 
-func clear_connections() -> void:
+	# reset
+	button_node.scale = Vector2(1.0, 1.0) 
+	button_node.pivot_offset = button_node.size / 2
+
+	if active_tween:
+		active_tween.kill()
+		active_tween = null
+
+	active_tween = button_node.create_tween() \
+		.set_trans(Tween.TRANS_SINE) \
+		.set_ease(Tween.EASE_IN_OUT)
+	active_tween.tween_property(button_node,"scale", Vector2(0.9, 0.9), transition_time)
+	active_tween.chain() \
+	.tween_property(button_node,"scale", Vector2(1.0,1.0), transition_time)
+	await active_tween.finished
+
+	button_node.scale = Vector2(1.0, 1.0)
+	button_node.release_focus()
+
+func clear_connections() -> void
 	var button_node = get_node_or_null(button_nodepath)
 	if button_node:
 		if button_node.pressed.is_connected(self._on_pressed):
