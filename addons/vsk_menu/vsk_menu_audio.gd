@@ -10,7 +10,8 @@ extends Node
 @export var focused_sound: AudioStream  # (AudioStream) = null
 @export var pressed_sound: AudioStream  # (AudioStream) = null
 
-var active_tween : Tween =null
+@export var transition_time: float = 0.2 #seconds
+var active_tween: Tween =null
 
 func _on_pressed():
 	VSKMenuManager.play_menu_sfx(pressed_sound)
@@ -19,7 +20,7 @@ func _on_pressed():
 
 func _on_focus_entered():
 	VSKMenuManager.play_menu_sfx(focused_sound)
-	animate_click(:
+	animate_click()
 
 func _on_mouse_entered():
 	var button_node = get_node_or_null(button_nodepath)
@@ -48,7 +49,7 @@ func animate_click():
 	button_node.scale = Vector2(1.0, 1.0)
 	button_node.release_focus()
 
-func clear_connections() -> void
+func clear_connections() -> void:
 	var button_node = get_node_or_null(button_nodepath)
 	if button_node:
 		if button_node.pressed.is_connected(self._on_pressed):
