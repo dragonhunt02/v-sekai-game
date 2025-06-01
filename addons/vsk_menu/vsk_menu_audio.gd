@@ -15,12 +15,11 @@ var active_tween: Tween =null
 
 func _on_pressed():
 	VSKMenuManager.play_menu_sfx(pressed_sound)
-	#animate_click()
+	animate_click()
 
 
 func _on_focus_entered():
 	VSKMenuManager.play_menu_sfx(focused_sound)
-	animate_click()
 
 func _on_mouse_entered():
 	var button_node = get_node_or_null(button_nodepath)
@@ -41,9 +40,9 @@ func animate_click():
 	active_tween = button_node.create_tween() \
 		.set_trans(Tween.TRANS_SINE) \
 		.set_ease(Tween.EASE_IN_OUT)
-	active_tween.tween_property(button_node,"scale", Vector2(0.9, 0.9), transition_time)
+	active_tween.tween_property(button_node,"scale", Vector2(0.9, 0.9), transition_time / 2)
 	active_tween.chain() \
-	.tween_property(button_node,"scale", Vector2(1.0,1.0), transition_time)
+	.tween_property(button_node,"scale", Vector2(1.0,1.0), transition_time /2)
 	await active_tween.finished
 
 	button_node.scale = Vector2(1.0, 1.0)
