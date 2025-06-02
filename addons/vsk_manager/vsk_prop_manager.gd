@@ -92,7 +92,7 @@ func request_prop(
 	# TODO: replace with vsk USER_CONTENT_PROP
 	await request_user_content_load(
 		p_prop_path,
-		VSKAssetManager.user_content_type.USER_CONTENT_MAP,
+		VSKAssetManager.user_content_type.USER_CONTENT_AVATAR,
 		p_bypass_whitelist,
 		p_skip_validation,
 		{}, {}
