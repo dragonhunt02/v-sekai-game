@@ -21,12 +21,12 @@ func get_prop_list() -> Array:
 	var return_dict: Dictionary = {"error": FAILED, "message": ""}
 	var prop_list : Array = []
 
-	var async_result : Dictionary = await GodotUro.godot_uro_api.get_maps_async()
+	var async_result : Dictionary = await GodotUro.godot_uro_api.get_avatars_async()
 	if GodotUro.godot_uro_helper_const.requester_result_is_ok(async_result):
 		if async_result.has("output"):
-			if (async_result["output"].has("data") and async_result["output"]["data"].has("maps")):
+			if (async_result["output"].has("data") and async_result["output"]["data"].has("avatars")):
 				return_dict["error"] = OK
-				prop_list = async_result["output"]["data"]["maps"]
+				prop_list = async_result["output"]["data"]["avatars"]
 
 	if return_dict["error"] == FAILED:
 		push_error("Network request for /props failed")
