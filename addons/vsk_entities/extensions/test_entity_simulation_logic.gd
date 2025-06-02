@@ -15,7 +15,7 @@ var spawn_key_pressed_last_frame: bool = false
 var background_loading_tasks = [] #: Dictionary = {}
 
 var prop_pending: bool = false
-var prop_cb: Callable = null
+var prop_cb = null
 
 func get_prop_list() -> Array:
 	var return_dict: Dictionary = {"error": FAILED, "message": ""}
@@ -121,7 +121,7 @@ func load_prop_url_2(prop_url : String, callback : Callable) -> bool:
 	VSKPropManager.call_deferred(
 		"request_prop", prop_url, true, true
 	)
-		return true
+	return true
 	#else:
 	#	return false
 
@@ -183,6 +183,7 @@ func spawn_prop_master(p_requester_id, _entity_callback_id: int, prop_scene_url 
 	print("Spawn prop master from ", prop_scene_url)
 	var prop_spawner = func(prop_scene):
 		spawn_prop_create(p_requester_id, _entity_callback_id, prop_scene)
+		push_error("prop spawned succx")
 	#var callback = Callable(self.instance(), prop_spawner)
 	load_prop_url_2(prop_scene_url, prop_spawner) #callback)
 
