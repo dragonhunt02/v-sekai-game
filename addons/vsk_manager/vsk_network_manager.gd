@@ -369,7 +369,7 @@ func get_random_spawn_transform() -> Transform3D:
 ## Returns the node for the player scene
 ##
 func add_prop_scene(p_master_id: int) -> Node:
-	print("Adding prop scene for {master_id}...".format({"master_id": str(p_master_id)}))
+	print("Adding prop spawner scene for {master_id}...".format({"master_id": str(p_master_id)}))
 
 	if !prop_instances.has(p_master_id):
 		var instantiate: Node = EntityManager.instantiate_entity_and_setup(
