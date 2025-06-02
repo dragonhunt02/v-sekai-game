@@ -382,13 +382,13 @@ func add_prop_scene(p_master_id: int) -> Node:
 		prop_instances[p_master_id] = instantiate
 
 		if instantiate == null:
-			push_error("Could not instantiate prop!")
+			push_error("Could not instantiate prop spawner!")
 		else:
 			EntityManager.scene_tree_execution_command(EntityManager.scene_tree_execution_table.ADD_ENTITY, instantiate)
 
 		return instantiate
 	else:
-		push_error("Attempted to add duplicate client prop scene!")
+		push_error("Attempted to add duplicate client prop spawner scene!")
 		return null
 
 
@@ -400,12 +400,18 @@ func remove_prop_scene(p_master_id: int) -> void:
 	print("Removing prop spawner scene for {master_id}...".format({"master_id": str(p_master_id)}))
 
 	if not prop_instances.has(p_master_id):
-		push_error("Attempted to remove unrecorded client player scene!")
+		push_error("Attempted to remove unrecorded client prop spawner scene!")
 		return
 
 	var instantiate: Node = prop_instances[p_master_id]
 	prop_instances.erase(p_master_id)
-	EntityManager._delete_entity_unsafe(instantiate)
+
+	if instantiate and !instantiate.is_queued_for_deletion():
+		instantiate.queue_free()
+		if instantiate.is_inside_tree():
+			instantiate.get_parent().remove_child(instantiate)
+			EntityManager._remove_entity(instantiate)
+		# EntityManager._delete_entity_unsafe(instantiate)
 
 
 ##
