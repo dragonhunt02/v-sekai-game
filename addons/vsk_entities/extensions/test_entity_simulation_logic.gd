@@ -12,18 +12,18 @@ var spawned_balls: Array = []
 @export var rpc_table: NodePath = NodePath()
 
 var spawn_key_pressed_last_frame: bool = false
-var background_loading_tasks: Dictionary = {}
+var background_loading_tasks = [] #: Dictionary = {}
 
 func get_prop_list() -> Array:
 	var return_dict: Dictionary = {"error": FAILED, "message": ""}
 	var prop_list : Array = []
 
-	var async_result : Dictionary = await GodotUro.godot_uro_api.get_props_async()
+	var async_result : Dictionary = await GodotUro.godot_uro_api.get_maps_async()
 	if GodotUro.godot_uro_helper_const.requester_result_is_ok(async_result):
 		if async_result.has("output"):
-			if (async_result["output"].has("data") and async_result["output"]["data"].has("props")):
+			if (async_result["output"].has("data") and async_result["output"]["data"].has("maps")):
 				return_dict["error"] = OK
-				prop_list = async_result["output"]["data"]["props"]
+				prop_list = async_result["output"]["data"]["maps"]
 
 	if return_dict["error"] == FAILED:
 		push_error("Network request for /props failed")
@@ -35,10 +35,9 @@ func get_prop_list() -> Array:
 
 func get_random_prop_url() -> String:
 	var prop_list : Array = await get_prop_list()
-	if prop_list.size() <= 0:
+	if prop_list.size() == 0:
 		push_error("No prop available on server")
 		return ""
-
 	var random_prop : Dictionary = prop_list[randi() % prop_list.size()]
 	print(typeof(random_prop))
 	var prop_url : String = ""
@@ -49,16 +48,19 @@ func get_random_prop_url() -> String:
 	return prop_url
 
 func _background_loader_task_done(p_task_path: String, p_err: int, p_resource: Resource) -> void:
-	if background_loading_tasks.has(p_task_path):
-		var call_array: Array = background_loading_tasks[p_task_path].duplicate()
-		background_loading_tasks[p_task_path] = []
+	#if background_loading_tasks.has(p_task_path):
+		#var call_array: Array = background_loading_tasks[p_task_path].duplicate()
+		#background_loading_tasks[p_task_path] = []
 		# Convert from standard Godot error enum to AssetManager enum
 		var asset_err: int = VSKAssetManager.ASSET_OK
 		if p_err != OK:
 			asset_err = VSKAssetManager.ASSET_RESOURCE_LOAD_FAILED
 		
-		for callback in call_array:
-			callback.call(p_resource)
+		for callbackar in background_loading_tasks: #call_array:
+			var res = callbackar[0]
+			var callback = callbackar[1]
+			if p_task_path == res:
+				callback.call(p_resource)
 
 func load_prop_url(prop_url : String, callback : Callable) -> bool:
 	if (prop_url.strip_edges() == ""):
@@ -66,8 +68,13 @@ func load_prop_url(prop_url : String, callback : Callable) -> bool:
 	if BackgroundLoader.task_done.connect(self._background_loader_task_done) != OK:
 		push_error("Could not connect task_finished")
 		return false
-	background_loading_tasks[prop_url].push_back(callback)
+	background_loading_tasks.push_back([prop_url, callback])
+	#[prop_url].push_back(callback)
 	# TODO: use whitelist function
+	var wer = await VSKAssetManager.make_request(prop_url, VSKAssetManager.user_content_type.USER_CONTENT_MAP, true, \
+	true, {}, {})
+	var wer2 = wer.object
+	print(wer2)
 	BackgroundLoader.request_loading_task_bypass_whitelist(
 				prop_url, "PackedScene"
 			)
@@ -138,7 +145,9 @@ func spawn_prop_master(p_requester_id, _entity_callback_id: int, prop_scene_url 
 func spawn_prop_puppet(_entity_callback_id: int, prop_scene_url : String) -> void:
 	print("Spawn prop puppet from ", prop_scene_url)
 
-static var flagtest = false
+static var flagl = false
+static var flagl2 = false
+static var urlt = null
 
 func test_spawning() -> void:
 	print("test spawning")
@@ -146,12 +155,14 @@ func test_spawning() -> void:
 	var current_seconds = int(Time.get_unix_time_from_system()) % 60
 	if current_seconds % 4 == 0:
 		print("The current seconds are double even!")
-		self.spawn_ball()
-		
-	if flagtest == false:
-		var url = await get_random_prop_url()
-		print(url)
-		flagtest = true
+	if flagl == false:
+		flagl = true
+		urlt = await get_random_prop_url()
+		print(urlt)
+		if flagl2 == false:
+			await print(urlt)
+			flagl2 = true
+			get_node(rpc_table).nm_rpc_id(0, "spawn_prop", [0, urlt])
 
 	if InputManager.ingame_input_enabled():
 		var spawn_key_pressed_this_frame: bool = Input.is_key_pressed(KEY_P)
@@ -174,8 +185,8 @@ func _entity_physics_process(_delta: float):
 
 
 func _entity_ready() -> void:
-	assert(get_node(rpc_table).session_master_spawn.connect(self.spawn_ball_master) == OK)
-	assert(get_node(rpc_table).session_puppet_spawn.connect(self.spawn_ball_puppet) == OK)
+#	assert(get_node(rpc_table).session_master_spawn.connect(self.spawn_ball_master) == OK)
+#	assert(get_node(rpc_table).session_puppet_spawn.connect(self.spawn_ball_puppet) == OK)
 
-	#assert(get_node(rpc_table).session_master_spawn.connect(self.spawn_prop_master) == OK)
-	#assert(get_node(rpc_table).session_puppet_spawn.connect(self.spawn_prop_puppet) == OK)
+	assert(get_node(rpc_table).session_master_spawn.connect(self.spawn_prop_master) == OK)
+	assert(get_node(rpc_table).session_puppet_spawn.connect(self.spawn_prop_puppet) == OK)
