@@ -300,7 +300,7 @@ func instantiate_entity_and_setup(
 	if _NetworkManager == null:
 		_NetworkManager = $"/root/NetworkManager"
 	instantiate._threaded_instance_setup(
-		_NetworkManager.network_entity_manager.NULL_NETWORK_INSTANCE_ID + randi() % 1000, null
+		_NetworkManager.network_entity_manager.NULL_NETWORK_INSTANCE_ID, null
 	)
 
 	return instantiate
