@@ -102,7 +102,7 @@ func request_prop(
 
 
 func setup():
-	get_settings_values()
+	#get_settings_values()
 
 	if connect("user_content_load_done", self._user_content_load_done) != OK:
 		push_error("Could not connect user_content_load_succeeded")
