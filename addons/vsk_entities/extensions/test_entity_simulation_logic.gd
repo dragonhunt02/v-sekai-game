@@ -4,15 +4,11 @@ extends "res://addons/entity_manager/node_3d_simulation_logic.gd"
 const interactable_prop_const = preload("res://addons/vsk_entities/vsk_interactable_prop.tscn")
 const interactable_prop_const2 = preload("res://addons/vsk_entities/vsk_test_entity.tscn")
 const interactable_prop_const3 = preload("res://vsk_default/scenes/prefabs/beachball.tscn")
-# interactable_prop.tscn")
-
-#var spawned_balls: Array = []
 
 @export var spawn_model: PackedScene  # (PackedScene) = null
 @export var rpc_table: NodePath = NodePath()
 
 var spawn_key_pressed_last_frame: bool = false
-# var background_loading_tasks = [] #: Dictionary = {}
 
 var prop_pending: bool = false
 var prop_cb = null
@@ -98,7 +94,7 @@ func spawn_prop_create(p_requester_id, _entity_callback_id: int, prop_scene) -> 
 	var spawn_model = prop_scene
 	if requester_player_entity:
 		var requester_transform = requester_player_entity.get_last_transform()
-		requester_transform.origin.z += 8 + randi_range(1, 10)
+		requester_transform.origin.z += 4 + randi_range(0, 5)
 		print(requester_player_entity.get_last_transform())
 		print(str(spawn_model))
 		if (
@@ -117,7 +113,7 @@ func spawn_prop_master(p_requester_id, _entity_callback_id: int, prop_scene_url 
 	var prop_spawner = func(prop_scene):
 		spawn_prop_create(p_requester_id, _entity_callback_id, prop_scene)
 		push_error("prop spawned succx")
-	load_prop_url_2(prop_scene_url, prop_spawner) #callback)
+	load_prop_url_2(prop_scene_url, prop_spawner)
 
 func spawn_prop_puppet(_entity_callback_id: int, prop_scene_url : String) -> void:
 	print("Spawn prop puppet from ", prop_scene_url)
@@ -126,24 +122,21 @@ func spawn_prop_test() -> void:
 	var url_path = await get_random_prop_url()
 	get_node(rpc_table).nm_rpc_id(0, "spawn_prop", [0, url_path])
 
-static var flagl = false
-static var flagl2 = false
-static var urlt = null
 
+static var previous_frame_time
 func test_spawning() -> void:
 	print("test spawning")
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	var current_seconds = int(Time.get_unix_time_from_system()) % 60
-	if current_seconds % 4 == 0:
-		print("The current seconds are double even!")
-	if flagl == false:
-		flagl = true
-		urlt = await get_random_prop_url()
-		print(urlt)
-		if flagl2 == false:
-			await print(urlt)
-			flagl2 = true
-			get_node(rpc_table).nm_rpc_id(0, "spawn_prop", [0, urlt])
+	var current_frame_time: float = Time.get_ticks_msec() / 1000.0
+	if current_frame_time - previous_frame_time >= 4.0:
+		print("More than 4 seconds have elapsed since the last check!")
+		previous_frame_time = current_frame_time
+		var url_test = "res://vsk_default/scenes/prefabs/beachball.tscn"
+		# Comment out line below to test prop physics
+		url_test = await get_random_prop_url()
+
+		get_node(rpc_table).nm_rpc_id(0, "spawn_prop", [0, url_test])
 
 	if InputManager.ingame_input_enabled():
 		var spawn_key_pressed_this_frame: bool = Input.is_key_pressed(KEY_P)
@@ -159,5 +152,6 @@ func _entity_physics_process(_delta: float):
 
 
 func _entity_ready() -> void:
+	previous_frame_time = Time.get_ticks_msec() / 1000.0
 	assert(get_node(rpc_table).session_master_spawn.connect(self.spawn_prop_master) == OK)
 	assert(get_node(rpc_table).session_puppet_spawn.connect(self.spawn_prop_puppet) == OK)
