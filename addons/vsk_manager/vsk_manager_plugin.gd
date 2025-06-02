@@ -46,6 +46,10 @@ var singleton_table = [
 		"singleton_path": "res://addons/vsk_manager/vsk_map_manager.gd"
 	},
 	{
+		"singleton_name": "VSKPropManager",
+		"singleton_path": "res://addons/vsk_manager/vsk_prop_manager.gd"
+	},
+	{
 		"singleton_name": "VSKPlayerManager",
 		"singleton_path": "res://addons/vsk_manager/vsk_player_manager.gd"
 	},
