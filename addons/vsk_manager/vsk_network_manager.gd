@@ -363,7 +363,7 @@ func get_random_spawn_transform() -> Transform3D:
 	return get_random_spawn_transform_for_spawners(spawn_nodes)
 
 ##
-## Instantiates a prop scene, usually called by the server host when
+## Instantiates a prop spawner scene, usually called by the server host when
 ## a peer is about to enter the server.
 ## p_master_id is network id for the client we're creating this player scene for.
 ## Returns the node for the player scene
@@ -390,6 +390,32 @@ func add_prop_scene(p_master_id: int) -> Node:
 	else:
 		push_error("Attempted to add duplicate client prop scene!")
 		return null
+
+
+## Destroys a prop spawner scene, usually called by the server host when a peer
+## is leaving the server.
+## p_master_id is network id for the client we're creating this player scene for.
+##
+func remove_prop_scene(p_master_id: int) -> void:
+	print("Removing prop spawner scene for {master_id}...".format({"master_id": str(p_master_id)}))
+
+	if not prop_instances.has(p_master_id):
+		push_error("Attempted to remove unrecorded client player scene!")
+		return
+
+	var instantiate: Node = prop_instances[p_master_id]
+	prop_instances.erase(p_master_id)
+	EntityManager._delete_entity_unsafe(instantiate)
+
+
+##
+## Destroys all the prop spawner scene instances, called as part of the cleanup phase.
+##
+func clear_all_prop_scenes() -> void:
+	print("_clear_all_prop_scenes")
+
+	for key in prop_instances.keys():
+		remove_prop_scene(key)
 
 
 ##
@@ -474,6 +500,7 @@ func get_all_player_instance_refs() -> Dictionary:
 func _session_data_reset() -> void:
 	print("_session_data_reset")
 
+	clear_all_prop_scenes()
 	clear_all_player_scenes()
 	clear_all_player_display_names()
 	clear_all_player_avatar_paths()
