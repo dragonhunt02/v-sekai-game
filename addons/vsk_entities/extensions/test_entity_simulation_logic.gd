@@ -14,6 +14,9 @@ var spawned_balls: Array = []
 var spawn_key_pressed_last_frame: bool = false
 var background_loading_tasks = [] #: Dictionary = {}
 
+var prop_pending: bool = false
+var prop_cb: Callable = null
+
 func get_prop_list() -> Array:
 	var return_dict: Dictionary = {"error": FAILED, "message": ""}
 	var prop_list : Array = []
@@ -80,6 +83,47 @@ func load_prop_url(prop_url : String, callback : Callable) -> bool:
 			)
 	return true
 
+func _prop_load_finished() -> void:
+	#VSKPropManager.prop_download_started.disconnect(self._prop_download_started)
+	VSKPropManager.prop_load_callback.disconnect(self._prop_load_callback)
+	#VSKPropManager.prop_load_update.disconnect(self._prop_load_update)
+
+	prop_pending = false
+
+func _prop_load_succeeded(p_url, p_packed_scene: PackedScene) -> void:
+	if prop_cb:
+		prop_cb.call(p_packed_scene)
+		prop_cb = null
+	_prop_load_finished()
+
+func _prop_load_callback(p_url: String, p_err: int, p_packed_scene: PackedScene) -> void:
+	if p_err == VSKAssetManager.ASSET_OK:
+		push_error("Prop load ok", p_url)
+		_prop_load_succeeded(p_url, p_packed_scene)
+	else:
+		push_error("Prop load failed", p_url, p_err)
+		_prop_load_finished()
+		#_prop_load_failed(p_url, p_err)
+
+func load_prop_url_2(prop_url : String, callback : Callable) -> bool:
+	if (prop_url.strip_edges() == ""):
+		return false
+
+	if !prop_pending:
+		prop_pending = true
+		if VSKPropManager.prop_load_callback.connect(self._prop_load_callback) != OK:
+			push_error("Could not connect signal 'VSKPropManager.prop_load_callback'")
+			return false
+
+	prop_cb = callback
+
+	# TODO: use whitelist function
+	VSKPropManager.call_deferred(
+		"request_prop", prop_url, true, true
+	)
+		return true
+	#else:
+	#	return false
 
 func spawn_ball_master(p_requester_id, _entity_callback_id: int) -> void:
 	print("Spawn ball master")
@@ -140,7 +184,7 @@ func spawn_prop_master(p_requester_id, _entity_callback_id: int, prop_scene_url 
 	var prop_spawner = func(prop_scene):
 		spawn_prop_create(p_requester_id, _entity_callback_id, prop_scene)
 	#var callback = Callable(self.instance(), prop_spawner)
-	load_prop_url(prop_scene_url, prop_spawner) #callback)
+	load_prop_url_2(prop_scene_url, prop_spawner) #callback)
 
 func spawn_prop_puppet(_entity_callback_id: int, prop_scene_url : String) -> void:
 	print("Spawn prop puppet from ", prop_scene_url)
