@@ -117,5 +117,6 @@ func setup():
 
 func _ready():
 	if !Engine.is_editor_hint():
-		pass
+		setup()
+		#pass
 		# add_commands()
