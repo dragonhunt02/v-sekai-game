@@ -138,7 +138,7 @@ func test_spawning() -> void:
 		# Comment out line below to test prop physics
 		url_test = await get_random_prop_url()
 
-		get_node(rpc_table).nm_rpc_id(0, "spawn_prop", [0, url_test])
+		prop_rpc_table.nm_rpc_id(0, "spawn_prop", [0, url_test])
 
 	if InputManager.ingame_input_enabled():
 		var spawn_key_pressed_this_frame: bool = Input.is_key_pressed(KEY_P)
