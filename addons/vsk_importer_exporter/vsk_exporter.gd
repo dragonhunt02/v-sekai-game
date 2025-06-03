@@ -29,6 +29,11 @@ const avatar_definition_runtime_const = preload(
 	"res://addons/vsk_avatar/vsk_avatar_definition_runtime.gd"
 )
 
+const prop_definition_const = preload("res://addons/vsk_prop/vsk_prop_definition.gd")
+const prop_definition_runtime_const = preload(
+	"res://addons/vsk_prop/vsk_prop_definition_runtime.gd"
+)
+
 var map_definition = load("res://addons/vsk_map/vsk_map_definition.gd")
 var map_definition_runtime = load("res://addons/vsk_map/vsk_map_definition_runtime.gd")
 
@@ -36,9 +41,11 @@ const bone_lib_const = preload("res://addons/vsk_avatar/bone_lib.gd")
 const node_util_const = preload("res://addons/gd_util/node_util.gd")
 
 const avatar_callback_const = preload("res://addons/vsk_avatar/avatar_callback.gd")
+const prop_callback_const = preload("res://addons/vsk_prop/prop_callback.gd")
 const map_callback_const = preload("res://addons/vsk_map/map_callback.gd")
 
 const validator_avatar_const = preload("res://addons/vsk_importer_exporter/vsk_avatar_validator.gd")
+const validator_prop_const = preload("res://addons/vsk_importer_exporter/vsk_prop_validator.gd")
 const validator_map_const = preload("res://addons/vsk_importer_exporter/vsk_map_validator.gd")
 
 const entity_node_const = preload("res://addons/entity_manager/entity.gd")
@@ -1071,6 +1078,124 @@ func export_avatar(p_root: Node, p_node: Node, p_path: String) -> int:
 			print("---Avatar exported successfully!---")
 	else:
 		print("---Avatar export failed!---")
+
+	return err
+
+
+##
+## Prop
+##
+
+func create_packed_scene_for_prop(_p_root, p_node) -> Dictionary:
+	var packed_scene_export: PackedScene = null
+	var err: int = map_callback_const.MAP_FAILED
+
+	var dictionary: Dictionary = {}
+
+	var validator: validator_map_const = null
+
+######check settings
+	if false: #ProjectSettings.get_setting("ugc/config/sanitize_map_export"):
+		validator = validator_prop_const.new()
+
+		print("Creating sanitised duplicate...")
+		dictionary = create_sanitised_duplication(p_node, validator)
+
+		print("Done sanitised duplicate...")
+	else:
+		dictionary = {"node": p_node.duplicate(), "entity_nodes": []}
+
+	var duplicate_node: Node = dictionary["node"]
+
+	if duplicate_node:
+		var entity_resource_array: Array = []
+
+		packed_scene_export = PackedScene.new()
+
+		print("Converting to runtime user content...")
+		duplicate_node = vsk_exporter_const.convert_to_runtime_user_content(
+			duplicate_node, prop_definition_runtime
+		)
+		duplicate_node.map_resources = entity_resource_array
+
+		print("Add entity nodes to instantiate list...")
+		for _i in range(0, dictionary["entity_nodes"].size()):
+##### Check entity record
+			var prop_entity_instance_record: VSKMapEntityInstanceRecord = (
+				VSKMapEntityInstanceRecord.new()
+			)
+			prop_entity_instance_record.resource_local_to_scene = true
+			prop_entity_instance_record.resource_path = ""
+			duplicate_node.entity_instance_list.push_back(prop_entity_instance_record)
+
+		print("Caching prop resources...")
+		for i in range(0, dictionary["entity_nodes"].size()):
+			var entity: Node = dictionary["entity_nodes"][i]
+			# Find the parent
+			var entity_parent_index: int = dictionary["entity_nodes"].find(entity.get_parent())
+
+			# Assign the entity instances
+			duplicate_node.entity_instance_list[i].parent_id = entity_parent_index
+			duplicate_node.entity_instance_list[i].transform = entity.get_transform()
+			var valid_filenames: Array = get_valid_filenames(
+				entity.get_scene_file_path(), validator, []
+			)
+			var entity_scene_index: int = find_entity_scene_id_from_filenames(valid_filenames)
+
+			duplicate_node.entity_instance_list[i].scene_id = entity_scene_index
+
+			var properties: Dictionary = {}
+			var nodepath: NodePath = entity.get("simulation_logic_node_path")
+			var simulation_logic_node: Node = entity.get_node_or_null(nodepath)
+			if simulation_logic_node:
+				var property_list: Array = entity_node_const.get_custom_logic_node_properties(
+					simulation_logic_node
+				)
+				for property in property_list:
+					var prop = simulation_logic_node.get(property["name"])
+					if prop is Resource:
+						if entity_resource_array.find(prop) == -1:
+							entity_resource_array.push_back(prop)
+					entity.set(property["name"], prop)
+					properties[property["name"]] = prop
+
+			duplicate_node.entity_instance_properties_list.push_back(properties)
+			duplicate_node.entity_instance_list[i].properties_id = i
+
+		# Now delete all the original map entities, since we've indexed them already
+		for i in range(0, dictionary["entity_nodes"].size()):
+			var entity: Node = dictionary["entity_nodes"][i]
+			entity.queue_free()
+			var parent: Node = entity.get_parent()
+			if parent:
+				parent.remove_child(entity)
+
+		print("Packing prop...")
+
+		duplicate_node.set_name(p_node.get_name())  # Reset name
+		if packed_scene_export.pack(duplicate_node) == OK:
+			err = prop_callback_const.PROP_OK
+
+	if duplicate_node:
+		duplicate_node.free()
+
+	return {"packed_scene": packed_scene_export, "err": err}
+
+
+func export_prop(p_root: Node, p_node: Node, p_path: String) -> int:
+	# Create a packed scene
+	var packed_scene_dict: Dictionary = create_packed_scene_for_prop(p_root, p_node)
+
+	var err: int = packed_scene_dict["err"]
+
+	if err == prop_callback_const.PROP_OK:
+		err = save_user_content_resource(p_path, packed_scene_dict["packed_scene"])
+		if err == OK:
+			print("---Prop exported successfully!---")
+		else:
+			print("---Prop exported successfully!---")
+	else:
+		print("---Prop export failed!---")
 
 	return err
 
