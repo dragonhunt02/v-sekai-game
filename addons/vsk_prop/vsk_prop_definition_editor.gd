@@ -12,7 +12,7 @@ const vsk_map_definition_runtime_const = preload(
 )
 
 const vsk_types_const = preload("res://addons/vsk_importer_exporter/vsk_types.gd")
-const map_callback_const = preload("res://addons/vsk_map/map_callback.gd")
+const prop_callback_const = preload("res://addons/vsk_prop/prop_callback.gd")
 
 var node: Node = null
 var err_dialog: AcceptDialog = null
@@ -21,25 +21,25 @@ var save_dialog: FileDialog = null
 
 const OUTPUT_SCENE_EXTENSION = "scn"
 
-enum { MENU_OPTION_EXPORT_MAP, MENU_OPTION_UPLOAD_MAP, MENU_OPTION_INIT_MAP }
+enum { MENU_OPTION_EXPORT_PROP, MENU_OPTION_UPLOAD_PROP, MENU_OPTION_INIT_PROP }
 
 var editor_plugin: EditorPlugin = null
 
 
-func export_map_local() -> void:
+func export_prop_local() -> void:
 	save_dialog.add_filter("*.%s;%s" % [OUTPUT_SCENE_EXTENSION, OUTPUT_SCENE_EXTENSION.to_upper()])
 	save_dialog.current_file = String(node.name).to_snake_case() + ".scn"
 	save_dialog.popup_centered_ratio(0.7)
-	save_dialog.set_title("Save Map As...")
+	save_dialog.set_title("Save Prop As...")
 
 
 func get_export_data() -> Dictionary:
 	return {"root": editor_plugin.get_editor_interface().get_edited_scene_root(), "node": node}
 
 
-func export_map_upload() -> void:
+func export_prop_upload() -> void:
 	if node and node is Node:
-		VSKEditor.show_upload_panel(self.get_export_data, vsk_types_const.UserContentType.Map)
+		VSKEditor.show_upload_panel(self.get_export_data, vsk_types_const.UserContentType.Prop)
 	else:
 		push_error("Node is not valid!")
 
@@ -49,8 +49,8 @@ func edit(p_node: Node) -> void:
 
 
 func error_callback(p_err: int) -> void:
-	if p_err != map_callback_const.MAP_OK:
-		var error_str: String = map_callback_const.get_error_string(p_err)
+	if p_err != prop_callback_const.PROP_OK:
+		var error_str: String = prop_callback_const.get_error_string(p_err)
 
 		push_error(error_str)
 		err_dialog.set_text(error_str)
@@ -65,26 +65,26 @@ func check_if_map_is_valid() -> bool:
 
 
 func _menu_option(p_id: int) -> void:
-	var err: int = map_callback_const.MAP_OK
+	var err: int = prop_callback_const.PROP_OK
 
 	var node_3d: Node3D = node
 	if node_3d:
 		match p_id:
-			MENU_OPTION_INIT_MAP:
+			MENU_OPTION_INIT_PROP:
 				if check_if_map_is_valid():
 					node_3d.set_script(vsk_map_definition_const)
 				else:
-					map_callback_const.ROOT_IS_NULL
-			MENU_OPTION_EXPORT_MAP:
+					prop_callback_const.ROOT_IS_NULL
+			MENU_OPTION_EXPORT_PROP:
 				if check_if_map_is_valid():
-					export_map_local()
+					export_prop_local()
 				else:
-					map_callback_const.ROOT_IS_NULL
-			MENU_OPTION_UPLOAD_MAP:
+					prop_callback_const.ROOT_IS_NULL
+			MENU_OPTION_UPLOAD_PROP:
 				if check_if_map_is_valid():
-					export_map_upload()
+					export_prop_upload()
 				else:
-					map_callback_const.ROOT_IS_NULL
+					prop_callback_const.ROOT_IS_NULL
 
 	error_callback(err)
 
@@ -94,6 +94,7 @@ func _save_file_at_path(p_string: String) -> void:
 
 	var err: int = map_callback_const.EXPORTER_NODE_LOADED
 	if vsk_exporter:
+##### add export
 		err = vsk_exporter.export_map(
 			editor_plugin.get_editor_interface().get_edited_scene_root(), node, p_string
 		)
