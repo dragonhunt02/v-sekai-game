@@ -17,13 +17,13 @@ var current_edited_object: Object = null
 
 
 func _init():
-print("Initialising VSKProp plugin")
+	print("Initialising VSKProp plugin")
 
 
 func _notification(p_notification: int):
 	match p_notification:
 		NOTIFICATION_PREDELETE:
-print("Destroying VSKProp plugin")
+			print("Destroying VSKProp plugin")
 
 
 func _get_plugin_name() -> String:
