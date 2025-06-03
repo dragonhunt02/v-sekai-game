@@ -608,8 +608,10 @@ uro/use_ssl=true
 [ugc]
 
 config/sanitize_avatar_export=true
+config/sanitize_prop_export=true
 config/sanitize_map_export=true
 config/sanitize_avatar_import=true
+config/sanitize_prop_import=true
 config/sanitize_map_import=true
 
 [vr]
