@@ -1095,7 +1095,7 @@ func create_packed_scene_for_prop(_p_root, p_node) -> Dictionary:
 	var validator: validator_map_const = null
 
 ######check settings
-	if false: #ProjectSettings.get_setting("ugc/config/sanitize_map_export"):
+	if ProjectSettings.get_setting("ugc/config/sanitize_prop_export"):
 		validator = validator_prop_const.new()
 
 		print("Creating sanitised duplicate...")
@@ -1450,6 +1450,8 @@ func _ready():
 	if Engine.is_editor_hint():
 		if !ProjectSettings.has_setting("ugc/config/sanitize_avatar_export"):
 			ProjectSettings.set_setting("ugc/config/sanitize_avatar_export", true)
+		if !ProjectSettings.has_setting("ugc/config/sanitize_prop_export"):
+			ProjectSettings.set_setting("ugc/config/sanitize_prop_export", true)
 		if !ProjectSettings.has_setting("ugc/config/sanitize_map_export"):
 			ProjectSettings.set_setting("ugc/config/sanitize_map_export", true)
 
