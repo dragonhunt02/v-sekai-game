@@ -151,7 +151,8 @@ var player_avatar_paths = {}
 var player_instances: Dictionary = {}
 
 var prop_instances: Dictionary = {}
-const prop_scene: PackedScene = preload("res://addons/vsk_entities/vsk_test_entity.tscn")
+const prop_scene: PackedScene = preload("res://vsk_default/scenes/prefabs/beachball.tscn")
+#Dummy #preload("res://addons/vsk_entities/vsk_test_entity.tscn")
 
 var signal_table: Array = [
 	{
