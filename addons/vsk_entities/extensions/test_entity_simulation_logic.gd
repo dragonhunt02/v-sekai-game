@@ -1,5 +1,8 @@
 @tool
 #extends "res://addons/entity_manager/node_3d_simulation_logic.gd"
+
+extends Node
+
 var prop_rpc_table_path = "res://addons/vsk_entities/extensions/test_entity_rpc_table.gd"
 var prop_rpc_table: Node
 
