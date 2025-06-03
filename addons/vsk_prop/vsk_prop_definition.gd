@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: MIT
 
 @tool
-extends "res://addons/vsk_map/vsk_prop_definition_runtime.gd"
+extends "res://addons/vsk_prop/vsk_prop_definition_runtime.gd"
 
 const vsk_user_content_definition_helper_const = preload(
 	"res://addons/vsk_importer_exporter/vsk_user_content_definition_helper.gd"
