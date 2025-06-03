@@ -1113,7 +1113,7 @@ func create_packed_scene_for_prop(_p_root, p_node) -> Dictionary:
 
 		print("Converting to runtime user content...")
 		duplicate_node = vsk_exporter_const.convert_to_runtime_user_content(
-			duplicate_node, prop_definition_runtime
+			duplicate_node, prop_definition_runtime_const
 		)
 		duplicate_node.prop_resources = entity_resource_array
 
