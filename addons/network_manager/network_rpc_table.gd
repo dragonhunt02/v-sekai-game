@@ -158,19 +158,8 @@ func sanitise_rpc() -> void:
 			rpc_config(method, new_config)
 			print("Script RPC Method:", method, "sanitised!")
 
-	#pass
-	#var method_list: Array = get_method_list()
-	#for method in method_list:
-	#	# FIXME: rpc_get_mode is missing
-	#	var rpc_mode: int = rpc_get_mode(method.name)
-	#	if rpc_mode != MultiplayerAPI.RPC_MODE_DISABLED: ##### FIXME: Missing method in godot master #
-	#		virtual_rpc_method_table[method.name] = {"rpc_mode": rpc_mode}
-	#		rpc_config(method.name, MultiplayerAPI.RPC_MODE_DISABLED)
-
 
 func _ready():
-	#if !Engine.is_editor_hint():
-	#	sanitise_rpc()
 	if !Engine.is_editor_hint() and get_tree().get_multiplayer().has_multiplayer_peer():
 		sender_id = get_tree().get_multiplayer().get_unique_id()
 	else:
