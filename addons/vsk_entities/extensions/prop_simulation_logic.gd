@@ -1,5 +1,5 @@
 @tool
-extends "res://addons/vsk_entities/extensions/model_simulation_logic.gd"  # model_simulation_logic.gd
+extends "res://addons/vsk_entities/extensions/model_simulation_logic.gd"
 
 const vr_constants_const = preload("res://addons/sar1_vr_manager/vr_constants.gd")
 
