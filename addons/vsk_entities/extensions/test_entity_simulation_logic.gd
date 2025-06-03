@@ -1,5 +1,7 @@
 @tool
-extends "res://addons/entity_manager/node_3d_simulation_logic.gd"
+#extends "res://addons/entity_manager/node_3d_simulation_logic.gd"
+var prop_rpc_table_path = "res://addons/vsk_entities/extensions/test_entity_rpc_table.gd"
+var prop_rpc_table: Node
 
 const interactable_prop_const = preload("res://addons/vsk_entities/vsk_interactable_prop.tscn")
 const interactable_prop_const2 = preload("res://addons/vsk_entities/vsk_test_entity.tscn")
@@ -120,7 +122,7 @@ func spawn_prop_puppet(_entity_callback_id: int, prop_scene_url : String) -> voi
 
 func spawn_prop_test() -> void:
 	var url_path = await get_random_prop_url()
-	get_node(rpc_table).nm_rpc_id(0, "spawn_prop", [0, url_path])
+	prop_rpc_table.nm_rpc_id(0, "spawn_prop", [0, url_path])
 
 
 static var previous_frame_time
@@ -147,11 +149,14 @@ func test_spawning() -> void:
 		spawn_key_pressed_last_frame = spawn_key_pressed_this_frame
 
 
-func _entity_physics_process(_delta: float):
+func _process(_delta: float):
 	test_spawning()
 
 
-func _entity_ready() -> void:
+func _ready() -> void:
+	prop_rpc_table = prop_rpc_table_path.new()
+	add_child(prop_rpc_table)
+
 	previous_frame_time = Time.get_ticks_msec() / 1000.0
-	assert(get_node(rpc_table).session_master_spawn.connect(self.spawn_prop_master) == OK)
-	assert(get_node(rpc_table).session_puppet_spawn.connect(self.spawn_prop_puppet) == OK)
+	assert(prop_rpc_table.session_master_spawn.connect(self.spawn_prop_master) == OK)
+	assert(prop_rpc_table.session_puppet_spawn.connect(self.spawn_prop_puppet) == OK)
