@@ -6,9 +6,9 @@
 @tool
 extends Control
 
-const vsk_map_definition_const = preload("res://addons/vsk_map/vsk_map_definition.gd")
-const vsk_map_definition_runtime_const = preload(
-	"res://addons/vsk_map/vsk_map_definition_runtime.gd"
+const vsk_prop_definition_const = preload("res://addons/vsk_prop/vsk_prop_definition.gd")
+const vsk_prop_definition_runtime_const = preload(
+	"res://addons/vsk_prop/vsk_prop_definition_runtime.gd"
 )
 
 const vsk_types_const = preload("res://addons/vsk_importer_exporter/vsk_types.gd")
