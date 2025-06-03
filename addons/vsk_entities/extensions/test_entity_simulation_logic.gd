@@ -139,7 +139,7 @@ func test_spawning() -> void:
 		previous_frame_time = current_frame_time
 		var url_test = "res://vsk_default/scenes/prefabs/beachball.tscn"
 		# Comment out line below to test prop physics
-		url_test = await get_random_prop_url()
+		#url_test = await get_random_prop_url()
 
 		prop_rpc_table.nm_rpc_id(0, "spawn_prop", [0, url_test])
 
@@ -151,15 +151,23 @@ func test_spawning() -> void:
 
 		spawn_key_pressed_last_frame = spawn_key_pressed_this_frame
 
-
+@export var tester = false
 func _process(_delta: float):
-	test_spawning()
+	if !Engine.is_editor_hint():
+		if tester == true:
+			#pass #
+			test_spawning()
 
 
 func _ready() -> void:
-	prop_rpc_table = prop_rpc_table_path.new()
-	add_child(prop_rpc_table)
+	if !Engine.is_editor_hint():
+		prop_rpc_table = prop_rpc_table_path.new()
+		add_child(prop_rpc_table)
 
-	previous_frame_time = Time.get_ticks_msec() / 1000.0
-	assert(prop_rpc_table.session_master_spawn.connect(self.spawn_prop_master) == OK)
-	assert(prop_rpc_table.session_puppet_spawn.connect(self.spawn_prop_puppet) == OK)
+		previous_frame_time = Time.get_ticks_msec() / 1000.0
+		if (prop_rpc_table.session_master_spawn.connect(self.spawn_prop_master) != OK):
+			push_error("")
+			return
+		if (prop_rpc_table.session_puppet_spawn.connect(self.spawn_prop_puppet) != OK):
+			push_error("")
+			return
