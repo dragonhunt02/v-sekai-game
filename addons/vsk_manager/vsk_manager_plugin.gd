@@ -51,7 +51,7 @@ var singleton_table = [
 	},
 	{
 		"singleton_name": "VSKPropSpawner",
-		"singleton_path": "res://addons/vsk_entities/extensions/test_entity_simulation_logic.gd"
+		"singleton_path": "res://addons/vsk_entities/extensions/prop_spawner.gd"
 	},
 	{
 		"singleton_name": "VSKPlayerManager",
