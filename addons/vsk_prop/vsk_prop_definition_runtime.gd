@@ -19,12 +19,13 @@ extends Node3D
 
 func _ready():
 	if !Engine.is_editor_hint():
-		if get_tree() and get_tree().current_scene == self and not scene_file_path.is_empty():
-			var startup_manager: Node = get_tree().get_root().get_node_or_null("VSKStartupManager")
-			if startup_manager:
-				get_tree().current_scene = null
+		pass
+#		if get_tree() and get_tree().current_scene == self and not scene_file_path.is_empty():
+#			var startup_manager: Node = get_tree().get_root().get_node_or_null("VSKStartupManager")
+#			if startup_manager:
+#				get_tree().current_scene = null
 ##### check this path
-				startup_manager.prop = get_scene_file_path()
-				startup_manager.startup()
-				queue_free()
-				get_parent().remove_child(self)
+#				startup_manager.prop = get_scene_file_path()
+#				startup_manager.startup()
+#				queue_free()
+#				get_parent().remove_child(self)
