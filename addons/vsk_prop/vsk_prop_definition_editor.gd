@@ -94,8 +94,7 @@ func _save_file_at_path(p_string: String) -> void:
 
 	var err: int = prop_callback_const.EXPORTER_NODE_LOADED
 	if vsk_exporter:
-##### add export
-		err = vsk_exporter.export_map(
+		err = vsk_exporter.export_prop(
 			editor_plugin.get_editor_interface().get_edited_scene_root(), node, p_string
 		)
 
