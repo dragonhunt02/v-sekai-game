@@ -7,7 +7,6 @@
 extends "res://addons/entity_manager/node_3d_simulation_logic.gd"
 
 const model_rigid_body_const = preload("res://addons/vsk_entities/extensions/model_rigid_body.gd")
-#const model_rigid_body_const = preload("res://addons/sar1_vr_manager/components/lasso_snapping/snapping_point.gd")
 
 # Render
 @export var _render_node_path: NodePath = NodePath():
@@ -83,20 +82,6 @@ func _instantiate_scene() -> void:
 			instantiate = Node3D.new()
 			instantiate.set_name("Dummy")
 
-		var model_format_node = get_node_or_null("$/root/ModelFormat")
-		if model_format_node:
-			pass
-			#model_format_node.build_model_trees(instantiate)
-		#else:
-			#var model_format = Node.new()
-			##model_format.name = "ModelFormat"
-			##get_tree().get_root().add_child(model_format)
-			#print("ModelFormat node created.")
-			#push_error("ModelFormat node not found in the scene tree!")
-			#return
-
-
-		#var model_dictionary: Dictionary = $/root/ModelFormat.build_model_trees(instantiate)
 		var model_dictionary: Dictionary = ModelFormat.build_model_trees(instantiate)
 
 		visual_nodes = model_dictionary.visual
