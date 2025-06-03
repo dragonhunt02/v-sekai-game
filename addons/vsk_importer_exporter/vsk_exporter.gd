@@ -1120,9 +1120,8 @@ func create_packed_scene_for_prop(_p_root, p_node) -> Dictionary:
 
 		print("Add entity nodes to instantiate list...")
 		for _i in range(0, dictionary["entity_nodes"].size()):
-##### Check entity record
-			var prop_entity_instance_record: VSKMapEntityInstanceRecord = (
-				VSKMapEntityInstanceRecord.new()
+			var prop_entity_instance_record: VSKPropEntityInstanceRecord = (
+				VSKPropEntityInstanceRecord.new()
 			)
 			prop_entity_instance_record.resource_local_to_scene = true
 			prop_entity_instance_record.resource_path = ""
