@@ -150,10 +150,6 @@ var player_avatar_paths = {}
 
 var player_instances: Dictionary = {}
 
-var prop_instances: Dictionary = {}
-const prop_scene: PackedScene = preload("res://vsk_default/scenes/prefabs/beachball.tscn")
-#Dummy #preload("res://addons/vsk_entities/vsk_test_entity.tscn")
-
 var signal_table: Array = [
 	{
 		"singleton": "NetworkManager",
@@ -363,67 +359,6 @@ func get_random_spawn_transform() -> Transform3D:
 	var spawn_nodes: Array = get_tree().get_nodes_in_group(NETWORK_SPAWNER_GROUP_NAME)
 	return get_random_spawn_transform_for_spawners(spawn_nodes)
 
-##
-## Instantiates a prop spawner scene, usually called by the server host when
-## a peer is about to enter the server.
-## p_master_id is network id for the client we're creating this player scene for.
-## Returns the node for the player scene
-##
-func add_prop_scene(p_master_id: int) -> Node:
-	print("Adding prop spawner scene for {master_id}...".format({"master_id": str(p_master_id)}))
-
-	if !prop_instances.has(p_master_id):
-		var instantiate: Node = EntityManager.instantiate_entity_and_setup(
-			prop_scene,
-			{}, # {"avatar_path": VSKPlayerManager.avatar_path},
-			"NetEntity_Prop_{master_id}".format({"master_id": str(p_master_id)}),
-			p_master_id
-		)
-
-		prop_instances[p_master_id] = instantiate
-
-		if instantiate == null:
-			push_error("Could not instantiate prop spawner!")
-		else:
-			EntityManager.scene_tree_execution_command(EntityManager.scene_tree_execution_table.ADD_ENTITY, instantiate)
-
-		return instantiate
-	else:
-		push_error("Attempted to add duplicate client prop spawner scene!")
-		return null
-
-
-## Destroys a prop spawner scene, usually called by the server host when a peer
-## is leaving the server.
-## p_master_id is network id for the client we're creating this player scene for.
-##
-func remove_prop_scene(p_master_id: int) -> void:
-	print("Removing prop spawner scene for {master_id}...".format({"master_id": str(p_master_id)}))
-
-	if not prop_instances.has(p_master_id):
-		push_error("Attempted to remove unrecorded client prop spawner scene!")
-		return
-
-	var instantiate: Node = prop_instances[p_master_id]
-	prop_instances.erase(p_master_id)
-
-	if instantiate and !instantiate.is_queued_for_deletion():
-		instantiate.queue_free()
-		if instantiate.is_inside_tree():
-			instantiate.get_parent().remove_child(instantiate)
-			EntityManager._remove_entity(instantiate)
-		# EntityManager._delete_entity_unsafe(instantiate)
-
-
-##
-## Destroys all the prop spawner scene instances, called as part of the cleanup phase.
-##
-func clear_all_prop_scenes() -> void:
-	print("_clear_all_prop_scenes")
-
-	for key in prop_instances.keys():
-		remove_prop_scene(key)
-
 
 ##
 ## Instantiates a player scene, usually called by the server host when
@@ -507,7 +442,6 @@ func get_all_player_instance_refs() -> Dictionary:
 func _session_data_reset() -> void:
 	print("_session_data_reset")
 
-	clear_all_prop_scenes()
 	clear_all_player_scenes()
 	clear_all_player_display_names()
 	clear_all_player_avatar_paths()
@@ -787,8 +721,6 @@ func _host_state_instance() -> Dictionary:
 	var map_instance: Node = null
 
 	var new_player_instances: Array = []
-	var new_prop_instances: Array = []
-
 	if !instance_map_result.is_empty():
 		map_instance = instance_map_result["node"]
 		if map_instance and map_instance is vsk_map_definition_runtime_const:
