@@ -135,11 +135,6 @@ func get_physics_node() -> RigidBody3D:
 		if (physics_node_root.touched_by_body_with_network_id.connect(self._on_touched_by_body_with_network_id) != OK):
 			push_error("Could not connect signal 'physics_node_root.touched_by_body_with_network_id' at prop_simulation_logic")
 			return null
-		#assert(physics_node_root.body_entered.connect(self._on_body_entered) == OK)
-		#assert(physics_node_root.touched_by_body.connect(self._on_touched_by_body) == OK)
-		#assert(
-		#	physics_node_root.touched_by_body_with_network_id.connect(self._on_touched_by_body_with_network_id) == OK
-		#)
 
 		get_entity_node().add_child(physics_node_root, true)
 
