@@ -202,7 +202,7 @@ var valid_external_path_whitelist = {
 }
 
 ################
-# Map Entities #
+# Prop Entities #
 ################
 
 var entity_script: Script = load("res://addons/entity_manager/entity.gd")
@@ -214,8 +214,8 @@ const valid_resource_script_whitelist = []
 static func check_if_script_type_is_valid(p_script: Script, p_node_class: String) -> bool:
 	var network_spawn_const = load("res://addons/network_manager/network_spawn.gd")
 
-	var map_definition_runtime = load("res://addons/vsk_map/vsk_map_definition_runtime.gd")
-	var map_definition = load("res://addons/vsk_map/vsk_map_definition.gd")
+	var prop_definition_runtime = load("res://addons/vsk_prop/vsk_prop_definition_runtime.gd")
+	var prop_definition = load("res://addons/vsk_prop/vsk_prop_definition.gd")
 	var vsk_uro_pipeline = load("res://addons/vsk_importer_exporter/vsk_uro_pipeline.gd")
 
 	var entity_identity = load("res://addons/network_manager/network_identity.gd")
@@ -271,11 +271,11 @@ func is_script_valid_for_root(p_script: Script, p_node_class: String):
 	if p_script == null:
 		return true
 
-	var map_definition = load("res://addons/vsk_map/vsk_map_definition.gd")
-	var map_definition_runtime = load("res://addons/vsk_map/vsk_map_definition_runtime.gd")
-	var valid_root_script_whitelist = [map_definition, map_definition_runtime]
+	var prop_definition = load("res://addons/vsk_prop/vsk_prop_definition.gd")
+	var prop_definition_runtime = load("res://addons/vsk_prop/vsk_prop_definition_runtime.gd")
+	var valid_root_script_whitelist = [prop_definition, prop_definition_runtime]
 	if valid_root_script_whitelist.find(p_script) != -1:
-		return map_validator_const.check_if_script_type_is_valid(p_script, p_node_class)
+		return prop_validator_const.check_if_script_type_is_valid(p_script, p_node_class)
 
 	push_warning(
 		(
@@ -325,7 +325,7 @@ func is_script_valid_for_children(p_script: Script, p_node_class: String):
 		smoothing,
 	]
 	if valid_children_script_whitelist.find(p_script) != -1:
-		return map_validator_const.check_if_script_type_is_valid(p_script, p_node_class)
+		return prop_validator_const.check_if_script_type_is_valid(p_script, p_node_class)
 
 	push_warning(
 		(
@@ -358,7 +358,7 @@ func is_script_valid_for_resource(p_script: Script):
 
 func is_node_type_valid(p_node: Node, p_child_of_canvas: bool) -> bool:
 	if is_node_type_string_valid(p_node.get_class(), p_child_of_canvas):
-		if !map_validator_const.is_editor_only(p_node):
+		if !prop_validator_const.is_editor_only(p_node):
 			return true
 
 	push_warning(
@@ -428,24 +428,24 @@ func is_valid_entity_script(p_script: Script) -> bool:
 func validate_value_track(p_subnames: String, p_node_class: String):
 	match p_node_class:
 		"MeshInstance3D":
-			return map_validator_const.check_basic_node_3d_value_targets(p_subnames)
+			return prop_validator_const.check_basic_node_3d_value_targets(p_subnames)
 		"Node3D":
-			return map_validator_const.check_basic_node_3d_value_targets(p_subnames)
+			return prop_validator_const.check_basic_node_3d_value_targets(p_subnames)
 		"DirectionalLight":
-			return map_validator_const.check_basic_node_3d_value_targets(p_subnames)
+			return prop_validator_const.check_basic_node_3d_value_targets(p_subnames)
 		"OmniLight":
-			return map_validator_const.check_basic_node_3d_value_targets(p_subnames)
+			return prop_validator_const.check_basic_node_3d_value_targets(p_subnames)
 		"SpotLight":
-			return map_validator_const.check_basic_node_3d_value_targets(p_subnames)
+			return prop_validator_const.check_basic_node_3d_value_targets(p_subnames)
 		"Camera3D":
-			return map_validator_const.check_basic_node_3d_value_targets(p_subnames)
+			return prop_validator_const.check_basic_node_3d_value_targets(p_subnames)
 		"GPUParticles3D":
-			return map_validator_const.check_basic_node_3d_value_targets(p_subnames)
+			return prop_validator_const.check_basic_node_3d_value_targets(p_subnames)
 		"CPUParticles":
-			return map_validator_const.check_basic_node_3d_value_targets(p_subnames)
+			return prop_validator_const.check_basic_node_3d_value_targets(p_subnames)
 		_:
 			return false
 
 
 func get_name() -> String:
-	return "MapValidator"
+	return "PropValidator"
