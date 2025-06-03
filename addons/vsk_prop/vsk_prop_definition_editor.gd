@@ -57,7 +57,7 @@ func error_callback(p_err: int) -> void:
 		err_dialog.popup_centered_clamped()
 
 
-func check_if_map_is_valid() -> bool:
+func check_if_prop_is_valid() -> bool:
 	if !node:
 		return false
 
@@ -71,17 +71,17 @@ func _menu_option(p_id: int) -> void:
 	if node_3d:
 		match p_id:
 			MENU_OPTION_INIT_PROP:
-				if check_if_map_is_valid():
+				if check_if_prop_is_valid():
 					node_3d.set_script(vsk_map_definition_const)
 				else:
 					prop_callback_const.ROOT_IS_NULL
 			MENU_OPTION_EXPORT_PROP:
-				if check_if_map_is_valid():
+				if check_if_prop_is_valid():
 					export_prop_local()
 				else:
 					prop_callback_const.ROOT_IS_NULL
 			MENU_OPTION_UPLOAD_PROP:
-				if check_if_map_is_valid():
+				if check_if_prop_is_valid():
 					export_prop_upload()
 				else:
 					prop_callback_const.ROOT_IS_NULL
@@ -92,7 +92,7 @@ func _menu_option(p_id: int) -> void:
 func _save_file_at_path(p_string: String) -> void:
 	var vsk_exporter: Node = get_node_or_null("/root/VSKExporter")
 
-	var err: int = map_callback_const.EXPORTER_NODE_LOADED
+	var err: int = prop_callback_const.EXPORTER_NODE_LOADED
 	if vsk_exporter:
 ##### add export
 		err = vsk_exporter.export_map(
