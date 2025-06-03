@@ -1092,9 +1092,8 @@ func create_packed_scene_for_prop(_p_root, p_node) -> Dictionary:
 
 	var dictionary: Dictionary = {}
 
-	var validator: validator_map_const = null
+	var validator: validator_prop_const = null
 
-######check settings
 	if ProjectSettings.get_setting("ugc/config/sanitize_prop_export"):
 		validator = validator_prop_const.new()
 
@@ -1118,6 +1117,7 @@ func create_packed_scene_for_prop(_p_root, p_node) -> Dictionary:
 		)
 		duplicate_node.map_resources = entity_resource_array
 
+		"""
 		print("Add entity nodes to instantiate list...")
 		for _i in range(0, dictionary["entity_nodes"].size()):
 			var prop_entity_instance_record: VSKPropEntityInstanceRecord = (
@@ -1168,6 +1168,7 @@ func create_packed_scene_for_prop(_p_root, p_node) -> Dictionary:
 			var parent: Node = entity.get_parent()
 			if parent:
 				parent.remove_child(entity)
+		"""
 
 		print("Packing prop...")
 
