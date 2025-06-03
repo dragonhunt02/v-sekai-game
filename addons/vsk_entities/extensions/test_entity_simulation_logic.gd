@@ -3,8 +3,8 @@
 
 extends Node
 
-var prop_rpc_table_path = "res://addons/vsk_entities/extensions/test_entity_rpc_table.gd"
-var prop_rpc_table: Node
+var prop_rpc_table_path = preload("res://addons/vsk_entities/extensions/test_entity_rpc_table.gd")
+var prop_rpc_table = null
 
 const interactable_prop_const = preload("res://addons/vsk_entities/vsk_interactable_prop.tscn")
 const interactable_prop_const2 = preload("res://addons/vsk_entities/vsk_test_entity.tscn")
