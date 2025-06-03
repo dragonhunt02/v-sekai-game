@@ -68,7 +68,7 @@ func _enter_tree() -> void:
 	option_button = MenuButton.new()
 	option_button.set_switch_on_hover(true)
 
-  option_button.set_text("Prop Definition")
+	option_button.set_text("Prop Definition")
 
 	option_button.get_popup().id_pressed.connect(self._menu_option)
 	option_button.hide()
