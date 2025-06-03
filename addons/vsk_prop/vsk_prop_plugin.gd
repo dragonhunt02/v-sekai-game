@@ -50,14 +50,14 @@ func update_menu_options(p_current_node: Node3D) -> void:
 				)
 			):
 				option_button.get_popup().add_item(
-					"Export Map", vsk_prop_definition_editor_const.MENU_OPTION_EXPORT_PROP
+					"Export Prop", vsk_prop_definition_editor_const.MENU_OPTION_EXPORT_PROP
 				)
 				option_button.get_popup().add_item(
-					"Upload Map", vsk_prop_definition_editor_const.MENU_OPTION_UPLOAD_PROP
+					"Upload Prop", vsk_prop_definition_editor_const.MENU_OPTION_UPLOAD_PROP
 				)
 			elif current_script == null:
 				option_button.get_popup().add_item(
-					"Define Map", vsk_prop_definition_editor_const.MENU_OPTION_INIT_PROP
+					"Define Prop", vsk_prop_definition_editor_const.MENU_OPTION_INIT_PROP
 				)
 
 
