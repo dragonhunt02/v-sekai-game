@@ -803,15 +803,18 @@ func _host_state_instance() -> Dictionary:
 
 				new_player_instances.push_back(player_instance)
 
-				var prop_instance: Node = add_prop_scene(
-					NetworkManager.network_constants_const.SERVER_MASTER_PEER_ID
-				)
+				#TODO: Use a game ready signal instead
+				VSKPropSpawner.tester = true
 
-				new_prop_instances.push_back(prop_instance)
+				#var prop_instance: Node = add_prop_scene(
+				#	NetworkManager.network_constants_const.SERVER_MASTER_PEER_ID
+				#)
+
+				#new_prop_instances.push_back(prop_instance)
 
 	instanced_nodes["map"] = map_instance
 	instanced_nodes["players"] = new_player_instances
-	instanced_nodes["props"] = new_prop_instances
+	#instanced_nodes["props"] = new_prop_instances
 
 	return instanced_nodes
 
