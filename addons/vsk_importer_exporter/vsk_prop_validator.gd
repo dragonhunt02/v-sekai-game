@@ -180,12 +180,12 @@ var valid_external_path_whitelist = {
 	"res://addons/network_manager/network_spawn.gd": true,
 	"res://addons/vsk_importer_exporter/vsk_uro_pipeline.gd": true,
 	"res://addons/vsk_importer_exporter/vsk_pipeline.gd": true,
-	"res://addons/vsk_map/vsk_map_definition.gd": true,
-	"res://addons/vsk_map/vsk_map_definition_runtime.gd": true,
+	"res://addons/vsk_prop/vsk_prop_definition.gd": true,
+	"res://addons/vsk_prop/vsk_prop_definition_runtime.gd": true,
 	"res://vsk_default/audio/sfx/basketball_drop.wav": true,
 	"res://vsk_default/import/beachball/Scene_-_Root.tres": true,
 	"res://vsk_default/import/basketball_reexport/Scene_-_Root.tres": true,
-	"res://addons/vsk_map/vsk_map_entity_instance_record.gd": true,
+	"res://addons/vsk_prop/vsk_prop_entity_instance_record.gd": true,
 	"res://addons/network_manager/network_identity.gd": true,
 	"res://addons/vsk_entities/extensions/test_entity_rpc_table.gd": true,
 	"res://addons/network_manager/network_logic.gd": true,
@@ -232,10 +232,11 @@ static func check_if_script_type_is_valid(p_script: Script, p_node_class: String
 	var network_physics = load("res://addons/network_manager/network_physics.gd")
 	var smoothing = load("res://addons/smoothing/smoothing.gd")
 
+####### check prop definition
 	var script_type_table = {
 		network_spawn_const: ["Position3D", "Marker3D", "Node3D"],
-		map_definition: ["Position3D", "Marker3D", "Node3D"],
-		map_definition_runtime: ["Position3D", "Marker3D", "Node3D"],
+		prop_definition: ["Position3D", "Marker3D", "Node3D"],
+		prop_definition_runtime: ["Position3D", "Marker3D", "Node3D"],
 		vsk_uro_pipeline: ["Node"],
 		entity_identity: ["Node"],
 		entity_network_logic: ["Node"],
