@@ -61,7 +61,6 @@ func set_global_transform(p_global_transform: Transform3D, _p_update_physics: bo
 func _update_parented_node_state():
 	var parent: Node = get_entity_node().hierarchy_component_node.get_entity_parent()
 
-	#assert(is_inside_tree())
 	if (!is_inside_tree()):
 		push_error("Error in _update_parented_node_state: node is not inside tree")
 		return
