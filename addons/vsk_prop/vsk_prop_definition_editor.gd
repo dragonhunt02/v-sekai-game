@@ -72,7 +72,7 @@ func _menu_option(p_id: int) -> void:
 		match p_id:
 			MENU_OPTION_INIT_PROP:
 				if check_if_prop_is_valid():
-					node_3d.set_script(vsk_map_definition_const)
+					node_3d.set_script(vsk_prop_definition_const)
 				else:
 					prop_callback_const.ROOT_IS_NULL
 			MENU_OPTION_EXPORT_PROP:
