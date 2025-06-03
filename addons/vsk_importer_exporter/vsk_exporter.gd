@@ -1088,7 +1088,7 @@ func export_avatar(p_root: Node, p_node: Node, p_path: String) -> int:
 
 func create_packed_scene_for_prop(_p_root, p_node) -> Dictionary:
 	var packed_scene_export: PackedScene = null
-	var err: int = map_callback_const.MAP_FAILED
+	var err: int = prop_callback_const.PROP_FAILED
 
 	var dictionary: Dictionary = {}
 
@@ -1115,7 +1115,7 @@ func create_packed_scene_for_prop(_p_root, p_node) -> Dictionary:
 		duplicate_node = vsk_exporter_const.convert_to_runtime_user_content(
 			duplicate_node, prop_definition_runtime
 		)
-		duplicate_node.map_resources = entity_resource_array
+		duplicate_node.prop_resources = entity_resource_array
 
 		"""
 		print("Add entity nodes to instantiate list...")
