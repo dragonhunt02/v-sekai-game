@@ -30,7 +30,7 @@ jobs:
             #gdformat addons/vsk_importer_exporter/vsk_importer.gd
 
             git log -n 5
-            git reset --soft HEAD~6
+            git reset --soft HEAD~2  
 
             #######find . -type f -name "*.gd" -exec sed -i -e 's/assert\(()\)/push_error/g' {} +
             #find . -type f -name "*.gd" -exec sed -i -e 's/\(\t*\)assert(false, \(.*\))/\1push_error(\2)\n\1return/g' {} +
