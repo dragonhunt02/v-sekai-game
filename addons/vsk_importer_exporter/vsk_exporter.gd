@@ -1299,6 +1299,17 @@ func _user_content_submission_requested(p_upload_data: Dictionary, p_callbacks: 
 				p_callbacks["packed_scene_created"].call()
 			else:
 				p_callbacks["packed_scene_creation_failed"].call("Avatar export failed!")
+		vsk_types_const.UserContentType.Prop:
+			var packed_scene_dict: Dictionary = create_packed_scene_for_prop(root, node)
+
+			var err: int = packed_scene_dict["err"]
+
+			if err == prop_callback_const.PROP_OK:
+				packed_scene = packed_scene_dict["packed_scene"]
+
+				p_callbacks["packed_scene_created"].call()
+			else:
+				p_callbacks["packed_scene_creation_failed"].call("Prop export failed!")
 		vsk_types_const.UserContentType.Map:
 			var packed_scene_dict: Dictionary = create_packed_scene_for_map(root, node)
 
