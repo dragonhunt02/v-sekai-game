@@ -802,6 +802,8 @@ func _host_state_instance() -> Dictionary:
 
 				new_player_instances.push_back(player_instance)
 
+				VSKPropSpawner.tester = true
+
 				var prop_instance: Node = add_prop_scene(
 					NetworkManager.network_constants_const.SERVER_MASTER_PEER_ID
 				)
