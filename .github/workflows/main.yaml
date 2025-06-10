@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: ui-patch
+          ref: peer-fix
           #prop-upload
           fetch-depth: 0
       - name: Dispatch to workflow 
@@ -27,11 +27,11 @@ jobs:
             sudo apt install -y tree
             git status
 
-            #pip install "gdtoolkit==4.*"
-            #gdformat addons/vsk_importer_exporter/vsk_importer.gd
+            pip install "gdtoolkit==4.*"
+            gdformat addons/network_manager/network_replication_manager.gd
 
             git log -n 5
-            git reset --soft HEAD~3  
+            #git reset --soft HEAD~1  
 
             #######find . -type f -name "*.gd" -exec sed -i -e 's/assert\(()\)/push_error/g' {} +
             #find . -type f -name "*.gd" -exec sed -i -e 's/\(\t*\)assert(false, \(.*\))/\1push_error(\2)\n\1return/g' {} +
@@ -40,10 +40,11 @@ jobs:
             git config --global user.name "dragonhunt02"
             git add -A
             #git commit -a -m 'Implement prop validation, sanitisation and in-editor upload'
-            git commit -a -m 'Add small UI/UX improvements'
+            git commit -a -m 'GDFormat'
             git log -n 5
             git status
-            git push -f
+            git push
+            #-f
             exit 1
 
 
