@@ -27,11 +27,11 @@ jobs:
             sudo apt install -y tree
             git status
 
-            pip install "gdtoolkit==4.*"
-            gdformat addons/network_manager/network_replication_manager.gd
+            #pip install "gdtoolkit==4.*"
+            #gdformat addons/network_manager/network_replication_manager.gd
 
             git log -n 5
-            #git reset --soft HEAD~1  
+            git reset --soft HEAD~2  
 
             #######find . -type f -name "*.gd" -exec sed -i -e 's/assert\(()\)/push_error/g' {} +
             #find . -type f -name "*.gd" -exec sed -i -e 's/\(\t*\)assert(false, \(.*\))/\1push_error(\2)\n\1return/g' {} +
@@ -40,11 +40,10 @@ jobs:
             git config --global user.name "dragonhunt02"
             git add -A
             #git commit -a -m 'Implement prop validation, sanitisation and in-editor upload'
-            git commit -a -m 'GDFormat'
+            git commit -a -m 'Fix avatar load failure on server join'
             git log -n 5
             git status
-            git push
-            #-f
+            git push -f
             exit 1
 
 
