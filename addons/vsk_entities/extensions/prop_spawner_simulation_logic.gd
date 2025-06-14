@@ -133,7 +133,7 @@ func test_spawning() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	var current_seconds = int(Time.get_unix_time_from_system()) % 60
 	var current_frame_time: float = Time.get_ticks_msec() / 1000.0
-	if current_frame_time - previous_frame_time >= 4.0:
+	if current_frame_time - previous_frame_time >= 15.0:
 		print("More than 4 seconds have elapsed since the last check!")
 		previous_frame_time = current_frame_time
 		var url_test = "res://vsk_default/scenes/prefabs/beachball.tscn"
@@ -151,10 +151,11 @@ func test_spawning() -> void:
 		spawn_key_pressed_last_frame = spawn_key_pressed_this_frame
 
 # TODO: Rework with game ready signal
-@export var tester = false
+@export var tester = true
 
 func _entity_physics_process(_delta: float):
 	if !Engine.is_editor_hint():
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		if tester == true:
 			test_spawning()
 
