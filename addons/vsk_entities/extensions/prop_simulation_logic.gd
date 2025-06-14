@@ -218,9 +218,15 @@ func cache_nodes() -> void:
 	_target = get_node_or_null(_target_path)
 	_render_smooth = get_node_or_null(_render_smooth_path)
 
+var testflag = false
 
 func _entity_physics_process(p_delta: float) -> void:
 	super._entity_physics_process(p_delta)
+	if not testflag:
+		schedule_model_update()
+		print("initialized prop")
+		testflag = true
+
 	if physics_node_root:
 		var linear_velocity: Vector3 = physics_node_root.linear_velocity
 		var linear_velocity_length: float = linear_velocity.length()
