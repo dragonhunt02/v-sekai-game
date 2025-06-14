@@ -7,10 +7,14 @@
 extends Node
 
 const MAP_RESOURCE_IDENTIFIER = "mpr"
+const PROP_RESOURCE_IDENTIFIER = "ppr"
 const GAME_MODE_RESOURCE_IDENTIFIER = "gmr"
 
 var get_map_id_for_entity_resource_funcref: Callable = Callable()
 var get_entity_resource_for_map_id_funcref: Callable = Callable()
+
+var get_prop_id_for_entity_resource_funcref: Callable = Callable()
+var get_entity_resource_for_prop_id_funcref: Callable = Callable()
 
 var get_game_mode_id_for_entity_resource_funcref: Callable = Callable()
 var get_entity_resource_for_game_mode_id_funcref: Callable = Callable()
@@ -38,6 +42,30 @@ func get_map_id_for_entity_resource(p_resource: Resource) -> int:
 func get_entity_resource_for_map_id(p_int: int) -> Resource:
 	if get_entity_resource_for_map_id_funcref.is_valid():
 		return get_entity_resource_for_map_id_funcref.call(p_int)
+
+	return null
+
+##
+## Prop
+##
+func assign_get_prop_id_for_resource_function(p_node: Node, p_method: String) -> void:
+	get_prop_id_for_entity_resource_funcref = Callable(p_node, p_method)
+
+
+func assign_get_resource_for_prop_id_function(p_node: Node, p_method: String) -> void:
+	get_entity_resource_for_prop_id_funcref = Callable(p_node, p_method)
+
+
+func get_prop_id_for_entity_resource(p_resource: Resource) -> int:
+	if get_prop_id_for_entity_resource_funcref.is_valid():
+		return get_prop_id_for_entity_resource_funcref.call(p_resource)
+
+	return -1
+
+
+func get_entity_resource_for_prop_id(p_int: int) -> Resource:
+	if get_entity_resource_for_prop_id_funcref.is_valid():
+		return get_entity_resource_for_prop_id_funcref.call(p_int)
 
 	return null
 
@@ -80,6 +108,11 @@ func get_path_for_entity_resource(p_resource: Resource) -> String:
 	if map_resource_id != -1:
 		return "%s://%s" % [MAP_RESOURCE_IDENTIFIER, str(map_resource_id)]
 
+	var prop_resource_id: int = get_prop_id_for_entity_resource(p_resource)
+	print("prop_resource_id %s" % str(prop_resource_id))
+	if prop_resource_id != -1:
+		return "%s://%s" % [PROP_RESOURCE_IDENTIFIER, str(prop_resource_id)]
+
 	var game_mode_resource_id: int = get_game_mode_id_for_entity_resource(p_resource)
 	print("game_mode_resource_id %s" % str(game_mode_resource_id))
 	if game_mode_resource_id != -1:
@@ -95,6 +128,13 @@ func get_entity_resource_for_path(p_path: String) -> Resource:
 		if string_diget.is_valid_int():
 			var id: int = string_diget.to_int()
 			return get_entity_resource_for_map_id(id)
+
+	var prop_resource_string_beginning: String = "%s://" % PROP_RESOURCE_IDENTIFIER
+	if p_path.begins_with(prop_resource_string_beginning):
+		var string_diget: String = p_path.right(prop_resource_string_beginning.length())
+		if string_diget.is_valid_int():
+			var id: int = string_diget.to_int()
+			return get_entity_resource_for_prop_id(id)
 
 	var game_mode_resource_string_beginning: String = "%s://" % GAME_MODE_RESOURCE_IDENTIFIER
 	if p_path.begins_with(game_mode_resource_string_beginning):
