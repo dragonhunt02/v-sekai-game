@@ -14,6 +14,8 @@ var spawn_key_pressed_last_frame: bool = false
 var prop_pending: bool = false
 var prop_cb = null
 
+var spawned_prop_entities = []
+
 func get_prop_list() -> Array:
 	var return_dict: Dictionary = {"error": FAILED, "message": ""}
 	var prop_list : Array = []
@@ -101,16 +103,16 @@ func spawn_prop_create(p_requester_id, _entity_callback_id: int, prop_scene) -> 
 
 		print(requester_player_entity.get_last_transform())
 		print(str(spawn_model))
-		if (
-			(EntityManager.spawn_entity(
+		var new_prop_entity: EntityRef = (EntityManager.spawn_entity(
 				interactable_prop_const,
 				{"transform": requester_transform, "model_scene": spawn_model},
 				"NetEntity",
 				p_requester_id
-			))
-			== null
-		):
-			printerr("Could not spawn prop!")
+		))
+		if (new_prop_entity == null):
+			push_error("Could not spawn prop!")
+		else:
+			spawned_prop_entities.push_back(new_prop_entity)
 
 func spawn_prop_master(p_requester_id, _entity_callback_id: int, prop_scene_url : String) -> void:
 	print("Spawn prop master from ", prop_scene_url)
