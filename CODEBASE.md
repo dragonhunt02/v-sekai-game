@@ -4,6 +4,25 @@ Map of `addon/` components.
 - :gear: Engine C++ Interface
 - :warning: Unused (See also [Warnings](#warnings))
 
+
+
+```mermaid
+
+%%{init: {'themeVariables': { 'fontSize': '22px' }}}%%
+flowchart TD
+        Game --> addon11[**vsk_default/scenes/**<hr>Game startup]
+            addon11 --> ctrl1{" "}
+            ctrl1 --> dir1{**vsk_main_scene.gd**<hr>Game Entrypoint}
+            dir1 --> dir2[**vsk_startup_scene.tscn**<hr>Main menu initialization]
+    classDef Category font-size:30px
+    class Game Category
+```
+
+
+
+
+
+
 ```mermaid
 %%{init: {'themeVariables': { 'fontSize': '22px' }}}%%
 flowchart TD
