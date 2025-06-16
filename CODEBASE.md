@@ -17,8 +17,25 @@ flowchart TD
     classDef Category font-size:30px
     class Game Category
 ```
+```mermaid
 
-
+%%{init: {'themeVariables': { 'fontSize': '22px' }}}%%
+flowchart TD
+        Game --> addon11[**sar_game_framework**<hr>Game framework]
+            addon11 --> ctrl1{" "}
+            ctrl1 --> dir1[**generic**<hr>Game generics]
+            dir1 --> dir2[**entities**<hr>**SarGameEntity** class defining entity physics, used for all networked players/NPCs/objects]
+            dir1 --> dir3[**extensions**<hr>Custom extensions/wrappers for Godot **MultiplayerAPI** and more]
+            dir1 --> dir4[**game_mode**<hr>Defines base class for custom Game modes using **SarGameSessionManager**]
+            dir1 --> dir5[**managers**<hr>TODO: Game Managers]
+            dir1 --> dir6[**helpers**<hr>Misc utils]
+            dir1 --> dir7[**resources**<hr>Undocumented **SarZone** class]
+            dir1 --> dir8[**simulation**<hr>Define Souls possession managers like fade-in, mouse pointer capture etc.]
+            dir1 --> dir9[**snapshots**<hr>Encode/Decode **Node3D** transforms for network transmission]
+            dir1 --> dir10[**souls**<hr>Define Souls class, a visual-independent controller for players/AI. Souls can embody entities like avatars/objects/NPCs]
+    classDef Category font-size:30px
+    class Game Category
+```
 
 
 
