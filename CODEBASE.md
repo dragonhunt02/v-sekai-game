@@ -50,7 +50,7 @@ flowchart TD
             ctrl3 --> dir3[**entities**<hr>**SarGameEntity3d** class defining entity physics, used for all networked players/NPCs/objects]
             ctrl3 --> dir4[**game_scene**<hr>Class identifying valid scenes to session Managers]
             ctrl3 --> dir5[**model**<hr>Base classes for entities' visual display]
-            ctrl3 --> dir6[**modifiers**<hr>Interpolation utils for visual display (e.g. skeleton)]
+            ctrl3 --> dir6[**modifiers**<hr>Interpolation utils for visual display of nodes like Skeleton3d]
             ctrl3 --> dir7[**simulation**<hr>TODO: Document]
             ctrl3 --> dir8[**souls**<hr>Soul base scene]
             ctrl3 --> dir9[**xr**<hr>XR movement input handling]
