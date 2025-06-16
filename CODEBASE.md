@@ -24,10 +24,10 @@ flowchart TD
         Game --> addon11[**sar_game_framework**<hr>Game framework]
             addon11 --> ctrl1{" "}
             ctrl1 --> dir1[**generic**<hr>Generic base classes]
-            dir1 --> dir2[**entities**<hr>**SarGameEntity** class defining entity controls, used for all networked players/NPCs/objects]
+            dir1 --> dir2[**entities**<hr>TODO:Review Define **SarGameEntity** base entity class used for all networked players/NPCs/objects]
             dir1 --> dir3[**extensions**<hr>Custom extensions/wrappers for Godot **MultiplayerAPI** and more]
             dir1 --> dir4[**game_mode**<hr>Defines base class for custom Game modes using **SarGameSessionManager**]
-            dir1 --> dir5[**managers**<hr>TODO: Game Managers]
+            dir1 --> dir5[**managers**<hr>Game Manager singletons to control xr startup, host session, settings etc.]
             dir1 --> dir6[**helpers**<hr>Misc utils]
             dir1 --> dir7[**resources**<hr>Undocumented **SarZone** class]
             dir1 --> dir8[**simulation**<hr>Define Souls possession managers like fade-in, mouse pointer capture etc.]
@@ -48,12 +48,12 @@ flowchart TD
             ctrl1 --> dir1[**gui**<hr>Navigation controllers for menu switching]
             ctrl3 --> dir2[**editor_displays**<hr>TODO: Document]
             ctrl3 --> dir3[**entities**<hr>**SarGameEntity3d** class defining entity physics, used for all networked players/NPCs/objects]
-            ctrl3 --> dir4[**game_scene**<hr>TODO: Document]
-            ctrl3 --> dir5[**model**<hr>TODO: Document]
-            ctrl3 --> dir6[**modifiers**<hr>TODO: Document]
+            ctrl3 --> dir4[**game_scene**<hr>Class identifying valid scenes to session Managers]
+            ctrl3 --> dir5[**model**<hr>Base classes for entities' visual display]
+            ctrl3 --> dir6[**modifiers**<hr>Interpolation utils for visual display (e.g. skeleton)]
             ctrl3 --> dir7[**simulation**<hr>TODO: Document]
-            ctrl3 --> dir8[**souls**<hr>TODO: Document]
-            ctrl3 --> dir9[**xr**<hr>TODO: Document]
+            ctrl3 --> dir8[**souls**<hr>Soul base scene]
+            ctrl3 --> dir9[**xr**<hr>XR movement input handling]
     classDef Category font-size:30px
     class 2d Category
 ```
