@@ -59,6 +59,45 @@ flowchart TD
 ```
 
 
+```mermaid
+
+%%{init: {'themeVariables': { 'fontSize': '22px' }}}%%
+flowchart TD
+        Game --> addon11[**vsk_game_framework**<hr>V-Sekai framework assets]
+            addon11 --> ctrl1{" "}
+            ctrl1 --> ctrl2{"**Game scenes**<hr>"}
+            ctrl2 --> ctrl3{" "}
+            ctrl3 --> ctrl4{" "}
+            ctrl1 --> dir1{**Animation**<hr>}
+            ctrl1 --> dir2{**Graphics**<hr>}
+            ctrl1 --> dir3{**Misc**<hr>}
+            ctrl4 --> dir4[**scenes**<hr>]
+            ctrl4 --> dir5[**scripts**<hr>]
+            dir4 --> ctrl5{" "}
+            dir1 --> dir6[**animation_libraries**<hr>]
+            dir1 --> dir7[**animation_tree_driver**<hr>]
+            dir1 --> dir8[**animation_trees**<hr>]
+            dir1 --> dir9[**animations**<hr>]
+            dir2 --> dir10[**shaders**<hr>]
+            dir2 --> dir11[**textures**<hr>]
+            dir3 --> dir12[**config**<hr>Hardware input/output default configuration]
+            dir3 --> dir13[**data**<hr>Extra default settings]
+            dir3 --> dir14[**localization**<hr>Translation files]
+            dir4 --> dir15[**avatars**<hr>]
+            dir4 --> dir16[**entities**<hr>]
+            dir4 --> dir17[**gui**<hr>]
+            ctrl5 --> dir18[**import**<hr>]
+            ctrl5 --> dir19[**simulation**<hr>]
+            ctrl5 --> dir20[**soul**<hr>]
+            dir5 --> dir21[**gui**<hr>]
+    classDef Category font-size:30px
+    class Game Category
+```
+
+
+
+
+
 
 ```mermaid
 %%{init: {'themeVariables': { 'fontSize': '22px' }}}%%
