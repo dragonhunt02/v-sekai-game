@@ -29,7 +29,7 @@ flowchart TD
             dir1 --> dir4[**game_mode**<hr>Defines base class for custom Game modes using **SarGameSessionManager**]
             dir1 --> dir5[**managers**<hr>Game Manager singletons to control xr startup, host session, settings etc.]
             dir1 --> dir6[**helpers**<hr>Misc utils]
-            dir1 --> dir7[**resources**<hr>Undocumented **SarZone** class]
+            dir1 --> dir7[**resources**<hr>Base **SarZone** class for 3d area triggers]
             dir1 --> dir8[**simulation**<hr>Define Souls possession managers like fade-in, mouse pointer capture etc.]
             dir1 --> dir9[**snapshots**<hr>Encode/Decode **Node3D** transforms for network transmission]
             dir1 --> dir10[**souls**<hr>Define Souls class, a visual-independent controller for players/AI. Souls can embody entities like avatars/objects/NPCs]
@@ -51,9 +51,9 @@ flowchart TD
             ctrl3 --> dir4[**game_scene**<hr>Class identifying valid scenes to session Managers]
             ctrl3 --> dir5[**model**<hr>Base classes for entities' visual display]
             ctrl3 --> dir6[**modifiers**<hr>Interpolation utils for visual display of nodes like Skeleton3d]
-            ctrl3 --> dir7[**simulation**<hr>TODO: Document]
-            ctrl3 --> dir8[**souls**<hr>Soul base scene]
-            ctrl3 --> dir9[**xr**<hr>XR movement input handling]
+            ctrl3 --> dir7[**simulation**<hr>Player XR input/motion/camera setup and processing]
+            ctrl3 --> dir8[**souls**<hr>Souls base scene. Souls are players/AI without a defined 3d visualization, the vessel]
+            ctrl3 --> dir9[**xr**<hr>Components for XR movement input handling like hands]
     classDef Category font-size:30px
     class 2d Category
 ```
