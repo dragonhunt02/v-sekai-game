@@ -23,8 +23,8 @@ flowchart TD
 flowchart TD
         Game --> addon11[**sar_game_framework**<hr>Game framework]
             addon11 --> ctrl1{" "}
-            ctrl1 --> dir1[**generic**<hr>Game generics]
-            dir1 --> dir2[**entities**<hr>**SarGameEntity** class defining entity physics, used for all networked players/NPCs/objects]
+            ctrl1 --> dir1[**generic**<hr>Generic base classes]
+            dir1 --> dir2[**entities**<hr>**SarGameEntity** class defining entity controls, used for all networked players/NPCs/objects]
             dir1 --> dir3[**extensions**<hr>Custom extensions/wrappers for Godot **MultiplayerAPI** and more]
             dir1 --> dir4[**game_mode**<hr>Defines base class for custom Game modes using **SarGameSessionManager**]
             dir1 --> dir5[**managers**<hr>TODO: Game Managers]
@@ -37,6 +37,26 @@ flowchart TD
     class Game Category
 ```
 
+```mermaid
+
+%%{init: {'themeVariables': { 'fontSize': '22px' }}}%%
+flowchart TD
+        Game --> addon11[**sar_game_framework**<hr>Game framework]
+            addon11 --> ctrl1{"2d"}
+            addon11 --> ctrl2{" "}
+            ctrl2 --> ctrl3{"3d"}
+            ctrl1 --> dir1[**gui**<hr>Navigation controllers for menu switching]
+            ctrl3 --> dir2[**editor_displays**<hr>TODO: Document]
+            ctrl3 --> dir3[**entities**<hr>**SarGameEntity3d** class defining entity physics, used for all networked players/NPCs/objects]
+            ctrl3 --> dir4[**game_scene**<hr>TODO: Document]
+            ctrl3 --> dir5[**model**<hr>TODO: Document]
+            ctrl3 --> dir6[**modifiers**<hr>TODO: Document]
+            ctrl3 --> dir7[**simulation**<hr>TODO: Document]
+            ctrl3 --> dir8[**souls**<hr>TODO: Document]
+            ctrl3 --> dir9[**xr**<hr>TODO: Document]
+    classDef Category font-size:30px
+    class 2d Category
+```
 
 
 
