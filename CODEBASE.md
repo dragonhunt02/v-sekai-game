@@ -4,7 +4,25 @@ Map of `addon/` components.
 - :gear: Engine C++ Interface
 - :warning: Unused (See also [Warnings](#warnings))
 
-
+```mermaid
+sequenceDiagram
+  participant VSKStartupScene
+  participant VSKUIViewControllerSessionLoading
+  participant VSKGameAssetManager
+  participant SarGameSessionManager
+  participant SarGameScene3D
+  VSKStartupScene->>VSKUIViewControllerSessionLoading: _show_scene_loading_screen()
+  note right of VSKStartupScene: scene load starts
+  VSKUIViewControllerSessionLoading->>VSKGameAssetManager: VSKGameAssetManager.make_request()
+  VSKGameAssetManager->>VSKUIViewControllerSessionLoading: signal request_complete
+  note right of VSKUIViewControllerSessionLoading: return GameAssetRequest object
+  VSKUIViewControllerSessionLoading->>VSKStartupScene: signal scene_loaded
+  note right of VSKStartupScene: returns Map PackedScene
+  VSKStartupScene->>SarGameScene3D: _scene_load_complete()
+  note right of VSKStartupScene: switch view to loaded Map
+  SarGameScene3D->>SarGameSessionManager: notify_game_scene_changed()
+  note right of SarGameSessionManager: spawn player
+```
 
 ```mermaid
 
