@@ -23,7 +23,8 @@ sequenceDiagram
   note over VSKStartupScene: Map PackedScene
   VSKStartupScene->>SarGameScene3D: _scene_load_complete()
   note right of VSKStartupScene: switch view to loaded Map
-  SarGameScene3D->>SarGameSessionManager: notify_game_scene_changed()
+  SarGameScene3D->>SarGameSessionManager: _ready()
+  SarGameSessionManager->>SarGameScene3D: notify_game_scene_changed()
   note left of SarGameSessionManager: spawn player
 ```
 
