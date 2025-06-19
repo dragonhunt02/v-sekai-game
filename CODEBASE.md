@@ -10,6 +10,7 @@ class SarGameEntityVessel3D{
     int id
     setPoints(List~int~ points)
 }
+
 class SarGameEntityCharacter3D{
     **SarGameEntityInterfaceCharacter3D** GameEntityInterface
     **SarGameEntityComponentVesselMovement3D** VesselMovementComponent
@@ -17,6 +18,7 @@ class SarGameEntityCharacter3D{
     ThirdPersonModel
     CharacterBody3D
 }
+
 class VSKGameEntityCharacter3D {
     **SarGameEntityComponentCharacterSimulation3D** CharacterSimulationComponent
       - simulation_scene: vsk_game_framework/scenes/
