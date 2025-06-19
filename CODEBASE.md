@@ -5,6 +5,38 @@ Map of `addon/` components.
 - :warning: Unused (See also [Warnings](#warnings))
 
 ```mermaid
+classDiagram
+class SarGameEntityVessel3D{
+    int id
+    setPoints(List~int~ points)
+}
+class SarGameEntityCharacter3D{
+    **SarGameEntityInterfaceCharacter3D** GameEntityInterface
+    **SarGameEntityComponentVesselMovement3D** VesselMovementComponent
+    **SarGameEntityComponentModel3D** ModelComponent
+    ThirdPersonModel
+    CharacterBody3D
+}
+class VSKGameEntityCharacter3D {
+    **SarGameEntityComponentCharacterSimulation3D** CharacterSimulationComponent
+      - simulation_scene: vsk_game_framework/scenes/
+            /simulation/vsk_simulation_player.tscn
+}
+
+SarGameEntityVessel3D<|--SarGameEntityCharacter3D
+SarGameEntityCharacter3D <|-- VSKGameEntityCharacter3D
+VSKGameEntityCharacter3D *-- SarGameEntityComponentCharacterSimulation3D
+SarGameEntityCharacter3D *-- SarGameEntityInterfaceCharacter3D
+SarGameEntityCharacter3D *-- SarGameEntityComponentModel3D
+SarGameEntityCharacter3D *-- SarGameEntityComponentVesselMovement3D
+SarGameEntityInterface <-- SarGameEntityInterfaceCharacter3D
+SarGameEntityComponent <-- SarGameEntityComponentModel3D
+SarGameEntityComponent <-- SarGameEntityComponentVesselMovement3D
+VSKGameEntityComponent <-- SarGameEntityComponentCharacterSimulation3D
+```
+
+
+```mermaid
 %%{init: {'sequence': {'mirrorActors': true, 'showSequenceNumbers': true}}}%%
 sequenceDiagram
   participant VSKStartupScene
