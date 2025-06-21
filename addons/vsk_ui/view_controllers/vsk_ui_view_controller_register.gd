@@ -28,7 +28,8 @@ func _on_view_sign_up_selected() -> void:
 	var username: String = view_account_action.get_register_username()
 	var password: String = view_account_action.get_register_password()
 	var repeat_password: String = view_account_action.get_register_repeat_password()
-	
+	var email_notifications: bool = view_account_action.get_email_notifications()
+
 	var view_controller: VSKUIViewControllerRegistering = _REGISTERING_ACCOUNT_VIEW_CONTROLLER.instantiate()
 	
 	var register_data: Dictionary = {
@@ -36,7 +37,8 @@ func _on_view_sign_up_selected() -> void:
 		"email":email.to_lower(),
 		"username":username.to_lower(),
 		"password":password,
-		"repeat_password":repeat_password
+		"repeat_password":repeat_password,
+		"email_notifications":email_notifications
 	}
 	
 	view_controller.register(_get_uro_service(), register_data)
