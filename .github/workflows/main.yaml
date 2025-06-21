@@ -32,8 +32,13 @@ jobs:
 
             git log -n 5
             #git reset --soft HEAD~1  
-            git reset --hard HEAD~1  
-
+            #git reset --hard HEAD~1  
+            
+            git restore --source=origin/rx -- addons/vsk_game_framework/scenes/import/
+            git restore --source=origin/rx -- addons/vsk_game_framework/textures/
+            git restore --source=origin/rx -- addons/vsk_game_framework/animations/
+            git restore --source=origin/rx -- addons/textureRectUrl/
+            git restore --source=origin/rx -- addons/godot-xr-tools/
             git restore --source=origin/rx -- addons/vsk_ui/fonts/
             git restore --source=origin/rx -- addons/vsk_ui/icons/
             git restore --source=origin/rx -- vsk_default/example_ugc/
@@ -49,7 +54,7 @@ jobs:
             #git commit -a -m 'Implement new user registration API and UI logic'
             git log -n 5
             git status
-            git push -f
+            #git push -f
             exit 1
 
 
