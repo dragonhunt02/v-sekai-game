@@ -31,9 +31,12 @@ jobs:
             #gdformat addons/network_manager/network_replication_manager.gd
 
             git log -n 5
-            git reset --soft HEAD~42  
+            git reset --soft HEAD~1  
 
-            rm CODEBASE.md
+            git restore --source=origin/rx -- addons/vsk_ui/fonts/
+            git restore --source=origin/rx -- addons/vsk_ui/icons/
+            git restore --source=origin/rx -- vsk_default/example_ugc/
+            git restore --source=origin/rx -- spash.png
 
             #######find . -type f -name "*.gd" -exec sed -i -e 's/assert\(()\)/push_error/g' {} +
             #find . -type f -name "*.gd" -exec sed -i -e 's/\(\t*\)assert(false, \(.*\))/\1push_error(\2)\n\1return/g' {} +
