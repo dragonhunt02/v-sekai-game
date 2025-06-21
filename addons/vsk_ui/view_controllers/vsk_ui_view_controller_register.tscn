@@ -32,4 +32,4 @@ account_action = 1
 metadata/_edit_pinned_properties_ = [&"account_action"]
 
 [connection signal="pick_other_domain_selected" from="MarginContainer/AspectRatioContainer/View" to="." method="_on_view_pick_other_domain_selected"]
-[connection signal="register_selected" from="MarginContainer/AspectRatioContainer/View" to="." method="_on_view_register_selected"]
+[connection signal="sign_up_selected" from="MarginContainer/AspectRatioContainer/View" to="." method="_on_view_sign_up_selected"]
