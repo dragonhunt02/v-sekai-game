@@ -2,7 +2,7 @@
 extends VSKUIViewControllerAccountAction
 class_name VSKUIViewControllerRegister
 
-signal signed_up(p_result: VSKUIViewControllerRegister.RegisterResult, p_id: String)
+signal signed_up(p_result: VSKUIViewControllerRegistering.RegisterResult, p_id: String)
 
 const _REGISTERING_ACCOUNT_VIEW_CONTROLLER: PackedScene = preload("res://addons/vsk_ui/view_controllers/vsk_ui_view_controller_registering_account.tscn")
 
@@ -17,7 +17,7 @@ func _get_uro_service() -> VSKGameServiceUro:
 	return null
 
 func _sign_up_complete(p_result: VSKUIViewControllerLoggingIn.LogInResult, p_id: String) -> void:
-	if p_result == VSKUIViewControllerRegister.RegisterResult.OK:
+	if p_result == VSKUIViewControllerRegistering.RegisterResult.OK:
 		get_navigation_controller().pop_view_controller(true)
 		
 		signed_up.emit(p_result, p_id)
@@ -29,7 +29,7 @@ func _on_view_sign_up_selected() -> void:
 	var password: String = view_account_action.get_register_password()
 	var repeat_password: String = view_account_action.get_register_repeat_password()
 	
-	var view_controller: VSKUIViewControllerRegister = _REGISTERING_ACCOUNT_VIEW_CONTROLLER.instantiate()
+	var view_controller: VSKUIViewControllerRegistering = _REGISTERING_ACCOUNT_VIEW_CONTROLLER.instantiate()
 	
 	var register_data: Dictionary = {
 		"domain":domain.to_lower(),
