@@ -17,8 +17,12 @@ theme = ExtResource("1_ebs6j")
 script = ExtResource("2_t6fsf")
 _action_label = NodePath("VBoxContainer/InfoBox/ActionLabel")
 _domain_label = NodePath("VBoxContainer/InfoBox/DomainLabel")
-_sign_in_content = NodePath("VBoxContainer/SignInContent")
 _register_content = NodePath("VBoxContainer/RegisterContent")
+_register_email_field = NodePath("VBoxContainer/RegisterContent/SignUpEmail")
+_register_username_field = NodePath("VBoxContainer/RegisterContent/SignUpUsername")
+_register_password_field = NodePath("VBoxContainer/RegisterContent/SignUpPassword")
+_register_repeat_password_field = NodePath("VBoxContainer/RegisterContent/SignUpRepeatPassword")
+_sign_in_content = NodePath("VBoxContainer/SignInContent")
 _sign_in_email_or_username_field = NodePath("VBoxContainer/SignInContent/SignInEmailOrUsername")
 _sign_in_password_field = NodePath("VBoxContainer/SignInContent/SignInPassword")
 _sign_in_submit_button = NodePath("VBoxContainer/SignInContent/ButtonsContainer/TopButtons/SignInButton")
@@ -187,5 +191,7 @@ text = "Pick Another Server"
 
 [connection signal="text_changed" from="VBoxContainer/SignInContent/SignInEmailOrUsername" to="." method="_on_sign_in_email_or_username_text_changed"]
 [connection signal="text_changed" from="VBoxContainer/SignInContent/SignInPassword" to="." method="_on_sign_in_password_text_changed"]
+;[connection signal="text_changed" from="VBoxContainer/RegisterContent/SignUpRepeatPassword" to="." method="_on_register_repeat_password_text_changed"]
 [connection signal="pressed" from="VBoxContainer/SignInContent/ButtonsContainer/TopButtons/SignInButton" to="." method="_on_sign_in_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/RegisterContent/RegisterButton" to="." method="_on_register_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/PickAnotherServerButton" to="." method="_pick_other_domain_selected"]
