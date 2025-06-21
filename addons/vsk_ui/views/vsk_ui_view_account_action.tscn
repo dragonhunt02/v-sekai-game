@@ -6,7 +6,7 @@
 [ext_resource type="FontFile" uid="uid://b66f6a8gfqkrc" path="res://addons/vsk_ui/fonts/ZenKakuGothicNew-Bold.ttf" id="4_cwesk"]
 [ext_resource type="PackedScene" uid="uid://cx3gwjtcd3ona" path="res://addons/vsk_ui/widgets/vsk_check_box.tscn" id="5_0qcc6"]
 
-[node name="AccountActionView" type="Control" node_paths=PackedStringArray("_action_label", "_domain_label", "_sign_in_content", "_register_content", "_sign_in_email_or_username_field", "_sign_in_password_field", "_sign_in_submit_button")]
+[node name="AccountActionView" type="Control" node_paths=PackedStringArray("_action_label", "_domain_label", "_sign_in_content", "_register_content", "_register_email_field", "_register_username_field", "_register_password_field", "_register_repeat_password_field", "_register_email_notifications_field", "_register_submit_button", "_sign_in_email_or_username_field", "_sign_in_password_field", "_sign_in_submit_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -17,14 +17,14 @@ theme = ExtResource("1_ebs6j")
 script = ExtResource("2_t6fsf")
 _action_label = NodePath("VBoxContainer/InfoBox/ActionLabel")
 _domain_label = NodePath("VBoxContainer/InfoBox/DomainLabel")
+_sign_in_content = NodePath("VBoxContainer/SignInContent")
 _register_content = NodePath("VBoxContainer/RegisterContent")
 _register_email_field = NodePath("VBoxContainer/RegisterContent/SignUpEmail")
 _register_username_field = NodePath("VBoxContainer/RegisterContent/SignUpUsername")
 _register_password_field = NodePath("VBoxContainer/RegisterContent/SignUpPassword")
 _register_repeat_password_field = NodePath("VBoxContainer/RegisterContent/SignUpRepeatPassword")
-_register_email_notifications_field = NodePath("VBoxContainer/RegisterContent/VSKCheckBox/CheckBox")
+_register_email_notifications_field = NodePath("VBoxContainer/RegisterContent/VSKCheckBox")
 _register_submit_button = NodePath("VBoxContainer/RegisterContent/RegisterButton")
-_sign_in_content = NodePath("VBoxContainer/SignInContent")
 _sign_in_email_or_username_field = NodePath("VBoxContainer/SignInContent/SignInEmailOrUsername")
 _sign_in_password_field = NodePath("VBoxContainer/SignInContent/SignInPassword")
 _sign_in_submit_button = NodePath("VBoxContainer/SignInContent/ButtonsContainer/TopButtons/SignInButton")
