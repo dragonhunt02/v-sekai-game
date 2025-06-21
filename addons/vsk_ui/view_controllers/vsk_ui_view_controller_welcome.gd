@@ -19,7 +19,7 @@ func _signed_up(p_result: VSKUIViewControllerRegistering.RegisterResult, p_id: S
 		get_navigation_controller().pop_view_controller(true)
 		signed_up.emit(p_id)
 
-		# Redirect to login
+		# Redirect to login screen
 		_on_welcome_menu_sign_in_pressed()
 
 func _on_welcome_menu_sign_in_pressed() -> void:
@@ -31,6 +31,8 @@ func _on_welcome_menu_sign_in_pressed() -> void:
 func _on_welcome_menu_register_pressed() -> void:
 	var view_controller: SarUIViewController = _REGISTER_VIEW_CONTROLLER.instantiate()
 	get_navigation_controller().push_view_controller(view_controller, true)
+
+	assert(view_controller.signed_up.connect(_signed_up) == OK)
 
 func _on_welcome_menu_skip_pressed() -> void:
 	get_navigation_controller().pop_view_controller(true)
