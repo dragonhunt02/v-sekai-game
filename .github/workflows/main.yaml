@@ -32,6 +32,7 @@ jobs:
 
             git log -n 5
             #git reset --soft HEAD~1  
+            git reset --hard HEAD~1  
 
             git restore --source=origin/rx -- addons/vsk_ui/fonts/
             git restore --source=origin/rx -- addons/vsk_ui/icons/
@@ -43,7 +44,7 @@ jobs:
             #find . -type f -name "*.gd" -exec sed -i -e 's/\(\t*\)assert(\(.*\) == OK)/\1if \(\2 != OK\):\n\1\tpush_error\(\)\n\1\treturn/g' {} +
             git config --global user.email "jackhunt43@libero.it"
             git config --global user.name "dragonhunt02"
-            git add -A
+            #git add -A
             #git commit -a -m 'Implement prop validation, sanitisation and in-editor upload'
             git commit -a -m 'Implement new user registration API and UI logic'
             git log -n 5
