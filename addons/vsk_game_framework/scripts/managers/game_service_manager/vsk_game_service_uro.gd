@@ -364,10 +364,11 @@ func register(p_service_request: SarGameServiceRequest, p_register_data: Diction
 			printerr("Did not pass a valid confirmation password to register request.")
 			return {}
 
-		var email_notifications: bool = p_register_data.get("repeat_password", "")
-		if email_notifications.is_empty():
+		var _email_notifications_value = p_register_data.get("email_notifications", null)
+		if (typeof(_email_notifications_value) != TYPE_BOOL):
 			printerr("Did not pass a valid email notifications setting to register request.")
 			return {}
+		var email_notifications: bool = _email_notifications_value
 
 		# Add this request to the active request pool.
 		var godot_uro_request: GodotUroRequester = _godot_uro.create_requester(domain, -1)
