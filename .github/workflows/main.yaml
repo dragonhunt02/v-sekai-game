@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: peer-fix
+          ref: register
           #prop-upload
           fetch-depth: 0
       - name: Dispatch to workflow 
@@ -31,7 +31,9 @@ jobs:
             #gdformat addons/network_manager/network_replication_manager.gd
 
             git log -n 5
-            git reset --soft HEAD~2  
+            git reset --soft HEAD~42  
+
+            rm CODEBASE.md
 
             #######find . -type f -name "*.gd" -exec sed -i -e 's/assert\(()\)/push_error/g' {} +
             #find . -type f -name "*.gd" -exec sed -i -e 's/\(\t*\)assert(false, \(.*\))/\1push_error(\2)\n\1return/g' {} +
@@ -40,7 +42,7 @@ jobs:
             git config --global user.name "dragonhunt02"
             git add -A
             #git commit -a -m 'Implement prop validation, sanitisation and in-editor upload'
-            git commit -a -m 'Fix avatar load failure on server join'
+            git commit -a -m 'Implement new user registration API and UI logic'
             git log -n 5
             git status
             git push -f
