@@ -6,12 +6,21 @@ const _LOGIN_VIEW_CONTROLLER: PackedScene = preload("res://addons/vsk_ui/view_co
 const _REGISTER_VIEW_CONTROLLER: PackedScene = preload("res://addons/vsk_ui/view_controllers/vsk_ui_view_controller_register.tscn")
 
 signal signed_in(p_id: String)
+signal signed_up(p_id: String)
 signal skipped
 
 func _signed_in(p_result: VSKUIViewControllerLoggingIn.LogInResult, p_id: String) -> void:
 	if p_result == VSKUIViewControllerLoggingIn.LogInResult.OK:
 		get_navigation_controller().pop_view_controller(true)
 		signed_in.emit(p_id)
+
+func _signed_up(p_result: VSKUIViewControllerRegistering.RegisterResult, p_id: String) -> void:
+	if p_result == VSKUIViewControllerRegistering.RegisterResult.OK:
+		get_navigation_controller().pop_view_controller(true)
+		signed_up.emit(p_id)
+
+		# Redirect to login
+		_on_welcome_menu_sign_in_pressed()
 
 func _on_welcome_menu_sign_in_pressed() -> void:
 	var view_controller: VSKUIViewControllerLogin = _LOGIN_VIEW_CONTROLLER.instantiate()
