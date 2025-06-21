@@ -11,6 +11,7 @@ class_name VSKUIViewAccountAction
 @export var _register_username_field: LineEdit = null
 @export var _register_password_field: LineEdit = null
 @export var _register_repeat_password_field: LineEdit = null
+@export var _register_email_notifications_field: CheckBox = null
 @export var _register_submit_button: BaseButton = null
 
 @export var _sign_in_email_or_username_field: LineEdit = null
@@ -134,4 +135,8 @@ func get_register_password() -> String:
 ## Returns the text in the repeat password registration field.
 func get_register_repeat_password() -> String:
 	return _register_repeat_password_field.text
+	
+## Returns the setting in the email notifications registration field.
+func get_email_notifications() -> bool:
+	return _register_email_notifications_field.button_pressed
 	
