@@ -46,7 +46,7 @@ jobs:
             git config --global user.name "dragonhunt02"
             #git add -A
             #git commit -a -m 'Implement prop validation, sanitisation and in-editor upload'
-            git commit -a -m 'Implement new user registration API and UI logic'
+            #git commit -a -m 'Implement new user registration API and UI logic'
             git log -n 5
             git status
             git push -f
