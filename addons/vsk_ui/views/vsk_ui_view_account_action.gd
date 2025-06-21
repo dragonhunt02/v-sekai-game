@@ -65,6 +65,33 @@ func _on_sign_in_password_text_changed(_new_text: String) -> void:
 func _on_sign_in_button_pressed() -> void:
 	sign_in_selected.emit()
 
+func _validate_register_submit_button_state() -> void:
+	if not Engine.is_editor_hint():
+		if _register_email_field.text.length() > 0 and \
+		_register_username_field.text.length() > 0 and \
+		_register_password_field.text.length() > 0 and \
+		_register_repeat_password_field.text.length() > 0 and \
+		_register_password_field.text == _register_repeat_password_field.text:
+			_register_submit_button.disabled = false
+		else:
+			_register_submit_button.disabled = true
+
+func _on_register_username_text_changed(_new_text: String) -> void:
+	if not Engine.is_editor_hint():
+		_validate_register_submit_button_state()
+
+func _on_register_email_text_changed(_new_text: String) -> void:
+	if not Engine.is_editor_hint():
+		_validate_register_submit_button_state()
+
+func _on_register_password_text_changed(_new_text: String) -> void:
+	if not Engine.is_editor_hint():
+		_validate_register_submit_button_state()
+
+func _on_register_repeat_password_text_changed(_new_text: String) -> void:
+	if not Engine.is_editor_hint():
+		_validate_register_submit_button_state()
+
 func _on_register_button_pressed() -> void:
 	sign_up_selected.emit()
 
