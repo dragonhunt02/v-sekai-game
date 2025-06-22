@@ -51,7 +51,7 @@ jobs:
             git ls-files -z addons/godot-xr-tools/ | xargs -0 git update-index --skip-worktree
             git ls-files -z addons/vsk_ui/fonts/ | xargs -0 git update-index --skip-worktree
             git ls-files -z addons/vsk_ui/icons/ | xargs -0 git update-index --skip-worktree
-            git ls-files -z spash.png | xargs -0 git update-index --skip-worktree
+            #git ls-files -z spash.png | xargs -0 git update-index --skip-worktree
             git ls-files -z vsk_default/example_ugc/ | xargs -0 git update-index --skip-worktree
 
 
@@ -62,9 +62,10 @@ jobs:
             git config --global user.name "dragonhunt02"
             #git add -A
             #git commit -a -m 'Implement prop validation, sanitisation and in-editor upload'
-            #git commit -a -m 'Implement new user registration API and UI logic'
+            git commit -a -m 'Implement new user registration API and UI logic'
             git log -n 5
             git status
+            git push
             #git push -f
             exit 1
 
