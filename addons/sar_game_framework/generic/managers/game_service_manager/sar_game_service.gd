@@ -30,7 +30,7 @@ static func get_service_name() -> String:
 func sign_in(_service_request: SarGameServiceRequest, _sign_in_data: Dictionary) -> Dictionary:
 	return {}
 
-func register(_service_request: SarGameServiceRequest, _sign_in_data: Dictionary) -> Dictionary:
+func register(_service_request: SarGameServiceRequest, _register_data: Dictionary) -> Dictionary:
 	return {}
 
 ## Creates a service request object. This can then be passed into
