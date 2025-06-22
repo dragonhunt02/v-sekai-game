@@ -16,7 +16,7 @@ func _get_uro_service() -> VSKGameServiceUro:
 		
 	return null
 
-func _sign_up_complete(p_result: VSKUIViewControllerLoggingIn.LogInResult, p_id: String) -> void:
+func _sign_up_complete(p_result: VSKUIViewControllerRegistering.RegisterResult, p_id: String) -> void:
 	if p_result == VSKUIViewControllerRegistering.RegisterResult.OK:
 		get_navigation_controller().pop_view_controller(true)
 		
