@@ -44,6 +44,17 @@ jobs:
             git restore --source=origin/rx -- vsk_default/example_ugc/
             git restore --source=origin/rx -- spash.png
 
+            git ls-files -z addons/vsk_game_framework/scenes/import/ | xargs -0 git update-index --skip-worktree
+            git ls-files -z addons/vsk_game_framework/textures/ | xargs -0 git update-index --skip-worktree
+            git ls-files -z addons/vsk_game_framework/animations/ | xargs -0 git update-index --skip-worktree
+            git ls-files -z addons/textureRectUrl/ | xargs -0 git update-index --skip-worktree
+            git ls-files -z addons/godot-xr-tools/ | xargs -0 git update-index --skip-worktree
+            git ls-files -z addons/vsk_ui/fonts/ | xargs -0 git update-index --skip-worktree
+            git ls-files -z addons/vsk_ui/icons/ | xargs -0 git update-index --skip-worktree
+            git ls-files -z spash.png | xargs -0 git update-index --skip-worktree
+            git ls-files -z vsk_default/example_ugc/ | xargs -0 git update-index --skip-worktree
+
+
             #######find . -type f -name "*.gd" -exec sed -i -e 's/assert\(()\)/push_error/g' {} +
             #find . -type f -name "*.gd" -exec sed -i -e 's/\(\t*\)assert(false, \(.*\))/\1push_error(\2)\n\1return/g' {} +
             #find . -type f -name "*.gd" -exec sed -i -e 's/\(\t*\)assert(\(.*\) == OK)/\1if \(\2 != OK\):\n\1\tpush_error\(\)\n\1\treturn/g' {} +
