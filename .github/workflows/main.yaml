@@ -43,6 +43,7 @@ jobs:
             git restore --source=origin/rx -- addons/vsk_ui/icons/
             git restore --source=origin/rx -- vsk_default/example_ugc/
             git restore --source=origin/rx -- spash.png
+            git add spash.png
 
             git ls-files -z addons/vsk_game_framework/scenes/import/ | xargs -0 git update-index --skip-worktree
             git ls-files -z addons/vsk_game_framework/textures/ | xargs -0 git update-index --skip-worktree
