@@ -31,7 +31,7 @@ jobs:
             #gdformat addons/network_manager/network_replication_manager.gd
 
             git log -n 5
-            #git reset --soft HEAD~1  
+            git reset --soft HEAD~41  
             #git reset --hard HEAD~1  
             rm CODEBASE.md
             
