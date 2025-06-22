@@ -45,7 +45,7 @@ jobs:
             #git restore --source=origin/rx -- spash.png
             #git add spash.png
             rm spash.png
-            git checkout HEAD~1 -- spash.png
+            git checkout HEAD~2 -- spash.png
             git add --renormalize spash.png
 
             git ls-files -z addons/vsk_game_framework/scenes/import/ | xargs -0 git update-index --skip-worktree
