@@ -31,10 +31,10 @@ jobs:
             #gdformat addons/network_manager/network_replication_manager.gd
 
             git log -n 5
-            git reset --soft HEAD~41  
+            git reset --soft HEAD~2  
             #git reset --hard HEAD~1  
-            rm CODEBASE.md
-            git add CODEBASE.md
+            #rm CODEBASE.md
+            #git add CODEBASE.md
             
             #git restore --source=origin/rx -- addons/vsk_game_framework/scenes/import/
             #git restore --source=origin/rx -- addons/vsk_game_framework/textures/
