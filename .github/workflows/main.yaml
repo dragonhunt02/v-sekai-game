@@ -57,8 +57,12 @@ jobs:
             git ls-files -z addons/godot-xr-tools/ | xargs -0 git update-index --skip-worktree
             git ls-files -z addons/vsk_ui/fonts/ | xargs -0 git update-index --skip-worktree
             git ls-files -z addons/vsk_ui/icons/ | xargs -0 git update-index --skip-worktree
-            #git ls-files -z spash.png | xargs -0 git update-index --skip-worktree
+            git ls-files -z spash.png | xargs -0 git update-index --skip-worktree
             #git ls-files -z vsk_default/example_ugc/ | xargs -0 git update-index --skip-worktree
+            git update-index --skip-worktree vsk_default/example_ugc/maps/cc0_hut/*.png
+            git update-index --skip-worktree vsk_default/example_ugc/maps/cc0_hut/*.res
+            git update-index --skip-worktree vsk_default/example_ugc/maps/cc0_hut/*.bin
+            git update-index --skip-worktree vsk_default/example_ugc/maps/cc0_hut/*.unwrap_cache
 
 
             #######find . -type f -name "*.gd" -exec sed -i -e 's/assert\(()\)/push_error/g' {} +
