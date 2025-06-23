@@ -224,7 +224,7 @@ func _parse_commandline_args() -> void:
 ## Returns startup command-line arguments.
 func get_commandline_args() -> Dictionary:
 	if _commandline_argument_dictionary == null:
-		push_error("Command-line arguments dictionary was not initialized.")
+		push_error("Command-line argument dictionary was not initialized.")
 		return {}
 	return _commandline_argument_dictionary
 
