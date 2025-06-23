@@ -9,6 +9,8 @@ const _SHOW_WINDOW_TITLE_DEBUG_INFO_PATH: String = "game/session/show_window_tit
 const _PLAYER_SOUL_SCENE_PROJECT_SETTING_PATH: String = "game/session/player_soul_scene_path"
 const _PLAYER_VESSEL_SCENE_PROJECT_SETTING_PATH: String = "game/session/player_vessel_scene_path"
 
+var _commandline_argument_dictionary: Dictionary = null
+
 var _is_dedicated: bool = false
 var _max_players: int = 0
 
@@ -212,7 +214,7 @@ func _ready() -> void:
 		_setup_multiplayer.call_deferred()
 
 func _parse_commandline_args() -> void:
-	var _commandline_argument_dictionary = SarGameSessionCommandline.parse_commandline_arguments(
+	_commandline_argument_dictionary = SarGameSessionCommandline.parse_commandline_arguments(
 		OS.get_cmdline_args()
 	)
 	
