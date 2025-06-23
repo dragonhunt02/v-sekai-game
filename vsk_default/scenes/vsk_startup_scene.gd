@@ -70,8 +70,22 @@ func _fade_in_complete() -> void:
 			navigation_controller_2d.pop_view_controller(false)
 			view_controller.queue_free()
 			_renew_uro_session_request = null
-		
-		if _skip_sign_in:
+
+		var cmd_args: Dictionary = VSKGameSessionManager.get_commandline_args()
+		var host_args: Dictionary = VSKGameSessionManager._DEFAULT_HOST_ARGS
+		var startup_host: bool = false
+
+		for key in cmd_args.keys():
+			if host_args.has(key):
+				startup_host = true
+				host_args[key] = cmd_args[key]
+
+		if startup_host:
+			if (VSKGameSessionManager.host_server(host_args["port"], host_args["max_players"], host_args["dedicated"]) != OK):
+				push_error("Server hosting failed!")
+				_show_welcome_screen()
+			_show_scene_loading_screen()
+		elif _skip_sign_in:
 			_show_scene_loading_screen()
 		else:
 			_show_welcome_screen()
