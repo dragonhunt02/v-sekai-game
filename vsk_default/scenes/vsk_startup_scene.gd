@@ -78,6 +78,8 @@ func _fade_in_complete() -> void:
 		for key in cmd_args.keys():
 			if host_args.has(key):
 				startup_host = true
+				if cmd_args.get(key) == []: # no sub-arguments
+					host_args[key] = true
 				host_args[key] = cmd_args[key]
 
 		if startup_host:
