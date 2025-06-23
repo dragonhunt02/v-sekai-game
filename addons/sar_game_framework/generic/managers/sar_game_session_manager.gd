@@ -221,6 +221,13 @@ func _parse_commandline_args() -> void:
 	if not Engine.is_editor_hint():
 		pass
 
+## Returns startup command-line arguments.
+func get_commandline_args() -> Dictionary:
+	if _commandline_argument_dictionary == null:
+		push_error("Command-line arguments dictionary was not initialized.")
+		return {}
+	return _commandline_argument_dictionary
+
 func _init() -> void:
 	_parse_commandline_args()
 
