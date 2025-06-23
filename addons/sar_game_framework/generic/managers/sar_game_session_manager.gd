@@ -9,6 +9,16 @@ const _SHOW_WINDOW_TITLE_DEBUG_INFO_PATH: String = "game/session/show_window_tit
 const _PLAYER_SOUL_SCENE_PROJECT_SETTING_PATH: String = "game/session/player_soul_scene_path"
 const _PLAYER_VESSEL_SCENE_PROJECT_SETTING_PATH: String = "game/session/player_vessel_scene_path"
 
+const _DEFAULT_HOST_ARGS: Dictionary[String, Variant] = {
+	"map": 1,
+	"server_name": "V-Sekai Server",
+	"port": 7777,
+	"ip": "127.0.0.1",
+	"dedicated": false,
+	"public": false,
+	"max_players": 64,
+}
+
 var _commandline_argument_dictionary: Dictionary = null
 
 var _is_dedicated: bool = false
