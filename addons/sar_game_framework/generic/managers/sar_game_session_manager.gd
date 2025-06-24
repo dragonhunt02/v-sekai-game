@@ -250,11 +250,15 @@ func _parse_commandline_args() -> void:
 		if cmd_args.get(key) == []: # no sub-arguments
 			cmd_value = true
 		else:
-			cmd_value = cmd_args[key]
+			cmd_value = cmd_args[key][0] # Default gets only first sub-argument
+
+		if key == "port" or key == "max_players":
+			cmd_value = cmd_value.to_int()
 
 		if key == "host" or key == "join":
 			_startup_network_opts[key] = true
 			continue
+
 		if _startup_network_opts.has(key):
 			_startup_network_opts[key] = cmd_value
 			continue
