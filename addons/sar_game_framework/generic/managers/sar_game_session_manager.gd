@@ -19,7 +19,7 @@ const _DEFAULT_HOST_ARGS: Dictionary[String, Variant] = {
 	"max_players": 64,
 }
 
-var _commandline_argument_dictionary: Dictionary = null
+var _commandline_argument_dictionary: Dictionary = {}
 
 var _is_dedicated: bool = false
 var _max_players: int = 0
