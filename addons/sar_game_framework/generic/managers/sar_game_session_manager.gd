@@ -10,7 +10,7 @@ const _PLAYER_SOUL_SCENE_PROJECT_SETTING_PATH: String = "game/session/player_sou
 const _PLAYER_VESSEL_SCENE_PROJECT_SETTING_PATH: String = "game/session/player_vessel_scene_path"
 
 const _DEFAULT_HOST_ARGS: Dictionary[String, Variant] = {
-	"map": 1,
+	"map": "",
 	"server_name": "V-Sekai Server",
 	"port": 7777,
 	"ip": "127.0.0.1",
@@ -19,7 +19,7 @@ const _DEFAULT_HOST_ARGS: Dictionary[String, Variant] = {
 	"max_players": 64,
 }
 
-var _commandline_argument_dictionary: Dictionary = {}
+var _startup_network_opts: Dictionary = {}
 
 var _is_dedicated: bool = false
 var _max_players: int = 0
@@ -224,19 +224,44 @@ func _ready() -> void:
 		_setup_multiplayer.call_deferred()
 
 func _parse_commandline_args() -> void:
-	_commandline_argument_dictionary = SarGameSessionCommandline.parse_commandline_arguments(
+	var cmd_args: Dictionary = SarGameSessionCommandline.parse_commandline_arguments(
 		OS.get_cmdline_args()
 	)
 	
-	if not Engine.is_editor_hint():
-		pass
+	if Engine.is_editor_hint():
+		return
 
-## Returns startup command-line arguments.
-func get_commandline_args() -> Dictionary:
-	if _commandline_argument_dictionary == null:
-		push_error("Command-line argument dictionary was not initialized.")
-		return {}
-	return _commandline_argument_dictionary
+	# Validate
+	if cmd_args.has("host") and cmd_args.has("join"):
+		push_error("Error: conflicting command-line arguments: 'host' and 'join'")
+		get_tree().quit(2)
+	if cmd_args.has("join") and cmd_args.has("dedicated"):
+		push_error("Error: conflicting command-line arguments: 'join' and 'dedicated'")
+		get_tree().quit(2)
+	#if cmd_args.has("map"):
+	#	push_error("Error: command-line argument not implemented: '--map'")
+	#	get_tree().quit(2)
+
+	# Initialize with defaults
+	_startup_network_opts = game_session_manager._DEFAULT_HOST_ARGS
+
+	var cmd_value = null
+	for key in cmd_args.keys():
+		if cmd_args.get(key) == []: # no sub-arguments
+			cmd_value = true
+		else:
+			cmd_value = cmd_args[key]
+
+		if key == "host" or key == "join":
+			_startup_network_opts[key] = true
+			continue
+		if _startup_network_opts.has(key):
+			_startup_network_opts[key] = cmd_value
+			continue
+
+## Returns startup network command-line options.
+func get_startup_network_opts() -> Dictionary:
+	return _startup_network_opts
 
 func _init() -> void:
 	_parse_commandline_args()
