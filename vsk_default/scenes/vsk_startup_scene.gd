@@ -76,6 +76,7 @@ func _fade_in_complete() -> void:
 		var cmd_args: Dictionary = game_session_manager.get_commandline_args()
 		var host_args: Dictionary = game_session_manager._DEFAULT_HOST_ARGS
 		var startup_host: bool = true
+		var startup_join: bool = true
 
 		for key in cmd_args.keys():
 			if host_args.has(key):
@@ -87,6 +88,11 @@ func _fade_in_complete() -> void:
 		if startup_host:
 			if (game_session_manager.host_server(host_args["port"], host_args["max_players"], host_args["dedicated"]) != OK):
 				push_error("Server hosting failed!")
+				_show_welcome_screen()
+			_show_scene_loading_screen()
+		elif startup_join:
+			if (game_session_manager.join_server(host_args["ip"], host_args["port"]) != OK):
+				push_error("Server joining failed!")
 				_show_welcome_screen()
 			_show_scene_loading_screen()
 		elif _skip_sign_in:
