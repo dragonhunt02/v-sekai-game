@@ -60,6 +60,7 @@ func _show_validate_screen() -> void:
 	navigation_controller_2d.push_view_controller(view_controller, false)
 
 func _fade_in_complete() -> void:
+	var game_session_manager: VSKGameSessionManager = get_tree().get_first_node_in_group("game_session_managers")
 	var game_service: VSKGameServiceUro = _get_uro_service()
 	if game_service:
 		# Wait for the renew session request to finish.
@@ -72,28 +73,16 @@ func _fade_in_complete() -> void:
 			view_controller.queue_free()
 			_renew_uro_session_request = null
 
-		var game_session_manager: VSKGameSessionManager = get_tree().get_first_node_in_group("game_session_managers")
-		var cmd_args: Dictionary = game_session_manager.get_commandline_args()
-		var host_args: Dictionary = game_session_manager._DEFAULT_HOST_ARGS
-		var startup_host: bool = true
-		var startup_join: bool = true
-
-		for key in cmd_args.keys():
-			if host_args.has(key):
-				startup_host = true
-				if cmd_args.get(key) == []: # no sub-arguments
-					host_args[key] = true
-				host_args[key] = cmd_args[key]
-
-		if startup_host:
-			if (game_session_manager.host_server(host_args["port"], host_args["max_players"], host_args["dedicated"]) != OK):
-				push_error("Server hosting failed!")
-				_show_welcome_screen()
+		var network_opts: Dictionary = game_session_manager.get_startup_network_opts()
+		if network_opts.get("host", false):
+			if (game_session_manager.host_server(network_opts["port"], network_opts["max_players"], network_opts["dedicated"]) != OK):
+				push_error("Server hosting failed!" + JSON.stringify(network_opts))
+				get_tree().quit(1)
 			_show_scene_loading_screen()
-		elif startup_join:
-			if (game_session_manager.join_server(host_args["ip"], host_args["port"]) != OK):
-				push_error("Server joining failed!")
-				_show_welcome_screen()
+		elif network_opts.get("join", false):
+			if (game_session_manager.join_server(network_opts["ip"], network_opts["port"]) != OK):
+				push_error("Server joining failed!" + JSON.stringify(network_opts))
+				get_tree().quit(1)
 			_show_scene_loading_screen()
 		elif _skip_sign_in:
 			_show_scene_loading_screen()
