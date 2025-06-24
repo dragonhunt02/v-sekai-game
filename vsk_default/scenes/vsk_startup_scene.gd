@@ -14,7 +14,8 @@ const _WELCOME_VIEW_CONTROLLER: PackedScene = preload("res://addons/vsk_ui/view_
 const _SESSION_LOADING_VIEW_CONTROLLER: PackedScene = preload("res://addons/vsk_ui/view_controllers/vsk_ui_view_controller_session_loading.tscn")
 const _VALIDATING_VIEW_CONTROLLER: PackedScene = preload("res://addons/vsk_ui/view_controllers/vsk_ui_view_controller_validating.tscn")
 
-const DEFAULT_GAME_SCENE_URL: String = "res://vsk_default/example_ugc/maps/cc0_hut/cc0_hut.tscn"
+const DEFAULT_GAME_SCENE_URL: String = "res://vsk_default/example_ugc/maps/haven/haven.tscn"
+const DEFAULT_GAME_SCENE_URL_ALT: String = "res://vsk_default/example_ugc/maps/cc0_hut/cc0_hut.tscn"
 
 func _get_uro_service() -> VSKGameServiceUro:
 	var service_manager: VSKGameServiceManager = get_tree().get_first_node_in_group("game_service_managers")
@@ -71,9 +72,10 @@ func _fade_in_complete() -> void:
 			view_controller.queue_free()
 			_renew_uro_session_request = null
 
-		var cmd_args: Dictionary = VSKGameSessionManager.get_commandline_args()
-		var host_args: Dictionary = VSKGameSessionManager._DEFAULT_HOST_ARGS
-		var startup_host: bool = false
+		var game_session_manager: VSKGameSessionManager = get_tree().get_first_node_in_group("game_session_managers")
+		var cmd_args: Dictionary = game_session_manager.get_commandline_args()
+		var host_args: Dictionary = game_session_manager._DEFAULT_HOST_ARGS
+		var startup_host: bool = true
 
 		for key in cmd_args.keys():
 			if host_args.has(key):
@@ -83,7 +85,7 @@ func _fade_in_complete() -> void:
 				host_args[key] = cmd_args[key]
 
 		if startup_host:
-			if (VSKGameSessionManager.host_server(host_args["port"], host_args["max_players"], host_args["dedicated"]) != OK):
+			if (game_session_manager.host_server(host_args["port"], host_args["max_players"], host_args["dedicated"]) != OK):
 				push_error("Server hosting failed!")
 				_show_welcome_screen()
 			_show_scene_loading_screen()
