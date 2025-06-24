@@ -243,7 +243,7 @@ func _parse_commandline_args() -> void:
 	#	get_tree().quit(2)
 
 	# Initialize with defaults
-	_startup_network_opts = game_session_manager._DEFAULT_HOST_ARGS
+	_startup_network_opts = _DEFAULT_HOST_ARGS #game_session_manager.
 
 	var cmd_value = null
 	for key in cmd_args.keys():
