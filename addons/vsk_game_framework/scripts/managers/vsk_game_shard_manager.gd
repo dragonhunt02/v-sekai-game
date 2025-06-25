@@ -47,7 +47,7 @@ func create_shard(p_shard_data: Dictionary) -> void:
 				)
 			)
 
-func update_shard(p_id: String, p_shard_data: Dictionary) -> Dictionary:
+func update_shard(p_id: String, p_shard_data: Dictionary) -> void: #Dictionary:
 	var service: VSKGameServiceUro = _get_uro_service()
 	if service:
 		var current_account_address: String = service.get_current_account_address()
@@ -63,7 +63,7 @@ func update_shard(p_id: String, p_shard_data: Dictionary) -> Dictionary:
 			var shard_id = async_result["output"]["data"]["data"]["id"]
 			_active_shards[shard_id] = shard
 			shard_updated.emit(shard_id, shard)
-			return shard
+			#return shard
 		else:
 			push_error(
 				(
@@ -72,7 +72,7 @@ func update_shard(p_id: String, p_shard_data: Dictionary) -> Dictionary:
 				)
 			)
 
-		return {}
+		return
 
 func delete_shard(p_id: String, p_shard_data: Dictionary) -> void:
 	var service: VSKGameServiceUro = _get_uro_service()
@@ -156,14 +156,15 @@ func get_active_shards() -> Dictionary:
 	return _active_shards
 
 # Update current player count
-func shard_update_current_users(p_id: String, p_current_users: int) -> Dictionary:
+func update_shard_current_users(p_id: String, p_current_users: int) -> void: #Dictionary:
 	var shard = await update_shard(
 		p_id, {"current_users": p_current_users}
 	)
-	if not shard.empty():
-		_active_shards[shard_id] = shard
-		_public_server_shards[shard_id] = shard
-	return shard
+	return
+	#if not shard.empty():
+	#	_active_shards[shard_id] = shard
+	#	_public_server_shards[shard_id] = shard
+	#return shard
 
 func _shard_heartbeat(p_id: String) -> void:
 	var shard = await update_shard_async(p_id, {})
