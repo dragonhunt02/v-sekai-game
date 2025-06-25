@@ -178,6 +178,11 @@ func _get_uro_service() -> VSKGameServiceUro:
 		
 	return null
 
+#func _on_shard_created(p_shard_id: String, p_shard: Dictionary) -> void:
+
+#func _on_shard_updated(p_shard_id: String, p_shard: Dictionary) -> void:
+
+
 func _process(_delta: float):
 	if not Engine.is_editor_hint():
 		pass
