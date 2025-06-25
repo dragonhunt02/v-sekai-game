@@ -533,7 +533,7 @@ func create_shard(p_service_request: SarGameServiceRequest, p_shard_data: Dictio
 	return {}
 
 ## Updates properties of a shard instance
-func update_shard(p_service_request: SarGameServiceRequest, p_shard_data: Dictionary) -> Dictionary:
+func update_shard(p_service_request: SarGameServiceRequest, p_id: String, p_shard_data: Dictionary) -> Dictionary:
 	if _godot_uro and _godot_uro.get_api():
 		if not p_service_request is VSKGameServiceRequestUro:
 			printerr("Did not pass a valid VSKGameServiceRequestUro object to update shard request.")
@@ -554,6 +554,7 @@ func update_shard(p_service_request: SarGameServiceRequest, p_shard_data: Dictio
 		var result: Dictionary = await _godot_uro.get_api().update_shard_async(
 			godot_uro_request,
 			tokens.get("access_token"),
+			p_id,
 			p_shard_data
 		)
 		
@@ -593,6 +594,7 @@ func delete_shard(p_service_request: SarGameServiceRequest, p_id: String, p_shar
 		var result: Dictionary = await _godot_uro.get_api().delete_shard_async(
 			godot_uro_request,
 			tokens.get("access_token"),
+			p_id,
 			p_shard_data
 		)		
 		if not stop_request(p_service_request):
