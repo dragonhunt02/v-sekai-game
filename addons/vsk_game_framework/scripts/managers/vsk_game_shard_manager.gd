@@ -21,7 +21,7 @@ var _active_heartbeat_timers: Dictionary = {}
 # Not locally synced with '_active_shards'
 var _public_server_shards: Dictionary = {}
 
-const shard_heartbeat_frequency: float = 10.0  # In seconds
+var shard_heartbeat_frequency: float = null # In seconds
 
 func create_shard(p_shard_data: Dictionary) -> void:
 	var service: VSKGameServiceUro = _get_uro_service()
@@ -186,6 +186,13 @@ func _get_uro_service() -> VSKGameServiceUro:
 func _process(_delta: float):
 	if not Engine.is_editor_hint():
 		pass
+
+func _ready():
+	if Engine.is_editor_hint():
+		return
+
+	if ProjectSettings.has_setting("game/session/shard_heartbeat_frequency"):
+		shard_heartbeat_frequency = ProjectSettings.get_setting("game/session/shard_heartbeat_frequency")
 
 func setup() -> void:
 	pass  # Nothing to setup
