@@ -38,6 +38,8 @@ func create_shard(p_shard_data: Dictionary) -> void:
 			var shard = async_result["output"]["data"]["data"]
 			var shard_id = async_result["output"]["data"]["data"]["id"]
 			_active_shards[shard_id] = shard
+			if start_timer_update(shard_id) != OK:
+				push_error("Heartbeat timer creation failed for shard: %s" % shard_id)
 			shard_created.emit(shard_id, shard)
 		else:
 			push_error(
@@ -74,7 +76,7 @@ func update_shard(p_id: String, p_shard_data: Dictionary) -> void: #Dictionary:
 
 		return
 
-func delete_shard(p_id: String, p_shard_data: Dictionary) -> void:
+func delete_shard(p_id: String, p_shard_data: Dictionary = {}) -> void:
 	var service: VSKGameServiceUro = _get_uro_service()
 	if service:
 		var current_account_address: String = service.get_current_account_address()
@@ -86,6 +88,8 @@ func delete_shard(p_id: String, p_shard_data: Dictionary) -> void:
 		var async_result: Dictionary = await service.create_shard_async(_fetch_request, p_id, p_shard_data)
 		
 		if GodotUroHelper.requester_result_is_ok(async_result):
+			if stop_timer_update(shard_id) != OK:
+				push_error("Heartbeat timer destruction failed for shard: %s" % shard_id)
 			_active_shards.erase(shard_id)
 			shard_deleted.emit(shard_id)
 		else:
@@ -148,6 +152,13 @@ func stop_timer_update(p_shard_id: String) -> Error:
 	else:
 		push_error("Timer does not exist for shard: %s" % p_shard_id)
 		return ERR_INVALID_PARAMETER
+
+func reset_timer_update(p_shard_id: String) -> Error:
+	var timer: Timer = _active_heartbeat_timers.get(p_shard_id, null)
+	if stop_timer_update(p_shard_id) == OK:
+		if start_timer_update(p_shard_id) == OK:
+			return OK
+	return FAILED
 
 func get_public_server_shards() -> Dictionary:
 	return _public_server_shards
