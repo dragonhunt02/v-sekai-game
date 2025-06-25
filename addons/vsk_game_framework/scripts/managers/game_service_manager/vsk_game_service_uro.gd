@@ -192,6 +192,32 @@ func _get_dashboard_content_async(p_service_request: SarGameServiceRequest, p_ca
 		
 	return {}
 	
+func _get_multiple_content_async(p_service_request: SarGameServiceRequest, p_callable: Callable):
+	if _godot_uro and _godot_uro.get_api():
+		if not p_service_request is VSKGameServiceRequestUro:
+			printerr("Did not pass a valid VSKGameServiceRequestUro object to a sign out request.")
+			return {} 
+		
+		var domain: String = (p_service_request as VSKGameServiceRequestUro).domain
+		
+		# Add this request to the active request pool.
+		var godot_uro_request: GodotUroRequester = _godot_uro.create_requester(domain, -1)
+		_active_service_requests[p_service_request] = godot_uro_request
+		
+		var result: Dictionary = await p_callable.call(
+			godot_uro_request
+		)
+		
+		if not stop_request(p_service_request):
+			return {}
+			
+		if result.is_empty():
+			return {}
+
+		return result
+		
+	return {}
+
 func _get_individual_content_async(p_service_request: SarGameServiceRequest, p_id: String, p_callable: Callable):
 	if _godot_uro and _godot_uro.get_api():
 		if not p_service_request is VSKGameServiceRequestUro:
@@ -405,14 +431,28 @@ func get_avatar_async(p_service_request: SarGameServiceRequest, p_id: String) ->
 		return await _get_individual_content_async(p_service_request, p_id, _godot_uro.get_api().get_avatar_async)
 	
 	return {}
+
+## Returns a dictionary containing public avatars
+func get_avatars_async(p_service_request: SarGameServiceRequest) -> Dictionary:
+	if _godot_uro and _godot_uro.get_api():
+		return await _get_multiple_content_async(p_service_request, _godot_uro.get_api().get_avatars_async)
 	
+	return {}
+
 ## Returns a dictionary containing information about a specific map id.
 func get_map_async(p_service_request: SarGameServiceRequest, p_id: String) -> Dictionary:
 	if _godot_uro and _godot_uro.get_api():
 		return await _get_individual_content_async(p_service_request, p_id, _godot_uro.get_api().get_map_async)
 	
 	return {}
+
+## Returns a dictionary containing public maps
+func get_maps_async(p_service_request: SarGameServiceRequest) -> Dictionary:
+	if _godot_uro and _godot_uro.get_api():
+		return await _get_multiple_content_async(p_service_request, _godot_uro.get_api().get_maps_async)
 	
+	return {}
+
 ## Uploads a file to be used as an avatar to the account assigned to SarGameServiceRequest.
 func upload_avatar_async(
 	p_service_request: SarGameServiceRequest,
@@ -420,6 +460,149 @@ func upload_avatar_async(
 	if _godot_uro and _godot_uro.get_api():
 		return await _upload_content_async(p_service_request, p_upload_dictionary, _godot_uro.get_api().dashboard_create_avatar_async)
 	
+	return {}
+
+## Returns a dictionary containing public shard instances
+func get_shards_async(p_service_request: SarGameServiceRequest) -> Dictionary:
+	if _godot_uro and _godot_uro.get_api():
+		return await _get_multiple_content_async(p_service_request, _godot_uro.get_api().get_shards_async)
+	
+	return {}
+
+## Creates a shard instance on server
+func create_shard(p_service_request: SarGameServiceRequest, p_shard_data: Dictionary) -> Dictionary:
+	if _godot_uro and _godot_uro.get_api():
+		if not p_service_request is VSKGameServiceRequestUro:
+			printerr("Did not pass a valid VSKGameServiceRequestUro object to create shard request.")
+			return {} 
+			
+		var domain: String = (p_service_request as VSKGameServiceRequestUro).domain
+		var tokens: Dictionary = _get_tokens(p_service_request)
+
+		if domain.is_empty():
+			printerr("Did not pass a valid domain to create shard request.")
+			return {}
+
+		if _validate_shard_data(p_shard_data) != OK:
+			return {}
+
+		var port: int = p_shard_data.get("port", -1)
+		if port < 0:
+			printerr("Did not pass a valid port to create shard request.")
+			return {}
+			
+		var map: String = p_shard_data.get("map", "")
+		if map.is_empty():
+			printerr("Did not pass a valid map to create shard request.")
+			return {}
+
+		var name: String = p_shard_data.get("name", "")
+		if name.is_empty():
+			printerr("Did not pass a valid name to create shard request.")
+			return {}
+
+		var current_users: int = p_shard_data.get("current_users", -1)
+		if current_users < 0:
+			printerr("Did not pass a valid current_users to create shard request.")
+			return {}
+
+		var max_users: int = p_shard_data.get("max_users", -1)
+		if max_users < 0:
+			printerr("Did not pass a valid max_users to create shard request.")
+			return {}
+
+		# Add this request to the active request pool.
+		var godot_uro_request: GodotUroRequester = _godot_uro.create_requester(domain, -1)
+		_active_service_requests[p_service_request] = godot_uro_request
+		
+		# Wait for the internal Uro API to respond to our create shard request.
+		var result: Dictionary = await _godot_uro.get_api().create_shard_async(
+			godot_uro_request,
+			tokens.get("access_token"),
+			p_shard_data
+		)
+		
+		if not stop_request(p_service_request):
+			return {}
+			
+		if result.is_empty():
+			return {}
+
+		return result
+		
+	return {}
+
+## Updates properties of a shard instance
+func update_shard(p_service_request: SarGameServiceRequest, p_shard_data: Dictionary) -> Dictionary:
+	if _godot_uro and _godot_uro.get_api():
+		if not p_service_request is VSKGameServiceRequestUro:
+			printerr("Did not pass a valid VSKGameServiceRequestUro object to update shard request.")
+			return {} 
+			
+		var domain: String = (p_service_request as VSKGameServiceRequestUro).domain
+		var tokens: Dictionary = _get_tokens(p_service_request)
+
+		if domain.is_empty():
+			printerr("Did not pass a valid domain to update shard request.")
+			return {}
+
+		# Add this request to the active request pool.
+		var godot_uro_request: GodotUroRequester = _godot_uro.create_requester(domain, -1)
+		_active_service_requests[p_service_request] = godot_uro_request
+		
+		# Wait for the internal Uro API to respond to our update shard request.
+		var result: Dictionary = await _godot_uro.get_api().update_shard_async(
+			godot_uro_request,
+			tokens.get("access_token"),
+			p_shard_data
+		)
+		
+		if not stop_request(p_service_request):
+			return {}
+			
+		if result.is_empty():
+			return {}
+
+		return result
+		
+	return {}
+
+## Deletes a shard instance on server
+func delete_shard(p_service_request: SarGameServiceRequest, p_id: String, p_shard_data: Dictionary) -> Dictionary:
+	if _godot_uro and _godot_uro.get_api():
+		if not p_service_request is VSKGameServiceRequestUro:
+			printerr("Did not pass a valid VSKGameServiceRequestUro object to delete shard request.")
+			return {} 
+			
+		var domain: String = (p_service_request as VSKGameServiceRequestUro).domain
+		var tokens: Dictionary = _get_tokens(p_service_request)
+
+		if domain.is_empty():
+			printerr("Did not pass a valid domain to delete shard request.")
+			return {}
+		
+		if p_id.is_empty():
+			printerr("Did not pass a valid id to delete shard request.")
+			return {}
+
+		# Add this request to the active request pool.
+		var godot_uro_request: GodotUroRequester = _godot_uro.create_requester(domain, -1)
+		_active_service_requests[p_service_request] = godot_uro_request
+		
+		# Wait for the internal Uro API to respond to our delete shard request.
+		var result: Dictionary = await _godot_uro.get_api().delete_shard_async(
+			godot_uro_request,
+			tokens.get("access_token"),
+			p_shard_data
+		)		
+		if not stop_request(p_service_request):
+			return {}
+			
+		if result.is_empty():
+			return {}
+
+		return result
+		
 	return {}
 
 
