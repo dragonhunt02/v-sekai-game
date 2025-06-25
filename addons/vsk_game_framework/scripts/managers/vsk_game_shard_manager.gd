@@ -21,7 +21,7 @@ var _active_heartbeat_timers: Dictionary = {}
 # Not locally synced with '_active_shards'
 var _public_server_shards: Dictionary = {}
 
-var shard_heartbeat_frequency: float = null # In seconds
+var shard_heartbeat_frequency: float = 10.0 # Default value, in seconds
 
 func create_shard(p_shard_data: Dictionary) -> void:
 	var service: VSKGameServiceUro = _get_uro_service()
