@@ -38,7 +38,7 @@ jobs:
             #git rebase --onto origin/rx HEAD~1 HEAD
             git diff HEAD~1 HEAD > ../last.patch
             rm -rf *
-            rm -rf .git
+            git remote -v
             git reset --hard origin/rx
             git apply --index ../last.patch
             
