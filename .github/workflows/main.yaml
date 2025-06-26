@@ -35,7 +35,10 @@ jobs:
             #git reset --hard HEAD~1  
             #rm CODEBASE.md
             #git add CODEBASE.md
-            git rebase --onto origin/rx HEAD~1 HEAD
+            #git rebase --onto origin/rx HEAD~1 HEAD
+            git diff HEAD~1 HEAD > ../last.patch
+            git reset --hard origin/rx
+            git apply --index ../last.patch
             
             #git restore --source=origin/rx -- addons/vsk_game_framework/scenes/import/
             #git restore --source=origin/rx -- addons/vsk_game_framework/textures/
@@ -74,7 +77,7 @@ jobs:
             git config --global user.name "dragonhunt02"
             #git add -A
             #git commit -a -m 'Implement prop validation, sanitisation and in-editor upload'
-            #git commit -a -m 'Implement new user registration API and UI logic'
+            git commit -a -m 'Implement new user registration API and UI logic'
             git log -n 5
             git status
             #git push -f
