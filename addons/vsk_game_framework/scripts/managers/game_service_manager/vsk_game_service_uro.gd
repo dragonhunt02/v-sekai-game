@@ -483,8 +483,8 @@ func create_shard(p_service_request: SarGameServiceRequest, p_shard_data: Dictio
 			printerr("Did not pass a valid domain to create shard request.")
 			return {}
 
-		if _validate_shard_data(p_shard_data) != OK:
-			return {}
+		#if _validate_shard_data(p_shard_data) != OK:
+		#	return {}
 
 		var port: int = p_shard_data.get("port", -1)
 		if port < 0:
