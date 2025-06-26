@@ -35,7 +35,7 @@ jobs:
             #git reset --hard HEAD~1  
             #rm CODEBASE.md
             #git add CODEBASE.md
-            git rebase --onto origin/master HEAD~1 HEAD
+            git rebase --onto origin/rx HEAD~1 HEAD
             
             #git restore --source=origin/rx -- addons/vsk_game_framework/scenes/import/
             #git restore --source=origin/rx -- addons/vsk_game_framework/textures/
