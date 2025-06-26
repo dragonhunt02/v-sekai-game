@@ -37,6 +37,8 @@ jobs:
             #git add CODEBASE.md
             #git rebase --onto origin/rx HEAD~1 HEAD
             git diff HEAD~1 HEAD > ../last.patch
+            rm -rf *
+            rm -rf .git
             git reset --hard origin/rx
             git apply --index ../last.patch
             
@@ -80,6 +82,7 @@ jobs:
             git commit -a -m 'Implement new user registration API and UI logic'
             git log -n 5
             git status
+            git diff origin/rx
             #git push -f
             exit 1
 
