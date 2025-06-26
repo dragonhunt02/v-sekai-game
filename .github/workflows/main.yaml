@@ -31,10 +31,14 @@ jobs:
             #gdformat addons/network_manager/network_replication_manager.gd
 
             git log -n 5
-            git reset --soft HEAD~2  
+            #git reset --soft HEAD~2  
             #git reset --hard HEAD~1  
             #rm CODEBASE.md
             #git add CODEBASE.md
+            git cherry-pick b3791b9
+            git status
+            git log -n 2 
+            exit 1
             
             #git restore --source=origin/rx -- addons/vsk_game_framework/scenes/import/
             #git restore --source=origin/rx -- addons/vsk_game_framework/textures/
@@ -50,7 +54,7 @@ jobs:
             # git lfs pull origin rx
             # git checkout HEAD~1 -- spash.png
             # git add --renormalize spash.png
-
+            GITLS='
             git ls-files -z addons/vsk_game_framework/scenes/import/ | xargs -0 git update-index --skip-worktree
             git ls-files -z addons/vsk_game_framework/textures/ | xargs -0 git update-index --skip-worktree
             git ls-files -z addons/vsk_game_framework/animations/ | xargs -0 git update-index --skip-worktree
@@ -64,7 +68,7 @@ jobs:
             git update-index --skip-worktree vsk_default/example_ugc/maps/cc0_hut/*.res
             git update-index --skip-worktree vsk_default/example_ugc/maps/cc0_hut/*.bin
             git update-index --skip-worktree vsk_default/example_ugc/maps/cc0_hut/*.unwrap_cache
-
+            '
 
             #######find . -type f -name "*.gd" -exec sed -i -e 's/assert\(()\)/push_error/g' {} +
             #find . -type f -name "*.gd" -exec sed -i -e 's/\(\t*\)assert(false, \(.*\))/\1push_error(\2)\n\1return/g' {} +
@@ -73,11 +77,10 @@ jobs:
             git config --global user.name "dragonhunt02"
             #git add -A
             #git commit -a -m 'Implement prop validation, sanitisation and in-editor upload'
-            git commit -a -m 'Implement new user registration API and UI logic'
+            #git commit -a -m 'Implement new user registration API and UI logic'
             git log -n 5
             git status
-            #git push
-            git push -f
+            #git push -f
             exit 1
 
 
