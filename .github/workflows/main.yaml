@@ -38,8 +38,8 @@ jobs:
             #git rebase --onto origin/rx HEAD~1 HEAD
             git diff HEAD~1 HEAD > ../last.patch
             rm -rf *
-            git remote -v
-            git reset --hard origin/rx
+            #git remote -v
+            git reset --hard origin/rx-origin
             git apply --index ../last.patch
             
             #git restore --source=origin/rx -- addons/vsk_game_framework/scenes/import/
@@ -82,7 +82,7 @@ jobs:
             git commit -a -m 'Implement new user registration API and UI logic'
             git log -n 5
             git status
-            git diff origin/rx
+            git diff origin/rx-origin
             #git push -f
             exit 1
 
