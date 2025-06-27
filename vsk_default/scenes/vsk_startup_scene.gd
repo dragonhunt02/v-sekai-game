@@ -38,6 +38,11 @@ func _scene_load_complete(p_packed_scene: Resource) -> void:
 func _sign_in_complete(p_id: String) -> void:
 	_show_scene_loading_screen()
 
+func _skipped_complete() -> void:
+	var game_service: VSKGameServiceUro = _get_uro_service()
+	game_service.sign_in_guest(get_selected_domain())
+	_sign_in_complete("")
+
 func _show_scene_loading_screen() -> void:
 	var view_controller: VSKUIViewControllerSessionLoading = _SESSION_LOADING_VIEW_CONTROLLER.instantiate()
 	view_controller.content_url = DEFAULT_GAME_SCENE_URL
@@ -52,7 +57,7 @@ func _show_welcome_screen() -> void:
 	navigation_controller_2d.push_view_controller(view_controller, false)
 	
 	assert(view_controller.signed_in.connect(_sign_in_complete) == OK)
-	assert(view_controller.skipped.connect(_sign_in_complete.bind("")) == OK)
+	assert(view_controller.skipped.connect(_skipped_complete) == OK)
 	
 func _show_validate_screen() -> void:
 	var view_controller: VSKUIViewControllerValidating = _VALIDATING_VIEW_CONTROLLER.instantiate()
