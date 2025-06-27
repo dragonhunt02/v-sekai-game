@@ -278,7 +278,12 @@ func get_current_account_address() -> String:
 ## Returns the name of the service.
 static func get_service_name() -> String:
 	return "Uro"
-	
+
+## Creates a guest session. Only domain is set to enable requests when not signed-in.
+func sign_in_guest_session(p_domain: String) -> void:
+	_current_account_address = "@%s" % p_domain
+	return
+
 ## Attempts to sign into the service. A SarGameServiceRequestObject created
 ## from the service required to keep track of the individual request,
 ## and a Dictionary containing service-specific sign in data, should be
