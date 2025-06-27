@@ -95,12 +95,11 @@ func _attempt_to_renew_session() -> void:
 	if game_service:
 		var uro_id: String = game_service.get_selected_id()
 		if not uro_id.is_empty():
-			var splits: Array = uro_id.split("@")
-			if splits.size() == 2:
-				_renew_uro_session_request = game_service.create_request({"username":splits[0], "domain":splits[1]})
-				var result: Dictionary = await game_service.renew_session(_renew_uro_session_request)
-				if GodotUroHelper.requester_result_is_ok(result):
-					_skip_sign_in = true
+			var address_dictionary = GodotUroHelper.get_username_and_domain_from_address(uro_id)
+			_renew_uro_session_request = game_service.create_request(address_dictionary)
+			var result: Dictionary = await game_service.renew_session(_renew_uro_session_request)
+			if GodotUroHelper.requester_result_is_ok(result):
+				_skip_sign_in = true
 
 func _ready() -> void:
 	_attempt_to_renew_session()
