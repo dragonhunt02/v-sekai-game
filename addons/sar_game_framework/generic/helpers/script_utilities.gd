@@ -28,10 +28,10 @@ static func error_check(
 	p_error_msg: String = ""
 ) -> bool:
 	var result: bool = p_value == p_expected
-	if not test:
+	if not result:
 		push_error("Script Error: " + p_error_msg)
 		# Editor debugger only
 		print_stack()
-		assert(test)
+		assert(result)
 
 	return result
