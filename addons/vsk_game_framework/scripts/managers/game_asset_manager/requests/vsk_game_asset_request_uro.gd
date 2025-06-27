@@ -37,7 +37,7 @@ func _uro_api_request(p_domain: String, p_id: String, p_asset_type: VSKGameAsset
 			var async_result: Dictionary = {}
 			var user_content_type_string: String = ""
 			
-			var username_and_domain: Dictionary= GodotUroHelper.get_username_and_domain_from_address(service.get_current_account_address())
+			var username_and_domain: Dictionary = service.get_current_username_and_domain()
 			username_and_domain["domain"] = p_domain
 			
 			_uro_service_request = service.create_request(username_and_domain)
