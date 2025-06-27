@@ -280,7 +280,7 @@ static func get_service_name() -> String:
 	return "Uro"
 
 ## Creates a guest session. Only domain is set to enable requests when not signed-in.
-func sign_in_guest_session(p_domain: String) -> void:
+func sign_in_guest(p_domain: String) -> void:
 	_current_account_address = "@%s" % p_domain
 	return
 
