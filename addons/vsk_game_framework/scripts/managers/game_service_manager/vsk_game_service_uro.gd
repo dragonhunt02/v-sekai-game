@@ -264,7 +264,7 @@ func _init() -> void:
 ## we are signed in with. On failure it will return a dictionary with an empty username
 ## and domain.
 func get_current_username_and_domain() -> Dictionary[String, String]:
-	var result_dictionary: Dictionary[String, String] = {"username":"", "domain":""}
+	var result_dictionary: Dictionary[String, String] = {"username": "", "domain": ""}
 	var account_address = _godot_uro.get_current_account_address()
 	if not account_address.empty():
 		result_dictionary = GodotUroHelper.get_username_and_domain_from_address(account_address)
