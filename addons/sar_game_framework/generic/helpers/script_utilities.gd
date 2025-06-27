@@ -19,3 +19,19 @@ static func does_script_inherit(
 			script = script.get_base_script()
 			
 	return false
+
+## Compares two parameters and prints error message parameter if false.
+## Used as replacement to assert() in exported projects.
+static func error_check(
+	p_value: Variant,
+	p_expected: Variant,
+	p_error_msg: String = ""
+) -> bool:
+	var result: bool = p_value == p_expected
+	if not test:
+		push_error("Script Error: " + p_error_msg)
+		# Editor debugger only
+		print_stack()
+		assert(test)
+
+	return result
