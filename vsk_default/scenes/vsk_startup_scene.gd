@@ -39,8 +39,6 @@ func _sign_in_complete(p_id: String) -> void:
 	_show_scene_loading_screen()
 
 func _skipped_complete() -> void:
-	var game_service: VSKGameServiceUro = _get_uro_service()
-
 	# TODO: Domain selection UI for guest mode. Using defaults for now.
 	var domain: String = ""
 	var homeserver_info: VSKHomeServerInfo = load("res://addons/vsk_game_framework/data/vsk_default_homeserver_info.tres")
@@ -50,6 +48,7 @@ func _skipped_complete() -> void:
 	else:
 		push_error("Could not set default API domain url.")
 
+	var game_service: VSKGameServiceUro = _get_uro_service()
 	game_service.sign_in_guest(domain)
 	_sign_in_complete("")
 
