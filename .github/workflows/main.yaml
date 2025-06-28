@@ -48,7 +48,7 @@ jobs:
             RE7='	return'
             echo "$REPL1$REPL2"
 
-            find . -type f -name '*.gd' -exec sed -E -i "s|\s+assert\(((.+).connect\((.+)\)) == OK\)|$RE1\1,$RE2$RE3$RE4$RE5$RE6\n$RE7|g" {} +
+            find . -type f -name '*.gd' -exec sed -E -i "s|\s+assert\(((.+).connect\((.+)\)) == OK\)|$RE1\1,$RE2$RE3\2$RE4\3$RE5$RE6\n$RE7|g" {} +
             
             #Reset and apply
             #git diff HEAD~1 HEAD > ../last.patch
@@ -96,7 +96,7 @@ jobs:
             git commit -a -m 'Replace assert get_tree'
             git log -n 5
             git status
-            git diff origin/rx-origin
+            git diff origin/rx-assert
             #git diff origin/rx-origin
             #git push -f
             exit 1
