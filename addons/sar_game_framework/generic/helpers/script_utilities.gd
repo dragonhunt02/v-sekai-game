@@ -20,6 +20,13 @@ static func does_script_inherit(
 			
 	return false
 
+## Generates an error message for signal connections
+static func fmt_signal_err(
+	p_signal_name: String,
+	p_callback_name: String,
+) -> String:
+	var result: String = "Could not connect signal '%s' to function '%s'" % [p_signal_name, p_callback_name]"
+	return result
 
 ## Assert Utilities
 ## Improved 'assert()' functions to ensure passed statements with side-effects 
