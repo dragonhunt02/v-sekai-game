@@ -33,6 +33,7 @@ static func fmt_signal_err(
 ## are evaluated in exported releases too.
 
 ## Returns true if first two parameters are equal, else prints error message
+## and return false
 static func assert_equal(
 	p_value: Variant,
 	p_expected: Variant,
@@ -47,6 +48,7 @@ static func assert_equal(
 	return result
 
 ## Returns true if first parameter is 'true', else prints error message
+## and return false
 static func assert_true(
 	p_value: Variant,
 	p_error_msg: String = "p_value is 'false'"
@@ -60,6 +62,7 @@ static func assert_true(
 	return result
 
 ## Returns true if first parameter is not 'null', else prints error message
+## and return false
 static func assert_exists(
 	p_value: Variant,
 	p_error_msg: String = "p_value is 'null'"
@@ -74,6 +77,7 @@ static func assert_exists(
 	return result
 
 ## Returns true if first parameter is 'OK', else prints error message
+## and return false
 static func assert_ok(
 	p_value: Error,
 	p_error_msg: String = ""
