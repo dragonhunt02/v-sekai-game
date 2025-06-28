@@ -15,11 +15,21 @@ func _init() -> void:
 	var pc: Signal = peer_connected
 	var pd: Signal = peer_disconnected
 	var sd: Signal = server_disconnected
-	assert(base_multiplayer.connected_to_server.connect(func() -> void: cts.emit()) == OK)
-	assert(base_multiplayer.connection_failed.connect(func() -> void: cf.emit()) == OK)
-	assert(base_multiplayer.peer_connected.connect(func(id: int) -> void: pc.emit(id)) == OK)
-	assert(base_multiplayer.peer_disconnected.connect(func(id: int) -> void: pd.emit(id)) == OK)
-	assert(base_multiplayer.server_disconnected.connect(func() -> void: sd.emit()) == OK)
+	if not VSKUtils.assert_ok(base_multiplayer.connected_to_server.connect(func() -> void: cts.emit()),
+		"Could not connect signal 'base_multiplayer.connected_to_server' to 'func() -> void: cts.emit()'"):
+		return
+	if not VSKUtils.assert_ok(base_multiplayer.connection_failed.connect(func() -> void: cf.emit()),
+		"Could not connect signal 'base_multiplayer.connection_failed' to 'func() -> void: cf.emit()'"):
+		return
+	if not VSKUtils.assert_ok(base_multiplayer.peer_connected.connect(func(id: int) -> void: pc.emit(id)),
+		"Could not connect signal 'base_multiplayer.peer_connected' to 'func(id: int) -> void: pc.emit(id)'"):
+		return
+	if not VSKUtils.assert_ok(base_multiplayer.peer_disconnected.connect(func(id: int) -> void: pd.emit(id)),
+		"Could not connect signal 'base_multiplayer.peer_disconnected' to 'func(id: int) -> void: pd.emit(id)'"):
+		return
+	if not VSKUtils.assert_ok(base_multiplayer.server_disconnected.connect(func() -> void: sd.emit()),
+		"Could not connect signal 'base_multiplayer.server_disconnected' to 'func() -> void: sd.emit()'"):
+		return
 
 func _rpc(peer: int, object: Object, method: StringName, args: Array) -> Error: # Error
 	#print(get_unique_id_string() + ": Got RPC for %d: %s::%s(%s)" % [peer, object, method, args])

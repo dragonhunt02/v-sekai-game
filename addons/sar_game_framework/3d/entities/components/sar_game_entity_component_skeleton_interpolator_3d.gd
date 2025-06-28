@@ -78,7 +78,9 @@ func _setup_interpolation_rig_for_node(p_root: Node3D, p_skeleton: Skeleton3D) -
 		secondary.skeleton = secondary.get_path_to(_interpolated_skeleton)
 	
 	_original_skeleton = p_skeleton
-	assert(_original_skeleton.skeleton_updated.connect(_reference_skeleton_updated) == OK)
+	if not VSKUtils.assert_ok(_original_skeleton.skeleton_updated.connect(_reference_skeleton_updated),
+		"Could not connect signal '_original_skeleton.skeleton_updated' to '_reference_skeleton_updated'"):
+		return
 
 
 func _on_model_component_model_pre_change(p_new_model: SarModel3D) -> void:

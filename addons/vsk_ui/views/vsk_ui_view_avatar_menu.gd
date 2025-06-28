@@ -33,6 +33,8 @@ func _fetch_content() -> void:
 						if not VSKUtils.assert_ok(button.pressed.connect(_content_selected.bind(avatar_url)),
 							"Could not connect signal 'button.pressed' to '_content_selected'")
 							return
-						assert(button.pressed.connect(_content_selected.bind(avatar_url)) == OK)
+						if not VSKUtils.assert_ok(button.pressed.connect(_content_selected.bind(avatar_url)),
+							"Could not connect signal 'button.pressed' to '_content_selected.bind(avatar_url)'"):
+							return
 	else:
 		printerr("Could not access Uro service for avatar browser.")

@@ -11,7 +11,9 @@ class_name AnimationTreeDriverPropertyControllerCurve
 			curve = p_curve
 			if curve:
 				curve.bake()
-				assert(curve.changed.connect(_changed) == OK)
+				if not VSKUtils.assert_ok(curve.changed.connect(_changed),
+					"Could not connect signal 'curve.changed' to '_changed'"):
+					return
 			
 			_changed()
 

@@ -89,7 +89,9 @@ func _request_avatar_asset() -> void:
 			
 			# Finally, wire up the callback signal for when the request is complete.
 			if _current_asset_request:
-				assert(_current_asset_request.request_complete.connect(_on_request_complete) == OK)
+				if not VSKUtils.assert_ok(_current_asset_request.request_complete.connect(_on_request_complete),
+					"Could not connect signal '_current_asset_request.request_complete' to '_on_request_complete'"):
+					return
 			else:
 				avatar_component.set_model_scene(game_asset_manager.avatar_error_packed_scene)
 				printerr("Could not create request object for path %s" % _requested_avatar_path)

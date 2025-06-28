@@ -42,7 +42,9 @@ func _add_view_controller_to_content(p_view_controller: SarUIViewController) -> 
 func _ready() -> void:
 	if not Engine.is_editor_hint():
 		back_button.hide()
-		assert(back_button.pressed.connect(_back_button_pressed) == OK)
+		if not VSKUtils.assert_ok(back_button.pressed.connect(_back_button_pressed),
+			"Could not connect signal 'back_button.pressed' to '_back_button_pressed'"):
+			return
 
 ###
 

@@ -219,8 +219,12 @@ func _ready() -> void:
 				_tracker_added(tracker_name, tracker.type)
 
 			# Tracker signals
-			assert(XRServer.connect("tracker_added", _tracker_added) == OK)
-			assert(XRServer.connect("tracker_removed", _tracker_removed) == OK)
+			if not VSKUtils.assert_ok(XRServer.connect("tracker_added", _tracker_added),
+				"Could not connect signal 'XRServer' to '"tracker_added", _tracker_added'"):
+				return
+			if not VSKUtils.assert_ok(XRServer.connect("tracker_removed", _tracker_removed),
+				"Could not connect signal 'XRServer' to '"tracker_removed", _tracker_removed'"):
+				return
 ###
 
 ## Emitted when world_scale_centered changed.

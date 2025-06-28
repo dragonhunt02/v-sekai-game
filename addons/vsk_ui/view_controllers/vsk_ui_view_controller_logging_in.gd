@@ -65,7 +65,9 @@ func sign_in(p_game_service: SarGameService, p_sign_in_data: Dictionary) -> void
 	
 	_service = p_game_service
 	
-	assert(_service.session_request_complete.connect(_session_request_complete) == OK)
+	if not VSKUtils.assert_ok(_service.session_request_complete.connect(_session_request_complete),
+		"Could not connect signal '_service.session_request_complete' to '_session_request_complete'"):
+		return
 	
 	_domain = p_sign_in_data.get("domain", "")
 	_username = ""
