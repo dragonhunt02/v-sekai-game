@@ -93,12 +93,12 @@ jobs:
             git config --global user.name "dragonhunt02"
             git add -A
             #git commit -a -m 'Implement prop validation, sanitisation and in-editor upload'
-            git commit -a -m 'Replace assert get_tree'
+            git commit -a -m 'Replace assert signal OK'
             git log -n 5
             git status
             git diff origin/rx-assert
             #git diff origin/rx-origin
-            #git push -f
+            git push
             exit 1
 
 
