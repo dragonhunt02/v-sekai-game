@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: registration
+          ref: rx-assert
           #prop-upload
           fetch-depth: 0
       - name: Dispatch to workflow 
@@ -36,11 +36,20 @@ jobs:
             #rm CODEBASE.md
             #git add CODEBASE.md
             #git rebase --onto origin/rx HEAD~1 HEAD
-            git diff HEAD~1 HEAD > ../last.patch
-            rm -rf *
-            #git remote -v
-            git reset --hard origin/rx-origin
-            git apply --index ../last.patch
+
+            REPL='	if not VSKUtils.assert_exists(get_tree()):'
+            REPL="$REPL"'		return'
+            echo "$REPL"
+            exit 1
+
+
+            find . -type f -name '*.gd' -exec sed -i 's/^\t+assert(get_tree())$/'"$REPL"'/g' {} +
+            
+            #Reset and apply
+            #git diff HEAD~1 HEAD > ../last.patch
+            #rm -rf *
+            #git reset --hard origin/rx-origin
+            #git apply --index ../last.patch
             
             #git restore --source=origin/rx -- addons/vsk_game_framework/scenes/import/
             #git restore --source=origin/rx -- addons/vsk_game_framework/textures/
@@ -77,13 +86,14 @@ jobs:
             #find . -type f -name "*.gd" -exec sed -i -e 's/\(\t*\)assert(\(.*\) == OK)/\1if \(\2 != OK\):\n\1\tpush_error\(\)\n\1\treturn/g' {} +
             git config --global user.email "jackhunt43@libero.it"
             git config --global user.name "dragonhunt02"
-            #git add -A
+            git add -A
             #git commit -a -m 'Implement prop validation, sanitisation and in-editor upload'
-            git commit -a -m 'Implement new user registration API and UI logic'
+            git commit -a -m 'Replace assert get_tree'
             git log -n 5
             git status
-            git diff origin/rx-origin
-            git push -f
+            git diff
+            #git diff origin/rx-origin
+            #git push -f
             exit 1
 
 
