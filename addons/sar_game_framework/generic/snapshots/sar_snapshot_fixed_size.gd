@@ -23,8 +23,10 @@ func encode_snapshot(p_stream_peer: StreamPeer, p_bit_offset: int) -> StreamPeer
 			parameter_stream_peer = child.encode_snapshot(parameter_stream_peer, p_bit_offset)
 		
 	var _result: Array = p_stream_peer.put_partial_data(parameter_stream_peer.data_array)
-	assert(_result[0] == OK)
-	assert(_result[1] == ceil(float(get_size()) / BITS))
+	if not VSKUtils.assert_ok(_result[0], "SarSnapshot.encode_snapshot: Unexpected error while sending snapshot data."):
+		return null
+	if not VSKUtils.assert_equal(_result[1], ceil(float(get_size()) / BITS), "SarSnapshot.encode_snapshot: Did not send expected number of bytes in snapshot."):
+		return null
 	
 	return p_stream_peer
 	
