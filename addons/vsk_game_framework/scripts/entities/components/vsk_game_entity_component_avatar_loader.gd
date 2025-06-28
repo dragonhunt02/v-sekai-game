@@ -37,9 +37,11 @@ func _on_request_complete(p_asset_err: VSKGameAssetRequest.AssetError) -> void:
 		if _current_asset_request.request_complete.is_connected(_on_request_complete):
 			_current_asset_request.request_complete.disconnect(_on_request_complete)
 		_current_asset_request = null
-	
+
+	if not VSKUtils.assert_true(avatar_component, "VSKGameEntityComponentAvatarLoader._on_request_complete: avatar_component is not available"):
+		return
+
 	if p_asset_err == VSKGameAssetRequest.AssetError.OK:
-		assert(avatar_component)
 		avatar_component.set_model_scene(packed_scene)
 	else:
 		var game_asset_manager: VSKGameAssetManager = get_tree().get_first_node_in_group("game_asset_managers")
@@ -113,7 +115,8 @@ func _ready() -> void:
 	if not Engine.is_editor_hint():
 		var game_asset_manager: VSKGameAssetManager = get_tree().get_first_node_in_group("game_asset_managers")
 		if game_asset_manager:
-			assert(avatar_component)
+			if not VSKUtils.assert_true(avatar_component, "VSKGameEntityComponentAvatarLoader: avatar_component is not available"):
+				return
 			avatar_component.set_model_scene(game_asset_manager.loading_avatar_packed_scene)
 		
 		if _requested_avatar_path:
