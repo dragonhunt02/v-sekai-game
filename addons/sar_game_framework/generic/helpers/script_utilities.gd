@@ -20,61 +20,64 @@ static func does_script_inherit(
 			
 	return false
 
-const SENTINEL = Object.new()
 
-## Compares two parameters and prints error message parameter if false.
-## Used as replacement to assert() in exported projects.
-# assert_bool
-static func check_neq(
+## Assert Utilities
+## Improved 'assert()' functions to ensure passed statements with side-effects 
+## are evaluated in exported releases too.
+
+## Returns true if first two parameters are equal, else prints error message
+static func assert_eq(
 	p_value: Variant,
 	p_expected: Variant,
-	p_error_msg: String = "error_check() failed"
+	p_error_msg: String = "'p_value' is not equal to 'p_expected'"
 ) -> bool:
 	var result: bool = p_value == p_expected
 	if not result:
-		push_error("Script Error: " + p_error_msg)
+		push_error("Assert Error: " + p_error_msg)
 		# Editor debugger only
 		print_stack()
 		assert(result)
-
 	return result
 
-static func check_false(
+## Returns true if first parameter is true, else prints error message
+static func assert_true(
 	p_value: Variant,
-	p_error_msg: String = "error_check_bool() failed!"
+	p_error_msg: String = "p_value is 'false'"
 ) -> bool:
 	var result: bool = bool(p_value)
 	if not result:
-		push_error("Script Error: " + p_error_msg)
+		push_error("Assert Error: " + p_error_msg)
 		# Editor debugger only
 		print_stack()
 		assert(result)
-
 	return result
 
-static func check_null(
+## Returns true if first parameter not null, else prints error message
+static func assert_not_null(
 	p_value: Variant,
-	p_error_msg: String = "Unexpected null value"
+	p_error_msg: String = "p_value is 'null'"
 ) -> bool:
 	var result: bool = true
 	if p_value == null:
 		result = false
-		push_error("Script Error: " + p_error_msg)
+		push_error("Assert Error: " + p_error_msg)
 		# Editor debugger only
 		print_stack()
 		assert(result)
-
 	return result
 
-static func check_error(
+## Returns true if first parameter is 'OK', else prints error message
+static func assert_ok(
 	p_value: Error,
-	p_error_msg: String = "Unexpected Error value"
+	p_error_msg: String = ""
 ) -> bool:
-	var result: Error == OK
+	var result: bool = p_value == OK
 	if not result:
-		push_error("Script Error: " + p_error_msg)
+		var error_msg = p_error_msg
+		if error_msg = "":
+			error_msg = "p_value is " + error_string(p_value)
+		push_error("Assert Error: " + error_msg)
 		# Editor debugger only
 		print_stack()
 		assert(result)
-
 	return result
