@@ -44,11 +44,11 @@ jobs:
             RE3="Could not connect signal '"
             RE4="' to '"
             RE5="'"
-            RE6='"'
+            RE6='"):'
             RE7='	return'
             echo "$REPL1$REPL2"
 
-            find . -type f -name '*.gd' -exec sed -E -i "s|\s+assert\(((.+).connect\((.+)\)) == OK\)|$RE1\1,$RE2$RE3\2$RE4\3$RE5$RE6\n$RE7|g" {} +
+            find . -type f -name '*.gd' -exec sed -E -i "s|(\s+)assert\(((.+).connect\((.+)\)) == OK\)|\1$RE1\2,$RE2$RE3\3$RE4\4$RE5$RE6\n\1$RE7|g" {} +
             
             #Reset and apply
             #git diff HEAD~1 HEAD > ../last.patch
