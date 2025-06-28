@@ -57,7 +57,9 @@ func auth_callback(p_sender_id: int, p_buffer: PackedByteArray) -> void:
 				if auth_error_code == OK:
 					var result: Error = scene_multiplayer.complete_auth(p_sender_id)
 					if result == OK:
-						assert(authentication_peers_state_table.erase(p_sender_id) == true)
+						if not VSKUtils.assert_true(authentication_peers_state_table.erase(p_sender_id,
+							"SarGameSessionAuthentication.auth_callback: Could not erase p_sender_id %s from authentication_peers_state_table" % p_sender_id):
+							return
 					else:
 						printerr("multiplayer complete_auth returned an error code %s" % result)
 				else:
