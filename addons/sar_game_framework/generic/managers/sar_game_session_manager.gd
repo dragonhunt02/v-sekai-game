@@ -64,7 +64,8 @@ func _spawn_player_soul(p_id: int) -> SarSoul:
 	var spawn_parent: Node = _get_player_spawn_parent()
 	
 	var player_soul_instance: SarSoul = _get_player_soul_scene().instantiate()
-	assert(player_soul_instance)
+	if not VSKUtils.assert_true(player_soul_instance, "SarGameSessionManager._spawn_player_soul: Could not instantiate player soul scene"):
+		return null
 	player_soul_instance.name = get_player_soul_name_prefix() + str(p_id)
 	player_soul_instance.set_multiplayer_authority(p_id)
 	spawn_parent.add_child(player_soul_instance)
@@ -79,8 +80,9 @@ func _spawn_player_vessel(p_id: int) -> void:
 	var spawn_parent: Node = _get_player_spawn_parent()
 	
 	var player_node_instance: Node = _get_player_vessel_scene().instantiate()
-	assert(player_node_instance)
-	
+	if not VSKUtils.assert_true(player_node_instance, "SarGameSessionManager._spawn_player_vessel: Could not instantiate player vessel scene"):
+		return
+
 	if player_node_instance is SarGameEntityVessel3D:
 		(player_node_instance as SarGameEntityVessel3D).global_transform = find_valid_spawn_transform_for_peer_entity_3d(p_id)
 	
@@ -117,13 +119,15 @@ func _setup_project_settings() -> void:
 		if not player_vessel_scene_path.is_empty():
 			_player_vessel_scene = load(player_vessel_scene_path)
 		
-		assert(_player_vessel_scene)
-		
+		if not VSKUtils.assert_true(_player_vessel_scene, "SarGameSessionManager._setup_project_settings: Could not load player vessel scene"):
+			return
+	
 		var player_soul_scene_path: String = ProjectSettings.get_setting(_PLAYER_SOUL_SCENE_PROJECT_SETTING_PATH, "")
 		if not player_soul_scene_path.is_empty():
 			_player_soul_scene = load(player_soul_scene_path)
-		
-		assert(_player_soul_scene)
+
+		if not VSKUtils.assert_true(_player_soul_scene, "SarGameSessionManager._setup_project_settings: Could not load player soul scene"):
+			return
 	else:
 		# Vessel
 		_create_scene_property(_PLAYER_VESSEL_SCENE_PROJECT_SETTING_PATH)
