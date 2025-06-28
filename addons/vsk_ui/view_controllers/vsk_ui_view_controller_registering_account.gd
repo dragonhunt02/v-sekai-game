@@ -63,8 +63,10 @@ func _ready() -> void:
 
 ## Call this method to request a registration with a game service.
 func register(p_game_service: SarGameService, p_register_data: Dictionary) -> void:
-	assert(_service == null)
-	assert(_request == null)
+	if not VSKUtils.assert_equal(_service, null, "VSKUIViewControllerRegistering.register: '_service' already exists"):
+		return
+	if not VSKUtils.assert_equal(_request, null, "VSKUIViewControllerRegistering.register: '_request' already exists"):
+		return
 	
 	_service = p_game_service
 	
