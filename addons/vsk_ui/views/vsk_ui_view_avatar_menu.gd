@@ -30,6 +30,9 @@ func _fetch_content() -> void:
 							url)
 							
 						var avatar_url: String = "uro://" + dict.get("domain", "") + "/" + avatar.get("id", "")
+						if not VSKUtils.assert_ok(button.pressed.connect(_content_selected.bind(avatar_url))),
+							"Could not connect signal 'button.pressed' to '_content_selected'")
+							return
 						assert(button.pressed.connect(_content_selected.bind(avatar_url)) == OK)
 	else:
 		printerr("Could not access Uro service for avatar browser.")
