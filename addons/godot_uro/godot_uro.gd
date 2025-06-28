@@ -118,7 +118,8 @@ func _init():
 	cfg = ConfigFile.new()
 	
 	# TODO: web support
-	assert(OS.get_name() != "Web")
+	if not VSKUtils.assert_equal(OS.get_name(), "Web", "Web platform uro token support is not implemented"):
+		return
 	
 	# Get a unique OS ID to encrypt the session keys just in case
 	# the file gets stolen.
