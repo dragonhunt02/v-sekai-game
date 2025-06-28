@@ -43,7 +43,7 @@ jobs:
             REPL2="$REPL1"'		return'
             echo "$REPL1$REPL2"
 
-            find . -type f -name '*.gd' -exec sed -i "s|^\t+assert(get_tree())$|$REPL1\n$REPL2|g" {} +
+            find . -type f -name '*.gd' -exec sed -i "s|^\t+assert(get_tree())|$REPL1\n$REPL2|g" {} +
             
             #Reset and apply
             #git diff HEAD~1 HEAD > ../last.patch
