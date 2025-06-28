@@ -218,15 +218,15 @@ func _ready() -> void:
 		_get_project_settings()
 		
 		avatar_forbidden_packed_scene = ResourceLoader.load(avatar_forbidden_path)
-		assert(avatar_forbidden_packed_scene)
+		VSKUtils.assert_true(avatar_forbidden_packed_scene, "Could not load %s" % avatar_forbidden_path)
 		avatar_not_found_packed_scene = ResourceLoader.load(avatar_not_found_path)
-		assert(avatar_not_found_packed_scene)
+		VSKUtils.assert_true(avatar_not_found_packed_scene, "Could not load %s" % avatar_not_found_path)
 		avatar_error_packed_scene = ResourceLoader.load(avatar_error_path)
-		assert(avatar_error_packed_scene)
+		VSKUtils.assert_true(avatar_error_packed_scene, "Could not load %s" % avatar_error_path)
 		teapot_packed_scene = ResourceLoader.load(teapot_path)
-		assert(teapot_packed_scene)
+		VSKUtils.assert_true(teapot_packed_scene, "Could not load %s" % teapot_path)
 		loading_avatar_packed_scene = ResourceLoader.load(loading_avatar_path)
-		assert(loading_avatar_packed_scene)
+		VSKUtils.assert_true(loading_avatar_packed_scene, "Could not load %s" % loading_avatar_path)
 
 ###
 
