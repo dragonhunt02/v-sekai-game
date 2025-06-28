@@ -110,7 +110,8 @@ func _update_simulation_from_scene() -> void:
 				printerr("%s does not have a simulation container node assigned." % get_name())
 				
 func _ready() -> void:
-	assert(simulation_parent_container)
+	if not VSKUtils.assert_true(simulation_parent_container, "SarGameEntityComponentCharacterSimulation3D: simulation_parent_container is not available"):
+		return
 	
 	_update_simulation_from_scene()
 	
