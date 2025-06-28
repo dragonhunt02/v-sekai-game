@@ -27,11 +27,11 @@ func _get_uro_service() -> VSKGameServiceUro:
 func _scene_load_complete(p_packed_scene: Resource) -> void:
 	navigation_controller_2d.pop_view_controller(false)
 	
-	if not VSKUtils.assert_not_null(get_tree()):
+	if not VSKUtils.assert_exists(get_tree()):
 		return
 
 	if p_packed_scene is PackedScene:
-		if not VSKUtils.assert_not_null(get_tree()):
+		if not VSKUtils.assert_exists(get_tree()):
 			return
 		var scene_changed = get_tree().scene_changed
 		get_tree().change_scene_to_packed(p_packed_scene)
@@ -44,7 +44,7 @@ func _show_scene_loading_screen() -> void:
 	var view_controller: VSKUIViewControllerSessionLoading = _SESSION_LOADING_VIEW_CONTROLLER.instantiate()
 	view_controller.content_url = DEFAULT_GAME_SCENE_URL
 	
-	if not VSKUtils.assert_not_null(get_tree()):
+	if not VSKUtils.assert_exists(get_tree()):
 		return
 
 	if not VSKUtils.assert_ok(view_controller.scene_loaded.connect(_scene_load_complete),
