@@ -39,11 +39,16 @@ jobs:
 
             REPL='	if not VSKUtils.assert_exists(get_tree()):'
             REPL="$REPL"$'\n''		return'
-            REPL1='	if not VSKUtils.assert_exists(get_tree()):'
-            REPL2="$REPL1"'		return'
+            RE1='if not VSKUtils.assert_ok('
+            RE2='"'
+            RE3="Could not connect signal '"
+            RE4="' to '"
+            RE5="'"
+            RE6='"'
+            RE7='	return'
             echo "$REPL1$REPL2"
 
-            find . -type f -name '*.gd' -exec sed -E -i "s|\s+assert\(.+.connect\(.+\) == OK\)|$REPL1\n$REPL2|g" {} +
+            find . -type f -name '*.gd' -exec sed -E -i "s|\s+assert\(((.+).connect\((.+)\)) == OK\)|$RE1\1,$RE2$RE3$RE4$RE5$RE6\n$RE7|g" {} +
             
             #Reset and apply
             #git diff HEAD~1 HEAD > ../last.patch
