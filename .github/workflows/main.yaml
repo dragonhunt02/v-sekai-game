@@ -51,7 +51,7 @@ jobs:
             #find . -type f -name '*.gd' -exec sed -E -i "s|(\s+)assert\(((.+).connect\((.+)\)) == OK\)|\1$RE1\2,\n\1\t$RE2$RE3\3$RE4\4$RE5$RE6\n\1$RE7|g" {} +
             #find . -type f -name '*.gd' -exec sed -E -i "s|(\s+)assert\((.+) == OK\)|\1\n\1$RE1\n\1$RE7|g" {} +
             grep -R -n 'assert('
-            grep -R -n '_service,'
+            grep -R -n 'nnections(),'
             exit 1
             
             #Reset and apply
