@@ -41,7 +41,7 @@ jobs:
             REPL="$REPL"$'\n''		return'
             echo "$REPL"
 
-            find . -type f -name '*.gd' -exec sed -i 's/^\t+assert(get_tree())$/'"$REPL"'/g' {} +
+            find . -type f -name '*.gd' -exec sed -i "s|^\t+assert(get_tree())$|$REPL|g" {} +
             
             #Reset and apply
             #git diff HEAD~1 HEAD > ../last.patch
