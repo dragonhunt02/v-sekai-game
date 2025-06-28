@@ -19,7 +19,8 @@ func _ready() -> void:
 	super._ready()
 	
 	if not Engine.is_editor_hint():
-		assert(view)
+		if not VSKUtils.assert_true(view, "VSKUIViewControllerAccountAction: view is not available"):
+			return
 		
 func _get_configuration_warnings() -> PackedStringArray:
 	var warnings: PackedStringArray = []
