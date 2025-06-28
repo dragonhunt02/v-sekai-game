@@ -91,7 +91,7 @@ jobs:
             git commit -a -m 'Replace assert get_tree'
             git log -n 5
             git status
-            git diff
+            git diff origin/rx-origin
             #git diff origin/rx-origin
             #git push -f
             exit 1
