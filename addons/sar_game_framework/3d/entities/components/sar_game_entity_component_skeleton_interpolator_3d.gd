@@ -10,7 +10,8 @@ var _original_skeleton: Skeleton3D = null
 var _interpolated_skeleton: Skeleton3D = null
 	
 func _copy_skeleton_pose(p_src: Skeleton3D, p_target: Skeleton3D) -> void:
-	assert(p_src.get_bone_count() == p_target.get_bone_count())
+	if not VSKUtils.assert_equal(p_src.get_bone_count(), p_target.get_bone_count(), "SarGameEntityComponentSkeletonInterpolation._copy_skeleton_pose: src and target have differing bone count"):
+		return
 	
 	for i: int in range(0, p_target.get_bone_count()):
 		p_target.set_bone_pose(i, p_src.get_bone_pose(i))
