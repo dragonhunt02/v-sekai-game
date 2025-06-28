@@ -152,7 +152,8 @@ func _get_configuration_warnings() -> PackedStringArray:
 
 	# Interface assignment check
 	if not game_entity_interface:
-		assert(string_array.append("Game Entity interface has not been assigned") == false)
+		string_array.append("Game Entity interface has not been assigned")
+		VSKUtils.assert_true(false)
 		
 	return string_array
 	
