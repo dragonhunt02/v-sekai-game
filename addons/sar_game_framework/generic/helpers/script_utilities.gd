@@ -39,7 +39,7 @@ static func assert_eq(
 		assert(result)
 	return result
 
-## Returns true if first parameter is true, else prints error message
+## Returns true if first parameter is 'true', else prints error message
 static func assert_true(
 	p_value: Variant,
 	p_error_msg: String = "p_value is 'false'"
@@ -52,7 +52,7 @@ static func assert_true(
 		assert(result)
 	return result
 
-## Returns true if first parameter not null, else prints error message
+## Returns true if first parameter is not 'null', else prints error message
 static func assert_not_null(
 	p_value: Variant,
 	p_error_msg: String = "p_value is 'null'"
