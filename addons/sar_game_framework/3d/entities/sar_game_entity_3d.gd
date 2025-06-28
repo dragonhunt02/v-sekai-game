@@ -143,11 +143,13 @@ func _get_configuration_warnings() -> PackedStringArray:
 	var valid_path: String = get_game_entity_valid_scene_path()
 	if not valid_path.is_empty():
 		if not _is_inherited_base_scene(self, valid_path):
-			assert(string_array.append("The script for this GameEntity must be attached to scene derived from %s." % valid_path) == false)
-		
+			string_array.append("The script for this GameEntity must be attached to scene derived from %s." % valid_path)
+			VSKUtils.assert_true(false)
+
 		if not FileAccess.file_exists(get_game_entity_valid_scene_path()):
-			assert(string_array.append("Entity file path %s does not exist." % get_game_entity_valid_scene_path()) == false)
-		
+			string_array.append("Entity file path %s does not exist." % get_game_entity_valid_scene_path())
+			VSKUtils.assert_true(false)
+
 	# Interface assignment check
 	if not game_entity_interface:
 		assert(string_array.append("Game Entity interface has not been assigned") == false)
