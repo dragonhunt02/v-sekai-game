@@ -80,7 +80,8 @@ func _request_avatar_asset() -> void:
 			if is_request_path_valid:
 				_current_asset_request = game_asset_manager.make_request(_requested_avatar_path, VSKGameAssetManager.AssetType.AVATAR)
 		
-		assert(avatar_component)
+		if not VSKUtils.assert_true(avatar_component, "VSKGameEntityComponentAvatarLoader._request_avatar_asset: avatar_component is not available"):
+			return
 		
 		if not is_request_path_valid:
 			# If the request path is NOT valid, forcefully change the avatar the error placeholder.
