@@ -25,7 +25,7 @@ static func fmt_signal_err(
 	p_signal_name: String,
 	p_callback_name: String,
 ) -> String:
-	var result: String = "Could not connect signal '%s' to function '%s'" % [p_signal_name, p_callback_name]"
+	var result: String = "Could not connect signal '%s' to function '%s'" % [p_signal_name, p_callback_name]
 	return result
 
 ## Assert Utilities
