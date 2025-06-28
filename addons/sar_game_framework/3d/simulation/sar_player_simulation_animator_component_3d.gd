@@ -45,11 +45,11 @@ func _physics_process(_delta: float) -> void:
 
 func _ready() -> void:
 	if not Engine.is_editor_hint():
-		if not VSKUtils.assert_true(simulation, "SarSimulationVessel3D is not available"):
+		if not VSKUtils.assert_true(simulation, "SarSimulationComponentAnimator3D: simulation SarSimulationVessel3D is not available"):
 			return
 		
 		_model_component = simulation.game_entity_interface.get_model_component()
-		if not VSKUtils.assert_true(_model_component, "SarGameEntityComponentModel3D is not available"):
+		if not VSKUtils.assert_true(_model_component, "SarSimulationComponentAnimator3D: _model_component SarGameEntityComponentModel3D is not available"):
 			return
 
 func _on_post_movement(_delta: float, p_velocity: Vector3) -> void:
