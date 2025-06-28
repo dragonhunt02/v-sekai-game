@@ -38,7 +38,7 @@ jobs:
             #git rebase --onto origin/rx HEAD~1 HEAD
 
             REPL='	if not VSKUtils.assert_exists(get_tree()):'
-            REPL="$REPL\n"'		return'
+            REPL="$REPL"$'\n''		return'
             echo "$REPL"
             exit 1
 
