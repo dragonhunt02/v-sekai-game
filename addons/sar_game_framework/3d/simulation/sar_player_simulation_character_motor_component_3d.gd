@@ -15,11 +15,11 @@ var _current_velocity: Vector3 = Vector3()
 func _get_forward_direction() -> Basis:
 	var game_entity_interface: SarGameEntityInterface3D = simulation.get_game_entity_interface()
 	if not VSKUtils.assert_true(game_entity_interface, "SarSimulationComponentMotor3D: game_entity_interface is not available"):
-		return
+		return Basis.IDENTITY
 
 	var game_entity: SarGameEntity3D = game_entity_interface.get_game_entity()
 	if not VSKUtils.assert_true(game_entity, "SarSimulationComponentMotor3D: game_entity is not available"):
-		return
+		return Basis.IDENTITY
 	
 	return game_entity.global_transform.basis
 
