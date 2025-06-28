@@ -58,7 +58,7 @@ func auth_callback(p_sender_id: int, p_buffer: PackedByteArray) -> void:
 					var result: Error = scene_multiplayer.complete_auth(p_sender_id)
 					if result == OK:
 						if not VSKUtils.assert_true(authentication_peers_state_table.erase(p_sender_id,
-							"SarGameSessionAuthentication.auth_callback: Could not erase p_sender_id %s from authentication_peers_state_table" % p_sender_id):
+							"SarGameSessionAuthentication.auth_callback: Could not erase p_peer_id %s. Peer id not found in authentication_peers_state_table." % p_sender_id):
 							return
 					else:
 						printerr("multiplayer complete_auth returned an error code %s" % result)
@@ -91,3 +91,7 @@ func peer_authentication_failed(p_peer_id: int) -> void:
 	print("peer_authentication_failed: %s" % p_peer_id)
 	if multiplayer.get_unique_id() == game_session_manager.get_host_peer_id():
 		assert(authentication_peers_state_table.erase(p_peer_id) == true)
+		if not VSKUtils.assert_true(authentication_peers_state_table.erase(p_peer_id,
+			"SarGameSessionAuthentication.peer_authentication_failed: Could not erase p_peer_id %s. Peer id not found in authentication_peers_state_table." % p_sender_id):
+			return
+
