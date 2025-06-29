@@ -26,7 +26,7 @@ static func does_script_inherit(
 ##
 ## WARNING: These functions won't pause execution in release builds.
 ## You MUST check return value and early exit if required,
-## like "if not VSKUtils.assert_ok(___, error_msg): return"';
+## like "if not SarScriptUtilities.assert_ok(___, error_msg): return"';
 
 ## Returns true if first two parameters are equal, else prints error message
 ## and return false.
