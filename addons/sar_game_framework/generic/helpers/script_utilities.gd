@@ -20,20 +20,12 @@ static func does_script_inherit(
 			
 	return false
 
-## Generates an error message for signal connections
-static func fmt_signal_err(
-	p_signal_name: String,
-	p_callback_name: String,
-) -> String:
-	var result: String = "Could not connect signal '%s' to function '%s'" % [p_signal_name, p_callback_name]
-	return result
-
 ## Assert Utilities
 ## Improved 'assert()' functions to ensure passed statements with side-effects 
 ## are evaluated in exported releases too.
 
 ## Returns true if first two parameters are equal, else prints error message
-## and return false
+## and return false.
 static func assert_equal(
 	p_value: Variant,
 	p_expected: Variant,
@@ -48,7 +40,7 @@ static func assert_equal(
 	return result
 
 ## Returns true if first parameter is 'true', else prints error message
-## and return false
+## and return false.
 static func assert_true(
 	p_value: Variant,
 	p_error_msg: String = "p_value is 'false'"
@@ -62,7 +54,7 @@ static func assert_true(
 	return result
 
 ## Returns true if first parameter is not 'null', else prints error message
-## and return false
+## and return false.
 static func assert_exists(
 	p_value: Variant,
 	p_error_msg: String = "p_value is 'null'"
@@ -77,7 +69,7 @@ static func assert_exists(
 	return result
 
 ## Returns true if first parameter is 'OK', else prints error message
-## and return false
+## and return false.
 static func assert_ok(
 	p_value: Error,
 	p_error_msg: String = ""
