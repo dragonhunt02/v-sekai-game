@@ -220,10 +220,10 @@ func _ready() -> void:
 
 			# Tracker signals
 			if not VSKUtils.assert_ok(XRServer.connect("tracker_added", _tracker_added),
-				"Could not connect signal 'XRServer' to '"tracker_added", _tracker_added'"):
+				"Could not connect signal 'tracker_added' to '_tracker_added'"):
 				return
 			if not VSKUtils.assert_ok(XRServer.connect("tracker_removed", _tracker_removed),
-				"Could not connect signal 'XRServer' to '"tracker_removed", _tracker_removed'"):
+				"Could not connect signal 'tracker_removed' to '_tracker_removed'"):
 				return
 ###
 
