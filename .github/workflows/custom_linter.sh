@@ -26,8 +26,8 @@ if [ -n "$matches" ]; then
     echo 'Linter: "assert()" usage is forbidden (assert checks are skipped in release versions causing potential undefined behaviour)';
     echo 'Linter: use constructs like "if not ___: push_error(___); return" instead';
     echo 'Linter: or compact constructs like'
-    echo 'Linter: "if not VSKUtils.assert_true(___, error_msg): return" instead';
-    echo 'Linter: "if not VSKUtils.assert_ok(___, error_msg): return" instead';
+    echo 'Linter: "if not VSKUtils.assert_true(___, error_msg): return"';
+    echo 'Linter: "if not VSKUtils.assert_ok(___, error_msg): return"';
     echo 'Linter: "if not VSKUtils.assert_equal(___, ___, error_msg): return"';
     echo -e "$matches\n\n";
     match_error=true;
