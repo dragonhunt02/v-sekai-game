@@ -116,21 +116,21 @@ func _get_or_create_request_object_for_type(p_request_url: String, p_asset_type:
 				_request_objects[p_request_url] = request_obj
 				if not VSKUtils.assert_ok(request_obj.request_complete.connect(_request_complete.bind(p_request_url)),
 					"Could not connect signal 'request_obj.request_complete' to '_request_complete.bind(p_request_url)'"):
-					return
+					return null
 			RequestType.LOCAL_FILE_REQUEST:
 				request_obj = VSKGameAssetRequestLocal.new(self, p_request_url, p_asset_type)
 				request_obj.execute_request.call_deferred()
 				_request_objects[p_request_url] = request_obj
 				if not VSKUtils.assert_ok(request_obj.request_complete.connect(_request_complete.bind(p_request_url)),
 					"Could not connect signal 'request_obj.request_complete' to '_request_complete.bind(p_request_url)'"):
-					return
+					return null
 			RequestType.URO_REQUEST:
 				request_obj = VSKGameAssetRequestUro.new(self, p_request_url, p_asset_type)
 				request_obj.execute_request.call_deferred()
 				_request_objects[p_request_url] = request_obj
 				if not VSKUtils.assert_ok(request_obj.request_complete.connect(_request_complete.bind(p_request_url)),
 					"Could not connect signal 'request_obj.request_complete' to '_request_complete.bind(p_request_url)'"):
-					return
+					return null
 			_:
 				printerr("Unknown file request type: %s" % str(p_request_url))
 				return null
