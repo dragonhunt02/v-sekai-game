@@ -3,7 +3,6 @@ set -e
 
 # Exclude files/directories with regex
 EXCLUDE="./addons/vrm/.*
-./addons/godot-xr-tools/.*
 ./addons/sar_game_framework/generic/helpers/script_utilities.gd
 "
 
