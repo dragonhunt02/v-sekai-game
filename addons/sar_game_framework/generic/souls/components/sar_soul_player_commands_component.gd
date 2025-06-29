@@ -13,7 +13,7 @@ func _input(p_event: InputEvent) -> void:
 		var vessel: SarGameEntityVessel3D = soul.get_possessed_vessel()
 		if vessel:
 			var input_component: SarGameEntityComponentVesselInput = (vessel.get_game_entity_interface() as SarGameEntityInterfaceVessel3D).get_input_component()
-			if not VSKUtils.assert_true(input_component, "SarSoulPlayerCommandsComponent: _input_component SarGameEntityComponentVesselInput is not available"):
+			if not VSKUtils.assert_true(input_component, "SarSoulPlayerCommandsComponent: _input_component is not available"):
 				return
 
 			# Workaround to persist action for one _process() frame in SarGameEntityComponentVesselInput _input_table
