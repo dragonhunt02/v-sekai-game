@@ -5,4 +5,4 @@
 
 @tool
 extends SarScriptUtilities
-class_name VSKScriptUtilities
+class_name VSKUtils
