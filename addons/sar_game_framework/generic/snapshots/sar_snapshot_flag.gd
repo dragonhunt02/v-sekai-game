@@ -22,15 +22,15 @@ func encode_snapshot(p_stream_peer: StreamPeer, p_bit_offset: int) -> StreamPeer
 	
 	var pba: PackedByteArray
 	var resize_result: int = pba.resize(ceil(float(get_size()) / BITS))
-	if not VSKUtils.assert_ok(resize_result, "SarValueSnapshot.encode_snapshot: Could not resize PackedByteArray"):
+	if not VSKUtils.assert_ok(resize_result, "SarFlagSnapshot.encode_snapshot: Could not resize PackedByteArray"):
 		return null
 
 	pba.encode_u8(0, value)
 	
 	var _result: Array = p_stream_peer.put_partial_data(pba)
-	if not VSKUtils.assert_ok(_result[0], "SarValueSnapshot.encode_snapshot: Unexpected error while sending snapshot data."):
+	if not VSKUtils.assert_ok(_result[0], "SarFlagSnapshot.encode_snapshot: Unexpected error while sending snapshot data."):
 		return null
-	if not VSKUtils.assert_equal(_result[1], ceil(float(get_size()) / BITS), "SarValueSnapshot.encode_snapshot: Did not send expected number of bytes in snapshot."):
+	if not VSKUtils.assert_equal(_result[1], ceil(float(get_size()) / BITS), "SarFlagSnapshot.encode_snapshot: Did not send expected number of bytes in snapshot."):
 		return null
 	
 	return p_stream_peer
