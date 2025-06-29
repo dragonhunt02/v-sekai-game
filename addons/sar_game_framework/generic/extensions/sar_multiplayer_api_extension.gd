@@ -33,7 +33,7 @@ func _init() -> void:
 
 func _rpc(peer: int, object: Object, method: StringName, args: Array) -> Error: # Error
 	#print(get_unique_id_string() + ": Got RPC for %d: %s::%s(%s)" % [peer, object, method, args])
-	if not VSKUtils.assert_true(base_multiplayer, "SarMultiplayerAPIExtension.base_multiplayer is not available"):
+	if not VSKUtils.assert_true(base_multiplayer, "SarMultiplayerAPIExtension._rpc: base_multiplayer is not available"):
 		return FAILED
 	return base_multiplayer.rpc(peer, object, method, args)
 
@@ -42,7 +42,7 @@ func _object_configuration_add(object: Object, config: Variant) -> Error:
 	#	print(get_unique_id_string() + ": Adding synchronization configuration for %s. Synchronizer: %s" % [object, config])
 	#elif config is MultiplayerSpawner:
 	#	print(get_unique_id_string() + ": Adding node %s to the spawn list. Spawner: %s" % [object, config])
-	if not VSKUtils.assert_true(base_multiplayer, "SarMultiplayerAPIExtension.base_multiplayer is not available"):
+	if not VSKUtils.assert_true(base_multiplayer, "SarMultiplayerAPIExtension._object_configuration_add: base_multiplayer is not available"):
 		return FAILED
 	return base_multiplayer.object_configuration_add(object, config)
 
@@ -51,36 +51,36 @@ func _object_configuration_remove(object: Object, config: Variant) -> Error:
 	#	print(get_unique_id_string() + ": Removing synchronization configuration for %s. Synchronizer: %s" % [object, config])
 	#elif config is MultiplayerSpawner:
 	#	print(get_unique_id_string() + ": Removing node %s from the spawn list. Spawner: %s" % [object, config])
-	if not VSKUtils.assert_true(base_multiplayer, "SarMultiplayerAPIExtension.base_multiplayer is not available"):
+	if not VSKUtils.assert_true(base_multiplayer, "SarMultiplayerAPIExtension._object_configuration_remove: base_multiplayer is not available"):
 		return FAILED
 	return base_multiplayer.object_configuration_remove(object, config)
 
 func _set_multiplayer_peer(p_peer: MultiplayerPeer) -> void:
-	if not VSKUtils.assert_true(base_multiplayer, "SarMultiplayerAPIExtension.base_multiplayer is not available"):
+	if not VSKUtils.assert_true(base_multiplayer, "SarMultiplayerAPIExtension._set_multiplayer_peer: base_multiplayer is not available"):
 		return
 	base_multiplayer.multiplayer_peer = p_peer
 
 func _get_multiplayer_peer() -> MultiplayerPeer:
-	if not VSKUtils.assert_true(base_multiplayer, "SarMultiplayerAPIExtension.base_multiplayer is not available"):
+	if not VSKUtils.assert_true(base_multiplayer, "SarMultiplayerAPIExtension._get_multiplayer_peer: base_multiplayer is not available"):
 		return null
 	return base_multiplayer.multiplayer_peer
 
 func _get_unique_id() -> int:
-	if not VSKUtils.assert_true(base_multiplayer, "SarMultiplayerAPIExtension.base_multiplayer is not available"):
+	if not VSKUtils.assert_true(base_multiplayer, "SarMultiplayerAPIExtension._get_unique_id: base_multiplayer is not available"):
 		return 0
 	return base_multiplayer.get_unique_id()
 
 func _get_peer_ids() -> PackedInt32Array:
-	if not VSKUtils.assert_true(base_multiplayer, "SarMultiplayerAPIExtension.base_multiplayer is not available"):
+	if not VSKUtils.assert_true(base_multiplayer, "SarMultiplayerAPIExtension._get_peer_ids: base_multiplayer is not available"):
 		return PackedInt32Array()
 	return base_multiplayer.get_peers()
 	
 func _get_remote_sender_id() -> int:
-	if not VSKUtils.assert_true(base_multiplayer, "SarMultiplayerAPIExtension.base_multiplayer is not available"):
+	if not VSKUtils.assert_true(base_multiplayer, "SarMultiplayerAPIExtension._get_remote_sender_id: base_multiplayer is not available"):
 		return 0
 	return base_multiplayer.get_remote_sender_id()
 	
 func _poll() -> Error:
-	if not VSKUtils.assert_true(base_multiplayer, "SarMultiplayerAPIExtension.base_multiplayer is not available"):
+	if not VSKUtils.assert_true(base_multiplayer, "SarMultiplayerAPIExtension._poll: base_multiplayer is not available"):
 		return FAILED
 	return base_multiplayer.poll()
