@@ -16,8 +16,12 @@ func _changed() -> void:
 			
 			for property in properties:
 				if property:
-					assert(property.changed.connect(_changed) == OK)
+					if not VSKUtils.assert_ok(property.changed.connect(_changed),
+						"Could not connect signal 'property.changed' to '_changed'"):
+						return
 
 func _init() -> void:
 	for property in properties:
-		assert(property.changed.connect(_changed) == OK)
+		if not VSKUtils.assert_ok(property.changed.connect(_changed),
+			"Could not connect signal 'property.changed' to '_changed'"):
+			return
