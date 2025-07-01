@@ -29,7 +29,7 @@ jobs:
 
             pip install "gdtoolkit==4.*"
             #gdformat addons/network_manager/network_replication_manager.gd
-            find . -type f -name '*.gd' -exec gdformat {} +
+            find . -type f -name '*.gd' -exec gdlint {} +
             
             git log -n 5
             #git reset --soft HEAD~2  
