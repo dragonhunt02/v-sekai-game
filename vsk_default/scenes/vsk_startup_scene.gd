@@ -48,7 +48,7 @@ func _show_scene_loading_screen() -> void:
 		return
 
 	if not VSKUtils.assert_ok(view_controller.scene_loaded.connect(_scene_load_complete),
-		"Could not connect signal 'view_controller.scene_loaded' to '_scene_load_complete'")
+		"Could not connect signal 'view_controller.scene_loaded' to '_scene_load_complete'"):
 		return
 
 	navigation_controller_2d.push_view_controller(view_controller, false)
@@ -58,10 +58,10 @@ func _show_welcome_screen() -> void:
 	navigation_controller_2d.push_view_controller(view_controller, false)
 	
 	if not VSKUtils.assert_ok(view_controller.signed_in.connect(_sign_in_complete),
-		"Could not connect signal 'view_controller.signed_in' to '_sign_in_complete'")
+		"Could not connect signal 'view_controller.signed_in' to '_sign_in_complete'"):
 		return
 	if not VSKUtils.assert_ok(view_controller.skipped.connect(_sign_in_complete.bind("")),
-		"Could not connect signal 'view_controller.skipped' to '_sign_in_complete'")
+		"Could not connect signal 'view_controller.skipped' to '_sign_in_complete'"):
 		return
 	
 func _show_validate_screen() -> void:
