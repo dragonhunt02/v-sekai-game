@@ -13,7 +13,7 @@ func encode_snapshot(p_stream_peer: StreamPeer, p_bit_offset: int) -> StreamPeer
 	
 	var pba: PackedByteArray
 	var resize_result: int = pba.resize(ceil(float(get_size()) / BITS))
-	if not VSKUtils.assert_ok(resize_result, "SarFixedSizeSnapshot: Could not resize PackedByteArray.")
+	if not VSKUtils.assert_ok(resize_result, "SarFixedSizeSnapshot: Could not resize PackedByteArray."):
 		return null
 	var parameter_stream_peer: StreamPeerBuffer = StreamPeerBuffer.new()
 	parameter_stream_peer.data_array = pba
