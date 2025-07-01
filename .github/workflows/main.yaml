@@ -32,7 +32,7 @@ jobs:
             #find . -type f -name '*.gd' -exec gdlint {} +
             
             git log -n 5
-            git reset --soft HEAD~100
+            #git reset --soft HEAD~100
             #git reset --hard HEAD~1  
             #rm CODEBASE.md
             #git add CODEBASE.md
@@ -52,7 +52,9 @@ jobs:
             #find . -type f -name '*.gd' -exec sed -E -i "s|(\s+)assert\(((.+).connect\((.+)\)) == OK\)|\1$RE1\2,\n\1\t$RE2$RE3\3$RE4\4$RE5$RE6\n\1$RE7|g" {} +
             #find . -type f -name '*.gd' -exec sed -E -i "s|(\s+)assert\((.+) == OK\)|\1\n\1$RE1\n\1$RE7|g" {} +
             #grep -R -n 'assert('
-            #find . -type f -name '*.gd' -exec sed -i "s|printerr(|push_error(|g" {} +
+            find . -type f -name '*.gd' -exec sed -i "s|printerr(|push_error(|g" {} +
+            git restore addons/vrm
+            git restore addons/godot-xr-tools
             #grep -R -n 'nnections(),'
             #git diff origin/rx-assert
             #exit 1
@@ -100,12 +102,13 @@ jobs:
             git config --global user.name "dragonhunt02"
             git add -A
             #git commit -a -m 'Implement prop validation, sanitisation and in-editor upload'
-            git commit -a -m 'Rewrite asserts into conditional statements'
+            git commit -a -m 'Replace printerr with push_error'
+            #write asserts into conditional statements'
             git log -n 5
             git status
             #git diff origin/rx-assert
             #git diff origin/rx-origin
-            git push -f
+            git push
             exit 1
 
 
