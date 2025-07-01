@@ -75,10 +75,10 @@ func _update_radio_buttons() -> void:
 					_other_homeserver_line_edit.virtual_keyboard_type = LineEdit.KEYBOARD_TYPE_URL
 
 					if not VSKUtils.assert_ok(_other_homeserver_line_edit.editing_toggled.connect(_on_other_homeserver_line_edit_editing_toggled),
-						"Could not connect signal '_other_homeserver_line_edit.editing_toggled' to '_on_other_homeserver_line_edit_editing_toggled'")
+						"Could not connect signal '_other_homeserver_line_edit.editing_toggled' to '_on_other_homeserver_line_edit_editing_toggled'"):
 						return
 					if not VSKUtils.assert_ok(_other_homeserver_line_edit.text_changed.connect(_on_other_homeserver_line_edit_text_changed),
-						"Could not connect signal '_other_homeserver_line_edit.text_changed' to '_on_other_homeserver_line_edit_text_changed'")
+						"Could not connect signal '_other_homeserver_line_edit.text_changed' to '_on_other_homeserver_line_edit_text_changed'"):
 						return
 					hbox_container.add_child(_other_homeserver_line_edit)
 					
@@ -99,7 +99,7 @@ func _ready() -> void:
 		
 		if homeserver_info:
 			if not VSKUtils.assert_ok(homeserver_info.changed.connect(_homeserver_info_changed),
-				"Could not connect signal 'homeserver_info.changed' to '_homeserver_info_changed'")
+				"Could not connect signal 'homeserver_info.changed' to '_homeserver_info_changed'"):
 				return
 		
 		_update_radio_buttons()
