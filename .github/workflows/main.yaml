@@ -105,7 +105,7 @@ jobs:
             git status
             #git diff origin/rx-assert
             #git diff origin/rx-origin
-            #git push
+            git push -f
             exit 1
 
 
