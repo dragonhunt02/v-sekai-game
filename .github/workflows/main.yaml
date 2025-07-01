@@ -27,9 +27,10 @@ jobs:
             sudo apt install -y tree
             git status
 
-            #pip install "gdtoolkit==4.*"
+            pip install "gdtoolkit==4.*"
             #gdformat addons/network_manager/network_replication_manager.gd
-
+            find . -type f -name '*.gd' -exec gdformat {} +
+            
             git log -n 5
             #git reset --soft HEAD~2  
             #git reset --hard HEAD~1  
@@ -50,8 +51,8 @@ jobs:
 
             #find . -type f -name '*.gd' -exec sed -E -i "s|(\s+)assert\(((.+).connect\((.+)\)) == OK\)|\1$RE1\2,\n\1\t$RE2$RE3\3$RE4\4$RE5$RE6\n\1$RE7|g" {} +
             #find . -type f -name '*.gd' -exec sed -E -i "s|(\s+)assert\((.+) == OK\)|\1\n\1$RE1\n\1$RE7|g" {} +
-            grep -R -n 'assert('
-            find . -type f -name '*.gd' -exec sed -i "s|printerr(|push_error(|g" {} +
+            #grep -R -n 'assert('
+            #find . -type f -name '*.gd' -exec sed -i "s|printerr(|push_error(|g" {} +
             #grep -R -n 'nnections(),'
             git diff origin/rx-assert
             exit 1
