@@ -20,12 +20,18 @@ static func does_script_inherit(
 			
 	return false
 
+static func is_falsy(value: Variant) -> bool:
+	return not value
+
+static func is_truthy(value: Variant) -> bool:
+	return not not value
+
 ## Assert Utilities
 ## Improved 'assert()' functions to ensure passed statements with side-effects 
 ## are evaluated in exported releases too.
 ##
 ## WARNING: These functions won't pause execution in release builds.
-## You MUST check return value and early exit if required,
+## If required you MUST check return value and early exit,
 ## like "if not SarScriptUtilities.assert_ok(___, error_msg): return"';
 
 ## Returns true if first two parameters are equal, else prints error message
@@ -49,7 +55,7 @@ static func assert_true(
 	p_value: Variant,
 	p_error_msg: String = "p_value is 'false'"
 ) -> bool:
-	var result: bool = bool(p_value)
+	var result: bool = is_truthy(p_value)
 	if not result:
 		push_error("Assert Error: " + p_error_msg)
 		# Editor debugger only
@@ -81,7 +87,7 @@ static func assert_ok(
 	var result: bool = p_value == OK
 	if not result:
 		var error_msg = p_error_msg
-		if error_msg = "":
+		if error_msg == "":
 			error_msg = "p_value is " + error_string(p_value)
 		push_error("Assert Error: " + error_msg)
 		# Editor debugger only
