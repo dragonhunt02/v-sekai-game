@@ -61,9 +61,9 @@ func _ready() -> void:
 ## Call this method to request a sign in with a game service.
 func sign_in(p_game_service: SarGameService, p_sign_in_data: Dictionary) -> void:
 
-	if not VSKUtils.assert_equal(_service, null, "VSKUIViewControllerLoggingIn.sign_in: '_service' already exists")
+	if not VSKUtils.assert_equal(_service, null, "VSKUIViewControllerLoggingIn.sign_in: '_service' already exists"):
 		return
-	if not VSKUtils.assert_equal(_request, null, "VSKUIViewControllerLoggingIn.sign_in: '_request' already exists")
+	if not VSKUtils.assert_equal(_request, null, "VSKUIViewControllerLoggingIn.sign_in: '_request' already exists"):
 		return
 	
 	_service = p_game_service
