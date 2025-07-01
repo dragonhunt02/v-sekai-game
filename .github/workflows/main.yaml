@@ -29,10 +29,10 @@ jobs:
 
             pip install "gdtoolkit==4.*"
             #gdformat addons/network_manager/network_replication_manager.gd
-            find . -type f -name '*.gd' -exec gdlint {} +
+            #find . -type f -name '*.gd' -exec gdlint {} +
             
             git log -n 5
-            #git reset --soft HEAD~2  
+            git reset --soft HEAD~100
             #git reset --hard HEAD~1  
             #rm CODEBASE.md
             #git add CODEBASE.md
@@ -47,15 +47,15 @@ jobs:
             RE5="'"
             RE6='"):'
             RE7='	return'
-            echo "$REPL1$REPL2"
+            #echo "$REPL1$REPL2"
 
             #find . -type f -name '*.gd' -exec sed -E -i "s|(\s+)assert\(((.+).connect\((.+)\)) == OK\)|\1$RE1\2,\n\1\t$RE2$RE3\3$RE4\4$RE5$RE6\n\1$RE7|g" {} +
             #find . -type f -name '*.gd' -exec sed -E -i "s|(\s+)assert\((.+) == OK\)|\1\n\1$RE1\n\1$RE7|g" {} +
             #grep -R -n 'assert('
             #find . -type f -name '*.gd' -exec sed -i "s|printerr(|push_error(|g" {} +
             #grep -R -n 'nnections(),'
-            git diff origin/rx-assert
-            exit 1
+            #git diff origin/rx-assert
+            #exit 1
             
             #Reset and apply
             #git diff HEAD~1 HEAD > ../last.patch
@@ -103,7 +103,7 @@ jobs:
             git commit -a -m 'Rewrite asserts into conditional statements'
             git log -n 5
             git status
-            git diff origin/rx-assert
+            #git diff origin/rx-assert
             #git diff origin/rx-origin
             #git push
             exit 1
