@@ -14,7 +14,7 @@ extends Resource
 		for button: VSKKeyboardButton in buttons:
 			if button:
 				if not VSKUtils.assert_ok(button.changed.connect(emit_changed),
-					"Could not connect signal 'button.changed' to 'emit_changed'")
+					"Could not connect signal 'button.changed' to 'emit_changed'"):
 					return
 		
 		emit_changed()
