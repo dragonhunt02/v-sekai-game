@@ -11,8 +11,8 @@ fi
 git clone ${CLONE_OPTS} "https://github.com/${INPUT_REPO}.git" "./source"
 
 cd ./source; git merge origin/rx-assert; cd ..;
-find ./source -type f -name "*.ttf" -exec rm {} \;
-find ./source -type f -name "*.ttf.import*" -exec rm {} \;
+#find ./source -type f -name "*.ttf" -exec rm {} \;
+#find ./source -type f -name "*.ttf.import*" -exec rm {} \;
 #####
 mkdir mytest; cd mytest;
 curl -OL https://github.com/godotengine/godot-builds/releases/download/4.5-beta2/Godot_v4.5-beta2_linux.x86_64.zip
