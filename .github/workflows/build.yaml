@@ -60,7 +60,7 @@ jobs:
         uses: ./docker/build-project
         with:
           repo: ${{ github.repository }}
-          branch: rx-origin
+          branch: origin/rx-origin
           nightly: ${{ steps.setenv.outputs.PRERELEASE }}
 
       - name: Upload Build Artifacts
