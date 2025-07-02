@@ -1,4 +1,4 @@
-FROM debian:bookworm
+FROM ubuntu:latest
 
 ARG INPUT_REPO
 ARG INPUT_BRANCH
