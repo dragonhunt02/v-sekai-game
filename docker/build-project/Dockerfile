@@ -28,7 +28,8 @@ WORKDIR $HOMEDIR
 
 # Using process substitution feature (not POSIX)
 SHELL [ "/bin/bash", "-c" ]
-RUN echo "deb http://suse.uni-leipzig.de/pub/releases.ubuntu.com/ubuntu/ noble main restricted universe multiverse" | tee -a /etc/apt/sources.list
+RUN sed -i 's|http://archive.ubuntu.com|http://mirror.ubuntu.com|g' /etc/apt/sources.list
+#echo "deb http://suse.uni-leipzig.de/pub/releases.ubuntu.com/ubuntu/ noble main restricted universe multiverse" | tee -a /etc/apt/sources.list
 
 RUN apt-get update && apt-get upgrade -y \
   && apt-get install -y git curl jq zip unzip fontconfig openjdk-17-jdk tree
