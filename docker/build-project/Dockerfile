@@ -1,4 +1,5 @@
-FROM ubuntu:24.04
+FROM ubuntu:latest
+#24.04
 #latest
 
 ARG INPUT_REPO
