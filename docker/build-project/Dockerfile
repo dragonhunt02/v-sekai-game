@@ -28,7 +28,8 @@ WORKDIR $HOMEDIR
 
 # Using process substitution feature (not POSIX)
 SHELL [ "/bin/bash", "-c" ]
-RUN sed -i 's|http://archive.ubuntu.com|http://mirror.ubuntu.com|g' /etc/apt/sources.list
+RUN sed -i 's|http://archive.ubuntu.com|http://mirror.ubuntu.com|g' /etc/apt/sources.list.d/ubuntu.sources
+RUN sed -i 's|http://security.ubuntu.com|http://mirror.ubuntu.com|g' /etc/apt/sources.list.d/ubuntu.sources
 #echo "deb http://suse.uni-leipzig.de/pub/releases.ubuntu.com/ubuntu/ noble main restricted universe multiverse" | tee -a /etc/apt/sources.list
 
 RUN apt-get update && apt-get upgrade -y \
