@@ -30,7 +30,7 @@ WORKDIR $HOMEDIR
 SHELL [ "/bin/bash", "-c" ]
 RUN sed -i 's|http://archive.ubuntu.com|http://us.archive.ubuntu.com|g' /etc/apt/sources.list.d/ubuntu.sources
 RUN sed -i 's|http://security.ubuntu.com|http://us.security.ubuntu.com|g' /etc/apt/sources.list.d/ubuntu.sources
-#echo "deb http://suse.uni-leipzig.de/pub/releases.ubuntu.com/ubuntu/ noble main restricted universe multiverse" | tee -a /etc/apt/sources.list
+# echo "deb http://suse.uni-leipzig.de/pub/releases.ubuntu.com/ubuntu/ noble main restricted universe multiverse" | tee -a /etc/apt/sources.list
 
 RUN apt-get update && apt-get upgrade -y \
   && apt-get install -y git curl jq zip unzip fontconfig openjdk-17-jdk tree
