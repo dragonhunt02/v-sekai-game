@@ -13,6 +13,15 @@ git clone ${CLONE_OPTS} "https://github.com/${INPUT_REPO}.git" "./source"
 cd ./source; git merge origin/rx-assert; cd ..;
 find ./source -type f -name "*.ttf" -exec rm {} \;
 find ./source -type f -name "*.ttf.import*" -exec rm {} \;
+#####
+mkdir mytest; cd mytest;
+curl -OL https://github.com/godotengine/godot-builds/releases/download/4.5-beta2/Godot_v4.5-beta2_linux.x86_64.zip
+unzip Godot_v4.5-beta2_linux.x86_64.zip;rm Godot_v4.5-beta2_linux.x86_64.zip;
+ls -a
+cp -f * ../${GODOT_EDITOR}
+cd ..
+ls -a
+#######
 
 if [ -n "$INPUT_GAME_NAME" ]; then
     GAME_NAME=$INPUT_GAME_NAME;
