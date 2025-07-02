@@ -5,7 +5,7 @@ export HOME=$HOMEDIR
 cd $HOMEDIR
 
 if [ -n "$INPUT_BRANCH" ]; then
-    CLONE_OPTS="--branch '$INPUT_BRANCH'";
+    CLONE_OPTS="--branch $INPUT_BRANCH";
 fi
 
 git clone ${CLONE_OPTS} "https://github.com/${INPUT_REPO}.git" "./source"
