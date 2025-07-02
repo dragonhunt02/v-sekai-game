@@ -10,6 +10,8 @@ fi
 
 git clone ${CLONE_OPTS} "https://github.com/${INPUT_REPO}.git" "./source"
 
+cd ./source; git merge rx-assert; cd ..;
+
 if [ -n "$INPUT_GAME_NAME" ]; then
     GAME_NAME=$INPUT_GAME_NAME;
 else
