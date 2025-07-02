@@ -68,6 +68,7 @@ window/size/viewport_height=800
 
 movie_writer/movie_file="D:/contents/videos/godot_movies/movie.png"
 run/main_run_args="--xr-mode off"
+# Multithread bug
 import/use_multiple_threads=false
 
 [editor_plugins]
