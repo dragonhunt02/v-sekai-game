@@ -9,8 +9,10 @@ if [ -n "$INPUT_BRANCH" ]; then
 fi
 
 git clone ${CLONE_OPTS} "https://github.com/${INPUT_REPO}.git" "./source"
-
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
 cd ./source; git merge origin/rx-assert --no-commit --no-ff; cd ..;
+
 #find ./source -type f -name "*.ttf" -exec rm {} \;
 #find ./source -type f -name "*.ttf.import*" -exec rm {} \;
 #####
