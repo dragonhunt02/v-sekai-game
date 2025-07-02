@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM debian:latest
 
 ARG INPUT_REPO
 ARG INPUT_BRANCH
