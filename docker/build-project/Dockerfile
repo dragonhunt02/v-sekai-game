@@ -1,5 +1,4 @@
-FROM ubuntu:24.04
-#latest
+FROM ubuntu:latest
 
 ARG INPUT_REPO
 ARG INPUT_BRANCH
