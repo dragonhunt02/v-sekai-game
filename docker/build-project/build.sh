@@ -18,7 +18,7 @@ mkdir mytest; cd mytest;
 curl -OL https://github.com/godotengine/godot-builds/releases/download/4.5-beta2/Godot_v4.5-beta2_linux.x86_64.zip
 unzip Godot_v4.5-beta2_linux.x86_64.zip;rm Godot_v4.5-beta2_linux.x86_64.zip;
 ls -a
-cp -f * ../${GODOT_EDITOR}
+cp -v -f * ../${GODOT_EDITOR}
 cd ..
 ls -a
 #######
