@@ -224,12 +224,47 @@ func _ready() -> void:
 		_setup_multiplayer.call_deferred()
 
 func _parse_commandline_args() -> void:
-	var _commandline_argument_dictionary = SarGameSessionCommandline.parse_commandline_arguments(
+	var cmd_args: Dictionary = SarGameSessionCommandline.parse_commandline_arguments(
 		OS.get_cmdline_args()
 	)
 	
-	if not Engine.is_editor_hint():
-		pass
+	if Engine.is_editor_hint():
+		return
+
+	# Validate
+	if cmd_args.has("host") and cmd_args.has("join"):
+		push_error("Error: conflicting command-line arguments: 'host' and 'join'")
+		get_tree().quit(2)
+	if cmd_args.has("join") and cmd_args.has("dedicated"):
+		push_error("Error: conflicting command-line arguments: 'join' and 'dedicated'")
+		get_tree().quit(2)
+	#if cmd_args.has("map"):
+	#	push_error("Error: command-line argument not implemented: '--map'")
+	#	get_tree().quit(2)
+
+	# Initialize with defaults
+	_startup_network_opts = _DEFAULT_HOST_ARGS #game_session_manager.
+
+	var cmd_value = null
+	for key in cmd_args.keys():
+		if cmd_args[key] == []: # No sub-arguments
+			cmd_value = true
+		elif key == "port" or key == "max_players":
+			cmd_value = cmd_args[key][0].to_int()
+		else:
+			cmd_value = cmd_args[key][0] # Default to one sub-argument
+
+		if key == "host" or key == "join":
+			_startup_network_opts[key] = true
+			continue
+
+		if _startup_network_opts.has(key):
+			_startup_network_opts[key] = cmd_value
+			continue
+
+## Returns startup network command-line options.
+func get_startup_network_opts() -> Dictionary:
+	return _startup_network_opts
 
 func _init() -> void:
 	_parse_commandline_args()
