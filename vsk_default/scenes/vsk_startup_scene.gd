@@ -14,7 +14,8 @@ const _WELCOME_VIEW_CONTROLLER: PackedScene = preload("res://addons/vsk_ui/view_
 const _SESSION_LOADING_VIEW_CONTROLLER: PackedScene = preload("res://addons/vsk_ui/view_controllers/vsk_ui_view_controller_session_loading.tscn")
 const _VALIDATING_VIEW_CONTROLLER: PackedScene = preload("res://addons/vsk_ui/view_controllers/vsk_ui_view_controller_validating.tscn")
 
-const DEFAULT_GAME_SCENE_URL: String = "res://vsk_default/example_ugc/maps/cc0_hut/cc0_hut.tscn"
+const DEFAULT_GAME_SCENE_URL_ALT: String = "res://vsk_default/example_ugc/maps/cc0_hut/cc0_hut.tscn"
+const DEFAULT_GAME_SCENE_URL: String = "res://vsk_default/example_ugc/maps/haven/haven.tscn"
 
 func _get_uro_service() -> VSKGameServiceUro:
 	var service_manager: VSKGameServiceManager = get_tree().get_first_node_in_group("game_service_managers")
@@ -69,6 +70,7 @@ func _show_validate_screen() -> void:
 	navigation_controller_2d.push_view_controller(view_controller, false)
 
 func _fade_in_complete() -> void:
+	var game_session_manager: VSKGameSessionManager = get_tree().get_first_node_in_group("game_session_managers")
 	var game_service: VSKGameServiceUro = _get_uro_service()
 	if game_service:
 		# Wait for the renew session request to finish.
@@ -81,7 +83,18 @@ func _fade_in_complete() -> void:
 			view_controller.queue_free()
 			_renew_uro_session_request = null
 		
-		if _skip_sign_in:
+		var network_opts: Dictionary = game_session_manager.get_startup_network_opts()
+		if network_opts.get("host", false):
+			if (game_session_manager.host_server(network_opts["port"], network_opts["max_players"], network_opts["dedicated"]) != OK):
+				push_error("Server hosting failed!" + JSON.stringify(network_opts))
+				get_tree().quit(1)
+			_show_scene_loading_screen()
+		elif network_opts.get("join", false):
+			if (game_session_manager.join_server(network_opts["ip"], network_opts["port"]) != OK):
+				push_error("Server joining failed!" + JSON.stringify(network_opts))
+				get_tree().quit(1)
+			_show_scene_loading_screen()
+		elif _skip_sign_in:
 			_show_scene_loading_screen()
 		else:
 			_show_welcome_screen()
