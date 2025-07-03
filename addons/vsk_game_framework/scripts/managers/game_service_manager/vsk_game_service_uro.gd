@@ -286,6 +286,14 @@ func _init() -> void:
 
 ###
 
+## Returns a dictionary containing the current active account username and domain
+## we are signed in with. On failure it will return a dictionary with an empty username
+## and domain.
+func get_current_username_and_domain() -> Dictionary[String, String]:
+	var account_address: String = _godot_uro.get_current_account_address()
+	var result_dictionary: Dictionary[String, String] = GodotUroHelper.get_username_and_domain_from_address(account_address)
+	return result_dictionary
+
 ## Returns a string containing the currently active user account and domain
 ## we are signed in with.
 func get_current_account_address() -> String:
@@ -294,7 +302,12 @@ func get_current_account_address() -> String:
 ## Returns the name of the service.
 static func get_service_name() -> String:
 	return "Uro"
-	
+
+## Creates a guest session. Only domain is set to enable requests when not signed-in.
+func sign_in_guest(p_domain: String) -> void:
+	_current_account_address = "@%s" % p_domain
+	return
+
 ## Attempts to sign into the service. A SarGameServiceRequestObject created
 ## from the service required to keep track of the individual request,
 ## and a Dictionary containing service-specific sign in data, should be
