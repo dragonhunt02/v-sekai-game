@@ -14,7 +14,7 @@ const _WELCOME_VIEW_CONTROLLER: PackedScene = preload("res://addons/vsk_ui/view_
 const _SESSION_LOADING_VIEW_CONTROLLER: PackedScene = preload("res://addons/vsk_ui/view_controllers/vsk_ui_view_controller_session_loading.tscn")
 const _VALIDATING_VIEW_CONTROLLER: PackedScene = preload("res://addons/vsk_ui/view_controllers/vsk_ui_view_controller_validating.tscn")
 
-const DEFAULT_GAME_SCENE_URL: String = "res://haven.scn"
+const DEFAULT_GAME_SCENE_URL: String = "res://haven.tscn"
 #vsk_default/example_ugc/maps/cc0_hut/cc0_hut.tscn"
 
 func _get_uro_service() -> VSKGameServiceUro:
