@@ -71,7 +71,7 @@ run/main_run_args="--xr-mode off"
 ; Import Multithreading is disabled due to docker --headless export bug
 ; https://github.com/godotengine/godot/issues/103696#issuecomment-3029242943
 import/use_multiple_threads=false
-export/convert_text_resources_to_binary=false
+export/convert_text_resources_to_binary=true
 
 [editor_plugins]
 
