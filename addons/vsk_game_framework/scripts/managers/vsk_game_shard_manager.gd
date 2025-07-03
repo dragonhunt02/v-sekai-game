@@ -1,6 +1,6 @@
 # Copyright (c) 2018-present. This file is part of V-Sekai https://v-sekai.org/.
 # SaracenOne & K. S. Ernest (Fire) Lee & Lyuma & MMMaellon & Contributors
-# shard_service.gd
+# vsk_game_shard_manager.gd
 # SPDX-License-Identifier: MIT
 @tool
 #extends SarGameService
