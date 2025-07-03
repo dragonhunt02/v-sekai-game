@@ -19,7 +19,7 @@ var _active_shards: Dictionary = {}
 var _active_heartbeat_timers: Dictionary = {}
 
 # Not locally synced with '_active_shards'
-var _public_server_shards: Dictionary = {}
+var _public_server_shards: Array = []
 
 var shard_heartbeat_frequency: float = 10.0 # Default value, in seconds
 
@@ -32,11 +32,11 @@ func create_shard(p_shard_data: Dictionary) -> void:
 		
 		var address_dictionary: Dictionary = GodotUroHelper.get_username_and_domain_from_address(current_account_address)
 		var _fetch_request = service.create_request(address_dictionary)
-		var async_result: Dictionary = await service.create_shard_async(_fetch_request, p_shard_data)
+		var async_result: Dictionary = await service.create_shard(_fetch_request, p_shard_data)
 		
 		if GodotUroHelper.requester_result_is_ok(async_result):
-			var shard = async_result["output"]["data"]["data"]
-			var shard_id = async_result["output"]["data"]["data"]["id"]
+			var shard = async_result["output"]["data"]
+			var shard_id = async_result["output"]["data"]["id"]
 			_active_shards[shard_id] = shard
 			if start_timer_update(shard_id) != OK:
 				push_error("Heartbeat timer creation failed for shard: %s" % shard_id)
@@ -58,11 +58,11 @@ func update_shard(p_shard_id: String, p_shard_data: Dictionary) -> void: #Dictio
 		
 		var address_dictionary: Dictionary = GodotUroHelper.get_username_and_domain_from_address(current_account_address)
 		var _fetch_request = service.create_request(address_dictionary)
-		var async_result: Dictionary = await service.update_shard_async(_fetch_request, p_shard_id, p_shard_data)
+		var async_result: Dictionary = await service.update_shard(_fetch_request, p_shard_id, p_shard_data)
 		
 		if GodotUroHelper.requester_result_is_ok(async_result):
-			var shard = async_result["output"]["data"]["data"]
-			var shard_id = async_result["output"]["data"]["data"]["id"]
+			var shard = async_result["output"]["data"]
+			var shard_id = async_result["output"]["data"]["id"]
 			_active_shards[shard_id] = shard
 			shard_updated.emit(shard_id, shard)
 			#return shard
@@ -85,7 +85,7 @@ func delete_shard(p_shard_id: String, p_shard_data: Dictionary = {}) -> void:
 		
 		var address_dictionary: Dictionary = GodotUroHelper.get_username_and_domain_from_address(current_account_address)
 		var _fetch_request = service.create_request(address_dictionary)
-		var async_result: Dictionary = await service.create_shard_async(_fetch_request, p_shard_id, p_shard_data)
+		var async_result: Dictionary = await service.delete_shard(_fetch_request, p_shard_id, p_shard_data)
 		
 		if GodotUroHelper.requester_result_is_ok(async_result):
 			if stop_timer_update(p_shard_id) != OK:
@@ -109,11 +109,11 @@ func refresh_shards_list() -> void:
 		
 		var address_dictionary: Dictionary = GodotUroHelper.get_username_and_domain_from_address(current_account_address)
 		var _fetch_request = service.create_request(address_dictionary)
-		var async_result: Dictionary = await service.get_shards_async(_fetch_request)
+		var async_result: Dictionary = await service.get_public_shards(_fetch_request)
 		_fetch_request = null
 		
 		if GodotUroHelper.requester_result_is_ok(async_result):
-			var shards_list = async_result["output"]["data"]["data"]["shards"]
+			var shards_list = async_result["output"]["data"]["shards"]
 			_public_server_shards = shards_list
 			public_shards_updated.emit()
 		else:
@@ -160,7 +160,7 @@ func reset_timer_update(p_shard_id: String) -> Error:
 			return OK
 	return FAILED
 
-func get_public_server_shards() -> Dictionary:
+func get_public_server_shards() -> Array[]:
 	return _public_server_shards
 
 func get_active_shards() -> Dictionary:
