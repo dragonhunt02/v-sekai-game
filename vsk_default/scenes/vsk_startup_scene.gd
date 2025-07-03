@@ -39,6 +39,20 @@ func _scene_load_complete(p_packed_scene: Resource) -> void:
 func _sign_in_complete(p_id: String) -> void:
 	_show_scene_loading_screen()
 
+func _skipped_complete() -> void:
+	# TODO: Domain selection UI for guest mode. Using defaults for now.
+	var domain: String = ""
+	var homeserver_info: VSKHomeServerInfo = load("res://addons/vsk_game_framework/data/vsk_default_homeserver_info.tres")
+	if homeserver_info:
+		if homeserver_info.homeserver_list.size() > 0:
+			domain = homeserver_info.homeserver_list[0]
+	else:
+		push_error("Could not set default API domain url.")
+
+	var game_service: VSKGameServiceUro = _get_uro_service()
+	game_service.sign_in_guest(domain)
+	_sign_in_complete("")
+
 func _show_scene_loading_screen() -> void:
 	var view_controller: VSKUIViewControllerSessionLoading = _SESSION_LOADING_VIEW_CONTROLLER.instantiate()
 	view_controller.content_url = DEFAULT_GAME_SCENE_URL
@@ -53,8 +67,8 @@ func _show_welcome_screen() -> void:
 	navigation_controller_2d.push_view_controller(view_controller, false)
 	
 	assert(view_controller.signed_in.connect(_sign_in_complete) == OK)
-	assert(view_controller.skipped.connect(_sign_in_complete.bind("")) == OK)
-	
+	assert(view_controller.skipped.connect(_skipped_complete) == OK)
+
 func _show_validate_screen() -> void:
 	var view_controller: VSKUIViewControllerValidating = _VALIDATING_VIEW_CONTROLLER.instantiate()
 	navigation_controller_2d.push_view_controller(view_controller, false)
@@ -108,12 +122,11 @@ func _attempt_to_renew_session() -> void:
 	if game_service:
 		var uro_id: String = game_service.get_selected_id()
 		if not uro_id.is_empty():
-			var splits: Array = uro_id.split("@")
-			if splits.size() == 2:
-				_renew_uro_session_request = game_service.create_request({"username":splits[0], "domain":splits[1]})
-				var result: Dictionary = await game_service.renew_session(_renew_uro_session_request)
-				if GodotUroHelper.requester_result_is_ok(result):
-					_skip_sign_in = true
+			var address_dictionary = GodotUroHelper.get_username_and_domain_from_address(uro_id)
+			_renew_uro_session_request = game_service.create_request(address_dictionary)
+			var result: Dictionary = await game_service.renew_session(_renew_uro_session_request)
+			if GodotUroHelper.requester_result_is_ok(result):
+				_skip_sign_in = true
 
 func _ready() -> void:
 	_attempt_to_renew_session()
