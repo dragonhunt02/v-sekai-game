@@ -552,7 +552,7 @@ func upload_avatar_async(
 	return {}
 
 ## Returns a dictionary containing public shard instances
-func get_shards_async(p_service_request: SarGameServiceRequest) -> Dictionary:
+func get_public_shards(p_service_request: SarGameServiceRequest) -> Dictionary:
 	if _godot_uro and _godot_uro.get_api():
 		return await _get_multiple_content_async(p_service_request, _godot_uro.get_api().get_shards_async)
 	
@@ -607,7 +607,7 @@ func create_shard(p_service_request: SarGameServiceRequest, p_shard_data: Dictio
 		# Wait for the internal Uro API to respond to our create shard request.
 		var result: Dictionary = await _godot_uro.get_api().create_shard_async(
 			godot_uro_request,
-			tokens.get("access_token"),
+			tokens.get("access_token", ""),
 			p_shard_data
 		)
 		
@@ -642,7 +642,7 @@ func update_shard(p_service_request: SarGameServiceRequest, p_id: String, p_shar
 		# Wait for the internal Uro API to respond to our update shard request.
 		var result: Dictionary = await _godot_uro.get_api().update_shard_async(
 			godot_uro_request,
-			tokens.get("access_token"),
+			tokens.get("access_token", ""),
 			p_id,
 			p_shard_data
 		)
@@ -682,7 +682,7 @@ func delete_shard(p_service_request: SarGameServiceRequest, p_id: String, p_shar
 		# Wait for the internal Uro API to respond to our delete shard request.
 		var result: Dictionary = await _godot_uro.get_api().delete_shard_async(
 			godot_uro_request,
-			tokens.get("access_token"),
+			tokens.get("access_token", ""),
 			p_id,
 			p_shard_data
 		)		
