@@ -160,7 +160,7 @@ func reset_timer_update(p_shard_id: String) -> Error:
 			return OK
 	return FAILED
 
-func get_public_server_shards() -> Array[]:
+func get_public_server_shards() -> Array:
 	return _public_server_shards
 
 func get_active_shards() -> Dictionary:
