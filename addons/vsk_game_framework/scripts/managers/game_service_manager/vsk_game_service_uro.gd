@@ -6,9 +6,16 @@
 extends SarGameService
 class_name VSKGameServiceUro
 
+enum SessionType {
+	NONE = 0, # Invalid state, breaks API calls
+	GUEST = 1,
+	USER = 2
+}
+
 var _godot_uro: GodotUro = null
 var _current_account_address: String = ""
-	
+var _session_mode: SessionType = SessionType.NONE
+
 var _active_service_requests: Dictionary[SarGameServiceRequest, GodotUroRequester] = {}
 
 func _update_session(
@@ -51,6 +58,7 @@ func _update_session(
 		push_error("Could not save game token!")
 	
 	_current_account_address = "%s@%s" % [p_username, p_domain]
+	_session_mode = SessionType.USER
 
 	_godot_uro.store_selected_id(_current_account_address)
 
@@ -70,6 +78,7 @@ func _clear_local_session() -> void:
 	var address_dict: Dictionary = GodotUroHelper.get_username_and_domain_from_address(_current_account_address)
 	
 	_current_account_address = ""
+	_session_mode = SessionType.NONE
 	if _godot_uro and _godot_uro.get_api():
 		_godot_uro.clear_tokens(address_dict.get("username", ""), address_dict.get("domain", ""))
 		_godot_uro.store_selected_id("")
@@ -299,6 +308,15 @@ func get_current_username_and_domain() -> Dictionary[String, String]:
 func get_current_account_address() -> String:
 	return _current_account_address
 
+## Returns current SessionType
+func get_current_session_mode() -> SessionType:
+	return _session_mode
+
+## Returns true if current session is GUEST
+func is_guest() -> bool:
+	var result: bool = _session_mode == SessionType.GUEST
+	return result
+
 ## Returns the name of the service.
 static func get_service_name() -> String:
 	return "Uro"
@@ -306,6 +324,8 @@ static func get_service_name() -> String:
 ## Creates a guest session. Only domain is set to enable requests when not signed-in.
 func sign_in_guest(p_domain: String) -> void:
 	_current_account_address = "@%s" % p_domain
+	_session_mode = SessionType.GUEST
+	print("Signed in as GUEST")
 	return
 
 ## Attempts to sign into the service. A SarGameServiceRequestObject created
@@ -473,6 +493,11 @@ func sign_out(p_service_request: SarGameServiceRequest) -> Dictionary:
 		if not p_service_request is VSKGameServiceRequestUro:
 			push_error("Did not pass a valid VSKGameServiceRequestUro object to a sign out request.")
 			return {} 
+
+		if is_guest():
+			# Don't sign out in GUEST mode
+			push_warning("Can't sign out of GUEST node")
+			return {}
 		
 		var domain: String = (p_service_request as VSKGameServiceRequestUro).domain
 		var tokens: Dictionary = _get_tokens(p_service_request)
@@ -493,6 +518,10 @@ func sign_out(p_service_request: SarGameServiceRequest) -> Dictionary:
 			return {}
 
 		var processed_result: Dictionary = _process_result_and_delete_session(result)
+
+		# Ensure a valid _session_mode state using last used domain
+		sign_in_guest(domain)
+
 		return processed_result
 		
 	return {}
