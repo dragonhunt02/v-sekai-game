@@ -7,7 +7,7 @@ extends SarGameService
 class_name VSKGameServiceUro
 
 enum SessionType {
-	NONE = 0, # Invalid state, breaks API calls
+	NONE = 0, # Null state, API calls don't work
 	GUEST = 1,
 	USER = 2
 }
@@ -157,8 +157,12 @@ func _process_result_and_update_registration(p_service_request: VSKGameServiceRe
 func _get_tokens(p_service_request: SarGameServiceRequest) -> Dictionary:
 	if not p_service_request is VSKGameServiceRequestUro:
 		push_error("Did not pass a valid VSKGameServiceRequestUro object to sign in request.")
-		return {} 
-	
+		return {}
+
+	if is_guest():
+		push_warning("GUEST mode has no tokens set")
+		return {}
+
 	var domain: String = (p_service_request as VSKGameServiceRequestUro).domain
 	if domain.is_empty():
 		push_error("Did not pass a valid domain to sign in request.")
