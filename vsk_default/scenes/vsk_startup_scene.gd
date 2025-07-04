@@ -16,6 +16,7 @@ const _VALIDATING_VIEW_CONTROLLER: PackedScene = preload("res://addons/vsk_ui/vi
 
 const DEFAULT_GAME_SCENE_URL_ALT: String = "res://vsk_default/example_ugc/maps/cc0_hut/cc0_hut.tscn"
 const DEFAULT_GAME_SCENE_URL: String = "res://vsk_default/example_ugc/maps/haven/haven.tscn"
+const DEFAULT_GAME_SCENE_PACKED: PackedScene = preload(DEFAULT_GAME_SCENE_URL)
 
 func _get_uro_service() -> VSKGameServiceUro:
 	var service_manager: VSKGameServiceManager = get_tree().get_first_node_in_group("game_service_managers")
