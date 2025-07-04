@@ -115,7 +115,7 @@ func refresh_shards_list() -> void:
 		if GodotUroHelper.requester_result_is_ok(async_result):
 			var shards_list = async_result["output"]["data"]["shards"]
 			_public_server_shards = shards_list
-			public_shards_updated.emit()
+			public_shards_updated.emit(shards_list)
 		else:
 			push_error(
 				(
