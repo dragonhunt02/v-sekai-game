@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="VSKNetworkInfo" load_steps=2 format=3 uid=""]
+
+[ext_resource type="Script" uid="" path="res://addons/vsk_game_framework/scripts/data/vsk_network_info.gd" id="1_dbdff"]
+
+[resource]
+script = ExtResource("1_dbdff")
+host_parameters = {
+	"map": "",
+	"server_name": "V-Sekai Server",
+	"port": 7777,
+	"ip": "127.0.0.1",
+	"dedicated": false,
+	"public": false,
+	"max_players": 64,
+}
+allow_custom_homeserver = true
+metadata/_custom_type_script = ""
