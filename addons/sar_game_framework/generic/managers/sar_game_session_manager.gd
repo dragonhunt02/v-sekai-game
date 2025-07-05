@@ -4,20 +4,23 @@ class_name SarGameSessionManager
 
 var _authentication_node: SarGameSessionAuthentication = null
 var _player_spawner_node: MultiplayerSpawner = null
+var _network_info = preload("res://addons/vsk_game_framework/data/vsk_default_homeserver_info.tres")
 
 const _SHOW_WINDOW_TITLE_DEBUG_INFO_PATH: String = "game/session/show_window_title_debug_info"
 const _PLAYER_SOUL_SCENE_PROJECT_SETTING_PATH: String = "game/session/player_soul_scene_path"
 const _PLAYER_VESSEL_SCENE_PROJECT_SETTING_PATH: String = "game/session/player_vessel_scene_path"
 
-const _DEFAULT_HOST_ARGS: Dictionary[String, Variant] = {
-	"map": "",
-	"server_name": "V-Sekai Server",
-	"port": 7777,
-	"ip": "127.0.0.1",
-	"dedicated": false,
-	"public": false,
-	"max_players": 64,
-}
+const _DEFAULT_HOST_ARGS: Dictionary = _network_info.host_params
+
+#[String, Variant] = {
+#	"map": "",
+#	"server_name": "V-Sekai Server",
+#	"port": 7777,
+#	"ip": "127.0.0.1",
+#	"dedicated": false,
+#	"public": false,
+#	"max_players": 64,
+#}
 
 var _startup_network_opts: Dictionary = {}
 
