@@ -17,6 +17,7 @@ const _VALIDATING_VIEW_CONTROLLER: PackedScene = preload("res://addons/vsk_ui/vi
 const DEFAULT_GAME_SCENE_URL_ALT: String = "res://vsk_default/example_ugc/maps/cc0_hut/cc0_hut.tscn"
 const DEFAULT_GAME_SCENE_URL: String = "res://vsk_default/example_ugc/maps/haven/haven.tscn"
 const DEFAULT_GAME_SCENE_PACKED: PackedScene = preload(DEFAULT_GAME_SCENE_URL)
+const DEFAULT_GAME_SCENE_PACKED_ALT: PackedScene = preload(DEFAULT_GAME_SCENE_URL_ALT)
 
 func _get_uro_service() -> VSKGameServiceUro:
 	var service_manager: VSKGameServiceManager = get_tree().get_first_node_in_group("game_service_managers")
@@ -109,7 +110,7 @@ func _fade_in_complete() -> void:
 				get_tree().quit(1)
 			_show_scene_loading_screen()
 		elif network_opts.get("join", false):
-			if (game_session_manager.join_server(network_opts["ip"], network_opts["port"]) != OK):
+			if (game_session_manager.join_server(network_opts["address"], network_opts["port"]) != OK):
 				push_error("Server joining failed!" + JSON.stringify(network_opts))
 				get_tree().quit(1)
 			_show_scene_loading_screen()
