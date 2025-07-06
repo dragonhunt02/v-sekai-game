@@ -381,8 +381,6 @@ func set_active_map_path(p_map_url: String) -> void:
 	print("Resource %s set as active map path" % p_map_url)
 
 ## Hosts a new multiplayer server:
-#### TODO: move map path update to notify scene changed
-## p_map_path is the public path to hosted map p_map_path: String, 
 ## p_port is the network port to host this server on.
 ## p_max_players is the maximum number of peers permitted to join this server.
 ## p_is_dedicated flags whether this should be a dedicated server and not
@@ -393,7 +391,6 @@ func host_server(p_port: int, p_max_players: int, p_is_dedicated: bool, p_is_pub
 	_is_dedicated = p_is_dedicated
 	_is_public = p_is_public
 	_max_players = p_max_players
-	#_active_map_path = p_map_path
 	_server_name = p_server_name
 	
 	var peer: MultiplayerPeer = _create_multiplayer_peer()
@@ -422,4 +419,20 @@ func join_server(p_address: String, p_port: int) -> Error:
 	if result == OK:
 		multiplayer.set_multiplayer_peer(peer)
 		
+	return result
+
+## Attempts to join a multiplayer server shard.
+## p_shard_id is the shard id of server you are attempting to join.
+func join_server_shard(p_shard_id: String) -> Error:
+	var result: Error = FAILED
+
+	# Assuming shards are refreshed already
+	var shard_data: Dictionary = get_public_server_shard_from_id(p_shard_id)
+	if shard_data.is_empty():
+		push_error("Failed to join shard id '%s'. Shard not found." % p_shard_id)
+		return result
+
+	result = join_server(shard_data["ip"], shard_data["port"])
+	if (result != OK):
+		push_error("Failed to join shard id '%s'. Could not connect." % p_shard_id)
 	return result
