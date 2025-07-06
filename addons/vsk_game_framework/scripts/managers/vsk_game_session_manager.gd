@@ -7,6 +7,8 @@
 extends SarGameSessionManager
 class_name VSKGameSessionManager
 
+var _active_shard_id: String = ""
+
 func _create_authentication_node() -> SarGameSessionAuthentication:
 	return VSKGameSessionAuthentication.new()
 
