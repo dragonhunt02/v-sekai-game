@@ -375,6 +375,11 @@ func find_valid_spawn_transform_for_peer_entity_3d(_id: int) -> Transform3D:
 func get_local_player_soul_instance() -> SarSoul:
 	return _local_player_soul_instance
 
+## Sets current active map path.
+func set_active_map_path(p_map_url: String) -> void:
+	_active_map_path = p_map_url
+	print("Resource %s set as active map path" % p_map_url)
+
 ## Hosts a new multiplayer server:
 #### TODO: move map path update to notify scene changed
 ## p_map_path is the public path to hosted map p_map_path: String, 
