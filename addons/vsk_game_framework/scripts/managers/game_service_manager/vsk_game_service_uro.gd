@@ -312,11 +312,11 @@ func get_current_username_and_domain() -> Dictionary[String, String]:
 func get_current_account_address() -> String:
 	return _current_account_address
 
-## Returns current SessionType
+## Returns current SessionType.
 func get_current_session_mode() -> SessionType:
 	return _session_mode
 
-## Returns true if current session is GUEST
+## Returns true if current session is GUEST.
 func is_guest() -> bool:
 	var result: bool = _session_mode == SessionType.GUEST
 	return result
@@ -500,7 +500,7 @@ func sign_out(p_service_request: SarGameServiceRequest) -> Dictionary:
 
 		if is_guest():
 			# Don't sign out in GUEST mode
-			push_warning("Can't sign out of GUEST node")
+			push_warning("Can't sign out of GUEST mode")
 			return {}
 		
 		var domain: String = (p_service_request as VSKGameServiceRequestUro).domain
