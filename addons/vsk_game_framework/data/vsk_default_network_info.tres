@@ -8,7 +8,7 @@ host_params = {
 	"map": "",
 	"server_name": "V-Sekai Server",
 	"port": 7777,
-	"ip": "127.0.0.1",
+	"address": "127.0.0.1",
 	"dedicated": false,
 	"public": false,
 	"max_players": 64,
