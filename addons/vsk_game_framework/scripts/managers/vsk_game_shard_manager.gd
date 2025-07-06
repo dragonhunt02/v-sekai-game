@@ -163,7 +163,7 @@ func reset_timer_update(p_shard_id: String) -> Error:
 func get_public_server_shards() -> Array:
 	return _public_server_shards
 
-get_public_server_shard_from_id(p_shard_id: String) -> Dictionary:
+func get_public_server_shard_from_id(p_shard_id: String) -> Dictionary:
 	var public_shards: Array = get_public_server_shards()
 	var result: Dictionary = {}
 	for shard in public_shards:
