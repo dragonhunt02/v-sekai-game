@@ -26,7 +26,7 @@ func _get_uro_service() -> VSKGameServiceUro:
 		
 	return null
 
-func _scene_load_complete(p_packed_scene: Resource) -> void:
+func _scene_load_complete(p_scene_url: String, p_packed_scene: Resource) -> void:
 	navigation_controller_2d.pop_view_controller(false)
 	
 	if not SarUtils.assert_exists(get_tree()):
@@ -35,7 +35,11 @@ func _scene_load_complete(p_packed_scene: Resource) -> void:
 	if p_packed_scene is PackedScene:
 		if not SarUtils.assert_exists(get_tree()):
 			return
+		var game_session_manager: VSKGameSessionManager = get_tree().get_first_node_in_group("game_session_managers")
 		var scene_changed = get_tree().scene_changed
+
+		# TODO: Move set_active_map() call to SarGameScene3D _ready()
+		game_session_manager.set_active_map(p_scene_url)
 		get_tree().change_scene_to_packed(p_packed_scene)
 		await scene_changed
 
