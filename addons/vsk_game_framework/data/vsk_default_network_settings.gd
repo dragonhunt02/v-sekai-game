@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_dbdff")
-host_parameters = {
+host_params = {
 	"map": "",
 	"server_name": "V-Sekai Server",
 	"port": 7777,
