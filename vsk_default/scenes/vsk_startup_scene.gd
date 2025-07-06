@@ -38,8 +38,8 @@ func _scene_load_complete(p_scene_url: String, p_packed_scene: Resource) -> void
 		var game_session_manager: VSKGameSessionManager = get_tree().get_first_node_in_group("game_session_managers")
 		var scene_changed = get_tree().scene_changed
 
-		# TODO: Move set_active_map() call to SarGameScene3D _ready()
-		game_session_manager.set_active_map(p_scene_url)
+		# TODO: Call set_active_map() from SarGameScene3D _ready() instead
+		game_session_manager.set_active_map_path(p_scene_url)
 		get_tree().change_scene_to_packed(p_packed_scene)
 		await scene_changed
 
