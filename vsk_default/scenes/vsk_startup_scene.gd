@@ -100,7 +100,7 @@ func _fade_in_complete() -> void:
 		
 		var network_opts: Dictionary = game_session_manager.get_startup_network_opts()
 		if network_opts.get("host", false):
-			if (game_session_manager.host_server(network_opts["port"], network_opts["max_players"], network_opts["dedicated"], network_opts["is_public"]) != OK):
+			if (game_session_manager.host_server(network_opts["port"], network_opts["max_players"], network_opts["dedicated"], network_opts["is_public"], network_opts["server_name"]) != OK):
 				push_error("Server hosting failed!" + JSON.stringify(network_opts))
 				get_tree().quit(1)
 			_show_scene_loading_screen()
