@@ -7,7 +7,7 @@ const VALID_LAUNCH_ARGUMENTS: Dictionary[String, int] = {
 	"map": 1,
 	"server_name": 1,
 	"port": 1,
-	"ip": 1,
+	"address": 1,
 	"host": 0,
 	"join": 0,
 	"dedicated": 0,
