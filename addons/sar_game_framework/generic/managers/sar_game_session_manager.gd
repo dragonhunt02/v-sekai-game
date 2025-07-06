@@ -307,7 +307,10 @@ func _create_server_shard() -> void:
 		"current_users": _current_players,
 		"max_players": _max_players
 	}
-	VSKGameShardManager.create_shard(shard_data)
+	
+	var shard: Dictionary = await VSKGameShardManagerSingleton.create_shard(shard_data)
+	if not shard.is_empty():
+		_active_shard_id = shard["id"]
 
 ## Called to indicate that the currently active game scene has now changed.
 func notify_game_scene_changed() -> void:
@@ -427,7 +430,7 @@ func join_server_shard(p_shard_id: String) -> Error:
 	var result: Error = FAILED
 
 	# Assuming shards are refreshed already
-	var shard_data: Dictionary = get_public_server_shard_from_id(p_shard_id)
+	var shard_data: Dictionary = VSKGameShardManagerSingleton.get_public_server_shard_from_id(p_shard_id)
 	if shard_data.is_empty():
 		push_error("Failed to join shard id '%s'. Shard not found." % p_shard_id)
 		return result
