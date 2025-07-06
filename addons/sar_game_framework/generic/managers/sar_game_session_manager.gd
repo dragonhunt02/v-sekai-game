@@ -29,7 +29,7 @@ var _is_dedicated: bool = false
 var _is_public: bool = false
 var _current_players: int = 0
 var _max_players: int = 0
-var _server_name: String = "V-Sekai Server"
+var _server_name: String = ""
 
 var _player_soul_scene: PackedScene = null
 var _player_vessel_scene: PackedScene = null
@@ -432,7 +432,10 @@ func join_server_shard(p_shard_id: String) -> Error:
 		push_error("Failed to join shard id '%s'. Shard not found." % p_shard_id)
 		return result
 
-	result = join_server(shard_data["ip"], shard_data["port"])
-	if (result != OK):
+	result = join_server(shard_data["address"], shard_data["port"])
+	if (result == OK):
+		_server_name = shard_data["name"]
+		# TODO: Update other properties
+	else:
 		push_error("Failed to join shard id '%s'. Could not connect." % p_shard_id)
 	return result
