@@ -3,16 +3,14 @@
 # vsk_game_shard_manager.gd
 # SPDX-License-Identifier: MIT
 @tool
-#extends SarGameService
 
 extends Node
-#class_name VSKGameServiceShard
 class_name VSKGameShardManager
 
-signal public_shards_updated
-signal shard_created
-signal shard_updated
-signal shard_deleted
+signal public_shards_updated(p_public_server_shards: Array)
+signal shard_created(p_shard_id: String, p_shard_data: Dictionary)
+signal shard_updated(p_shard_id: String, p_shard_data: Dictionary)
+signal shard_deleted(p_shard_id: String)
 
 # Owned shards
 var _active_shards: Dictionary = {}
@@ -23,24 +21,26 @@ var _public_server_shards: Array = []
 
 var shard_heartbeat_frequency: float = 10.0 # Default value, in seconds
 
-func create_shard(p_shard_data: Dictionary) -> void:
+func create_shard(p_shard_data: Dictionary) -> Dictionary:
 	var service: VSKGameServiceUro = _get_uro_service()
+	var result: Dictionary = {}
 	if service:
 		var current_account_address: String = service.get_current_account_address()
 		if current_account_address.is_empty():
-			return
+			return result
 		
 		var address_dictionary: Dictionary = GodotUroHelper.get_username_and_domain_from_address(current_account_address)
 		var _fetch_request = service.create_request(address_dictionary)
 		var async_result: Dictionary = await service.create_shard(_fetch_request, p_shard_data)
 		
 		if GodotUroHelper.requester_result_is_ok(async_result):
-			var shard = async_result["output"]["data"]
-			var shard_id = async_result["output"]["data"]["id"]
+			var shard: Dictionary = async_result["output"]["data"]
+			var shard_id: String = async_result["output"]["data"]["id"]
 			_active_shards[shard_id] = shard
 			if start_timer_update(shard_id) != OK:
 				push_error("Heartbeat timer creation failed for shard: %s" % shard_id)
 			shard_created.emit(shard_id, shard)
+			result = shard
 		else:
 			push_error(
 				(
@@ -48,24 +48,26 @@ func create_shard(p_shard_data: Dictionary) -> void:
 					% GodotUroHelper.get_full_requester_error_string(async_result)
 				)
 			)
+	return result
 
-func update_shard(p_shard_id: String, p_shard_data: Dictionary) -> void: #Dictionary:
+func update_shard(p_shard_id: String, p_shard_data: Dictionary) -> Dictionary:
 	var service: VSKGameServiceUro = _get_uro_service()
+	var result: Dictionary = {}
 	if service:
 		var current_account_address: String = service.get_current_account_address()
 		if current_account_address.is_empty():
-			return
+			return result
 		
 		var address_dictionary: Dictionary = GodotUroHelper.get_username_and_domain_from_address(current_account_address)
 		var _fetch_request = service.create_request(address_dictionary)
 		var async_result: Dictionary = await service.update_shard(_fetch_request, p_shard_id, p_shard_data)
 		
 		if GodotUroHelper.requester_result_is_ok(async_result):
-			var shard = async_result["output"]["data"]
-			var shard_id = async_result["output"]["data"]["id"]
+			var shard: Dictionary = async_result["output"]["data"]
+			var shard_id: String = async_result["output"]["data"]["id"]
 			_active_shards[shard_id] = shard
 			shard_updated.emit(shard_id, shard)
-			#return shard
+			result = shard
 		else:
 			push_error(
 				(
@@ -73,25 +75,28 @@ func update_shard(p_shard_id: String, p_shard_data: Dictionary) -> void: #Dictio
 					% GodotUroHelper.get_full_requester_error_string(async_result)
 				)
 			)
+	return result
 
-		return
-
-func delete_shard(p_shard_id: String, p_shard_data: Dictionary = {}) -> void:
+func delete_shard(p_shard_id: String, p_shard_data: Dictionary = {}) -> Dictionary:
 	var service: VSKGameServiceUro = _get_uro_service()
+	var result: Dictionary = {}
 	if service:
 		var current_account_address: String = service.get_current_account_address()
 		if current_account_address.is_empty():
-			return
+			return result
 		
 		var address_dictionary: Dictionary = GodotUroHelper.get_username_and_domain_from_address(current_account_address)
 		var _fetch_request = service.create_request(address_dictionary)
 		var async_result: Dictionary = await service.delete_shard(_fetch_request, p_shard_id, p_shard_data)
 		
 		if GodotUroHelper.requester_result_is_ok(async_result):
-			if stop_timer_update(p_shard_id) != OK:
+			var shard: Dictionary = async_result["output"]["data"]
+			var shard_id: String = async_result["output"]["data"]["id"]
+			if stop_timer_update(shard_id) != OK:
 				push_error("Heartbeat timer destruction failed for shard: %s" % p_shard_id)
-			_active_shards.erase(p_shard_id)
-			shard_deleted.emit(p_shard_id)
+			_active_shards.erase(shard_id)
+			shard_deleted.emit(shard_id)
+			result = shard
 		else:
 			push_error(
 				(
@@ -99,13 +104,15 @@ func delete_shard(p_shard_id: String, p_shard_data: Dictionary = {}) -> void:
 					% GodotUroHelper.get_full_requester_error_string(async_result)
 				)
 			)
+	return result
 
-func refresh_shards_list() -> void:
+func refresh_shards_list() -> Error:
 	var service: VSKGameServiceUro = _get_uro_service()
+	var result: Error = FAILED
 	if service:
 		var current_account_address: String = service.get_current_account_address()
 		if current_account_address.is_empty():
-			return
+			return result
 		
 		var address_dictionary: Dictionary = GodotUroHelper.get_username_and_domain_from_address(current_account_address)
 		var _fetch_request = service.create_request(address_dictionary)
@@ -113,9 +120,10 @@ func refresh_shards_list() -> void:
 		_fetch_request = null
 		
 		if GodotUroHelper.requester_result_is_ok(async_result):
-			var shards_list = async_result["output"]["data"]["shards"]
+			var shards_list: Array = async_result["output"]["data"]["shards"]
 			_public_server_shards = shards_list
 			public_shards_updated.emit(shards_list)
+			result = OK
 		else:
 			push_error(
 				(
@@ -123,6 +131,7 @@ func refresh_shards_list() -> void:
 					% GodotUroHelper.get_full_requester_error_string(async_result)
 				)
 			)
+	return result
 
 func start_timer_update(p_shard_id: String) -> Error:
 	var old_timer: Timer = _active_heartbeat_timers.get(p_shard_id, null)
@@ -176,18 +185,18 @@ func get_active_shards() -> Dictionary:
 	return _active_shards
 
 # Update current player count
-func update_shard_current_users(p_shard_id: String, p_current_users: int) -> void: #Dictionary:
-	var shard = await update_shard(
+func update_shard_current_users(p_shard_id: String, p_current_users: int) -> Dictionary:
+	var shard: Dictionary = await update_shard(
 		p_shard_id, {"current_users": p_current_users}
 	)
-	return
+	return shard
 	#if not shard.empty():
 	#	_active_shards[shard_id] = shard
 	#	_public_server_shards[shard_id] = shard
 	#return shard
 
 func _shard_heartbeat(p_shard_id: String) -> void:
-	var shard = await update_shard(p_shard_id, {})
+	var shard: Dictionary = await update_shard(p_shard_id, {})
 	return
 
 func _get_uro_service() -> VSKGameServiceUro:
@@ -199,7 +208,6 @@ func _get_uro_service() -> VSKGameServiceUro:
 	return null
 
 #func _on_shard_created(p_shard_id: String, p_shard: Dictionary) -> void:
-
 #func _on_shard_updated(p_shard_id: String, p_shard: Dictionary) -> void:
 
 
@@ -208,11 +216,9 @@ func _process(_delta: float):
 		pass
 
 func _ready():
-	if Engine.is_editor_hint():
-		return
-
-	if ProjectSettings.has_setting("game/session/shard_heartbeat_frequency"):
-		shard_heartbeat_frequency = ProjectSettings.get_setting("game/session/shard_heartbeat_frequency")
+	if not Engine.is_editor_hint():
+		if ProjectSettings.has_setting("game/session/shard_heartbeat_frequency"):
+			shard_heartbeat_frequency = ProjectSettings.get_setting("game/session/shard_heartbeat_frequency")
 
 func setup() -> void:
 	pass  # Nothing to setup
