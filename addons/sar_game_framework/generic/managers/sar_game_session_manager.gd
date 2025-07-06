@@ -4,7 +4,7 @@ class_name SarGameSessionManager
 
 var _authentication_node: SarGameSessionAuthentication = null
 var _player_spawner_node: MultiplayerSpawner = null
-var _network_info: VSKNetworkInfo = preload("res://addons/vsk_game_framework/data/vsk_default_homeserver_info.tres")
+var _network_info: VSKNetworkInfo = preload("res://addons/vsk_game_framework/data/vsk_default_network_info.tres")
 
 const _SHOW_WINDOW_TITLE_DEBUG_INFO_PATH: String = "game/session/show_window_title_debug_info"
 const _PLAYER_SOUL_SCENE_PROJECT_SETTING_PATH: String = "game/session/player_soul_scene_path"
