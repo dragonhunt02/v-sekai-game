@@ -26,6 +26,7 @@ var _is_dedicated: bool = false
 var _is_public: bool = false
 var _current_players: int = 0
 var _max_players: int = 0
+var _port: int = 0
 var _server_name: String = ""
 
 var _player_soul_scene: PackedScene = null
