@@ -21,7 +21,7 @@ func _create_server_shard() -> void:
 		"port": _port,
 		"dedicated": _is_dedicated,
 		"current_users": _current_players,
-		"max_players": _max_players
+		"max_users": _max_players
 	}
 	
 	var shard: Dictionary = await VSKShardManagerSingleton.create_shard(shard_data)
@@ -48,6 +48,13 @@ func join_server_shard(p_shard_id: String) -> Error:
 	var shard_data: Dictionary = VSKShardManagerSingleton.get_public_server_shard_from_id(p_shard_id)
 	if shard_data.is_empty():
 		push_error("Failed to join shard id '%s'. Shard not found." % p_shard_id)
+		return result
+
+	# Client-side check
+	var shard_users: int = shard_data.get("current_users", 0)
+	var shard_max_users: int = shard_data.get("max_users", 100)
+	if (shard_users + 1) > shard_max_users:
+		push_error("Failed to join shard id '%s'. Shard has reached max_users number: %s." % [p_shard_id, shard_max_users])
 		return result
 
 	result = join_server(shard_data["address"], shard_data["port"])
