@@ -8,8 +8,8 @@ extends SarGameSessionManager
 class_name VSKGameSessionManager
 
 var _active_shard_id: String = ""
-var _network_info: VSKNetworkInfo = preload("res://addons/vsk_game_framework/data/vsk_default_network_info.tres")
 
+var _network_info: VSKNetworkInfo = preload("res://addons/vsk_game_framework/data/vsk_default_network_info.tres")
 var _DEFAULT_HOST_ARGS: Dictionary = _network_info.host_params
 
 func _create_server_shard() -> void:
