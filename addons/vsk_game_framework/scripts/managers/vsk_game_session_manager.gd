@@ -10,7 +10,7 @@ class_name VSKGameSessionManager
 var _active_shard_id: String = ""
 
 var _network_info: VSKNetworkInfo = preload("res://addons/vsk_game_framework/data/vsk_default_network_info.tres")
-var _DEFAULT_HOST_ARGS: Dictionary = _network_info.host_params
+var _VSK_DEFAULT_HOST_ARGS: Dictionary = _network_info.host_params
 
 func _create_server_shard() -> void:
 	print("Creating public server shard...")
@@ -24,9 +24,12 @@ func _create_server_shard() -> void:
 		"max_players": _max_players
 	}
 	
-	var shard: Dictionary = await VSKGameShardManagerSingleton.create_shard(shard_data)
+	var shard: Dictionary = await VSKShardManagerSingleton.create_shard(shard_data)
 	if not shard.is_empty():
 		_active_shard_id = shard["id"]
+
+func get_default_host_args() -> Dictionary:
+	return _VSK_DEFAULT_HOST_ARGS.duplicate(true)
 
 func notify_game_scene_changed() -> void:
 	super.notify_game_scene_changed()
@@ -42,7 +45,7 @@ func join_server_shard(p_shard_id: String) -> Error:
 	var result: Error = FAILED
 
 	# Assuming shards are refreshed already
-	var shard_data: Dictionary = VSKGameShardManagerSingleton.get_public_server_shard_from_id(p_shard_id)
+	var shard_data: Dictionary = VSKShardManagerSingleton.get_public_server_shard_from_id(p_shard_id)
 	if shard_data.is_empty():
 		push_error("Failed to join shard id '%s'. Shard not found." % p_shard_id)
 		return result
