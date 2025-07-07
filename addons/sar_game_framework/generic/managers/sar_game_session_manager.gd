@@ -287,14 +287,6 @@ func _parse_commandline_args() -> void:
 			_startup_network_opts[key] = cmd_value
 			continue
 
-## Returns startup network command-line options.
-func get_startup_network_opts() -> Dictionary:
-	return _startup_network_opts
-
-## Returns default host/join configuration.
-func get_default_host_args() -> Dictionary:
-	return _DEFAULT_HOST_ARGS.duplicate(true)
-
 func _init() -> void:
 	_parse_commandline_args()
 
@@ -349,6 +341,14 @@ func is_dedicated() -> bool:
 ## Returns peer id for the current session authority.
 func get_session_authority_id() -> int:
 	return get_host_peer_id()
+
+## Returns startup network command-line options.
+func get_startup_network_opts() -> Dictionary:
+	return _startup_network_opts
+
+## Returns default host/join configuration.
+func get_default_host_args() -> Dictionary:
+	return _DEFAULT_HOST_ARGS.duplicate(true)
 
 ## Returns a Transform3D for the peer with current id to spawn on.
 func find_valid_spawn_transform_for_peer_entity_3d(_id: int) -> Transform3D:
