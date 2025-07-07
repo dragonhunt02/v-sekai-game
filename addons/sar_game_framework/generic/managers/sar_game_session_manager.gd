@@ -4,23 +4,20 @@ class_name SarGameSessionManager
 
 var _authentication_node: SarGameSessionAuthentication = null
 var _player_spawner_node: MultiplayerSpawner = null
-var _network_info: VSKNetworkInfo = preload("res://addons/vsk_game_framework/data/vsk_default_network_info.tres")
 
 const _SHOW_WINDOW_TITLE_DEBUG_INFO_PATH: String = "game/session/show_window_title_debug_info"
 const _PLAYER_SOUL_SCENE_PROJECT_SETTING_PATH: String = "game/session/player_soul_scene_path"
 const _PLAYER_VESSEL_SCENE_PROJECT_SETTING_PATH: String = "game/session/player_vessel_scene_path"
 
-const _DEFAULT_HOST_ARGS: Dictionary = _network_info.host_params
-
-#[String, Variant] = {
-#	"map": "",
-#	"server_name": "V-Sekai Server",
-#	"port": 7777,
-#	"ip": "127.0.0.1",
-#	"dedicated": false,
-#	"public": false,
-#	"max_players": 64,
-#}
+var _DEFAULT_HOST_ARGS: Dictionary = {
+	"map": "",
+	"server_name": "Server",
+	"port": 7777,
+	"address": "127.0.0.1",  # join only
+	"dedicated": false,      # host only
+	"public": false,         # host only
+	"max_players": 64,       # host only
+}
 
 var _startup_network_opts: Dictionary = {}
 
@@ -263,26 +260,28 @@ func _parse_commandline_args() -> void:
 	if cmd_args.has("join") and cmd_args.has("dedicated"):
 		push_error("Error: conflicting command-line arguments: 'join' and 'dedicated'")
 		get_tree().quit(2)
-	#if cmd_args.has("map"):
-	#	push_error("Error: command-line argument not implemented: '--map'")
-	#	get_tree().quit(2)
+	if cmd_args.has("map"):
+		push_error("Error: command-line argument not implemented: 'map'")
+		get_tree().quit(2)
 
 	# Initialize with defaults
-	_startup_network_opts = _DEFAULT_HOST_ARGS #game_session_manager.
+	_startup_network_opts = get_default_host_args()
 
 	var cmd_value = null
 	for key in cmd_args.keys():
+		# Default parse
 		if cmd_args[key] == []: # No sub-arguments
 			cmd_value = true
-		elif key == "port" or key == "max_players":
-			cmd_value = cmd_args[key][0].to_int()
 		else:
-			cmd_value = cmd_args[key][0] # Default to one sub-argument
+			cmd_value = cmd_args[key][0] # Default to one sub-argument only
 
+		# Network
 		if key == "host" or key == "join":
 			_startup_network_opts[key] = true
 			continue
-
+		if key == "port" or key == "max_players":
+			cmd_value = cmd_args[key][0].to_int()
+		# Network default
 		if _startup_network_opts.has(key):
 			_startup_network_opts[key] = cmd_value
 			continue
@@ -291,26 +290,14 @@ func _parse_commandline_args() -> void:
 func get_startup_network_opts() -> Dictionary:
 	return _startup_network_opts
 
+## Returns default host/join configuration.
+func get_default_host_args() -> Dictionary:
+	return _DEFAULT_HOST_ARGS.duplicate(true)
+
 func _init() -> void:
 	_parse_commandline_args()
 
 ###
-
-func _create_server_shard() -> void:
-	print("Creating public server shard...")
-	_current_players = 1
-	var shard_data: Dictionary = {
-		"map": _active_map_path,
-		"name": _server_name,
-		"port": _port,
-		"dedicated": _is_dedicated,
-		"current_users": _current_players,
-		"max_players": _max_players
-	}
-	
-	var shard: Dictionary = await VSKGameShardManagerSingleton.create_shard(shard_data)
-	if not shard.is_empty():
-		_active_shard_id = shard["id"]
 
 ## Called to indicate that the currently active game scene has now changed.
 func notify_game_scene_changed() -> void:
@@ -322,8 +309,8 @@ func notify_game_scene_changed() -> void:
 				_local_player_soul_instance = _spawn_player_soul(multiplayer.get_unique_id())
 				if multiplayer.is_server():
 					_spawn_player_vessel(get_host_peer_id())
-			if (multiplayer.is_server() and _is_public):
-				_create_server_shard()
+			#if (multiplayer.is_server() and _is_public):
+			#	_create_server_shard()
 						
 					
 ## Notifys the game session manager that a player vessel has just entered the game scene.
@@ -422,23 +409,4 @@ func join_server(p_address: String, p_port: int) -> Error:
 	if result == OK:
 		multiplayer.set_multiplayer_peer(peer)
 		
-	return result
-
-## Attempts to join a multiplayer server shard.
-## p_shard_id is the shard id of server you are attempting to join.
-func join_server_shard(p_shard_id: String) -> Error:
-	var result: Error = FAILED
-
-	# Assuming shards are refreshed already
-	var shard_data: Dictionary = VSKGameShardManagerSingleton.get_public_server_shard_from_id(p_shard_id)
-	if shard_data.is_empty():
-		push_error("Failed to join shard id '%s'. Shard not found." % p_shard_id)
-		return result
-
-	result = join_server(shard_data["address"], shard_data["port"])
-	if (result == OK):
-		_server_name = shard_data["name"]
-		# TODO: Update other properties
-	else:
-		push_error("Failed to join shard id '%s'. Could not connect." % p_shard_id)
 	return result
