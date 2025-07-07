@@ -6,7 +6,7 @@ signal scene_loaded(p_resource_url: String, p_resource: Resource)
 
 var _request_object: VSKGameAssetRequest = null
 
-func _request_complete(p_url: String, p_err: VSKGameAssetRequest.AssetError) -> void:
+func _request_complete(p_err: VSKGameAssetRequest.AssetError, p_url: String) -> void:
 	match p_err:
 		VSKGameAssetRequest.AssetError.OK:
 			var packed_scene: PackedScene = _request_object.get_resource()
