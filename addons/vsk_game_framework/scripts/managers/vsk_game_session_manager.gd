@@ -28,6 +28,11 @@ func _create_server_shard() -> void:
 	if not shard.is_empty():
 		_active_shard_id = shard["id"]
 
+## Updates current shard player count on server.
+## p_shard_id is the shard id of server you are updating.
+func update_shard_current_players(p_shard_id: String, p_player_count: int) -> void:
+	pass
+
 func get_default_host_args() -> Dictionary:
 	return _VSK_DEFAULT_HOST_ARGS.duplicate(true)
 
@@ -38,6 +43,16 @@ func notify_game_scene_changed() -> void:
 		if current_scene is SarGameScene3D:
 			if (multiplayer.is_server() and _is_public):
 				_create_server_shard()
+
+func _on_peer_connect(p_id : int) -> void:
+	super._on_peer_connect(p_id)
+	if multiplayer.is_server():
+		update_shard_current_players(_active_shard_id, _current_players)
+
+func _on_peer_disconnect(p_id : int) -> void:
+	super._on_peer_disconnect(p_id)
+	if multiplayer.is_server():
+		update_shard_current_players(_active_shard_id, _current_players)
 
 ## Attempts to join a multiplayer server shard.
 ## p_shard_id is the shard id of server you are attempting to join.
@@ -60,6 +75,7 @@ func join_server_shard(p_shard_id: String) -> Error:
 	result = join_server(shard_data["address"], shard_data["port"])
 	if (result == OK):
 		_server_name = shard_data["name"]
+		#_active_shard_id = shard_data["id"]
 		# TODO: Update other properties
 	else:
 		push_error("Failed to join shard id '%s'. Could not connect." % p_shard_id)
