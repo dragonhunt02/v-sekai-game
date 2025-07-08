@@ -171,11 +171,16 @@ func _on_connection_failed() -> void:
 
 func _on_peer_connect(p_id : int) -> void:
 	if multiplayer.is_server():
+		_current_players += 1
 		_spawn_player_vessel(p_id)
 
 func _on_peer_disconnect(p_id : int) -> void:
 	if multiplayer.is_server():
 		_unspawn_player_vessel(p_id)
+		if _current_players < 0:
+			push_error("Unexpected Error _on_peer_disconnect: _current_players value is %s" % _current_players)
+		return
+		_current_players -= 1
 		
 func _on_server_disconnected() -> void:
 	pass
@@ -392,6 +397,7 @@ func host_server(p_port: int, p_max_players: int, p_is_dedicated: bool, p_is_pub
 		
 	if result == OK:
 		get_tree().get_multiplayer().multiplayer_peer = peer
+		_current_players = 1
 		if _should_use_window_title_debug_behaviour():
 			_update_window_title()
 		
@@ -409,5 +415,5 @@ func join_server(p_address: String, p_port: int) -> Error:
 		
 	if result == OK:
 		multiplayer.set_multiplayer_peer(peer)
-		
+		# TODO: sync _current_players number in clients
 	return result
