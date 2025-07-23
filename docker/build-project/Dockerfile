@@ -11,7 +11,7 @@ ENV HOMEDIR '/root'
 
 ENV BIN 'release/bin'
 ENV BUILD_ARGS '--headless'
-ENV BUILD_PLATFORMS 'Linux Windows Mac Android QuestAndroid Web Linux_arm64'
+ENV BUILD_PLATFORMS 'Linux Windows Mac Android QuestAndroid PicoAndroid Web Linux_arm64'
 ENV GODOT_REPO 'V-Sekai/world-godot'
 ENV GODOT_ZIP 'v-sekai-godot-linuxbsd.zip'
 ENV GODOT_TPZ 'v-sekai-godot-templates.zip'
@@ -74,7 +74,8 @@ RUN GODOT_TAG=$( cat 'godot_editor_json.txt' | jq -r '.tag_name') \
            | jq '.object.sha' ); \
        fi \
     && echo "Godot Editor SHA: ${GODOT_SHA}" \
-    && echo "${GODOT_SHA}" > godot_editor_sha.txt
+    && echo "${GODOT_SHA}" > godot_editor_sha.txt \
+    && echo "Godot editortag: ${GODOT_TAG}"
 
 # Get editor
 RUN FILE_URL=$( \
