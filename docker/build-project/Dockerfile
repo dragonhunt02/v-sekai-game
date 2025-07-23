@@ -74,8 +74,7 @@ RUN GODOT_TAG=$( cat 'godot_editor_json.txt' | jq -r '.tag_name') \
            | jq '.object.sha' ); \
        fi \
     && echo "Godot Editor SHA: ${GODOT_SHA}" \
-    && echo "${GODOT_SHA}" > godot_editor_sha.txt \
-    && echo "Godot editortag: ${GODOT_TAG}"
+    && echo "${GODOT_SHA}" > godot_editor_sha.txt
 
 # Get editor
 RUN FILE_URL=$( \
