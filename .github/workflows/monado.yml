@@ -61,6 +61,14 @@ jobs:
     #    --preset everything
     #    -DWIVRN_BUILD_DASHBOARD=OFF
      #   -DWIVRN_BUILD_DISSECTOR=OFF
+    - name: Cache CMake build directory
+      uses: actions/cache@v4
+      with:
+        path: ${{github.workspace}}/build-monado
+        key: ${{ runner.os }}-cmake-build-monado
+        #${{ hashFiles('**/CMakeLists.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-cmake-build-monado
 
     - name: Build Monado
       # Disable XRT_FEATURE_OPENXR_VISIBILITY_MASK because of https://gitlab.freedesktop.org/monado/monado/-/issues/480
