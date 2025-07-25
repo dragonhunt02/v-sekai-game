@@ -1,0 +1,16 @@
+# Disable hand tracking
+set left hand_tracking_active false
+set right hand_tracking_active false
+
+# Reset positions
+set head position 0.0 1.5 0.2
+set head rotation 0.0 0.0 0.0 1.0
+set left position -0.2 1.3 -0.3
+set left rotation 0.4 0 0 0.9
+set right position 0.2 1.3 -0.3
+set right rotation 0.4 0 0 0.9
+
+sleep 1
+#2560 1440
+exec grim -g "0,0 960x1080" screenshot-01-list.png
+sleep 1
