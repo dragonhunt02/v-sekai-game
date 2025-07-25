@@ -124,6 +124,7 @@ jobs:
   upload-screens:
     name: Upload Github
     runs-on: ubuntu-24.04
+    needs: build-test-client
     permissions:
       contents: write
       actions: write
