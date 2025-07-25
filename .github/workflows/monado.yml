@@ -40,14 +40,14 @@ jobs:
     #  run: >
     #    sudo apt-get update && sudo apt-get install libavahi-glib-dev nlohmann-json3-dev libpulse-dev xz-utils libpipewire-0.3-dev libcli11-dev qt6-base-dev qt6-tools-dev libcap-dev pkexec libnotify-dev
 
-    - name: Configure CMake
-      run: >
-        cmake -B ${{github.workspace}}/build
-        -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-        -DCMAKE_INSTALL_PREFIX=/usr
-        --preset everything
-        -DWIVRN_BUILD_DASHBOARD=OFF
-        -DWIVRN_BUILD_DISSECTOR=OFF
+    #- name: Configure CMake
+   #   run: >
+    #    cmake -B ${{github.workspace}}/build
+   #     -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+    #    -DCMAKE_INSTALL_PREFIX=/usr
+    #    --preset everything
+    #    -DWIVRN_BUILD_DASHBOARD=OFF
+     #   -DWIVRN_BUILD_DISSECTOR=OFF
 
     - name: Build Monado
       # Disable XRT_FEATURE_OPENXR_VISIBILITY_MASK because of https://gitlab.freedesktop.org/monado/monado/-/issues/480
@@ -60,6 +60,10 @@ jobs:
         cmake monado -B ${{github.workspace}}/build-monado -DCMAKE_BUILD_TYPE=Release -DXRT_FEATURE_SERVICE_SYSTEMD=OFF -DXRT_FEATURE_SERVICE=OFF -DXRT_BUILD_DRIVER_REMOTE=ON -DXRT_MODULE_COMPOSITOR_MAIN=ON -DXRT_HAVE_WAYLAND=ON $DRIVERS -DXRT_MODULE_MONADO_REMOTECTL=ON -DBUILD_TESTING=OFF -DXRT_FEATURE_OPENXR_VISIBILITY_MASK=OFF
 
         cmake --build ${{github.workspace}}/build-monado
+        curl -o game.x64 -L https://github.com/V-Sekai/v-sekai-game/releases/download/0.1.0-nightly-2025-07-24T191410-043b4c6_editor-ac70214-rx/v-sekai-game_0.1.0-043b4c6_editor-ac70214_Linux
+        ls -a .
+        pwd
+        chmod +x game.x64
         exit 1
 
     - name: Take screenshots
@@ -68,7 +72,7 @@ jobs:
         WLR_BACKENDS: headless
         WLR_RENDERER: pixman
         WLR_LIBINPUT_NO_DEVICES: 1
-        XR_RUNTIME_JSON: ${{github.workspace}}/build-monado/openxr_monado-dev.json
+        XR_RUNTIME_JSON: ${{github.workspace}}/.github/openxr_monado-dev.json
         P_OVERRIDE_ACTIVE_CONFIG: remote
         WIVRN_CONTROLLER: meta-quest-touch-plus
         WIVRN_GRIP_LEFT_OFFSET: '0 0 0 0 45 0'
@@ -81,37 +85,22 @@ jobs:
         sleep 10
         export WAYLAND_DISPLAY=$(cd "${XDG_RUNTIME_DIR}" && ls -tr wayland* | tail -1)
 
-        mkdir -p ~/.config/fontconfig
-        cp ${{github.workspace}}/.github/fonts.conf ~/.config/fontconfig/fonts.conf
+        #mkdir -p ~/.config/fontconfig
+        #cp ${{github.workspace}}/.github/fonts.conf ~/.config/fontconfig/fonts.conf
 
-        ${{github.workspace}}/build/server/wivrn-server --no-encrypt --no-publish-service &
-        WIVRN_SERVER_PID=$!
+        #${{github.workspace}}/build/server/wivrn-server --no-encrypt --no-publish-service &
+        #WIVRN_SERVER_PID=$!
 
-        mkdir -p ~/.config/wivrn
-        echo '{"servers": [{"autoconnect": false, "manual": true, "pretty_name": "Deep Thought", "hostname": "localhost", "port": 9757, "tcp_only": false, "cookie": ""}]}' > ~/.config/wivrn/client.json.in
-
-        for LANG in en $(basename -a ${{github.workspace}}/locale/*)
-        do
-          mkdir ${LANG}
-
-          if [ ${LANG} = fr ]
-          then
-                cat ~/.config/wivrn/client.json.in | jq .virtual_keyboard_layout=\"AZERTY\" > ~/.config/wivrn/client.json
-          else
-                cat ~/.config/wivrn/client.json.in | jq .virtual_keyboard_layout=\"QWERTY\" > ~/.config/wivrn/client.json
-          fi
-
-          ${{github.workspace}}/build/bin/wivrn &
+        #mkdir -p ~/.config/wivrn
+        #echo '{"servers": [{"autoconnect": false, "manual": true, "pretty_name": "Deep Thought", "hostname": "localhost", "port": 9757, "tcp_only": false, "cookie": ""}]}' > ~/.config/wivrn/client.json.in
+       
+          ${{github.workspace}}/game.x64 &
           WIVRN_PID=$!
           sleep 10
           ${{github.workspace}}/build-monado/src/xrt/targets/remotectl/monado-remotectl 127.0.0.1 4242 < ${{github.workspace}}/.github/screenshot-script.txt
-          killall wivrn
+          killall game.x64
           wait $WIVRN_PID || true
-        done
-
-        killall wivrn-server
-        wait $WIVRN_SERVER_PID || true
-
+    
     - name: Upload screenshots
       uses: actions/upload-artifact@v4
       with:
