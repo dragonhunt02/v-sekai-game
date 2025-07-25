@@ -187,14 +187,15 @@ next/fade_in = &"fade_in_complete"
 [node name="XRScreens" type="Node3D" parent="."]
 
 [node name="MainScreen" parent="XRScreens" instance=ExtResource("3_hiocw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -3.0071)
+;transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -3.0071)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, -2.6)
 viewport_size = Vector2(1200, 800)
 input_gamepad = true
 unshaded = true
 
 [node name="MessageBox" parent="XRScreens" instance=ExtResource("3_hiocw")]
-;transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -2.8)
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -2.6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -2.8)
+;transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, -2.6)
 visible = false
 screen_size = Vector2(1.5, 1)
 scene = ExtResource("3_2k5sa")
