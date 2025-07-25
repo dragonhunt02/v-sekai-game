@@ -12,5 +12,5 @@ set right rotation 0.4 0 0 0.9
 
 sleep 1
 #2560 1440
-exec grim -g "0,0 960x1080" screenshot-01-list.png
+exec grim -g "0,0 ${GAME_VIEW_H}x${GAME_VIEW_W}" screenshot-01-list.png
 sleep 1
