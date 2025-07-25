@@ -87,9 +87,9 @@ jobs:
         WLR_LIBINPUT_NO_DEVICES: 1
         XR_RUNTIME_JSON: ${{github.workspace}}/build-monado/openxr_monado-dev.json
         P_OVERRIDE_ACTIVE_CONFIG: remote
-        WIVRN_CONTROLLER: meta-quest-touch-plus
-        WIVRN_GRIP_LEFT_OFFSET: '0 0 0 0 45 0'
-        WIVRN_GRIP_RIGHT_OFFSET: '0 0 0 0 45 0'
+       # WIVRN_CONTROLLER: meta-quest-touch-plus
+       # WIVRN_GRIP_LEFT_OFFSET: '0 0 0 0 45 0'
+        #WIVRN_GRIP_RIGHT_OFFSET: '0 0 0 0 45 0'
         XRT_COMPOSITOR_SCALE_PERCENTAGE: '100'
       run: |
         echo "xwayland disable" > sway-config
@@ -129,7 +129,7 @@ jobs:
       actions: write
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: Screenshots
           path: screens
