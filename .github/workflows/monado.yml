@@ -115,9 +115,9 @@ jobs:
         #mkdir -p ~/.config/wivrn
         #echo '{"servers": [{"autoconnect": false, "manual": true, "pretty_name": "Deep Thought", "hostname": "localhost", "port": 9757, "tcp_only": false, "cookie": ""}]}' > ~/.config/wivrn/client.json.in
        
-          ${{github.workspace}}/game.x64 &
+          ${{github.workspace}}/game.x64 -v &
           WIVRN_PID=$!
-          sleep 10
+          sleep 20
           ${{github.workspace}}/build-monado/src/xrt/targets/remotectl/monado-remotectl 127.0.0.1 4242 < ${{github.workspace}}/.github/screenshot-script.txt
           killall game.x64
           wait $WIVRN_PID || true
