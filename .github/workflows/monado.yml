@@ -95,33 +95,25 @@ jobs:
         WLR_LIBINPUT_NO_DEVICES: 1
         XR_RUNTIME_JSON: ${{github.workspace}}/build-monado/openxr_monado-dev.json
         P_OVERRIDE_ACTIVE_CONFIG: remote
-       # WIVRN_CONTROLLER: meta-quest-touch-plus
-       # WIVRN_GRIP_LEFT_OFFSET: '0 0 0 0 45 0'
-        #WIVRN_GRIP_RIGHT_OFFSET: '0 0 0 0 45 0'
         XRT_COMPOSITOR_SCALE_PERCENTAGE: '100'
+        # Screenshot viewport
+        GAME_VIEW_H: 960
+        GAME_VIEW_DOUBLE_H: 1920
+        GAME_VIEW_W: 1080
       run: |
         echo "xwayland disable" > sway-config
-        echo -e "output HEADLESS-1 {\n mode 960x1080@60Hz\n}" >> sway-config
+        echo -e "output HEADLESS-1 {\n mode ${GAME_VIEW_H}x${GAME_VIEW_W}@60Hz\n}" >> sway-config
         sway -c sway-config &
         sleep 10
         export WAYLAND_DISPLAY=$(cd "${XDG_RUNTIME_DIR}" && ls -tr wayland* | tail -1)
-
-        #mkdir -p ~/.config/fontconfig
-        #cp ${{github.workspace}}/.github/fonts.conf ~/.config/fontconfig/fonts.conf
-
-        #${{github.workspace}}/build/server/wivrn-server --no-encrypt --no-publish-service &
-        #WIVRN_SERVER_PID=$!
-
-        #mkdir -p ~/.config/wivrn
-        #echo '{"servers": [{"autoconnect": false, "manual": true, "pretty_name": "Deep Thought", "hostname": "localhost", "port": 9757, "tcp_only": false, "cookie": ""}]}' > ~/.config/wivrn/client.json.in
        
-          ${{github.workspace}}/game.x64 -v &
-          WIVRN_PID=$!
-          sleep 20
-          ${{github.workspace}}/build-monado/src/xrt/targets/remotectl/monado-remotectl 127.0.0.1 4242 < ${{github.workspace}}/.github/screenshot-script.txt
-          killall game.x64
-          wait $WIVRN_PID || true
-          ls -a
+        ${{github.workspace}}/game.x64 -v &
+        GAME_PID=$!
+        sleep 20
+        ${{github.workspace}}/build-monado/src/xrt/targets/remotectl/monado-remotectl 127.0.0.1 4242 < ${{github.workspace}}/.github/screenshot-script.txt
+        killall game.x64
+        wait $GAME_PID || true
+        ls -a
     
     - name: Upload screenshots
       uses: actions/upload-artifact@v4
