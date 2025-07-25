@@ -97,7 +97,7 @@ jobs:
         P_OVERRIDE_ACTIVE_CONFIG: remote
         XRT_COMPOSITOR_SCALE_PERCENTAGE: '100'
         # Screenshot viewport
-        GAME_VIEW_H: 960
+        GAME_VIEW_H: 1920
         GAME_VIEW_DOUBLE_H: 1920
         GAME_VIEW_W: 1080
       run: |
