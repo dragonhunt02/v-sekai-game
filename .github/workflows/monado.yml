@@ -14,6 +14,19 @@ jobs:
   build-test-client:
     name: Linux client
     runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      actions: write
+      issues: none
+      pull-requests: none
+      checks: none
+      deployments: none
+      statuses: none
+      packages: none
+      pages: none
+      repository-projects: none
+      discussions: none
+      id-token: none
 
     steps:
     - uses: actions/checkout@v4
@@ -107,4 +120,26 @@ jobs:
       with:
         name: Screenshots
         path: "screenshot-*.png"
+  
+  upload-screens:
+    name: Upload Github
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+      actions: write
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: Screenshots
+          path: screens
+      - name: commit
+        run: |
+            git config --global user.email "github.example@github.com"
+            git config --global user.name "github-example"
+            git add -A
+            git commit -a -m 'Test screen monado'
+            git log
+            git status
+            git push
 
