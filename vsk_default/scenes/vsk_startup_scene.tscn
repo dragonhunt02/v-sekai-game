@@ -204,7 +204,7 @@ scene_properties_keys = PackedStringArray("vsk_welcome_message.gd")
 
 [node name="Popup" parent="XRScreens" instance=ExtResource("3_hiocw")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -2.9)
-visible = true
+visible = false
 screen_size = Vector2(1, 0.5)
 scene = ExtResource("3_2k5sa")
 input_gamepad = true
