@@ -100,10 +100,11 @@ jobs:
           ${{github.workspace}}/build-monado/src/xrt/targets/remotectl/monado-remotectl 127.0.0.1 4242 < ${{github.workspace}}/.github/screenshot-script.txt
           killall game.x64
           wait $WIVRN_PID || true
+          ls -a
     
     - name: Upload screenshots
       uses: actions/upload-artifact@v4
       with:
         name: Screenshots
-        path: "*/screenshot-*.png"
+        path: "screenshot-*.png"
 
