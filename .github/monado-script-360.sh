@@ -52,7 +52,7 @@ for x in {0..3}; do
   ANGLE_X=$(( x * 90 ))
   ANGLE_Y=0
   ANGLE_Z=0
-  quaternion=( $(euler_to_quaternion $ANGLE_X $ANGLE_Y $ANGLE_Z) )
+  quat=( $(euler_to_quaternion $ANGLE_X $ANGLE_Y $ANGLE_Z) )
 
   QX=${quat[0]}
   QY=${quat[1]}
