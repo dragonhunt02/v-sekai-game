@@ -132,13 +132,13 @@ jobs:
         sleep 200
 
         # Capture
-        export OUTPUT_DIR=screenshots
+        export OUTPUT_DIR=screenshots/auto
         mkdir -p "${OUTPUT_DIR}"
         ${MONADO_CLIENT_PATH} < ${{github.workspace}}/.github/screenshot-script.txt       
 
         # Very slow alternative capture (~18min), generates 9 screenshots at set angles
         # chmod +x .github/monado-script-360.sh
-        # bash .github/monado-script-360.sh "${MONADO_CLIENT_PATH}" ${GAME_VIEW_W} ${GAME_VIEW_H} 100 "./screenshots-360"
+        # bash .github/monado-script-360.sh "${MONADO_CLIENT_PATH}" ${GAME_VIEW_W} ${GAME_VIEW_H} 100 "./screenshots"
 
         killall game.x64
         wait $GAME_PID || true
@@ -148,7 +148,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: Screenshots
-        path: "screenshot*"
+        path: "screenshots/*"
   
   upload-screens:
     name: Upload Github
@@ -165,16 +165,16 @@ jobs:
       - name: Clear old screenshots
         run: |
             pwd
-            #rm -r screens || true
+            #rm -r screenshots/auto/* || true
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: Screenshots
-          path: screens
+          path: previews
       - name: commit
         run: |
-            git config --global user.email "github.example@github.com"
-            git config --global user.name "github-example"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git config --global user.name "github-actions[bot]"
             git add -A
             git commit -a -m 'Test screen monado'
             git log
