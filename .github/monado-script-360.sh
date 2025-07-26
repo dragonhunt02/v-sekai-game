@@ -1,13 +1,25 @@
 #!/usr/bin/env bash
 
+# Screenshots 
+
 # Monado client executable
 CLIENT_MONADO=$1
-WAIT_TIME=$2
+VIEW_WIDTH=$2
+VIEW_HEIGHT=$3
+WAIT_TIME=$4
 
 # Output directory
 OUTDIR="./screenshots-rotate"
 mkdir -p "$OUTDIR"
 
+# Head position (constant)
+PX=0.0
+PY=1.5
+PZ=0.2
+
+# Loop over 0, 120, 240 degrees
+ANGLE_SPAN=360
+SUBDIVS=3
 
 # euler_to_quaternion: print QX QY QZ QW for given roll, pitch, yaw (degrees)
 euler_to_quaternion() {
@@ -46,44 +58,42 @@ euler_to_quaternion() {
   printf "%.6f %.6f %.6f %.6f\n" "$qx" "$qy" "$qz" "$qw"
 }
 
-# Head position (constant)
-PX=0.0
-PY=1.5
-PZ=0.2
+# Start
 
-# Loop over 0, 90, 180, 270 degrees
-ANGLE_SPAN=360
-SUBD=3
-ANGLE_SUBD=$(( ${ANGLE_SPAN} / ${SUBD} ))
+# Calculate single subdivision
+ANGLE_SUBD=$(( ${ANGLE_SPAN} / ${SUBDIVS} ))
 
-for x in $(seq 0 "$SUBD"); do
-for y in $(seq 0 "$SUBD"); do
-  ANGLE_X=$(( x * ANGLE_SUBD ))
-  ANGLE_Y=$(( y * ANGLE_SUBD ))
-  ANGLE_Z=0
-  quat=( $(euler_to_quaternion $ANGLE_X $ANGLE_Y $ANGLE_Z) )
+# Skip 360deg angle (equal to 0deg)
+ITER=$((SUBDIVS - 1))
 
-  QX=${quat[0]}
-  QY=${quat[1]}
-  QZ=${quat[2]}
-  QW=${quat[3]}
-  echo "Rotation QX:$QX QY:$QY QZ:$QZ"
+for x in $(seq 0 "$ITER"); do
+  for y in $(seq 0 "$ITER"); do
+    ANGLE_X=$(( x * ANGLE_SUBD ))
+    ANGLE_Y=$(( y * ANGLE_SUBD ))
+    ANGLE_Z=0
+    quat=( $(euler_to_quaternion $ANGLE_X $ANGLE_Y $ANGLE_Z) )
 
-  # Inject head pose into Monado
-  ${CLIENT_MONADO} <<EOF
+    QX=${quat[0]}
+    QY=${quat[1]}
+    QZ=${quat[2]}
+    QW=${quat[3]}
+    echo "Set Head Rotation: QX=$QX QY=$QY QZ=$QZ"
+
+    # Inject head pose into Monado
+    ${CLIENT_MONADO} <<EOF
 set head position ${PX} ${PY} ${PZ}
 set head rotation ${QX} ${QY} ${QZ} ${QW}
 EOF
 
-  # Allow the system to stabilize
-  sleep ${WAIT_TIME}
+    # Allow the system to stabilize and wait render frame to load
+    sleep ${WAIT_TIME}
 
-  # Capture the composited window (adjust geometry as needed)
-  grim -g "0,0 960x1080" "${OUTDIR}/screenshot-${ANGLE_X}_${ANGLE_Y}_${ANGLE_Z}deg.png"
+    # Capture the composited window
+    grim -g "0,0 ${VIEW_WIDTH}x${VIEW_HEIGHT}" "${OUTDIR}/screenshot-${ANGLE_X}_${ANGLE_Y}_${ANGLE_Z}deg.png"
 
-  # Small pause before next iteration
-  sleep 1
+    # Pause before next iteration
+    sleep 1
+  done
 done
-done
 
-echo "Screenshots saved in ${OUTDIR}/"
+echo "Screenshots of 360deg sequence saved in ${OUTDIR}/"
