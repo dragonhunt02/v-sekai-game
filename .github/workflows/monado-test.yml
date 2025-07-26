@@ -114,7 +114,7 @@ jobs:
         MONADO_CLIENT_PATH="${{github.workspace}}/build-monado/src/xrt/targets/remotectl/monado-remotectl 127.0.0.1 4242 "
         #${{github.workspace}}/build-monado/src/xrt/targets/remotectl/monado-remotectl 127.0.0.1 4242 < ${{github.workspace}}/.github/screenshot-script.txt        
         chmod +x .github/monado-script-360.sh
-        bash .github/monado-script-360.sh "${MONADO_CLIENT_PATH}" 100
+        bash .github/monado-script-360.sh "${MONADO_CLIENT_PATH}" 960 1080 100
         killall game.x64
         wait $GAME_PID || true
         ls -a
