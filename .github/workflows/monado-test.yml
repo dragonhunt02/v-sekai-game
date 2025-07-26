@@ -126,6 +126,7 @@ jobs:
         echo -e "output HEADLESS-1 {\n mode ${GAME_VIEW_H}x${GAME_VIEW_W}@60Hz\n}" >> sway-config
         sway -c sway-config &
         sleep 10
+        export SWAYSOCK=$(ls /run/user/$(id -u)/sway-ipc.*.sock | head -n1)
         export WAYLAND_DISPLAY=$(cd "${XDG_RUNTIME_DIR}" && ls -tr wayland* | tail -1)
         MONADO_CLIENT_PATH="${{github.workspace}}/build-monado/src/xrt/targets/remotectl/monado-remotectl 127.0.0.1 4242 "
         # export WAYLAND_DEBUG=1
