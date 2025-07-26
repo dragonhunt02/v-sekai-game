@@ -12,15 +12,17 @@ on:
         type: choice
         options:
           - Run_tests
-          - Update_README_screenshots
+          - Update_README_imgs
         default: Run_tests
 
 env:
-  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
-  BUILD_TYPE: Release
+  # Push updated screenshots to repo.
+  # Selecting 'Update_README_screenshots' option
+  # in Actions tab overrides this.
+  UPDATE_README_IMGS: true
 
 jobs:
-  build-test-client:
+  run-test:
     name: Test Linux
     runs-on: ubuntu-24.04
     permissions:
@@ -36,27 +38,22 @@ jobs:
       repository-projects: none
       discussions: none
       id-token: none
+    outputs:
+      UPDATE_README_IMGS: ${{ steps.setenv.outputs.UPDATE_README_IMGS }}
 
     steps:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
-    - name: Fetch latest game build
-      run: |
-        #curl -o game.x64 -L https://github.com/V-Sekai/v-sekai-game/releases/download/0.1.0-nightly-2025-07-26T111330-b099fb4_editor-ac70214-rx/v-sekai-game_0.1.0-b099fb4_editor-ac70214_Linux
-        curl -sS \
-          -H "Accept: application/vnd.github+json" \
-          "https://api.github.com/repos/${{ github.repository }}/releases" \
-          | jq -r '.[0]' > releases_json.txt
-        FILE_URL=$( \
-          cat 'releases_json.txt' \
-          | jq -r '.assets.[] | select(.name | test("_Linux$")).browser_download_url' \
-        )
-        echo "Downloading ${FILE_URL}"
-        curl -o game.x64 -L --url ${FILE_URL}
-        chmod +x game.x64
-        ls -a .
-
+  
+    - name: Set environment
+      id: setenv
+      run: >
+        if ${{ github.event.inputs.environment == "Update_README_imgs" }}; then
+          UPDATE_README_IMGS=true;
+        fi
+        echo "UPDATE_README_IMGS=${UPDATE_README_IMGS}" >> $GITHUB_OUTPUT
+        
     - name: Prepare Vulkan SDK
       uses: humbletim/setup-vulkan-sdk@286ed76c72de45dbf50c515779cf4ca2f6aa3944
       with:
@@ -95,7 +92,6 @@ jobs:
 
     - name: Fetch latest game build
       run: |
-        #curl -o game.x64 -L https://github.com/V-Sekai/v-sekai-game/releases/download/0.1.0-nightly-2025-07-26T111330-b099fb4_editor-ac70214-rx/v-sekai-game_0.1.0-b099fb4_editor-ac70214_Linux
         curl -sS \
           -H "Accept: application/vnd.github+json" \
           "https://api.github.com/repos/${{ github.repository }}/releases" \
@@ -106,6 +102,7 @@ jobs:
         )
         echo "Downloading ${FILE_URL}"
         curl -o game.x64 -L --url ${FILE_URL}
+        curl -o game.x64 -L https://github.com/V-Sekai/v-sekai-game/releases/download/0.1.0-nightly-2025-07-26T111330-b099fb4_editor-ac70214-rx/v-sekai-game_0.1.0-b099fb4_editor-ac70214_Linux
         chmod +x game.x64
         ls -a .
  
@@ -120,7 +117,6 @@ jobs:
         XRT_COMPOSITOR_SCALE_PERCENTAGE: '100'
         # Screenshot viewport
         GAME_VIEW_H: 1080
-        #GAME_VIEW_DOUBLE_W: 1920
         GAME_VIEW_W: 960
       run: |
         echo "xwayland disable" > sway-config
@@ -128,19 +124,25 @@ jobs:
         sway -c sway-config &
         sleep 10
         export WAYLAND_DISPLAY=$(cd "${XDG_RUNTIME_DIR}" && ls -tr wayland* | tail -1)
+        MONADO_CLIENT_PATH="${{github.workspace}}/build-monado/src/xrt/targets/remotectl/monado-remotectl 127.0.0.1 4242 "
        
         ${{github.workspace}}/game.x64 -v &
         GAME_PID=$!
-        #sleep 120 #menu visible
+        # Wait game load
         sleep 200
-        MONADO_CLIENT_PATH="${{github.workspace}}/build-monado/src/xrt/targets/remotectl/monado-remotectl 127.0.0.1 4242 "
-        ${MONADO_CLIENT_PATH} < ${{github.workspace}}/.github/screenshot-script.txt        
-        chmod +x .github/monado-script-360.sh
-        bash .github/monado-script-360.sh "${MONADO_CLIENT_PATH}" ${GAME_VIEW_W} ${GAME_VIEW_H} 100 "./screenshots-360"
+
+        # Capture
+        export OUTPUT_DIR=screenshots
+        mkdir -p "${OUTPUT_DIR}"
+        ${MONADO_CLIENT_PATH} < ${{github.workspace}}/.github/screenshot-script.txt       
+
+        # Very slow alternative capture (~18min), generates 9 screenshots at set angles
+        # chmod +x .github/monado-script-360.sh
+        # bash .github/monado-script-360.sh "${MONADO_CLIENT_PATH}" ${GAME_VIEW_W} ${GAME_VIEW_H} 100 "./screenshots-360"
+
         killall game.x64
         wait $GAME_PID || true
-        ls -a
-        ls -a screenshots-360
+        ls -a .
     
     - name: Upload screenshots
       uses: actions/upload-artifact@v4
@@ -151,7 +153,8 @@ jobs:
   upload-screens:
     name: Upload Github
     runs-on: ubuntu-24.04
-    needs: build-test-client
+    needs: run-test
+    if: needs.run-test.outputs.UPDATE_README_IMGS == 'true'
     permissions:
       contents: write
       actions: write
@@ -159,7 +162,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: clear
+      - name: Clear old screenshots
         run: |
             pwd
             #rm -r screens || true
