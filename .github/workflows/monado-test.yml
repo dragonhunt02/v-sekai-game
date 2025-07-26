@@ -122,6 +122,7 @@ jobs:
         GAME_VIEW_H: 1080
         GAME_VIEW_W: 960
       run: |
+        sway -v
         echo "xwayland disable" > sway-config
         echo -e "output HEADLESS-1 {\n mode ${GAME_VIEW_H}x${GAME_VIEW_W}@60Hz\n}" >> sway-config
         sway -c sway-config &
