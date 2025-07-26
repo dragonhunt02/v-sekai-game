@@ -1,10 +1,19 @@
-name: Build
+name: XR Test Suite
 
 on:
   push:
      branches:
        monado-action-updated
-  #pull_request:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select Run mode'
+        required: true
+        type: choice
+        options:
+          - Run_tests
+          - Update_README_screenshots
+        default: Run_tests
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
@@ -12,7 +21,7 @@ env:
 
 jobs:
   build-test-client:
-    name: Linux client
+    name: Test Linux
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -32,11 +41,21 @@ jobs:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
-
-    #- name: ccache
-   #   uses: hendrikmuhs/ccache-action@v1.2
-    #  with:
-     #   create-symlink: true
+    - name: Fetch latest game build
+      run: |
+        #curl -o game.x64 -L https://github.com/V-Sekai/v-sekai-game/releases/download/0.1.0-nightly-2025-07-26T111330-b099fb4_editor-ac70214-rx/v-sekai-game_0.1.0-b099fb4_editor-ac70214_Linux
+        curl -sS \
+          -H "Accept: application/vnd.github+json" \
+          "https://api.github.com/repos/${{ github.repository }}/releases" \
+          | jq -r '.[0]' > releases_json.txt
+        FILE_URL=$( \
+          cat 'releases_json.txt' \
+          | jq -r '.assets.[] | select(.name | test("_Linux$")).browser_download_url' \
+        )
+        echo "Downloading ${FILE_URL}"
+        curl -o game.x64 -L --url ${FILE_URL}
+        chmod +x game.x64
+        ls -a .
 
     - name: Prepare Vulkan SDK
       uses: humbletim/setup-vulkan-sdk@286ed76c72de45dbf50c515779cf4ca2f6aa3944
@@ -49,44 +68,47 @@ jobs:
       run: >
         sudo apt-get update && sudo apt-get install libvulkan-dev libcjson-dev libx264-dev libavcodec-dev libavutil-dev libswscale-dev libavfilter-dev libbsd-dev libavahi-client-dev libeigen3-dev glslang-tools libudev-dev libwayland-dev libx11-xcb-dev libxrandr-dev libxcb-randr0-dev libgl-dev libglx-dev mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev libsystemd-dev libva-dev libxcb-glx0-dev gettext libfontconfig-dev libboost-all-dev librsvg2-bin libssl-dev sway grim mesa-vulkan-drivers wayland-protocols fonts-noto-cjk fonts-roboto
 
-    #- name: install server dependencies
-    #  run: >
-    #    sudo apt-get update && sudo apt-get install libavahi-glib-dev nlohmann-json3-dev libpulse-dev xz-utils libpipewire-0.3-dev libcli11-dev qt6-base-dev qt6-tools-dev libcap-dev pkexec libnotify-dev
-
-    #- name: Configure CMake
-   #   run: >
-    #    cmake -B ${{github.workspace}}/build
-   #     -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-    #    -DCMAKE_INSTALL_PREFIX=/usr
-    #    --preset everything
-    #    -DWIVRN_BUILD_DASHBOARD=OFF
-     #   -DWIVRN_BUILD_DISSECTOR=OFF
     - name: Cache CMake build directory
       uses: actions/cache@v4
       with:
         path: ${{github.workspace}}/build-monado
         key: ${{ runner.os }}-cmake-build-monado
-        #${{ hashFiles('**/CMakeLists.txt') }}
         restore-keys: |
           ${{ runner.os }}-cmake-build-monado
 
     - name: Build Monado
       # Disable XRT_FEATURE_OPENXR_VISIBILITY_MASK because of https://gitlab.freedesktop.org/monado/monado/-/issues/480
       run: |
+        # Use remotectl driver fork
+        # https://gitlab.freedesktop.org/Meumeu/monado/-/commit/5bdb51697685320e3f5d494210f25fb2967c9fc3
+        
+        # Usage example:
+        # https://github.com/WiVRn/WiVRn/blob/ac2044dffc261daf14b16a2df42a24328e38b138/.github/workflows/Build.yml#L209
+
         mkdir monado
         curl https://gitlab.freedesktop.org/Meumeu/monado/-/archive/5bdb51697685320e3f5d494210f25fb2967c9fc3/monado-main.tar.gz | tar -xz -C monado --strip-components=1
-        #patch --directory=${{github.workspace}}/monado --strip=1 < ${{github.workspace}}/patches/monado-ci/0001-remote-resolution.patch
 
         DRIVERS=$(grep -oE "XRT_BUILD_DRIVER_[A-Z0-9_]*" monado/CMakeLists.txt | sort -u  | grep -v XRT_BUILD_DRIVER_REMOTE | sed 's/\(.*\)/-D\1=OFF/')
         cmake monado -B ${{github.workspace}}/build-monado -DCMAKE_BUILD_TYPE=Release -DXRT_FEATURE_SERVICE_SYSTEMD=OFF -DXRT_FEATURE_SERVICE=OFF -DXRT_BUILD_DRIVER_REMOTE=ON -DXRT_MODULE_COMPOSITOR_MAIN=ON -DXRT_HAVE_WAYLAND=ON $DRIVERS -DXRT_MODULE_MONADO_REMOTECTL=ON -DBUILD_TESTING=OFF -DXRT_FEATURE_OPENXR_VISIBILITY_MASK=OFF
 
         cmake --build ${{github.workspace}}/build-monado
-        curl -o game.x64 -L https://github.com/V-Sekai/v-sekai-game/releases/download/0.1.0-nightly-2025-07-26T111330-b099fb4_editor-ac70214-rx/v-sekai-game_0.1.0-b099fb4_editor-ac70214_Linux
-        ls -a .
-        pwd
-        chmod +x game.x64
-        #exit 1
 
+    - name: Fetch latest game build
+      run: |
+        #curl -o game.x64 -L https://github.com/V-Sekai/v-sekai-game/releases/download/0.1.0-nightly-2025-07-26T111330-b099fb4_editor-ac70214-rx/v-sekai-game_0.1.0-b099fb4_editor-ac70214_Linux
+        curl -sS \
+          -H "Accept: application/vnd.github+json" \
+          "https://api.github.com/repos/${{ github.repository }}/releases" \
+          | jq -r '.[0]' > releases_json.txt
+        FILE_URL=$( \
+          cat 'releases_json.txt' \
+          | jq -r '.assets.[] | select(.name | test("_Linux$")).browser_download_url' \
+        )
+        echo "Downloading ${FILE_URL}"
+        curl -o game.x64 -L --url ${FILE_URL}
+        chmod +x game.x64
+        ls -a .
+ 
     - name: Take screenshots
       #continue-on-error: true
       env:
@@ -97,9 +119,9 @@ jobs:
         P_OVERRIDE_ACTIVE_CONFIG: remote
         XRT_COMPOSITOR_SCALE_PERCENTAGE: '100'
         # Screenshot viewport
-        GAME_VIEW_H: 1920
-        GAME_VIEW_DOUBLE_H: 1920
-        GAME_VIEW_W: 1080
+        GAME_VIEW_H: 1080
+        #GAME_VIEW_DOUBLE_W: 1920
+        GAME_VIEW_W: 960
       run: |
         echo "xwayland disable" > sway-config
         echo -e "output HEADLESS-1 {\n mode ${GAME_VIEW_H}x${GAME_VIEW_W}@60Hz\n}" >> sway-config
@@ -112,21 +134,19 @@ jobs:
         #sleep 120 #menu visible
         sleep 200
         MONADO_CLIENT_PATH="${{github.workspace}}/build-monado/src/xrt/targets/remotectl/monado-remotectl 127.0.0.1 4242 "
-        #${{github.workspace}}/build-monado/src/xrt/targets/remotectl/monado-remotectl 127.0.0.1 4242 < ${{github.workspace}}/.github/screenshot-script.txt        
+        ${MONADO_CLIENT_PATH} < ${{github.workspace}}/.github/screenshot-script.txt        
         chmod +x .github/monado-script-360.sh
-        bash .github/monado-script-360.sh "${MONADO_CLIENT_PATH}" 960 1080 100 "./screenshots-360"
+        bash .github/monado-script-360.sh "${MONADO_CLIENT_PATH}" ${GAME_VIEW_W} ${GAME_VIEW_H} 100 "./screenshots-360"
         killall game.x64
         wait $GAME_PID || true
         ls -a
         ls -a screenshots-360
-        #mv screenshots-rotate screenshots-360
     
     - name: Upload screenshots
       uses: actions/upload-artifact@v4
       with:
         name: Screenshots
         path: "screenshot*"
-        #-*.png"
   
   upload-screens:
     name: Upload Github
