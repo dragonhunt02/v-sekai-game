@@ -174,8 +174,16 @@ jobs:
         run: |
           BASE="previews/auto"     
           NEWBASE="new-previews/auto"
-          compare -metric AE ${BASE}/screenshot-01.png ${NEWBASE}/screenshot-01.png diff.png 2> diff.log
-          cat diff.log
+          
+          compare -metric AE ${BASE}/screenshot-01.png ${NEWBASE}/screenshot-01.png AE-diff.png 2> AE-diff.log
+          AEValue=$(cat AE-diff.log)
+          compare -metric PSNR ${BASE}/screenshot-01.png ${NEWBASE}/screenshot-01.png PSNR-diff.png 2> PSNR-diff.log
+          PSNRValue=$(cat PSNR-diff.log)
+          compare -metric SSIM ${BASE}/screenshot-01.png ${NEWBASE}/screenshot-01.png SSIM-diff.png 2> SSIM-diff.log
+          SSIMValue=$(cat SSIM-diff.log)
+          echo -e "${BASE}/screenshot-01.png\nAEValue=${AEValue}\nPSNRValue=${PSNRValue}\nSSIMValue=${SSIMValue}\n\n" >> results.txt
+
+          cat results.txt
 
   upload-screens:
     name: Upload Github
