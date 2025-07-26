@@ -25,8 +25,8 @@ jobs:
   run-test:
     name: Run Linux Tests
     runs-on: ubuntu-24.04
-    container:
-      image: ubuntu:25.04
+    #container:
+   #   image: ubuntu:25.04
     permissions:
       contents: read
       actions: write
@@ -54,7 +54,6 @@ jobs:
         if [[ "${{ github.event.inputs.environment}}" == "Update_README_imgs" ]]; then
           UPDATE_README_IMGS=true;
         fi
-        sudo apt-get update && sudo apt-get install curl
         echo "UPDATE_README_IMGS=${UPDATE_README_IMGS}" >> $GITHUB_OUTPUT
         
     - name: Prepare Vulkan SDK
@@ -66,18 +65,29 @@ jobs:
 
     - name: Install dependencies
       run: |
-        sudo apt-get update && sudo apt-get install sway libvulkan-dev libcjson-dev libx264-dev libavcodec-dev libavutil-dev libswscale-dev libavfilter-dev libbsd-dev libavahi-client-dev libeigen3-dev glslang-tools libudev-dev libwayland-dev libx11-xcb-dev libxrandr-dev libxcb-randr0-dev libgl-dev libglx-dev mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev libsystemd-dev libva-dev libxcb-glx0-dev gettext libfontconfig-dev libboost-all-dev librsvg2-bin libssl-dev grim mesa-vulkan-drivers wayland-protocols fonts-noto-cjk fonts-roboto
+        sudo apt-get update && sudo apt-get install libvulkan-dev libcjson-dev libx264-dev libavcodec-dev libavutil-dev libswscale-dev libavfilter-dev libbsd-dev libavahi-client-dev libeigen3-dev glslang-tools libudev-dev libwayland-dev libx11-xcb-dev libxrandr-dev libxcb-randr0-dev libgl-dev libglx-dev mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev libsystemd-dev libva-dev libxcb-glx0-dev gettext libfontconfig-dev libboost-all-dev librsvg2-bin libssl-dev grim mesa-vulkan-drivers wayland-protocols fonts-noto-cjk fonts-roboto
         #sway
         # Wayland keyboard simulation
         sudo apt-get install wtype
-                
-    - name: Cache Monado CMake build directory
-      uses: actions/cache@v4
-      with:
-        path: ${{github.workspace}}/build-monado
-        key: ${{ runner.os }}-cmake-build-monado
-        restore-keys: |
-          ${{ runner.os }}-cmake-build-monado
+        #sway
+        sudo apt-get install glslang-tools libcairo2-dev libcap-dev libdbus-1-dev libdisplay-info-dev libevdev-dev libgdk-pixbuf2.0-dev libinput-dev libjson-c-dev libliftoff-dev libpam0g-dev libpango1.0-dev libpcre2-dev libpixman-1-dev libseat-dev libsystemd-dev libvulkan-dev libwayland-dev libwayland-egl1 libwlroots-dev libxcb-ewmh-dev libxkbcommon-dev meson pkgconf scdoc tree wayland-protocols
+
+    - name: Build Monado sway
+      run: |
+        # Clone repositories
+        git clone https://gitlab.freedesktop.org/wlroots/wlroots.git
+        cd wlroots
+        meson build/
+        ninja -C build/
+        sudo ninja -C build install
+        git clone https://github.com/swaywm/sway.git
+        cd sway
+        meson build/
+        ninja -C build/
+        sudo ninja -C build install        
+    - name: Build Monado sway
+      run: |
+          sway -v
 
     - name: Build Monado
       # Disable XRT_FEATURE_OPENXR_VISIBILITY_MASK because of https://gitlab.freedesktop.org/monado/monado/-/issues/480
