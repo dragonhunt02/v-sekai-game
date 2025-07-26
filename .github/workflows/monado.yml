@@ -123,8 +123,8 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: Screenshots
-        path: "screenshot-*"
-        #.png"
+        path: "screenshot*"
+        #-*.png"
   
   upload-screens:
     name: Upload Github
