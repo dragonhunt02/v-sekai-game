@@ -174,16 +174,43 @@ jobs:
         run: |
           BASE="previews/auto"     
           NEWBASE="new-previews/auto"
-          
-          compare -metric AE ${BASE}/screenshot-01.png ${NEWBASE}/screenshot-01.png AE-diff.png 2> AE-diff.log
-          AEValue=$(cat AE-diff.log)
-          compare -metric PSNR ${BASE}/screenshot-01.png ${NEWBASE}/screenshot-01.png PSNR-diff.png 2> PSNR-diff.log
-          PSNRValue=$(cat PSNR-diff.log)
-          compare -metric SSIM ${BASE}/screenshot-01.png ${NEWBASE}/screenshot-01.png SSIM-diff.png 2> SSIM-diff.log
-          SSIMValue=$(cat SSIM-diff.log)
-          echo -e "${BASE}/screenshot-01.png\nAEValue=${AEValue}\nPSNRValue=${PSNRValue}\nSSIMValue=${SSIMValue}\n\n" >> results.txt
+          RESULT_FILE="results.txt"
 
-          cat results.txt
+          # Clear any results file
+          > "$RESULT_FILE"
+          
+          for NEWBASEFILE in "${NEWBASE}"/*.png; do
+              echo "Comparing ${NEWBASEFILE}..."
+              FILENAME=$(basename "$NEWFILE")
+              BASEFILE="${BASE}/${FILENAME}"
+
+              # Skip if BASEFILE doesn't exist
+              if [[ ! -f "$BASEFILE" ]]; then
+                  echo "Skipping ${FILENAME} (no match in BASE)" >> "$RESULT_FILE"
+                  continue
+              fi
+
+              # AE
+              compare -metric AE "$BASEFILE" "$NEWBASEFILE" AE-diff-${FILENAME} 2> AE-diff.log
+              AEValue=$(cat AE-diff.log)
+              # PSNR
+              compare -metric PSNR "$BASEFILE" "$NEWBASEFILE" PSNR-diff-${FILENAME} 2> PSNR-diff.log
+              PSNRValue=$(cat PSNR-diff.log)
+              # SSIM
+              compare -metric SSIM "$BASEFILE" "$NEWBASEFILE" SSIM-diff-${FILENAME} 2> SSIM-diff.log
+              SSIMValue=$(cat SSIM-diff.log)
+
+              {
+                  echo "${BASEFILE}"
+                  echo "AEValue=${AEValue}"
+                  echo "PSNRValue=${PSNRValue}"
+                  echo "SSIMValue=${SSIMValue}"
+                  echo ""
+              } >> "$RESULT_FILE"
+              done
+
+              cat "$RESULT_FILE"
+
 
   upload-screens:
     name: Upload Github
