@@ -111,7 +111,7 @@ jobs:
         GAME_PID=$!
         #sleep 120 #menu visible
         sleep 200
-        MONADO_CLIENT_PATH="${{github.workspace}}/build-monado/src/xrt/targets/remotectl/monado-remotectl127.0.0.1 4242 "
+        MONADO_CLIENT_PATH="${{github.workspace}}/build-monado/src/xrt/targets/remotectl/monado-remotectl 127.0.0.1 4242 "
         #${{github.workspace}}/build-monado/src/xrt/targets/remotectl/monado-remotectl 127.0.0.1 4242 < ${{github.workspace}}/.github/screenshot-script.txt        
         chmod +x .github/monado-script-360.sh
         bash .github/monado-script-360.sh ${MONADO_CLIENT_PATH} 10
