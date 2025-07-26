@@ -95,7 +95,7 @@ jobs:
         curl -sS \
           -H "Accept: application/vnd.github+json" \
           "https://api.github.com/repos/${{ github.repository }}/releases" \
-          | jq -r '[.[] | select(.tag_name | test("-rx$"))] | sort_by(.updated_at) | reverse | .[0]' > releases_json.txt
+          | jq -r '[.[] | select(.tag_name | test("-rx$"))] | sort_by(.updated_at) | .[0]' > releases_json.txt
         FILE_URL=$( \
           cat 'releases_json.txt' \
           | jq -r '.assets.[] | select(.name | test("_Linux$")).browser_download_url' \
@@ -132,13 +132,13 @@ jobs:
         sleep 200
 
         # Capture
-        export OUTPUT_DIR=screenshots/auto
+        export OUTPUT_DIR=./screenshots/auto
         mkdir -p "${OUTPUT_DIR}"
         ${MONADO_CLIENT_PATH} < ${{github.workspace}}/.github/screenshot-script.txt       
 
         # Very slow alternative capture (~18min), generates 9 screenshots at set angles
         # chmod +x .github/monado-script-360.sh
-        # bash .github/monado-script-360.sh "${MONADO_CLIENT_PATH}" ${GAME_VIEW_W} ${GAME_VIEW_H} 100 "./screenshots"
+        # bash .github/monado-script-360.sh "${MONADO_CLIENT_PATH}" ${GAME_VIEW_W} ${GAME_VIEW_H} 100 "${OUTPUT_DIR}"
 
         killall game.x64
         wait $GAME_PID || true
@@ -149,7 +149,31 @@ jobs:
       with:
         name: Screenshots
         path: "screenshots/*"
-  
+
+  compare-screens:
+    name: Compare test
+    runs-on: ubuntu-24.04
+    needs: run-test
+    continue-on-error: true
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - name: Install dependencies
+        run: >
+          sudo apt-get update && sudo apt-get install imagemagick
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: Screenshots
+          path: new-previews
+      - name: Compare
+        run: |
+          BASE="previews/auto"     
+          NEWBASE="new-previews/auto"
+          compare -metric AE ${BASE}/screenshot-01.png ${NEWBASE}/screenshot-01.png diff.png 2> diff.log
+          cat diff.log
+
   upload-screens:
     name: Upload Github
     runs-on: ubuntu-24.04
