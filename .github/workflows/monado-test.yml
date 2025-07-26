@@ -3,7 +3,7 @@ name: Build
 on:
   push:
      branches:
-       monado-action
+       monado-action-updated
   #pull_request:
 
 env:
