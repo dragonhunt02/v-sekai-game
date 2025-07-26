@@ -54,7 +54,7 @@ jobs:
         if [[ "${{ github.event.inputs.environment}}" == "Update_README_imgs" ]]; then
           UPDATE_README_IMGS=true;
         fi
-        sudo apt-get install curl
+        sudo apt-get update && sudo apt-get install curl
         echo "UPDATE_README_IMGS=${UPDATE_README_IMGS}" >> $GITHUB_OUTPUT
         
     - name: Prepare Vulkan SDK
