@@ -67,6 +67,7 @@ for y in $(seq 0 "$SUBD"); do
   QY=${quat[1]}
   QZ=${quat[2]}
   QW=${quat[3]}
+  echo "Rotation QX:$QX QY:$QY QZ:$QZ"
 
   # Inject head pose into Monado
   ${CLIENT_MONADO} <<EOF
