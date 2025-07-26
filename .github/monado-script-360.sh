@@ -4,12 +4,13 @@
 
 # Monado client executable
 CLIENT_MONADO=$1
+# Screenshot size
 VIEW_WIDTH=$2
 VIEW_HEIGHT=$3
+# Time to wait between each frame screenshot
 WAIT_TIME=$4
-
 # Output directory
-OUTDIR="./screenshots-rotate"
+OUTDIR=$5
 mkdir -p "$OUTDIR"
 
 # Head position (constant)
