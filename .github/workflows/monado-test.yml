@@ -91,7 +91,7 @@ jobs:
         cd ..
         git clone https://github.com/swaywm/sway.git
         cd sway
-        meson build/
+        meson setup build/ --wrap-mode=default
         ninja -C build/
         sudo ninja -C build install        
     - name: Build Monado swayy
