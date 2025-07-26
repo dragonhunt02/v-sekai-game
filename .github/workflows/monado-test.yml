@@ -23,7 +23,7 @@ env:
 
 jobs:
   run-test:
-    name: Test Linux
+    name: Run Linux Tests
     runs-on: ubuntu-24.04
     permissions:
       contents: read
@@ -46,6 +46,23 @@ jobs:
       with:
         fetch-depth: 0
   
+    - name: Fetch latest game build
+      run: |
+        curl -sS \
+          -H "Accept: application/vnd.github+json" \
+          "https://api.github.com/repos/${{ github.repository }}/releases" \
+          | jq -r '.[] | select(.tag_name | test("-rx$")) | .[0]' > releases_json.txt
+        FILE_URL=$( \
+          cat 'releases_json.txt' \
+          | jq -r '.assets.[] | select(.name | test("_Linux$")).browser_download_url' \
+        )
+        echo "Downloading ${FILE_URL}"
+        curl -o game.x64 -L --url ${FILE_URL}
+        curl -o game.x64 -L https://github.com/V-Sekai/v-sekai-game/releases/download/0.1.0-nightly-2025-07-26T111330-b099fb4_editor-ac70214-rx/v-sekai-game_0.1.0-b099fb4_editor-ac70214_Linux
+        chmod +x game.x64
+        ls -a .
+ 
+
     - name: Set environment
       id: setenv
       run: |
@@ -65,7 +82,7 @@ jobs:
       run: >
         sudo apt-get update && sudo apt-get install libvulkan-dev libcjson-dev libx264-dev libavcodec-dev libavutil-dev libswscale-dev libavfilter-dev libbsd-dev libavahi-client-dev libeigen3-dev glslang-tools libudev-dev libwayland-dev libx11-xcb-dev libxrandr-dev libxcb-randr0-dev libgl-dev libglx-dev mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev libsystemd-dev libva-dev libxcb-glx0-dev gettext libfontconfig-dev libboost-all-dev librsvg2-bin libssl-dev sway grim mesa-vulkan-drivers wayland-protocols fonts-noto-cjk fonts-roboto
 
-    - name: Cache CMake build directory
+    - name: Cache Monado CMake build directory
       uses: actions/cache@v4
       with:
         path: ${{github.workspace}}/build-monado
@@ -95,7 +112,7 @@ jobs:
         curl -sS \
           -H "Accept: application/vnd.github+json" \
           "https://api.github.com/repos/${{ github.repository }}/releases" \
-          | jq -r '.[0]' > releases_json.txt
+          | jq -r '.[] | select(.tag_name | test("-rx$")) | .[0]' > releases_json.txt
         FILE_URL=$( \
           cat 'releases_json.txt' \
           | jq -r '.assets.[] | select(.name | test("_Linux$")).browser_download_url' \
