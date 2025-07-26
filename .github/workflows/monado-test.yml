@@ -128,7 +128,7 @@ jobs:
         sleep 10
         export WAYLAND_DISPLAY=$(cd "${XDG_RUNTIME_DIR}" && ls -tr wayland* | tail -1)
         MONADO_CLIENT_PATH="${{github.workspace}}/build-monado/src/xrt/targets/remotectl/monado-remotectl 127.0.0.1 4242 "
-       
+        export WAYLAND_DEBUG=1
         ${{github.workspace}}/game.x64 -v &
         GAME_PID=$!
         # Wait game load
@@ -176,7 +176,9 @@ jobs:
       - name: Compare
         run: |
           #which compare
-          which magick
+          #which magick
+          echo "$PATH"
+          ls -a /usr/local/bin
 
           BASE="previews/auto"     
           NEWBASE="new-previews/auto"
