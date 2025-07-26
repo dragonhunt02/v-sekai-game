@@ -128,7 +128,7 @@ jobs:
         sleep 10
         export WAYLAND_DISPLAY=$(cd "${XDG_RUNTIME_DIR}" && ls -tr wayland* | tail -1)
         MONADO_CLIENT_PATH="${{github.workspace}}/build-monado/src/xrt/targets/remotectl/monado-remotectl 127.0.0.1 4242 "
-        export WAYLAND_DEBUG=1
+        # export WAYLAND_DEBUG=1
         ${{github.workspace}}/game.x64 -v &
         GAME_PID=$!
         # Wait game load
@@ -175,7 +175,7 @@ jobs:
           path: new-previews
       - name: Compare
         run: |
-          #which compare
+          which compare.im6 || true
           #which magick
           echo "$PATH"
           ls -a /usr/local/bin
@@ -201,16 +201,16 @@ jobs:
               fi
 
               # AE
-              magick compare -metric AE "$BASEFILE" "$NEWBASEFILE" "AE-diff.png" 2> AE-diff.log || true
+              compare.im6 -metric AE "$BASEFILE" "$NEWBASEFILE" "AE-diff.png" 2> AE-diff.log || true
               echo "AE"
               AEValue="$(cat AE-diff.log)"
               echo "AE ${AEValue}"
               # PSNR
-              magick compare -metric PSNR "$BASEFILE" "$NEWBASEFILE" PSNR-diff-${FILENAME} 2> PSNR-diff.log || true
+              compare -metric PSNR "$BASEFILE" "$NEWBASEFILE" PSNR-diff-${FILENAME} 2> PSNR-diff.log || true
               PSNRValue="$(cat PSNR-diff.log)"
               echo "PSNR ${PSNRValue}"
               # SSIM
-              magick compare -metric SSIM "$BASEFILE" "$NEWBASEFILE" SSIM-diff-${FILENAME} 2> SSIM-diff.log || true
+              compare -metric SSIM "$BASEFILE" "$NEWBASEFILE" SSIM-diff-${FILENAME} 2> SSIM-diff.log || true
               SSIMValue="$(cat SSIM-diff.log)"
               echo "SSIM ${SSIMValue}"
 
