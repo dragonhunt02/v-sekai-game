@@ -63,19 +63,11 @@ jobs:
 
     - name: Install dependencies
       run: |
-        curl -o magick.bin -L https://imagemagick.org/archive/binaries/magick
-        sudo apt-get install fuse
-        sudo modprobe fuse
-        #sudo usermod -a -G fuse $USER
-        chmod +x magick.bin
-    - name: Instal dependencies
-      run: |
-        ./magick.bin --version
         sudo apt-get update && sudo apt-get install libvulkan-dev libcjson-dev libx264-dev libavcodec-dev libavutil-dev libswscale-dev libavfilter-dev libbsd-dev libavahi-client-dev libeigen3-dev glslang-tools libudev-dev libwayland-dev libx11-xcb-dev libxrandr-dev libxcb-randr0-dev libgl-dev libglx-dev mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev libsystemd-dev libva-dev libxcb-glx0-dev gettext libfontconfig-dev libboost-all-dev librsvg2-bin libssl-dev sway grim mesa-vulkan-drivers wayland-protocols fonts-noto-cjk fonts-roboto
 
         # Wayland keyboard simulation
         sudo apt-get install wtype
-        
+                
     - name: Cache Monado CMake build directory
       uses: actions/cache@v4
       with:
@@ -173,35 +165,19 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Install dependencies
-        run: >
-          pwd
-          #sudo apt-get update && sudo apt-get install imagemagick
-      - name: Cache imagemagick7 Make build directory
-        uses: actions/cache@v4
-        with:
-          path: ${{github.workspace}}/build-imagemagick7
-          key: ${{ runner.os }}-make-build-imagemagick7
-          restore-keys: |
-            ${{ runner.os }}-make-build-imagemagick7
 
       - name: Install ImageMagick 7
         run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential wget \
-            libjpeg-dev libpng-dev libtiff-dev libwebp-dev \
-            libopenexr-dev zlib1g-dev
-          wget https://imagemagick.org/archive/ImageMagick.tar.gz
-          tar xvzf ImageMagick.tar.gz
-          ImageMagick
-          cd ImageMagick-7*
-          ./configure
-          make -j$(nproc)
-          sudo make install
-          sudo ldconfig /usr/local/lib
-
-      - name: Verify magick
-        run: magick --version
+          #sudo apt-get update && sudo apt-get install imagemagick
+          sudo apt-get update && sudo apt-get install fuse
+          sudo modprobe fuse
+          # AppImage
+          curl -o magick -L https://imagemagick.org/archive/binaries/magick
+          chmod +x magick
+        
+      - name: Verify ImageMagick
+        run: |
+          ./magick --version
         
       - name: Download artifact
         uses: actions/download-artifact@v4
@@ -210,10 +186,10 @@ jobs:
           path: new-previews
       - name: Compare
         run: |
-          which compare.im6 || true
+          #which compare.im6 || true
           #which magick
           echo "$PATH"
-          ls -a /usr/local/bin
+          #ls -a /usr/local/bin
 
           BASE="previews/auto"     
           NEWBASE="new-previews/auto"
@@ -236,16 +212,16 @@ jobs:
               fi
 
               # AE
-              magick compare -metric AE "$BASEFILE" "$NEWBASEFILE" "AE-diff.png" 2> AE-diff.log || true
+              ./magick compare -metric AE "$BASEFILE" "$NEWBASEFILE" "AE-diff.png" 2> AE-diff.log || true
               echo "AE"
               AEValue="$(cat AE-diff.log)"
               echo "AE ${AEValue}"
               # PSNR
-              magick compare -metric PSNR "$BASEFILE" "$NEWBASEFILE" PSNR-diff-${FILENAME} 2> PSNR-diff.log || true
+              ./magick compare -metric PSNR "$BASEFILE" "$NEWBASEFILE" PSNR-diff-${FILENAME} 2> PSNR-diff.log || true
               PSNRValue="$(cat PSNR-diff.log)"
               echo "PSNR ${PSNRValue}"
               # SSIM
-              magick compare -metric SSIM "$BASEFILE" "$NEWBASEFILE" SSIM-diff-${FILENAME} 2> SSIM-diff.log || true
+              ./magick compare -metric SSIM "$BASEFILE" "$NEWBASEFILE" SSIM-diff-${FILENAME} 2> SSIM-diff.log || true
               SSIMValue="$(cat SSIM-diff.log)"
               echo "SSIM ${SSIMValue}"
 
