@@ -101,4 +101,4 @@ EOF
   done
 done
 
-echo "Screenshots of 360deg sequence saved in ${OUTDIR}/"
+echo "Screenshots of ${ANGLE_SPAN}deg sequence saved in ${OUTDIR}/"
