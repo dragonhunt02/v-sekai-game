@@ -112,7 +112,7 @@ jobs:
         sleep 30
         #${{github.workspace}}/build-monado/src/xrt/targets/remotectl/monado-remotectl 127.0.0.1 4242 < ${{github.workspace}}/.github/screenshot-script.txt        
         chmod +x .github/monado-script.sh
-        bash .github/monado-script.sh "${{github.workspace}}/build-monado/src/xrt/targets/remotectl/monado-remotectl 127.0.0.1 4242 "
+        bash .github/monado-script-360.sh "${{github.workspace}}/build-monado/src/xrt/targets/remotectl/monado-remotectl 127.0.0.1 4242 "
         killall game.x64
         wait $GAME_PID || true
         ls -a
