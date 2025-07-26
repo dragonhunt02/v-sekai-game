@@ -14,7 +14,7 @@ sleep 1
 exec grim -g "0,0 ${GAME_VIEW_W}x${GAME_VIEW_H}" "${OUTPUT_DIR}/screenshot-01.png"
 sleep 1
 
-wtype -k Escape
+exec wtype -k Escape
 sleep 100
 exec grim -g "0,0 ${GAME_VIEW_W}x${GAME_VIEW_H}" "${OUTPUT_DIR}/screenshot-02-menu.png"
 sleep 1
