@@ -175,7 +175,7 @@ jobs:
           path: new-previews
       - name: Compare
         run: |
-          which compare
+          #which compare
           which magick
 
           BASE="previews/auto"     
