@@ -48,8 +48,13 @@ mkdir -p "$OUTDIR"
 CLIENT_MONADO=$1
 
 # Loop over 0, 90, 180, 270 degrees
-for x in {0..3}; do
-  ANGLE_X=$(( x * 90 ))
+ANGLE_SPAN=360
+SUBD=3
+ANGLE_SUBD=$(( ${ANGLE_SPAN} / ${SUBD} ))
+
+
+for x in {0..$SUBD}; do
+  ANGLE_X=$(( x * ${ANGLE_SUBD} ))
   ANGLE_Y=0
   ANGLE_Z=0
   quat=( $(euler_to_quaternion $ANGLE_X $ANGLE_Y $ANGLE_Z) )
