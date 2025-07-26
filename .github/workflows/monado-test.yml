@@ -48,7 +48,7 @@ jobs:
   
     - name: Set environment
       id: setenv
-      run: >
+      run: |
         if [[ "${{ github.event.inputs.environment}}" == "Update_README_imgs" ]]; then
           UPDATE_README_IMGS=true;
         fi
