@@ -196,14 +196,17 @@ jobs:
               fi
 
               # AE
-              compare -metric AE "$BASEFILE" "$NEWBASEFILE" AE-diff-${FILENAME} 2> AE-diff.log
+              magick compare -metric AE "$BASEFILE" "$NEWBASEFILE" AE-diff-${FILENAME} 2> AE-diff.log
               AEValue=$(cat AE-diff.log)
+              echo "AE ${AEValue}"
               # PSNR
-              compare -metric PSNR "$BASEFILE" "$NEWBASEFILE" PSNR-diff-${FILENAME} 2> PSNR-diff.log
+              magick compare -metric PSNR "$BASEFILE" "$NEWBASEFILE" PSNR-diff-${FILENAME} 2> PSNR-diff.log
               PSNRValue=$(cat PSNR-diff.log)
+              echo "PSNR ${PSNRValue}"
               # SSIM
-              compare -metric SSIM "$BASEFILE" "$NEWBASEFILE" SSIM-diff-${FILENAME} 2> SSIM-diff.log
+              magick compare -metric SSIM "$BASEFILE" "$NEWBASEFILE" SSIM-diff-${FILENAME} 2> SSIM-diff.log
               SSIMValue=$(cat SSIM-diff.log)
+              echo "SSIM ${SSIMValue}"
 
               {
                   echo "${BASEFILE}"
@@ -243,11 +246,11 @@ jobs:
             git config --global user.email "github-actions[bot]@users.noreply.github.com"
             git config --global user.name "github-actions[bot]"
             git add -A
-            git commit -a -m 'Auto: Update preview Monado screenshots'
             git status
             if git diff --quiet && git diff --cached --quiet; then
                 echo "No changes to image files, skipping push."
             else
+                git commit -a -m 'Auto: Update preview Monado screenshots'
                 git push
             fi
 
