@@ -19,7 +19,7 @@ PY=1.5
 PZ=0.2
 
 # Loop over 0, 120, 240 degrees
-ANGLE_SPAN=360
+ANGLE_SPAN=360 # Must be 0-360
 SUBDIVS=3
 
 # euler_to_quaternion: print QX QY QZ QW for given roll, pitch, yaw (degrees)
@@ -64,8 +64,12 @@ euler_to_quaternion() {
 # Calculate single subdivision
 ANGLE_SUBD=$(( ${ANGLE_SPAN} / ${SUBDIVS} ))
 
+ITER=${SUBDIVS}
 # Skip 360deg angle (equal to 0deg)
-ITER=$((SUBDIVS - 1))
+if [[ "${ANGLE_SPAN}" == "360" ]]; then
+  echo "Screnshots at 360deg angle will be skipped."
+  ITER=$((SUBDIVS - 1))
+fi
 
 for x in $(seq 0 "$ITER"); do
   for y in $(seq 0 "$ITER"); do
