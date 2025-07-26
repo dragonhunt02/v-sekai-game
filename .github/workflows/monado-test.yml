@@ -114,12 +114,12 @@ jobs:
         MONADO_CLIENT_PATH="${{github.workspace}}/build-monado/src/xrt/targets/remotectl/monado-remotectl 127.0.0.1 4242 "
         #${{github.workspace}}/build-monado/src/xrt/targets/remotectl/monado-remotectl 127.0.0.1 4242 < ${{github.workspace}}/.github/screenshot-script.txt        
         chmod +x .github/monado-script-360.sh
-        bash .github/monado-script-360.sh "${MONADO_CLIENT_PATH}" 960 1080 100
+        bash .github/monado-script-360.sh "${MONADO_CLIENT_PATH}" 960 1080 100 "./screenshots-360"
         killall game.x64
         wait $GAME_PID || true
         ls -a
-        ls -a screenshots-rotate
-        mv screenshots-rotate screenshots-360
+        ls -a screenshots-360
+        #mv screenshots-rotate screenshots-360
     
     - name: Upload screenshots
       uses: actions/upload-artifact@v4
@@ -141,7 +141,8 @@ jobs:
           fetch-depth: 0
       - name: clear
         run: |
-            rm -r screens || true
+            pwd
+            #rm -r screens || true
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
