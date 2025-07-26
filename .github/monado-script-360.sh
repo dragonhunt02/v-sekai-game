@@ -52,9 +52,8 @@ ANGLE_SPAN=360
 SUBD=3
 ANGLE_SUBD=$(( ${ANGLE_SPAN} / ${SUBD} ))
 
-
-for x in {0..$SUBD}; do
-  ANGLE_X=$(( x * ${ANGLE_SUBD} ))
+for x in $(seq 0 $SUBD); do
+  ANGLE_X=$(( x * ANGLE_SUBD ))
   ANGLE_Y=0
   ANGLE_Z=0
   quat=( $(euler_to_quaternion $ANGLE_X $ANGLE_Y $ANGLE_Z) )
