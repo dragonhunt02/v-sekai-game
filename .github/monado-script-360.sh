@@ -67,7 +67,7 @@ ANGLE_SUBD=$(( ${ANGLE_SPAN} / ${SUBDIVS} ))
 ITER=${SUBDIVS}
 # Skip 360deg angle (equal to 0deg)
 if [[ "${ANGLE_SPAN}" == "360" ]]; then
-  echo "Screnshots at 360deg angle will be skipped."
+  echo "Screenshots at 360deg angle will be skipped."
   ITER=$((SUBDIVS - 1))
 fi
 
