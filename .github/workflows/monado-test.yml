@@ -85,9 +85,10 @@ jobs:
         # Clone repositories
         git clone https://gitlab.freedesktop.org/wlroots/wlroots.git
         cd wlroots
-        meson build/
+        meson setup build/ --wrap-mode=default
         ninja -C build/
         sudo ninja -C build install
+        cd ..
         git clone https://github.com/swaywm/sway.git
         cd sway
         meson build/
