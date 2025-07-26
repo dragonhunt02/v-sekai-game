@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Screenshots 
+# Captures screenshots over an angle span
 
 # Monado client executable
 CLIENT_MONADO=$1
