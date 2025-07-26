@@ -19,9 +19,9 @@ sleep 1
 exec wtype -p Escape
 exec echo "sway seats list"
 exec swaymsg -t get_seats
-exec swaymsg 'seat seat0 keyboard press Escape'
+exec swaymsg 'seat seat0 keyboard key Escape press'
 sleep 1
-exec swaymsg 'seat seat0 keyboard release Escape'
+exec swaymsg 'seat seat0 keyboard key Escape release'
 
 #exec wtype -k ESC
 sleep 100
