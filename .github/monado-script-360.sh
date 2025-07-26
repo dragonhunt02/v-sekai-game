@@ -2,6 +2,7 @@
 
 # Monado client executable
 CLIENT_MONADO=$1
+WAIT_TIME=$2
 
 # Output directory
 OUTDIR="./screenshots-rotate"
@@ -74,7 +75,7 @@ set head rotation ${QX} ${QY} ${QZ} ${QW}
 EOF
 
   # Allow the system to stabilize
-  sleep 1
+  sleep ${WAIT_TIME}
 
   # Capture the composited window (adjust geometry as needed)
   grim -g "0,0 960x1080" "${OUTDIR}/screenshot-${ANGLE_X}_${ANGLE_Y}_${ANGLE_Z}deg.png"
