@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
 
+# Monado client executable
+CLIENT_MONADO=$1
+
+# Output directory
+OUTDIR="./screenshots-rotate"
+mkdir -p "$OUTDIR"
+
+
 # euler_to_quaternion: print QX QY QZ QW for given roll, pitch, yaw (degrees)
 euler_to_quaternion() {
   local roll_deg=$1
@@ -42,19 +50,15 @@ PX=0.0
 PY=1.5
 PZ=0.2
 
-# Output directory
-OUTDIR="./screenshots-rotate"
-mkdir -p "$OUTDIR"
-CLIENT_MONADO=$1
-
 # Loop over 0, 90, 180, 270 degrees
 ANGLE_SPAN=360
-SUBD=3
+SUBD=4
 ANGLE_SUBD=$(( ${ANGLE_SPAN} / ${SUBD} ))
 
-for x in $(seq 0 $SUBD); do
+for x in $(seq 0 "$SUBD"); do
+for y in $(seq 0 "$SUBD"); do
   ANGLE_X=$(( x * ANGLE_SUBD ))
-  ANGLE_Y=0
+  ANGLE_Y=$(( y * ANGLE_SUBD ))
   ANGLE_Z=0
   quat=( $(euler_to_quaternion $ANGLE_X $ANGLE_Y $ANGLE_Z) )
 
@@ -78,6 +82,6 @@ EOF
   # Small pause before next iteration
   sleep 1
 done
-
+done
 
 echo "Screenshots saved in ${OUTDIR}/"
