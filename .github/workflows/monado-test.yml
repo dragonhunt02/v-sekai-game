@@ -160,7 +160,7 @@ jobs:
     continue-on-error: true
     permissions:
       contents: read
-      actions: read
+      actions: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -196,7 +196,8 @@ jobs:
               fi
 
               # AE
-              magick compare -metric AE "$BASEFILE" "$NEWBASEFILE" "AE-diff-${FILENAME}" 2> AE-diff.log
+              magick compare -metric AE "$BASEFILE" "$NEWBASEFILE" "AE-diff.png" 2> AE-diff.log
+              echo "AE"
               AEValue="$(cat AE-diff.log)"
               echo "AE ${AEValue}"
               # PSNR
@@ -218,8 +219,16 @@ jobs:
               done
 
               cat "$RESULT_FILE"
-
-
+              mkdir upload-tests
+              mv "${RESULT_FILE}" upload-tests
+              mv *-diff-* upload-tests
+     
+      - name: Upload test result artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: XRImgTestResults
+          path: "upload-tests/*"
+  
   upload-screens:
     name: Upload Github
     runs-on: ubuntu-24.04
