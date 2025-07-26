@@ -159,6 +159,9 @@ jobs:
       contents: read
       actions: read
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Install dependencies
         run: >
           sudo apt-get update && sudo apt-get install imagemagick
@@ -177,7 +180,7 @@ jobs:
   upload-screens:
     name: Upload Github
     runs-on: ubuntu-24.04
-    needs: run-test
+    needs: compare-screens
     if: needs.run-test.outputs.UPDATE_README_IMGS == 'true'
     permissions:
       contents: write
