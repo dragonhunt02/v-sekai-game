@@ -175,14 +175,16 @@ jobs:
           BASE="previews/auto"     
           NEWBASE="new-previews/auto"
           RESULT_FILE="results.txt"
+          ls -a -R previews
+          ls -a -R new-previews
 
           # Clear any results file
           > "$RESULT_FILE"
           
           for NEWBASEFILE in "${NEWBASE}"/*.png; do
-              echo "Comparing ${NEWBASEFILE}..."
               FILENAME=$(basename "$NEWFILE")
               BASEFILE="${BASE}/${FILENAME}"
+              echo "Comparing ${BASEFILE} to ${NEWBASEFILE}..."
 
               # Skip if BASEFILE doesn't exist
               if [[ ! -f "$BASEFILE" ]]; then
