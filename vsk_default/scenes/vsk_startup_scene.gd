@@ -13,6 +13,7 @@ var _renew_uro_session_request: VSKGameServiceRequestUro = null
 const _WELCOME_VIEW_CONTROLLER: PackedScene = preload("res://addons/vsk_ui/view_controllers/vsk_ui_view_controller_welcome.tscn")
 const _SESSION_LOADING_VIEW_CONTROLLER: PackedScene = preload("res://addons/vsk_ui/view_controllers/vsk_ui_view_controller_session_loading.tscn")
 const _VALIDATING_VIEW_CONTROLLER: PackedScene = preload("res://addons/vsk_ui/view_controllers/vsk_ui_view_controller_validating.tscn")
+const _GLBCONTROLLER: PackedScene = preload("res://addons/renik/sample_models/godette.glb")
 
 const DEFAULT_GAME_SCENE_URL: String = "res://vsk_default/example_ugc/maps/cc0_hut/cc0_hut.tscn"
 
