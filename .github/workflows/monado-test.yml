@@ -96,7 +96,7 @@ jobs:
         mkdir monado
         curl https://gitlab.freedesktop.org/Meumeu/monado/-/archive/5bdb51697685320e3f5d494210f25fb2967c9fc3/monado-main.tar.gz | tar -xz -C monado --strip-components=1
 
-        # Patch
+        # Patch 
         mv -v -f .github/remotectl.cpp monado/src/xrt/targets/remotectl/remotectl.cpp
 
         DRIVERS=$(grep -oE "XRT_BUILD_DRIVER_[A-Z0-9_]*" monado/CMakeLists.txt | sort -u  | grep -v XRT_BUILD_DRIVER_REMOTE | sed 's/\(.*\)/-D\1=OFF/')
