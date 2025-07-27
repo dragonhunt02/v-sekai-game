@@ -3,7 +3,7 @@ name: XR Test Suite
 on:
   push:
      branches:
-       monado-action-updated
+       monado-action-updated-
   workflow_dispatch:
     inputs:
       environment:
