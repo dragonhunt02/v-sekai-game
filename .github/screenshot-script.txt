@@ -32,9 +32,12 @@ exec swaymsg -t get_seats
 #sleep 5
 #exec sudo ydotool key 1:0 || echo "ydotoole fail"
 
+set right b_touch true
 set right b_click true
 sleep 60
+print_state
 set right b_click false
+set right b_touch false
 
 sleep 100
 exec grim -g "0,0 ${GAME_VIEW_W}x${GAME_VIEW_H}" "${OUTPUT_DIR}/screenshot-02-menu.png"
