@@ -31,7 +31,7 @@ func _validate_remote_request_path(p_request_path: String) -> bool:
 # on the model component.
 func _on_request_complete(p_asset_err: VSKGameAssetRequest.AssetError) -> void:
 	var packed_scene: PackedScene = _current_asset_request.get_resource()
-	
+	push_error("Avatar request completed")
 	# Clean up the existing asset request.
 	if _current_asset_request:
 		if _current_asset_request.request_complete.is_connected(_on_request_complete):
@@ -77,7 +77,8 @@ func _request_avatar_asset() -> void:
 				is_request_path_valid = _validate_remote_request_path(_requested_avatar_path)
 			
 			# If the request path is valid, make the request to the asset manager.
-			if is_request_path_valid:
+			if true: #is_request_path_valid:
+				push_error("Avatar request to %s" % _requested_avatar_path)
 				_current_asset_request = game_asset_manager.make_request(_requested_avatar_path, VSKGameAssetManager.AssetType.AVATAR)
 		
 		if not SarUtils.assert_true(avatar_component, "VSKGameEntityComponentAvatarLoader._request_avatar_asset: avatar_component is not available"):
@@ -86,10 +87,12 @@ func _request_avatar_asset() -> void:
 		if not is_request_path_valid:
 			# If the request path is NOT valid, forcefully change the avatar the error placeholder.
 			avatar_component.set_model_scene(game_asset_manager.avatar_error_packed_scene)
+			push_error("Avatar set to placeholder")
 		else:
 			# The request is valid, but first, set the avatar to the loading avatar.
 			avatar_component.set_model_scene(game_asset_manager.loading_avatar_packed_scene)
-			
+			push_error("Valid Avatar set")
+					
 			# Finally, wire up the callback signal for when the request is complete.
 			if _current_asset_request:
 				if not SarUtils.assert_ok(_current_asset_request.request_complete.connect(_on_request_complete),
