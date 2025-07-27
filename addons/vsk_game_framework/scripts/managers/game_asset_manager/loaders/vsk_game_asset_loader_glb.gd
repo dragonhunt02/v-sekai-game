@@ -21,6 +21,7 @@ static func _load_from_local_gltf_document_from_path(p_path: String, p_additiona
 	return asset_root_node
 		
 static func load_glb_asset_from_path(p_game_asset_manager: VSKGameAssetManager, p_path: String, p_additional_data_table: Dictionary[StringName, Variant]) -> PackedScene:
+	push_error("Load avatar glb.ftom path %s" % p_path)
 	# Couldn't find it in the cache, so generate it from GLTF documents.
 	var asset_container: Array[Node3D] = [null]  # Single-element array to hold the result
 	var glb_loader_lambda = func():
@@ -59,13 +60,18 @@ static func _load_and_cache_asset_from_file_path_internal(
 	p_asset_type: VSKGameAssetManager.AssetType,
 	p_flags: int,
 	p_additional_data_callable: Callable) -> PackedScene:
-		
+
+	push_error("Load avatar ftom filepath %s" % p_request_url)
+
 	var packed_scene: PackedScene = null
 	var additional_data_table: Dictionary[StringName, Variant] = p_additional_data_callable.call(p_asset_type)
 	match p_asset_type:
 		VSKGameAssetManager.AssetType.AVATAR:
+			push_error("Load avatar type AVAT ftom filepath %s" % p_request_url)
 			packed_scene = await load_glb_asset_from_path(p_game_asset_manager, p_path, additional_data_table)
 			if not (p_flags & FLAG_SKIP_CACHE):
+				push_error("Load START avatar type AVAT ftom filepath %s" % p_request_url)
+			
 				var packed_scene_saver_lambda = func():
 					var save_path: String = "%s/%s.%s" % [
 						p_game_asset_manager.get_asset_cache_path(),
@@ -89,6 +95,7 @@ static func load_and_cache_asset_from_file_path(
 	p_request_url: String,
 	p_asset_type: VSKGameAssetManager.AssetType,
 	p_flags: int) -> PackedScene:
+	push_error("Load cache asset file avatar ftom filepath %s" % p_request_url)
 		
 	return await _load_and_cache_asset_from_file_path_internal(
 		p_game_asset_manager,
