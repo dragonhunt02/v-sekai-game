@@ -76,8 +76,11 @@ jobs:
         sudo apt-get update && sudo apt-get install ydotool
         sudo usermod -aG input $USER || true
         sudo modprobe uinput
+        curl -OL https://github.com/ReimuNotMoe/ydotool/raw/refs/heads/master/Daemon/systemd/ydotoold.service.in
+        cat ydotoold.service.in
+        sudo cp ydotoold.service.in /etc/systemd/system/ydotoold.service
         sudo systemctl daemon-reload
-        sudo systemctl enable --now ydotool.service
+        sudo systemctl enable --now ydotoold.service
         #which ydotoold
         ydotoold --socket-own=$(id -u):$(id -g)
 
