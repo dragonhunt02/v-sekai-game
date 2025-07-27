@@ -165,14 +165,15 @@ do_set_aux(r_remote_controller_data &ctrl, bool r_remote_controller_data::*field
 	if (sscanf(args.c_str(), "%19s", value) != 1)
 		strcpy(value, "");
 
-	if (not strcmp(value, "true"))
+	if (not strcmp(value, "true")) {
 		std::cerr << "Monado set value true" << std::endl;
 		ctrl.*field = true;
-	else if (not strcmp(value, "false"))
+	} else if (not strcmp(value, "false")) {
 		std::cerr << "Monado set value false" << std::endl;
 		ctrl.*field = false;
-	else
+	} else {
 		std::cerr << "Expected one bool" << std::endl;
+	}
 	
 }
 
