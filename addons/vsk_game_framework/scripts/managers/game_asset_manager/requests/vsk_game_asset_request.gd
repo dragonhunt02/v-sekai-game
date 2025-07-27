@@ -50,6 +50,7 @@ func _init(p_game_asset_manager: VSKGameAssetManager, p_request_url: String, p_a
 	_game_asset_manager = p_game_asset_manager
 	_request_url = p_request_url
 	_asset_type = p_asset_type
+	push_error("init AVATAR REQUEST %s " % _request_url)
 
 static func _get_resource_type_from_extension(p_extension: String) -> AssetFormat:
 	match p_extension:
