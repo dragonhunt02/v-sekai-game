@@ -33,7 +33,7 @@ exec swaymsg -t get_seats
 #exec sudo ydotool key 1:0 || echo "ydotoole fail"
 
 set right b_click true
-sleep 1
+sleep 60
 set right b_click false
 
 sleep 100
