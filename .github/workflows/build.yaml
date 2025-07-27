@@ -60,7 +60,7 @@ jobs:
         uses: ./docker/build-project
         with:
           repo: ${{ github.repository }}
-          branch: rx
+          branch: monado-action-updated
           nightly: ${{ steps.setenv.outputs.PRERELEASE }}
 
       - name: Upload Build Artifacts
