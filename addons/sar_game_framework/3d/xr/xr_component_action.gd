@@ -10,7 +10,10 @@ class_name SarXRComponentAction
 @export var godot_input_action: String = ""
 
 func _button_pressed(p_button: String):
+        push_error("button pressed...")
+        push_error(p_button)
 	if p_button == xr_input_action:
+                push_error("button prrssed")
 		var action_event = InputEventAction.new()
 		action_event.action = godot_input_action
 		action_event.strength = 1.0
@@ -18,7 +21,10 @@ func _button_pressed(p_button: String):
 		Input.parse_input_event(action_event)
 		
 func _button_released(p_button: String):
+        push_error("button release...")
+        push_error(p_button)
 	if p_button == xr_input_action:
+                push_error("button released")
 		var action_event = InputEventAction.new()
 		action_event.action = godot_input_action
 		action_event.strength = 1.0
