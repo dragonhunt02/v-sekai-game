@@ -104,6 +104,9 @@ jobs:
         meson setup build/ --wrap-mode=default
         ninja -C build/
         sudo ninja -C build install
+
+        ls -a /usr/local/lib
+        ls -a /usr/local/lib64
         
         echo "PATH=/usr/local/bin:$PATH" >> $GITHUB_PATH
         PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
