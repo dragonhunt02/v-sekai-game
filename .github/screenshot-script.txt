@@ -28,9 +28,12 @@ exec swaymsg -t get_seats
 #exec swaymsg 'seat seat0 keyboard key Escape press'
 sleep 1
 #exec swaymsg 'seat seat0 keyboard key Escape release'
-exec sudo ydotool key 1:1 || echo "ydotoole fail"
-sleep 5
-sudo ydotool key 1:0 || echo "ydotoole fail"
+#exec sudo ydotool key 1:1 || echo "ydotoole fail"
+#sleep 5
+#exec sudo ydotool key 1:0 || echo "ydotoole fail"
+set right b_click 1
+sleep 1
+set right b_click 0
 
 sleep 100
 exec grim -g "0,0 ${GAME_VIEW_W}x${GAME_VIEW_H}" "${OUTPUT_DIR}/screenshot-02-menu.png"
