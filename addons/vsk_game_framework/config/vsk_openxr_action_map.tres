@@ -134,6 +134,10 @@ binding_path = "/user/hand/left/input/b/click"
 action = SubResource("OpenXRAction_afrmy")
 binding_path = "/user/hand/right/input/b/click"
 
+[sub_resource type="OpenXRIPBinding" id="OpenXRIPBinding_h9s2d"]
+action = SubResource("OpenXRAction_afrmy")
+binding_path = "/user/hand/right/input/secondary_button/click"
+
 [sub_resource type="OpenXRIPBinding" id="OpenXRIPBinding_aoimg"]
 action = SubResource("OpenXRAction_q6k84")
 binding_path = "/user/hand/left/output/haptic"
