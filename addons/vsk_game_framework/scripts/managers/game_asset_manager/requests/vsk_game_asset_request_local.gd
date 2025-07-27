@@ -5,6 +5,7 @@ class_name VSKGameAssetRequestLocal
 const HASH_FILE_EXTENSION: String = "localhash"
 
 func execute_request() -> void:
+	push_error("init localll AVATAR REQUEST %s " % _request_url)
 	if _request_url.is_empty():
 		_complete_request(AssetError.NOT_FOUND)
 		return
@@ -21,6 +22,7 @@ func execute_request() -> void:
 		
 	# For now, only consider local file requests in res://
 	if not _request_url.begins_with("res://"):
+		push_error("invalid not res:// AVATAR REQUEST %s " % _request_url)
 		_complete_request(VSKGameAssetRequest.AssetError.INVALID)
 		return
 		
@@ -35,7 +37,9 @@ func execute_request() -> void:
 	var skip_cache: bool = (type == AssetFormat.GODOT_SCENE)
 
 	if _bypass_allow_list or _game_asset_manager.is_in_allow_list(_request_url, _asset_type):
+		push_error("allow list res:// AVATAR REQUEST %s " % _request_url)
 		var stripped_path: String = _request_url.lstrip("file:///")
+		push_error("Stripped file:/// AVATAR REQUEST %s " % stripped_path)
 
 		var file_exists: bool = FileAccess.file_exists(stripped_path)
 		if !file_exists:
@@ -43,6 +47,8 @@ func execute_request() -> void:
 			_resource = _game_asset_manager.avatar_not_found_packed_scene
 			asset_err = AssetError.NOT_FOUND
 	else:
+		push_error("invalid not in allow list res:// AVATAR REQUEST %s " % _request_url)
+
 		_resource = _game_asset_manager.avatar_forbidden_packed_scene
 		asset_err = AssetError.NOT_IN_ALLOW_LIST
 
