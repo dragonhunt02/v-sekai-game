@@ -106,7 +106,7 @@ jobs:
         sudo ninja -C build install
 
         ls -a /usr/local/lib
-        ls -a /usr/local/lib64
+        ls -a /usr/local/lib/x86_64-linux-gnu
         
         echo "PATH=/usr/local/bin:$PATH" >> $GITHUB_PATH
         PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
@@ -115,6 +115,7 @@ jobs:
         echo "PKG_CONFIG_PATH=$PKG_CONFIG_PATH" >> $GITHUB_ENV
         LD_LIBRARY_PATH="/usr/local/lib/:$LD_LIBRARY_PATH"
         LD_LIBRARY_PATH="/usr/local/lib64/:$LD_LIBRARY_PATH"
+        LD_LIBRARY_PATH="/usr/local/lib/x86_64-linux-gnu/:$LD_LIBRARY_PATH"
         echo "LD_LIBRARY_PATH=$LD_LIBRARY_PATH" >> $GITHUB_ENV
     - name: Check sway version
       run: |
