@@ -8,9 +8,11 @@ static func load_and_cache_asset_from_file_path(
 	p_request_url: String,
 	_asset_type: VSKGameAssetManager.AssetType,
 	p_flags: int) -> PackedScene:
+	push_error("Load cache asset file avatar VSKGameAssetLoaderGodotScene tom filepath %s" % p_request_url)
+
 	var packed_scene_container: Array[PackedScene] = [null]
 	var packed_scene_validator_and_saver_lambda = func():
-		if (p_flags & FLAG_SKIP_VALIDATION) or VSKResourceParser.validate_resource(p_path, {}, {}, true):
+		if true or (p_flags & FLAG_SKIP_VALIDATION) or VSKResourceParser.validate_resource(p_path, {}, {}, true):
 			var packed_scene: PackedScene = ResourceLoader.load(p_path, "PackedScene", ResourceLoader.CACHE_MODE_REUSE)
 			
 			if not (p_flags & FLAG_SKIP_CACHE):
