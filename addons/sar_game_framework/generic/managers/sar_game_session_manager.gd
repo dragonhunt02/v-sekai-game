@@ -46,6 +46,7 @@ func _should_use_window_title_debug_behaviour() -> bool:
 	return ProjectSettings.get_setting(_SHOW_WINDOW_TITLE_DEBUG_INFO_PATH, false)
 
 func _create_player_spawner_node() -> MultiplayerSpawner:
+	push_error("Spawner node create avatar")
 	var spawner: MultiplayerSpawner = MultiplayerSpawner.new()
 	var vessel_path: String = ProjectSettings.get_setting(_PLAYER_VESSEL_SCENE_PROJECT_SETTING_PATH, "")
 	if vessel_path:
@@ -61,6 +62,7 @@ func _update_player_spawn_path() -> void:
 		_player_spawner_node.spawn_path = _player_spawner_node.get_path_to(_get_player_spawn_parent())
 	
 func _spawn_player_soul(p_id: int) -> SarSoul:
+	push_error("Spawning soul avatar")
 	var spawn_parent: Node = _get_player_spawn_parent()
 	
 	var player_soul_instance: SarSoul = _get_player_soul_scene().instantiate()
@@ -77,6 +79,7 @@ func _spawn_player_soul(p_id: int) -> SarSoul:
 	return player_soul_instance
 
 func _spawn_player_vessel(p_id: int) -> void:
+	push_error("Spawning vessel avatar")
 	var spawn_parent: Node = _get_player_spawn_parent()
 	
 	var player_node_instance: Node = _get_player_vessel_scene().instantiate()
@@ -244,20 +247,28 @@ func _init() -> void:
 
 ## Called to indicate that the currently active game scene has now changed.
 func notify_game_scene_changed() -> void:
+	push_error("notify_game_scene_changed avatar")
 	if not Engine.is_editor_hint():
 		_update_player_spawn_path()
 		var current_scene: Node = get_tree().current_scene
+		push_error("update player spawn path avatar multiplayed")
 		if current_scene is SarGameScene3D:
 			if (multiplayer.is_server() and not is_dedicated()) or not multiplayer.is_server():
 				_local_player_soul_instance = _spawn_player_soul(multiplayer.get_unique_id())
+				push_error("avatar multiplayer is server not dedicated")
 				if multiplayer.is_server():
+					push_error("Attempt vessel spawn avatar")
 					_spawn_player_vessel(get_host_peer_id())
 					
 ## Notifys the game session manager that a player vessel has just entered the game scene.
 func notify_player_vessel_3d_instance_added(p_player_vessel: SarGameEntityVessel3D) -> void:
+	push_error("avatar notify vessel")
 	var player_soul: SarSoul = get_local_player_soul_instance()
+	push_error("Try poss avatar notify vessel")
 	if player_soul and not player_soul.is_possessing_vessel():
+		push_error("Try teo avatar notify vessel")
 		if p_player_vessel.get_multiplayer_authority() == multiplayer.get_unique_id():
+			push_error("poss avatar vessel notify vessel")
 			player_soul.possess(p_player_vessel)
 
 ## Notifys the game session manager that a player vessel has just exited the game scene.
