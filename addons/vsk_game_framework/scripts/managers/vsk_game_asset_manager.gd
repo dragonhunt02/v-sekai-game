@@ -90,7 +90,7 @@ func _get_request_data_progress_internal(p_request_object: VSKGameAssetRequest) 
 
 func _get_or_create_request_object_for_type(p_request_url: String, p_asset_type: AssetType, p_request_type: RequestType) -> VSKGameAssetRequest:
 	var request_obj: VSKGameAssetRequest = null
-        push_error("Avatar requested %s" % p_request_url)
+	push_error("Avatar requested %s" % p_request_url)
 	if _request_objects.has(p_request_url):
 		request_obj = _request_objects[p_request_url]
 		match p_request_type:
