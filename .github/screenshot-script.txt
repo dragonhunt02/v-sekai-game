@@ -19,17 +19,17 @@ exec wtype -P Escape
 sleep 1
 exec wtype -p Escape
 
-exec swaymsg "[name=\"HEADLESS-1\"] focus"
+exec swaymsg "[title=\"HEADLESS-1\"] focus"
 #exec swaymsg -t get_tree || true
-#exec swaymsg -t get_tree | jq '.. | select(.type? == "con" and .name?) | {name, app_id, window_properties}' || true
+exec swaymsg -t get_tree | jq '.. | select(.type? == "con" and .name?) | {name, app_id, window_properties}' || true
 
 exec echo "sway seats list"
 exec swaymsg -t get_seats
 #exec swaymsg 'seat seat0 keyboard key Escape press'
 sleep 1
 #exec swaymsg 'seat seat0 keyboard key Escape release'
-sudo ydotool key 1:1 1:0 || echo "ydotoole fail"
-sudo ydotool key 1:1 1:0 || echo "ydotoole fail"
+exec sudo ydotool key 1:1 1:0 || echo "ydotoole fail"
+#sudo ydotool key 1:1 1:0 || echo "ydotoole fail"
 
 sleep 100
 exec grim -g "0,0 ${GAME_VIEW_W}x${GAME_VIEW_H}" "${OUTPUT_DIR}/screenshot-02-menu.png"
