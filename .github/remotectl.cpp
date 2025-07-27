@@ -166,11 +166,14 @@ do_set_aux(r_remote_controller_data &ctrl, bool r_remote_controller_data::*field
 		strcpy(value, "");
 
 	if (not strcmp(value, "true"))
+		std::cerr << "Monado set value true" << std::endl;
 		ctrl.*field = true;
 	else if (not strcmp(value, "false"))
+		std::cerr << "Monado set value false" << std::endl;
 		ctrl.*field = false;
 	else
 		std::cerr << "Expected one bool" << std::endl;
+	
 }
 
 static void
@@ -189,6 +192,8 @@ do_set(r_remote_connection &rc, r_remote_data &rd, const std::string &args)
 
 	if (not strcmp(controller, "left") or not strcmp(controller, "right")) {
 		r_remote_controller_data &controller_data = (strcmp(controller, "left") == 0) ? rd.left : rd.right;
+		
+	        std::cerr << "Monado Print setting" << setting << std::endl;
 
 		if (not strcmp(setting, "position")) {
 			do_set_position(controller_data.pose.position, args2);
@@ -252,6 +257,10 @@ do_print_state([[maybe_unused]] r_remote_connection &rc, r_remote_data &rd, [[ma
 		else
 			std::cerr << "Right controller:\n";
 
+		std::cout << std::boolalpha;
+		std::cerr << "   A button: (" << controller.a_click << ")\n";
+		std::cerr << "   B button: (" << controller.b_click << ")\n";
+		std::cout << std::noboolalpha;
 		std::cerr << "   Position: (" << controller.pose.position.x << ", " << controller.pose.position.y
 		          << ", " << controller.pose.position.z << ")\n";
 		std::cerr << "   Rotation: (" << controller.pose.orientation.x << ", " << controller.pose.orientation.y
