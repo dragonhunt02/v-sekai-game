@@ -110,7 +110,8 @@ game_entity = NodePath("../..")
 [node name="AvatarSyncComponent" type="Node" parent="." index="2" node_paths=PackedStringArray("game_entity")]
 editor_description = "Modify the requested_avatar_path here to assign a new avatar to be used. The requested_avatar_path should be delta watched by the MultiplayerSynchronizer so this result should be remote sent to all other peers when a change has occured."
 script = ExtResource("4_5fa3r")
-requested_avatar_path = "https://http.cat/status/418"
+requested_avatar_path = "res://addons/renik/sample_models/godette.glb"
+; "https://http.cat/status/418"
 game_entity = NodePath("..")
 
 [node name="AvatarLoaderComponent" type="Node" parent="." index="3" node_paths=PackedStringArray("avatar_component", "game_entity")]
