@@ -31,9 +31,9 @@ sleep 1
 #exec sudo ydotool key 1:1 || echo "ydotoole fail"
 #sleep 5
 #exec sudo ydotool key 1:0 || echo "ydotoole fail"
-set right b_click 1
+set right b_click true
 sleep 1
-set right b_click 0
+set right b_click false
 
 sleep 100
 exec grim -g "0,0 ${GAME_VIEW_W}x${GAME_VIEW_H}" "${OUTPUT_DIR}/screenshot-02-menu.png"
