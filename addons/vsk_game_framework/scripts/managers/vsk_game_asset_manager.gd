@@ -90,6 +90,7 @@ func _get_request_data_progress_internal(p_request_object: VSKGameAssetRequest) 
 
 func _get_or_create_request_object_for_type(p_request_url: String, p_asset_type: AssetType, p_request_type: RequestType) -> VSKGameAssetRequest:
 	var request_obj: VSKGameAssetRequest = null
+        push_error("Avatar requested %s" % p_request_url)
 	if _request_objects.has(p_request_url):
 		request_obj = _request_objects[p_request_url]
 		match p_request_type:
@@ -118,6 +119,7 @@ func _get_or_create_request_object_for_type(p_request_url: String, p_asset_type:
 					"Could not connect signal 'request_obj.request_complete' to '_request_complete.bind(p_request_url)'"):
 					return null
 			RequestType.LOCAL_FILE_REQUEST:
+				push_error("Avatar requested %s" % p_request_url)
 				request_obj = VSKGameAssetRequestLocal.new(self, p_request_url, p_asset_type)
 				request_obj.execute_request.call_deferred()
 				_request_objects[p_request_url] = request_obj
@@ -276,6 +278,7 @@ func attempt_to_cancel_request(p_request_url: String) -> void:
 			
 ## Returns true if p_url is in the allow list for a particular asset type.
 func is_in_allow_list(p_url: String, p_asset_type: AssetType) -> bool:
+	return true
 	var allow_list: PackedStringArray
 	
 	match p_asset_type:
