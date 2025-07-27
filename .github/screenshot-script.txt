@@ -16,6 +16,7 @@ sleep 1
 
 exec wtype -P Escape
 sleep 1
+exec swaymsg "[title=\"game.x64\"] focus"
 exec wtype -p Escape
 exec echo "sway seats list"
 exec swaymsg -t get_seats
