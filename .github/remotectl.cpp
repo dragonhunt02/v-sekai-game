@@ -194,7 +194,7 @@ do_set(r_remote_connection &rc, r_remote_data &rd, const std::string &args)
 	if (not strcmp(controller, "left") or not strcmp(controller, "right")) {
 		r_remote_controller_data &controller_data = (strcmp(controller, "left") == 0) ? rd.left : rd.right;
 		
-	        std::cerr << "Monado Print setting" << setting << std::endl;
+	        std::cerr << "Monado print setting: " << setting << std::endl;
 
 		if (not strcmp(setting, "position")) {
 			do_set_position(controller_data.pose.position, args2);
@@ -259,8 +259,10 @@ do_print_state([[maybe_unused]] r_remote_connection &rc, r_remote_data &rd, [[ma
 			std::cerr << "Right controller:\n";
 
 		std::cout << std::boolalpha;
-		std::cerr << "   A button: (" << controller.a_click << ")\n";
-		std::cerr << "   B button: (" << controller.b_click << ")\n";
+		std::cerr << "   A button click: (" << controller.a_click << ")\n";
+		std::cerr << "   A button touch: (" << controller.a_touch << ")\n";
+		std::cerr << "   B button click: (" << controller.b_click << ")\n";
+		std::cerr << "   B button touch: (" << controller.b_click << ")\n";
 		std::cout << std::noboolalpha;
 		std::cerr << "   Position: (" << controller.pose.position.x << ", " << controller.pose.position.y
 		          << ", " << controller.pose.position.z << ")\n";
