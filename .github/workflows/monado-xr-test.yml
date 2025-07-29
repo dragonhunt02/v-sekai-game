@@ -77,8 +77,14 @@ jobs:
 
     - name: Install dependencies
       run: |
-        sudo apt-get update && sudo apt-get install sway libvulkan-dev libcjson-dev libx264-dev libavcodec-dev libavutil-dev libswscale-dev libavfilter-dev libbsd-dev libavahi-client-dev libeigen3-dev glslang-tools libudev-dev libwayland-dev libx11-xcb-dev libxrandr-dev libxcb-randr0-dev libgl-dev libglx-dev mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev libsystemd-dev libva-dev libxcb-glx0-dev gettext libfontconfig-dev libboost-all-dev librsvg2-bin libssl-dev grim mesa-vulkan-drivers wayland-protocols fonts-noto-cjk fonts-roboto
-        sway -v
+        sudo apt-get update
+        sudo apt-get install sway grim libvulkan-dev libcjson-dev libx264-dev libavcodec-dev \
+          libavutil-dev libswscale-dev libavfilter-dev libbsd-dev libavahi-client-dev \
+          libeigen3-dev glslang-tools libudev-dev libwayland-dev libx11-xcb-dev libxrandr-dev \
+          libxcb-randr0-dev libgl-dev libglx-dev mesa-common-dev libgl1-mesa-dev \
+          libglu1-mesa-dev libsystemd-dev libva-dev libxcb-glx0-dev gettext libfontconfig-dev \
+          libboost-all-dev librsvg2-bin libssl-dev mesa-vulkan-drivers wayland-protocols \
+          fonts-noto-cjk fonts-roboto
 
     - name: Build Monado
       # Disable XRT_FEATURE_OPENXR_VISIBILITY_MASK because of https://gitlab.freedesktop.org/monado/monado/-/issues/480
@@ -119,7 +125,7 @@ jobs:
         XR_RUNTIME_JSON: ${{github.workspace}}/build-monado/openxr_monado-dev.json
         P_OVERRIDE_ACTIVE_CONFIG: remote
         XRT_COMPOSITOR_SCALE_PERCENTAGE: '100'
-        # Screenshot viewport
+        # Screenshot viewport size
         GAME_VIEW_H: 1080
         GAME_VIEW_W: 960
       run: |
@@ -139,6 +145,7 @@ jobs:
         sleep 200
 
         # Capture
+        echo "Starting capture..."
         export OUTPUT_DIR=./screenshots/auto
         mkdir -p "${OUTPUT_DIR}"
         ${MONADO_CLIENT_PATH} < ${{github.workspace}}/.github/monado-screenshot-script.txt       
@@ -149,6 +156,8 @@ jobs:
 
         killall game.x64
         wait $GAME_PID || true
+        
+        echo "Capture completed."
         tree -a "${OUTPUT_DIR}"
     
     - name: Upload screenshots
@@ -272,6 +281,8 @@ jobs:
           if [[ "$RESULT_ERR" == true ]]; then
             echo "Comparison errors found, check artifacts for more details."            
             exit 1
+          else
+            echo "Comparison test success!"                      
           fi
  
   upload-screens:
