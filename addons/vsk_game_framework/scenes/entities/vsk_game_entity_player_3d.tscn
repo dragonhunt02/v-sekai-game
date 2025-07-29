@@ -122,7 +122,8 @@ Once a result has been received, it will assign the resulting PackedScene direct
 script = ExtResource("8_kkxyr")
 avatar_component = NodePath("../ModelComponent")
 game_entity = NodePath("..")
-default_requested_avatar_path = "https://http.cat/status/418"
+default_requested_avatar_path = "res://addons/vsk_game_framework/scenes/avatars/error_handlers/teapot.tscn""
+;"https://http.cat/status/418"
 ; "res://addons/renik/sample_models/godette.glb"
 metadata/_custom_type_script = "uid://co513u6fkckn6"
 
