@@ -120,8 +120,7 @@ jobs:
         echo "Downloading ${FILE_URL}"
         #curl -o game.x64 -L --url ${FILE_URL}
         #curl -o game.x64 -L https://github.com/V-Sekai/v-sekai-game/releases/download/0.1.0-nightly-2025-07-26T111330-b099fb4_editor-ac70214-rx/v-sekai-game_0.1.0-b099fb4_editor-ac70214_Linux
-        curl -o game.x64 -L https://github.com/dragonhunt02/v-sekai-game/releases/download/v0.20.7-nightly-2025-07-29T145238-e5810b0f_editor-ac70214-rx/v-sekai-game_v0.20.7-e5810b0f_editor-ac70214_Linux
-        #https://github.com/dragonhunt02/v-sekai-game/releases/download/v0.20.7-nightly-2025-07-29T134759-226891b4_editor-ac70214-rx/v-sekai-game_v0.20.7-226891b4_editor-ac70214_Linux
+        curl -o game.x64 -L https://github.com/dragonhunt02/v-sekai-game/releases/download/v0.20.7-nightly-2025-07-29T151615-1f99c847_editor-ac70214-rx/v-sekai-game_v0.20.7-1f99c847_editor-ac70214_Linux
         #https://github.com/dragonhunt02/v-sekai-game/releases/download/v0.20.7-nightly-2025-07-29T095334-7cfaef74_editor-ac70214-rx/v-sekai-game_v0.20.7-7cfaef74_editor-ac70214_Linux
         chmod +x game.x64
         ls -a .
@@ -212,9 +211,10 @@ jobs:
         run: |
           #which compare.im6 || true
           #which magick
-          echo "$PATH"
+          #echo "$PATH"
           #ls -a /usr/local/bin
 
+          DSSIMThreshold=1
           BASE="previews/auto"     
           NEWBASE="new-previews/auto"
           RESULT_FILE="results.txt"
@@ -223,6 +223,9 @@ jobs:
 
           # Clear any results file
           > "$RESULT_FILE"
+
+          # Found comparison errors
+          RESULT_ERR=false
           
           for NEWBASEFILE in "${NEWBASE}"/*.png; do
               FILENAME=$(basename "$NEWBASEFILE")
@@ -258,17 +261,18 @@ jobs:
               } >> "$RESULT_FILE"
 
               DSSIMScore=$(printf '%s' "$SSIMValue" | cut -d ' ' -f1)
-              DSSIMThreshold=1
-              #SSIMValue='1.23 (0)'
               echo "DSSIMScore: $DSSIMScore"
 
               if [ "$(echo "$DSSIMScore > $DSSIMThreshold" | bc -l)" -eq 1 ]; then
                 echo "${BASEFILE}: Greater than $DSSIMThreshold"
+                RESULT_ERR=true
               else
                 echo "${BASEFILE}: Ok not greater than $DSSIMThreshold"
+                RESULT_ERR=false
               fi
 
               done
+              echo "RESULT_ERR=$RESULT_ERR" >> $GITHUB_ENV
 
               cat "$RESULT_FILE"
               mkdir upload-tests
@@ -281,7 +285,15 @@ jobs:
         with:
           name: XRImgTestResults
           path: "upload-tests/*"
-  
+          
+      - name: Exit
+        run: |
+          echo "RESULT_ERR=$RESULT_ERR"
+          if [[ "$RESULT_ERR" == true ]]; then
+            #exit 1
+            echo "Different"            
+          fi
+ 
   upload-screens:
     name: Upload Github
     runs-on: ubuntu-24.04
