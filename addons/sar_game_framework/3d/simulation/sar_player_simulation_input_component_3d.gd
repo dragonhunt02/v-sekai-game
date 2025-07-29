@@ -9,6 +9,9 @@ var _blocked_input_counter: int = 0
 @export var playspace: SarPlayerSimulationFPSTPSXRHybridPlayspaceComponent3D = null
 @export var motor: SarSimulationComponentMotor3D = null
 @export var jump: SarSimulationComponentJump3D = null
+#@export var commands: SarSimulationComponentCommands = null
+var stoperr=false
+var menu_pressed=false
 
 func block_input() -> void:
 	_blocked_input_counter += 1
@@ -43,6 +46,13 @@ func _update_input(p_input_component: SarGameEntityComponentVesselInput, p_disab
 		
 		if jump:
 			jump.should_jump = false
+		if not stoperr:
+			push_error("Tedtinput Proceess input")
+			stoperr=true
+		menu_pressed = p_input_component.is_action_pressed("menu")
+		if menu_pressed:
+			push_error("Tedtinputf menu pressed input")
+
 
 func _physics_process(_p_delta: float) -> void:
 	if not Engine.is_editor_hint():
