@@ -1,7 +1,8 @@
 name: MonadoXR Test Suite
 
 # Runs Visual Regression Tests with MonadoXR remote driver
-# Results can be downloaded in Github Actions workflow artifacts
+# Results and images can be downloaded in Github Actions workflow artifacts
+# You must update tests with new images on breaking changes
 
 on:
   push:
@@ -276,7 +277,6 @@ jobs:
           
       - name: Result
         run: |
-          echo "RESULT_ERR=$RESULT_ERR"
           cat "$RESULT_FILE"
           if [[ "$RESULT_ERR" == true ]]; then
             echo "Comparison errors found, check artifacts for more details."            
