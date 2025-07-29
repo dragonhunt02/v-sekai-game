@@ -135,12 +135,19 @@ func _ready() -> void:
 
 			avatar_component.set_model_scene(game_asset_manager.loading_avatar_packed_scene)
 		push_error("Avatar requestedfgh path %s" % _requested_avatar_path)
-		
+
+		# On first load we pick the default set avatar
+		# if not _requested_avatar_path:
+		_requested_avatar_path = default_requested_avatar_path
+
 		if _requested_avatar_path:
 			push_error("Avatar request started")
 			_request_avatar_asset()
+		else:
+			push_error("Default avatar path not found.")			
 			
 ###
 
 ## The model component used by this game entity.
 @export var avatar_component: SarGameEntityComponentAvatar3D = null
+@export var default_requested_avatar_path: String = ""
