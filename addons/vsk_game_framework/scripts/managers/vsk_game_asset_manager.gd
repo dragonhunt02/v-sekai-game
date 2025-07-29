@@ -278,7 +278,7 @@ func attempt_to_cancel_request(p_request_url: String) -> void:
 			
 ## Returns true if p_url is in the allow list for a particular asset type.
 func is_in_allow_list(p_url: String, p_asset_type: AssetType) -> bool:
-	return true
+	#return true
 	var allow_list: PackedStringArray
 	
 	match p_asset_type:
