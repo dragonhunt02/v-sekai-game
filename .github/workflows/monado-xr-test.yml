@@ -132,7 +132,7 @@ jobs:
         export WAYLAND_DISPLAY=$(cd "${XDG_RUNTIME_DIR}" && ls -tr wayland* | tail -1)
         
         MONADO_CLIENT_PATH="${{github.workspace}}/build-monado/src/xrt/targets/remotectl/monado-remotectl 127.0.0.1 4242 "
-        ${{github.workspace}}/game.x64 -v &
+        ${{github.workspace}}/game.x64 &
         GAME_PID=$!
         
         # Wait game load
@@ -149,7 +149,7 @@ jobs:
 
         killall game.x64
         wait $GAME_PID || true
-        ls -l -a .
+        tree -a "${OUTPUT_DIR}"
     
     - name: Upload screenshots
       uses: actions/upload-artifact@v4
@@ -172,10 +172,9 @@ jobs:
 
       - name: Install ImageMagick 7
         run: |
-          # Version 7 is required for DSSIM
+          # Version 7 is required for DSSIM, using AppImage
           sudo apt-get update && sudo apt-get install fuse
           sudo modprobe fuse
-          # AppImage
           curl -o magick -L https://imagemagick.org/archive/binaries/magick
           chmod +x magick
           ./magick --version
@@ -193,8 +192,8 @@ jobs:
           NEWBASE="new-previews/auto"
           RESULT_FILE="results.txt"
           
-          ls -a -R previews
-          ls -a -R new-previews
+          tree -a previews
+          tree -a new-previews
 
           # Clear any results file
           > "$RESULT_FILE"
@@ -253,11 +252,12 @@ jobs:
           mkdir upload-tests
           mkdir -p upload-tests/diffs
           mkdir -p upload-tests/images
-          mv "${RESULT_FILE}" upload-tests
+          cp "${RESULT_FILE}" upload-tests
           mv *-diff-* upload-tests/diffs
           mv "${NEWBASE}"/* upload-tests/images
-              
-          ls -a -R upload-tests
+
+          echo "Artifact ready for upload:"
+          tree -a upload-tests
      
       - name: Upload test result artifact
         uses: actions/upload-artifact@v4
