@@ -12,6 +12,8 @@ var _blocked_input_counter: int = 0
 #@export var commands: SarSimulationComponentCommands = null
 var stoperr=false
 var menu_pressed=false
+var menu_pressed2=false
+var menu_pressed3=false
 
 func _ready() -> void:
 	push_error("SarPlayerSimulationInputComponent is ready Testinput")	
