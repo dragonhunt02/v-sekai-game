@@ -153,7 +153,8 @@ jobs:
         ${{github.workspace}}/game.x64 -v &
         GAME_PID=$!
         # Wait game load
-        sleep 200
+        #sleep 200
+        sleep 400
 
         # Capture
         export OUTPUT_DIR=./screenshots/auto
