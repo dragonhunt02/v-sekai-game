@@ -8,7 +8,17 @@ class_name SarSoulPlayerCommandsComponent
 
 var active_commands: Dictionary = {}
 
+func _ready() -> void:
+	push_error("SarSoulPlayerCommandsComponent is ready Testinput")	
+
 func _input(p_event: InputEvent) -> void:
+	push_error("Testinput running")
+	print(p_event.as_text())
+	if InputMap.has_action("menu"):
+		push_error("Testinput2 has_action menu")
+	if p_event.is_action_pressed("menu"):
+		push_error("Testinput3 is_action_pressed menu")
+
 	if not Engine.is_editor_hint() and is_multiplayer_authority():
 		var vessel: SarGameEntityVessel3D = soul.get_possessed_vessel()
 		if vessel:
