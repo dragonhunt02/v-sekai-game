@@ -120,7 +120,8 @@ jobs:
         echo "Downloading ${FILE_URL}"
         #curl -o game.x64 -L --url ${FILE_URL}
         #curl -o game.x64 -L https://github.com/V-Sekai/v-sekai-game/releases/download/0.1.0-nightly-2025-07-26T111330-b099fb4_editor-ac70214-rx/v-sekai-game_0.1.0-b099fb4_editor-ac70214_Linux
-        curl -o game.x64 -L https://github.com/dragonhunt02/v-sekai-game/releases/download/v0.20.7-nightly-2025-07-29T134759-226891b4_editor-ac70214-rx/v-sekai-game_v0.20.7-226891b4_editor-ac70214_Linux
+        curl -o game.x64 -L https://github.com/dragonhunt02/v-sekai-game/releases/download/v0.20.7-nightly-2025-07-29T145238-e5810b0f_editor-ac70214-rx/v-sekai-game_v0.20.7-e5810b0f_editor-ac70214_Linux
+        #https://github.com/dragonhunt02/v-sekai-game/releases/download/v0.20.7-nightly-2025-07-29T134759-226891b4_editor-ac70214-rx/v-sekai-game_v0.20.7-226891b4_editor-ac70214_Linux
         #https://github.com/dragonhunt02/v-sekai-game/releases/download/v0.20.7-nightly-2025-07-29T095334-7cfaef74_editor-ac70214-rx/v-sekai-game_v0.20.7-7cfaef74_editor-ac70214_Linux
         chmod +x game.x64
         ls -a .
@@ -258,7 +259,7 @@ jobs:
 
               DSSIMScore=$(printf '%s' "$SSIMValue" | cut -d ' ' -f1)
               DSSIMThreshold=1
-              SSIMValue='1.23 (0)'
+              #SSIMValue='1.23 (0)'
               echo "DSSIMScore: $DSSIMScore"
 
               if [ "$(echo "$DSSIMScore > $DSSIMThreshold" | bc -l)" -eq 1 ]; then
