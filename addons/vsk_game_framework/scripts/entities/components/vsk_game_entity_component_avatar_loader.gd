@@ -57,12 +57,16 @@ func _on_request_complete(p_asset_err: VSKGameAssetRequest.AssetError) -> void:
 			
 # Called when a new avatar request is made.
 func _request_avatar_asset() -> void:
+	push_error("Avatar request asset started")
+	push_error("Avatar request path started: %s" % _requested_avatar_path)
 	# Find if we have an asset manager.
 	var game_asset_manager: VSKGameAssetManager = get_tree().get_first_node_in_group("game_asset_managers")
 	if game_asset_manager:
+		push_error("Avatar game_asset_manager exist")
 		# If we already have a pending asset request, disconnect it
 		# and attempt to cancel it.
 		if _current_asset_request:
+			push_error("_current_asset_request cancel")
 			if _current_asset_request.request_complete.is_connected(_on_request_complete):
 				_current_asset_request.request_complete.disconnect(_on_request_complete)
 			game_asset_manager.attempt_to_cancel_request(_current_asset_request.get_request_url())
@@ -73,8 +77,8 @@ func _request_avatar_asset() -> void:
 		if _requested_avatar_path:
 			# For the remote peers only, check if the avatar request is actually
 			# valid before attempting to load it.
-			if not is_multiplayer_authority():
-				is_request_path_valid = _validate_remote_request_path(_requested_avatar_path)
+			#if not is_multiplayer_authority():
+				#is_request_path_valid = _validate_remote_request_path(_requested_avatar_path)
 			
 			# If the request path is valid, make the request to the asset manager.
 			if true: #is_request_path_valid:
@@ -116,14 +120,19 @@ func _on_requested_avatar_path_changed(p_new_path: String) -> void:
 # By default, assign the loading avatar to this player while we wait
 # for their actual avatar to appear.
 func _ready() -> void:
+	push_error("Avatar request component ready")
+
 	if not Engine.is_editor_hint():
 		var game_asset_manager: VSKGameAssetManager = get_tree().get_first_node_in_group("game_asset_managers")
+		push_error("Avatar request readyed")
+
 		if game_asset_manager:
 			if not SarUtils.assert_true(avatar_component, "VSKGameEntityComponentAvatarLoader: avatar_component is not available"):
 				return
 			avatar_component.set_model_scene(game_asset_manager.loading_avatar_packed_scene)
 		
 		if _requested_avatar_path:
+			push_error("Avatar request started")
 			_request_avatar_asset()
 			
 ###
