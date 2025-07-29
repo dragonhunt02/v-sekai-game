@@ -14,7 +14,7 @@ sleep 1
 exec grim -g "0,0 ${GAME_VIEW_W}x${GAME_VIEW_H}" "${OUTPUT_DIR}/screenshot-01.png"
 sleep 1
 
-###exec swaymsg "[app_id=\"V-Sekai\"] focus"
+exec swaymsg "[app_id=\"V-Sekai\"] focus"
 #exec wtype -k ESC
 #exec wtype -P Escape
 #sleep 1
