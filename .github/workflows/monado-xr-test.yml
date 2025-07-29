@@ -23,6 +23,9 @@ env:
   # Selecting 'Update_README_screenshots' option
   # in Actions tab overrides this.
   UPDATE_README_IMGS: true
+  # DSSIM image difference threshold value.
+  # 0 means no difference.
+  DSSIM_THRESHOLD: 1
 
 jobs:
   run-test:
@@ -125,8 +128,7 @@ jobs:
         echo -e "output HEADLESS-1 {\n mode ${GAME_VIEW_H}x${GAME_VIEW_W}@60Hz\n}" >> sway-config
         sway -c sway-config &
         sleep 10
-        echo "SWAYSOCK=$SWAYSOCK"
-        #export SWAYSOCK=$(ls /run/user/$(id -u)/sway-ipc.*.sock | head -n1)
+        export SWAYSOCK=$(ls /run/user/$(id -u)/sway-ipc.*.sock | head -n1)
         export WAYLAND_DISPLAY=$(cd "${XDG_RUNTIME_DIR}" && ls -tr wayland* | tail -1)
         
         MONADO_CLIENT_PATH="${{github.workspace}}/build-monado/src/xrt/targets/remotectl/monado-remotectl 127.0.0.1 4242 "
@@ -186,7 +188,7 @@ jobs:
 
       - name: Compare
         run: |
-          DSSIMThreshold=1
+          DSSIMThreshold=$DSSIM_THRESHOLD
           BASE="previews/auto"     
           NEWBASE="new-previews/auto"
           RESULT_FILE="results.txt"
@@ -251,9 +253,12 @@ jobs:
               echo "RESULT_FILE=$RESULT_FILE" >> $GITHUB_ENV
               
               mkdir upload-tests
+              mkdir -p upload-tests/diffs
+              mkdir -p upload-tests/images
               mv "${RESULT_FILE}" upload-tests
-              mv *-diff-* upload-tests
-              ls -a upload-tests
+              mv *-diff-* upload-tests/diffs
+              mv "${NEWBASE}/*" upload-tests/images
+              ls -a -R upload-tests
      
       - name: Upload test result artifact
         uses: actions/upload-artifact@v4
