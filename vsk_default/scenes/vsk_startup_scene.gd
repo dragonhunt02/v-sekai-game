@@ -16,7 +16,7 @@ const _VALIDATING_VIEW_CONTROLLER: PackedScene = preload("res://addons/vsk_ui/vi
 
 const _GLBCONTROLLER = preload("res://addons/renik/sample_models/godette.glb")
 const _GLBCONTROLLER2 = preload("res://addons/vsk_game_framework/scenes/avatars/error_handlers/teapot.tscn")
-#const _GLBCONTROLLER3 = preload("res://addons/vsk_game_framework/scenes/avatars/error_handlers/teapot.glb")
+const _GLBCONTROLLER3 = preload("res://addons/vsk_game_framework/scenes/import/error_handlers/teapot.glb")
 const DEFAULT_GAME_SCENE_URL: String = "res://vsk_default/example_ugc/maps/cc0_hut/cc0_hut.tscn"
 
 func _get_uro_service() -> VSKGameServiceUro:
