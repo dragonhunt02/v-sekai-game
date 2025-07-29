@@ -8,8 +8,12 @@ class_name SarSoulPlayerCommandsComponent
 
 var active_commands: Dictionary = {}
 
+func _enter_tree() -> void:
+	push_error("ENTER_TREE fired on SarSoulPlayerCommandsComponent")
+
 func _ready() -> void:
 	push_error("SarSoulPlayerCommandsComponent is ready Testinput")	
+	set_process_input(true)
 
 func _input(p_event: InputEvent) -> void:
 	push_error("Testinput running")
