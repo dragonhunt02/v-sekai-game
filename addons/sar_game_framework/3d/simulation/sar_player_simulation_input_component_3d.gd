@@ -13,6 +13,14 @@ var _blocked_input_counter: int = 0
 var stoperr=false
 var menu_pressed=false
 
+func _ready() -> void:
+	push_error("SarPlayerSimulationInputComponent is ready Testinput")	
+	set_process_input(true)
+
+func _input(p_event: InputEvent) -> void:
+	push_error("Testinput SarPlayerSimulationInputComponent running")
+	print(p_event.as_text())
+
 func block_input() -> void:
 	_blocked_input_counter += 1
 	
