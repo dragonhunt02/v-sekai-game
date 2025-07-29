@@ -244,20 +244,20 @@ jobs:
                 RESULT_ERR=false
               fi
 
-              done
+          done
 
-              echo "RESULT_ERR=$RESULT_ERR" >> $GITHUB_ENV
-              echo "RESULT_FILE=$RESULT_FILE" >> $GITHUB_ENV
+          echo "RESULT_ERR=$RESULT_ERR" >> $GITHUB_ENV
+          echo "RESULT_FILE=$RESULT_FILE" >> $GITHUB_ENV
 
-              # Create artifact directory
-              mkdir upload-tests
-              mkdir -p upload-tests/diffs
-              mkdir -p upload-tests/images
-              mv "${RESULT_FILE}" upload-tests
-              mv *-diff-* upload-tests/diffs
-              mv "${NEWBASE}"/* upload-tests/images
+          # Create artifact directory
+          mkdir upload-tests
+          mkdir -p upload-tests/diffs
+          mkdir -p upload-tests/images
+          mv "${RESULT_FILE}" upload-tests
+          mv *-diff-* upload-tests/diffs
+          mv "${NEWBASE}"/* upload-tests/images
               
-              ls -a -R upload-tests
+          ls -a -R upload-tests
      
       - name: Upload test result artifact
         uses: actions/upload-artifact@v4
