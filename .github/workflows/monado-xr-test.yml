@@ -1,0 +1,307 @@
+name: MonadoXR Test Suite
+
+# Runs Visual Regression Tests with MonadoXR remote driver
+# Results can be downloaded in Github Actions workflow artifacts
+
+on:
+  push:
+     branches:
+       monado-action-up-pr
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select Run mode'
+        required: true
+        type: choice
+        options:
+          - Run_tests
+          - Update_README_imgs
+        default: Run_tests
+
+env:
+  # Push updated screenshots to repo.
+  # Selecting 'Update_README_screenshots' option
+  # in Actions tab overrides this.
+  UPDATE_README_IMGS: true
+
+jobs:
+  run-test:
+    name: Run MonadoXR Linux Tests
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      actions: write
+      issues: none
+      pull-requests: none
+      checks: none
+      deployments: none
+      statuses: none
+      packages: none
+      pages: none
+      repository-projects: none
+      discussions: none
+      id-token: none
+    outputs:
+      UPDATE_README_IMGS: ${{ steps.setenv.outputs.UPDATE_README_IMGS }}
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+ 
+    - name: Set environment
+      id: setenv
+      run: |
+        if [[ "${{ github.event.inputs.environment}}" == "Update_README_imgs" ]]; then
+          UPDATE_README_IMGS=true;
+        fi
+        echo "UPDATE_README_IMGS=${UPDATE_README_IMGS}" >> $GITHUB_OUTPUT
+        
+    - name: Prepare Vulkan SDK
+      uses: humbletim/setup-vulkan-sdk@286ed76c72de45dbf50c515779cf4ca2f6aa3944
+      with:
+        vulkan-query-version: 1.3.283.0
+        vulkan-components: Vulkan-Headers
+        vulkan-use-cache: true
+                
+    - name: Cache Monado CMake build directory
+      uses: actions/cache@v4
+      with:
+        path: ${{github.workspace}}/build-monado
+        key: ${{ runner.os }}-cmake-build-monado
+        restore-keys: |
+          ${{ runner.os }}-cmake-build-monado
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update && sudo apt-get install sway libvulkan-dev libcjson-dev libx264-dev libavcodec-dev libavutil-dev libswscale-dev libavfilter-dev libbsd-dev libavahi-client-dev libeigen3-dev glslang-tools libudev-dev libwayland-dev libx11-xcb-dev libxrandr-dev libxcb-randr0-dev libgl-dev libglx-dev mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev libsystemd-dev libva-dev libxcb-glx0-dev gettext libfontconfig-dev libboost-all-dev librsvg2-bin libssl-dev grim mesa-vulkan-drivers wayland-protocols fonts-noto-cjk fonts-roboto
+        sway -v
+
+    - name: Build Monado
+      # Disable XRT_FEATURE_OPENXR_VISIBILITY_MASK because of https://gitlab.freedesktop.org/monado/monado/-/issues/480
+      run: |
+        # Use remotectl driver fork
+        # https://gitlab.freedesktop.org/Meumeu/monado/-/commit/5bdb51697685320e3f5d494210f25fb2967c9fc3
+        
+        # Usage example:
+        # https://github.com/WiVRn/WiVRn/blob/ac2044dffc261daf14b16a2df42a24328e38b138/.github/workflows/Build.yml#L209
+
+        mkdir monado
+        curl https://gitlab.freedesktop.org/Meumeu/monado/-/archive/5bdb51697685320e3f5d494210f25fb2967c9fc3/monado-main.tar.gz | tar -xz -C monado --strip-components=1
+
+        # Patch 
+        mv -v -f .github/remotectl.cpp monado/src/xrt/targets/remotectl/remotectl.cpp
+
+        DRIVERS=$(grep -oE "XRT_BUILD_DRIVER_[A-Z0-9_]*" monado/CMakeLists.txt | sort -u  | grep -v XRT_BUILD_DRIVER_REMOTE | sed 's/\(.*\)/-D\1=OFF/')
+        cmake monado -B ${{github.workspace}}/build-monado -DCMAKE_BUILD_TYPE=Release -DXRT_FEATURE_SERVICE_SYSTEMD=OFF -DXRT_FEATURE_SERVICE=OFF -DXRT_BUILD_DRIVER_REMOTE=ON -DXRT_MODULE_COMPOSITOR_MAIN=ON -DXRT_HAVE_WAYLAND=ON $DRIVERS -DXRT_MODULE_MONADO_REMOTECTL=ON -DBUILD_TESTING=OFF -DXRT_FEATURE_OPENXR_VISIBILITY_MASK=OFF
+
+        cmake --build ${{github.workspace}}/build-monado
+
+    - name: Fetch latest game build
+      run: |
+        curl -sS \
+          -H "Accept: application/vnd.github+json" \
+          "https://api.github.com/repos/${{ github.repository }}/releases" \
+          | jq -r '[.[] | select(.tag_name | test("-rx$"))] | sort_by(.updated_at) | .[0]' > releases_json.txt
+        FILE_URL=$( \
+          cat 'releases_json.txt' \
+          | jq -r '.assets.[] | select(.name | test("_Linux$")).browser_download_url' \
+        )
+        echo "Downloading ${FILE_URL}"
+        curl -o game.x64 -L https://github.com/dragonhunt02/v-sekai-game/releases/download/v0.20.7-nightly-2025-07-29T170617-8a0cd489_editor-ac70214-rx/v-sekai-game_v0.20.7-8a0cd489_editor-ac70214_Linux
+        chmod +x game.x64
+ 
+    - name: Take screenshots
+      env:
+        WLR_BACKENDS: headless
+        WLR_RENDERER: pixman
+        WLR_LIBINPUT_NO_DEVICES: 1
+        XR_RUNTIME_JSON: ${{github.workspace}}/build-monado/openxr_monado-dev.json
+        P_OVERRIDE_ACTIVE_CONFIG: remote
+        XRT_COMPOSITOR_SCALE_PERCENTAGE: '100'
+        # Screenshot viewport
+        GAME_VIEW_H: 1080
+        GAME_VIEW_W: 960
+      run: |
+        sway -v
+        echo "xwayland disable" > sway-config
+        echo -e "output HEADLESS-1 {\n mode ${GAME_VIEW_H}x${GAME_VIEW_W}@60Hz\n}" >> sway-config
+        sway -c sway-config &
+        sleep 10
+        export SWAYSOCK=$(ls /run/user/$(id -u)/sway-ipc.*.sock | head -n1)
+        export WAYLAND_DISPLAY=$(cd "${XDG_RUNTIME_DIR}" && ls -tr wayland* | tail -1)
+        
+        MONADO_CLIENT_PATH="${{github.workspace}}/build-monado/src/xrt/targets/remotectl/monado-remotectl 127.0.0.1 4242 "
+        ${{github.workspace}}/game.x64 -v &
+        GAME_PID=$!
+        
+        # Wait game load
+        sleep 200
+
+        # Capture
+        export OUTPUT_DIR=./screenshots/auto
+        mkdir -p "${OUTPUT_DIR}"
+        ${MONADO_CLIENT_PATH} < ${{github.workspace}}/.github/monado-screenshot-script.txt       
+
+        # Very slow alternative capture (~18min), generates 9 screenshots at set angles
+        # chmod +x .github/monado-script-360.sh
+        # bash .github/monado-script-360.sh "${MONADO_CLIENT_PATH}" ${GAME_VIEW_W} ${GAME_VIEW_H} 100 "${OUTPUT_DIR}"
+
+        killall game.x64
+        wait $GAME_PID || true
+        ls -l -a .
+    
+    - name: Upload screenshots
+      uses: actions/upload-artifact@v4
+      with:
+        name: Screenshots
+        path: "screenshots/*"
+
+  compare-screens:
+    name: Compare test
+    runs-on: ubuntu-24.04
+    needs: run-test
+    continue-on-error: true
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install ImageMagick 7
+        run: |
+          #sudo apt-get update && sudo apt-get install imagemagick
+          sudo apt-get update && sudo apt-get install fuse
+          sudo modprobe fuse
+          # AppImage
+          curl -o magick -L https://imagemagick.org/archive/binaries/magick
+          chmod +x magick
+          ./magick --version
+        
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: Screenshots
+          path: new-previews
+
+      - name: Compare
+        run: |
+          DSSIMThreshold=1
+          BASE="previews/auto"     
+          NEWBASE="new-previews/auto"
+          RESULT_FILE="results.txt"
+          ls -a -R previews
+          ls -a -R new-previews
+
+          # Clear any results file
+          > "$RESULT_FILE"
+
+          # Found comparison errors
+          RESULT_ERR=false
+          
+          for NEWBASEFILE in "${NEWBASE}"/*.png; do
+              FILENAME=$(basename "$NEWBASEFILE")
+              BASEFILE="${BASE}/${FILENAME}"
+              echo "Comparing ${BASEFILE} to ${NEWBASEFILE}..."
+
+              # Skip if BASEFILE doesn't exist
+              if [[ ! -f "$BASEFILE" ]]; then
+                  echo "Skipping ${FILENAME} (no match in BASE)" >> "$RESULT_FILE"
+                  continue
+              fi
+
+              # AE
+              ./magick compare -metric AE "$BASEFILE" "$NEWBASEFILE" "AE-diff-${FILENAME}" 2> AE-diff.log || true
+              echo "AE"
+              AEValue="$(cat AE-diff.log)"
+              echo "AE ${AEValue}"
+              
+              # PSNR
+              ./magick compare -metric PSNR "$BASEFILE" "$NEWBASEFILE" PSNR-diff-${FILENAME}  2> PSNR-diff.log || true
+              PSNRValue="$(cat PSNR-diff.log)"
+              echo "PSNR ${PSNRValue}"
+              
+              # DSSIM
+              ./magick compare -metric DSSIM "$BASEFILE" "$NEWBASEFILE" DSSIM-diff-${FILENAME} 2> DSSIM-diff.log || true
+              DSSIMValue="$(cat DSSIM-diff.log)"
+              echo "DSSIM ${DSSIMValue}"
+
+              {
+                  echo "${BASEFILE}"
+                  echo "AEValue=${AEValue}"
+                  echo "PSNRValue=${PSNRValue}"
+                  echo "DSSIMValue=${DSSIMValue}"
+                  echo ""
+              } >> "$RESULT_FILE"
+
+              DSSIMScore=$(printf '%s' "$DSSIMValue" | cut -d ' ' -f1)
+              echo "DSSIMScore: $DSSIMScore"
+
+              if [ "$(echo "$DSSIMScore > $DSSIMThreshold" | bc -l)" -eq 1 ]; then
+                echo "${BASEFILE}: Greater than $DSSIMThreshold"
+                RESULT_ERR=true
+              else
+                echo "${BASEFILE}: Ok not greater than $DSSIMThreshold"
+                RESULT_ERR=false
+              fi
+
+              done
+
+              echo "RESULT_ERR=$RESULT_ERR" >> $GITHUB_ENV
+              echo "RESULT_FILE=$RESULT_FILE" >> $GITHUB_ENV
+              
+              mkdir upload-tests
+              mv "${RESULT_FILE}" upload-tests
+              mv *-diff-* upload-tests
+              ls -a upload-tests
+     
+      - name: Upload test result artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: XRImgTestResults
+          path: "upload-tests/*"
+          
+      - name: Result
+        run: |
+          echo "RESULT_ERR=$RESULT_ERR"
+          cat "$RESULT_FILE"
+          if [[ "$RESULT_ERR" == true ]]; then
+            echo "Comparison errors found, check artifacts for more details"            
+            exit 1
+          fi
+ 
+  upload-screens:
+    name: Upload Github
+    runs-on: ubuntu-24.04
+    needs: compare-screens
+    if: needs.run-test.outputs.UPDATE_README_IMGS == 'true'
+    permissions:
+      contents: write
+      actions: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Clear old screenshots
+        run: |
+            pwd
+            #rm -r screenshots/auto/* || true
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: Screenshots
+          path: previews
+      - name: commit
+        run: |
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git config --global user.name "github-actions[bot]"
+            git add -A
+            git status
+            if git diff --quiet && git diff --cached --quiet; then
+                echo "No changes to image files, skipping push."
+            else
+                git commit -a -m 'Auto: Update preview Monado screenshots'
+                git push
+            fi
