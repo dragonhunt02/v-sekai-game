@@ -120,8 +120,7 @@ jobs:
         echo "Downloading ${FILE_URL}"
         #curl -o game.x64 -L --url ${FILE_URL}
         #curl -o game.x64 -L https://github.com/V-Sekai/v-sekai-game/releases/download/0.1.0-nightly-2025-07-26T111330-b099fb4_editor-ac70214-rx/v-sekai-game_0.1.0-b099fb4_editor-ac70214_Linux
-        curl -o game.x64 -L https://github.com/dragonhunt02/v-sekai-game/releases/download/v0.20.7-nightly-2025-07-29T113601-a012c361_editor-ac70214-rx/v-sekai-game_v0.20.7-a012c361_editor-ac70214_Linux
-        #https://github.com/dragonhunt02/v-sekai-game/releases/download/v0.20.7-nightly-2025-07-29T110854-75b60127_editor-ac70214-rx/v-sekai-game_v0.20.7-75b60127_editor-ac70214_Linux
+        curl -o game.x64 -L https://github.com/dragonhunt02/v-sekai-game/releases/download/v0.20.7-nightly-2025-07-29T115940-3426e014_editor-ac70214-rx/v-sekai-game_v0.20.7-3426e014_editor-ac70214_Linux
         #https://github.com/dragonhunt02/v-sekai-game/releases/download/v0.20.7-nightly-2025-07-29T095334-7cfaef74_editor-ac70214-rx/v-sekai-game_v0.20.7-7cfaef74_editor-ac70214_Linux
         chmod +x game.x64
         ls -a .
