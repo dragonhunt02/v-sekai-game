@@ -89,9 +89,6 @@ jobs:
         mkdir monado
         curl https://gitlab.freedesktop.org/Meumeu/monado/-/archive/5bdb51697685320e3f5d494210f25fb2967c9fc3/monado-main.tar.gz | tar -xz -C monado --strip-components=1
 
-        # Patch 
-        mv -v -f .github/remotectl.cpp monado/src/xrt/targets/remotectl/remotectl.cpp
-
         DRIVERS=$(grep -oE "XRT_BUILD_DRIVER_[A-Z0-9_]*" monado/CMakeLists.txt | sort -u  | grep -v XRT_BUILD_DRIVER_REMOTE | sed 's/\(.*\)/-D\1=OFF/')
         cmake monado -B ${{github.workspace}}/build-monado -DCMAKE_BUILD_TYPE=Release -DXRT_FEATURE_SERVICE_SYSTEMD=OFF -DXRT_FEATURE_SERVICE=OFF -DXRT_BUILD_DRIVER_REMOTE=ON -DXRT_MODULE_COMPOSITOR_MAIN=ON -DXRT_HAVE_WAYLAND=ON $DRIVERS -DXRT_MODULE_MONADO_REMOTECTL=ON -DBUILD_TESTING=OFF -DXRT_FEATURE_OPENXR_VISIBILITY_MASK=OFF
 
@@ -108,7 +105,7 @@ jobs:
           | jq -r '.assets.[] | select(.name | test("_Linux$")).browser_download_url' \
         )
         echo "Downloading ${FILE_URL}"
-        curl -o game.x64 -L https://github.com/dragonhunt02/v-sekai-game/releases/download/v0.20.7-nightly-2025-07-29T170617-8a0cd489_editor-ac70214-rx/v-sekai-game_v0.20.7-8a0cd489_editor-ac70214_Linux
+        curl -o game.x64 -L "${FILE_URL}"
         chmod +x game.x64
  
     - name: Take screenshots
@@ -128,7 +125,8 @@ jobs:
         echo -e "output HEADLESS-1 {\n mode ${GAME_VIEW_H}x${GAME_VIEW_W}@60Hz\n}" >> sway-config
         sway -c sway-config &
         sleep 10
-        export SWAYSOCK=$(ls /run/user/$(id -u)/sway-ipc.*.sock | head -n1)
+        echo "SWAYSOCK=$SWAYSOCK"
+        #export SWAYSOCK=$(ls /run/user/$(id -u)/sway-ipc.*.sock | head -n1)
         export WAYLAND_DISPLAY=$(cd "${XDG_RUNTIME_DIR}" && ls -tr wayland* | tail -1)
         
         MONADO_CLIENT_PATH="${{github.workspace}}/build-monado/src/xrt/targets/remotectl/monado-remotectl 127.0.0.1 4242 "
@@ -268,7 +266,7 @@ jobs:
           echo "RESULT_ERR=$RESULT_ERR"
           cat "$RESULT_FILE"
           if [[ "$RESULT_ERR" == true ]]; then
-            echo "Comparison errors found, check artifacts for more details"            
+            echo "Comparison errors found, check artifacts for more details."            
             exit 1
           fi
  
