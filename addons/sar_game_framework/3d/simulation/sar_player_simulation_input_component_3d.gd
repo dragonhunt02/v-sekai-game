@@ -25,6 +25,13 @@ func _is_input_disabled() -> bool:
 	
 func _update_input(p_input_component: SarGameEntityComponentVesselInput, p_disabled: bool) -> void:
 	if not p_disabled:
+		if not stoperr:
+			push_error("Tedtinput Proceess input")
+			stoperr=true
+		menu_pressed = p_input_component.is_action_pressed("menu")
+		if menu_pressed:
+			push_error("Tedtinputf menu pressed input")
+
 		if playspace:
 			playspace.turn_velocity.x = p_input_component.get_input_value_for_action("camera_rotation_horizontal")
 			playspace.turn_velocity.y = p_input_component.get_input_value_for_action("camera_rotation_vertical")
@@ -46,12 +53,13 @@ func _update_input(p_input_component: SarGameEntityComponentVesselInput, p_disab
 		
 		if jump:
 			jump.should_jump = false
+
 		if not stoperr:
-			push_error("Tedtinput Proceess input")
+			push_error("Tedtinput Proceess input p_disabled")
 			stoperr=true
 		menu_pressed = p_input_component.is_action_pressed("menu")
 		if menu_pressed:
-			push_error("Tedtinputf menu pressed input")
+			push_error("Tedtinputf menu pressed input p_disabled")
 
 
 func _physics_process(_p_delta: float) -> void:
