@@ -112,6 +112,7 @@ func _request_avatar_asset() -> void:
 # Called when the request avatar path has changed and a new asset
 # request should be made.
 func _on_requested_avatar_path_changed(p_new_path: String) -> void:
+	push_error("Avatar requested _on_requested_avatar_path_changed %s" % p_new_path)
 	_requested_avatar_path = p_new_path
 	
 	if is_node_ready():
@@ -127,9 +128,13 @@ func _ready() -> void:
 		push_error("Avatar request readyed")
 
 		if game_asset_manager:
+			push_error("Avatar request game_asset_manager readyed")
 			if not SarUtils.assert_true(avatar_component, "VSKGameEntityComponentAvatarLoader: avatar_component is not available"):
+				push_error("Avatar request avatar_component NOT true")
 				return
+
 			avatar_component.set_model_scene(game_asset_manager.loading_avatar_packed_scene)
+		push_error("Avatar requestedfgh path %s" % _requested_avatar_path)
 		
 		if _requested_avatar_path:
 			push_error("Avatar request started")
