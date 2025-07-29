@@ -25,6 +25,8 @@ signal requested_avatar_path_changed(p_new_path: String)
 ## via a MultiplayerSynchronizer.
 @export var requested_avatar_path: String = "":
 	set(p_new_path):
+		push_error("emit avatar set path_changed old: %s" % requested_avatar_path)
+		push_error("emit avatar set path_changed new: %s" % p_new_path)
 		if requested_avatar_path != p_new_path:
 			# Got to put this here since on remote peers, the
 			# MultiplayerSynchronizer can set the value before the node is ready
@@ -44,5 +46,6 @@ signal requested_avatar_path_changed(p_new_path: String)
 			
 			# Okay, we can now actually set the new path and emit signal.
 			requested_avatar_path = p_new_path
+			push_error("emit avatar requested_avatar_path_changed new: %s" % requested_avatar_path)
 			requested_avatar_path_changed.emit(requested_avatar_path)
 	
