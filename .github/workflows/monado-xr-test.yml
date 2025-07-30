@@ -5,10 +5,9 @@ name: MonadoXR Test Suite
 # You must update tests with new images on breaking changes
 
 on:
-  pull_request:
   push:
     branches:
-      - rx
+      - monado-pr-test
 
 env:
   # DSSIM image difference threshold value.
