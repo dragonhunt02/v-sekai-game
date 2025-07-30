@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: monado-pr
+          ref: rx-shard-pr
           #prop-upload
           fetch-depth: 0
       - name: Dispatch to workflow 
@@ -32,7 +32,7 @@ jobs:
             #find . -type f -name '*.gd' -exec gdlint {} +
             
             git log -n 5
-            git reset --soft HEAD~3
+            git reset --soft HEAD~62
             #git reset --hard HEAD~1  
             #rm CODEBASE.md
             #git add CODEBASE.md
@@ -102,8 +102,8 @@ jobs:
             git config --global user.name "dragonhunt02"
             git add -A
             #git commit -a -m 'Implement prop validation, sanitisation and in-editor upload'
-            git commit -a -m 'Add MonadoXR tests and fix default avatar load'
-            #write asserts into conditional statements'
+            #git commit -a -m 'Add MonadoXR tests and fix default avatar load'
+            git commit -a -m 'Add guest mode, network hosting and startup command line options'
             git log -n 5
             git status
             #git diff origin/rx-assert
