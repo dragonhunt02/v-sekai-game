@@ -32,7 +32,7 @@ jobs:
             #find . -type f -name '*.gd' -exec gdlint {} +
             
             git log -n 5
-            git reset --soft HEAD~2
+            git reset --soft HEAD~3
             #git reset --hard HEAD~1  
             #rm CODEBASE.md
             #git add CODEBASE.md
