@@ -102,7 +102,7 @@ jobs:
             cp -vrf TEST_splerger-master/addons/ ./
             rm -rf TEST_splerger-master/
             tree -a -L 3
-            exit 1
+            #exit 1
             #######find . -type f -name "*.gd" -exec sed -i -e 's/assert\(()\)/push_error/g' {} +
             #find . -type f -name "*.gd" -exec sed -i -e 's/\(\t*\)assert(false, \(.*\))/\1push_error(\2)\n\1return/g' {} +
             #find . -type f -name "*.gd" -exec sed -i -e 's/\(\t*\)assert(\(.*\) == OK)/\1if \(\2 != OK\):\n\1\tpush_error\(\)\n\1\treturn/g' {} +
