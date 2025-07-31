@@ -1,5 +1,5 @@
-class_name VSKChunkStreamer
 extends Node3D
+class_name VSKChunkStreamer
 
 var si                # _SplitInfo
 var mdt: MeshDataTool
