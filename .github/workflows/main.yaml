@@ -19,8 +19,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: rx-shard-pr
-          #prop-upload
+          ref: splerger-test
+          #rx-shard-pr
           fetch-depth: 0
       - name: Dispatch to workflow 
         run: |
@@ -32,7 +32,7 @@ jobs:
             #find . -type f -name '*.gd' -exec gdlint {} +
             
             git log -n 5
-            git reset --soft HEAD~5
+            #git reset --soft HEAD~5
             #git reset --hard HEAD~1  
             #rm CODEBASE.md
             #git add CODEBASE.md
@@ -95,6 +95,11 @@ jobs:
             git update-index --skip-worktree vsk_default/example_ugc/maps/cc0_hut/*.unwrap_cache
             '
 
+            curl -o main.zip -L https://github.com/dragonhunt02/Godot-Open-World-Database/archive/refs/heads/main.zip
+            unzip main.zip
+            rm main.zip
+            ls -a
+            exit 1
             #######find . -type f -name "*.gd" -exec sed -i -e 's/assert\(()\)/push_error/g' {} +
             #find . -type f -name "*.gd" -exec sed -i -e 's/\(\t*\)assert(false, \(.*\))/\1push_error(\2)\n\1return/g' {} +
             #find . -type f -name "*.gd" -exec sed -i -e 's/\(\t*\)assert(\(.*\) == OK)/\1if \(\2 != OK\):\n\1\tpush_error\(\)\n\1\treturn/g' {} +
@@ -103,7 +108,8 @@ jobs:
             git add -A
             #git commit -a -m 'Implement prop validation, sanitisation and in-editor upload'
             #git commit -a -m 'Add MonadoXR tests and fix default avatar load'
-            git commit -a -m 'Add guest mode, network hosting and startup command line options'
+            #git commit -a -m 'Add guest mode, network hosting and startup command line options'
+            git commit -a -m 'Add owdb'
             git log -n 5
             git status
             #git diff origin/rx-assert
