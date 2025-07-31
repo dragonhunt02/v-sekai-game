@@ -32,7 +32,7 @@ jobs:
             #find . -type f -name '*.gd' -exec gdlint {} +
             
             git log -n 5
-            #git reset --soft HEAD~5
+            git reset --soft HEAD~1
             #git reset --hard HEAD~1  
             #rm CODEBASE.md
             #git add CODEBASE.md
@@ -100,7 +100,7 @@ jobs:
             rm main.zip
             ls -a
             cp -vrf TEST_splerger-master/addons/ ./
-            rm -rf TEST_splerger-master/
+            rm -rf TEST_splerger-master/ addons/gut
             tree -a -L 3
             #exit 1
             #######find . -type f -name "*.gd" -exec sed -i -e 's/assert\(()\)/push_error/g' {} +
