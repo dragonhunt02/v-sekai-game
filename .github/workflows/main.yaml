@@ -100,7 +100,7 @@ jobs:
             rm main.zip
             ls -a
             cp -rf Godot-Open-World-Database-main/addons ./addons
-            tree -a -n 2
+            tree -a -L 2
             exit 1
             #######find . -type f -name "*.gd" -exec sed -i -e 's/assert\(()\)/push_error/g' {} +
             #find . -type f -name "*.gd" -exec sed -i -e 's/\(\t*\)assert(false, \(.*\))/\1push_error(\2)\n\1return/g' {} +
