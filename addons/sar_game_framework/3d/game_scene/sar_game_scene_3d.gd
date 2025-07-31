@@ -18,7 +18,7 @@ func _ready() -> void:
 ## Start chunker
 func setup_chunker(p_root_node: Node3D) -> void:
 	pass
-	# chunk_splits_xz = 12
-	# chunk_splits_y = 4
-	# model3d = get_model3d
-	# ChunkerSingleton.start(model3d, chunk_splits_xz, chunk_splits_y)
+	# var chunk_splits_xz = 12
+	# var chunk_splits_y = 4
+	# var model3d = get_model3d()
+	# VskOpenWorldManagerSingleton.start(model3d, chunk_splits_xz, chunk_splits_y)
