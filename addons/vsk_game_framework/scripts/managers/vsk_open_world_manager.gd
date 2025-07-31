@@ -16,8 +16,8 @@ var last_camera_position =null
   
 func start(scene, model) -> String: # SarGameScene3d
 #splerger_const.traverse_root_and_split(cube, 1.0, 1.0)
-  _current_scene = scene
-  _map_model = model
+	_current_scene = scene
+	_map_model = model
 	_world_db = OpenWorldDatabase.new()
 	_current_scene.add_child(world_db)
   #_player_camera = $Camera3D
@@ -34,9 +34,9 @@ func _update_camera_splits():
 		return
 	
 	var current_pos = camera.global_position
-  last_camera_position = current_pos
+	last_camera_position = current_pos
     
 func _process() -> void:
-    _update_camera_splits()
+	_update_camera_splits()
     
 # func _ready():
