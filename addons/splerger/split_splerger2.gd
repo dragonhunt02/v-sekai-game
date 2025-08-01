@@ -80,6 +80,7 @@ static func split(
 	surface_tool.generate_normals()
 	if mdt.get_vertex_count() and mdt.get_vertex_uv(0) != Vector2():
 		surface_tool.generate_tangents()
+
 	mdt.create_from_surface(surface_tool.commit(), surface_id)
 
 	var nVerts = mdt.get_vertex_count()
@@ -300,3 +301,8 @@ static func traverse_root_and_split(root: Node3D, grid_size: float = 0.9, grid_s
 		var mesh_instance: MeshInstance3D = node
 		for surface_i in mesh_instance.mesh.get_surface_count():
 			split(mesh_instance, surface_i, mesh_instance.get_parent(), grid_size, grid_size_y)
+
+static func traverse_mesh_split(mesh: MeshInstance3D, grid_size: float = 0.9, grid_size_y: float = 0.9) -> void:
+	var mesh_instance: MeshInstance3D = node
+	for surface_i in mesh_instance.mesh.get_surface_count():
+		split(mesh_instance, surface_i, mesh_instance.get_parent(), grid_size, grid_size_y)
