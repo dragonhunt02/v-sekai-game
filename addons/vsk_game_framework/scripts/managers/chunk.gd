@@ -6,9 +6,15 @@ var mdt: MeshDataTool
 var world_verts       # PackedVector3Array
 var faces_assigned    # PoolBoolArray
 
-func prepare(mesh_inst: MeshInstance3D, surface_id, grid_size, grid_size_y):
+const splerger = preload("res://split_splerger.gd")
+
+func prepare(mesh_instance: MeshInstance3D, grid_size, grid_size_y):
+	for surface_i in mesh_instance.mesh.get_surface_count():
+		_prepare_split(mesh_instance, surface_i, grid_size, grid_size_y)
+
+func _prepare_split(mesh_inst: MeshInstance3D, surface_id, grid_size, grid_size_y):
     # init split info
-    si = preload("res://split_splerger.gd")._init_split_info(
+    si = splerger._init_split_info(
       mesh_inst, surface_id, grid_size, grid_size_y
     )
 
