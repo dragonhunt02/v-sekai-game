@@ -1,3 +1,3 @@
-# Godot Uro Plugin
+# Godot Uro
 
-Godot plugin for interfacing with Uro web server. Based on Sketchfab plugin for Godot (https://github.com/sketchfab/godot-plugin)
+Godot classes for interfacing with Uro web server. Based on Sketchfab plugin for Godot (https://github.com/sketchfab/godot-plugin)
