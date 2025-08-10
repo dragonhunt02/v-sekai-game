@@ -84,7 +84,9 @@ func request(
 	p_path: String,
 	p_payload: Dictionary,
 	p_token: String,
-	p_options: Dictionary = DEFAULT_OPTIONS) -> Result:
+	p_options: Dictionary = null) -> Result:
+	if p_options == null:
+		p_options = get_default_options()
 	if http_state:
 		push_error("HTTP state is already active for this request")
 		return Result.new(GodotRequestHelper.RequesterCode.CANT_CONNECT, ERR_CANT_CREATE, -1)
