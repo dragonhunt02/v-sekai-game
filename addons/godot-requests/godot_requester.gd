@@ -71,6 +71,10 @@ static func get_status_error_response(p_status: int) -> Result:
 			return Result.new(GodotRequestHelper.RequesterCode.UNKNOWN_STATUS_ERROR, FAILED, -1)
 
 
+func get_default_options() -> Dictionary:
+	return DEFAULT_OPTIONS
+
+
 func http_download_progressed(_http_state: RefCounted, _bytes: int, _total_bytes: int):
 	#print("Download progressed " + str(bytes) + "/" + str(total_bytes))
 	pass
@@ -206,7 +210,8 @@ func request(
 
 
 func _get_option(options, key):
-	return options[key] if options.has(key) else DEFAULT_OPTIONS[key]
+	const default_opts: Dictionary = get_default_options()
+	return options[key] if options.has(key) else default_opts[key]
 
 
 static func _compose_multipart_body(
