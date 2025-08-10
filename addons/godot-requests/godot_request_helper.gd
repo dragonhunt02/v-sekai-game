@@ -130,7 +130,7 @@ static func populate_query(p_query_name: String, p_query_dictionary: Dictionary)
 	return query
 
 
-static func get_api_path() -> String:
+func get_api_path() -> String:
 	return ""
 
 
