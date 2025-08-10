@@ -175,10 +175,10 @@ func request(
 			else:
 				data = {"data": str(json_parse_result.get_data())}
 			if response_code == HTTPClient.RESPONSE_OK:
-				return Result.new(GodotUroHelper.RequesterCode.OK, OK, response_code, data)
+				return Result.new(GodotRequestHelper.RequesterCode.OK, OK, response_code, data)
 			else:
 				return Result.new(
-					GodotUroHelper.RequesterCode.HTTP_RESPONSE_NOT_OK,
+					GodotRequestHelper.RequesterCode.HTTP_RESPONSE_NOT_OK,
 					FAILED,
 					response_code,
 					data
