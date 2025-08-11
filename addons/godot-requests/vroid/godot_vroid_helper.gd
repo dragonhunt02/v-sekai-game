@@ -25,7 +25,7 @@ const DEFAULT_ACCOUNT_USERNAME: String = "UNKNOWN_USERNAME"
 
 
 func get_api_path() -> String:
-	return ROOT_PATH + API_PATH + API_VERSION
+	return ROOT_PATH + API_PATH
 
 func get_api_header() -> String:
 	return "X-Api-Version: " + API_VERSION
