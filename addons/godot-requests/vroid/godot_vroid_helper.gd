@@ -23,6 +23,25 @@ const STAFF_PICKS_PATH: String = "/staff_picks"
 const DEFAULT_ACCOUNT_ID: String = "UNKNOWN_ID"
 const DEFAULT_ACCOUNT_USERNAME: String = "UNKNOWN_USERNAME"
 
+# Vroid Hub API App settings can override these filters
+# to enforce Developer standards of use
+# "disallow" is the least restricted filter
+const DEFAULT_MODEL_FILTER: Dictionary = {
+	"is_downloadable": true,
+	# "everyone" == avatar use allowed
+	"characterization_allowed_user": "everyone",
+	"violent_expression": "disallow",
+	"sexual_expression": "disallow",
+	"corporate_commercial_use": "disallow",
+	"personal_commercial_use": "disallow",
+	"political_or_religious_usage": "disallow",
+	"antisocial_or_hate_usage": "disallow",
+	"modification": "disallow",
+	"redistribution": "disallow",
+	"credit": "default",
+	"has_booth_items": false,
+	"booth_part_categories": []
+}
 
 func get_api_path() -> String:
 	return ROOT_PATH + API_PATH
