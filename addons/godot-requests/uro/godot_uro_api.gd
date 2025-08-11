@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: MIT
 
 @tool
-extends RefCounted
+extends GodotRequestAPI
 class_name GodotUroAPI
 
 const USER_NAME = "user"
