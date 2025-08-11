@@ -274,6 +274,124 @@ func get_current_session_mode() -> SessionType:
 static func get_service_name() -> String:
 	return "Vroid"
 
+
+# Listens on `port`, takes the first GET request, parses query params, responds JSON, returns params.
+func listen_oauth_redirect(port: int, bind_address: String = "*", timeout_ms: int = 5000) -> Dictionary:
+
+var header_timeout_ms: int = timeout_ms
+var max_bytes = 1000
+var allowed_params = ["code", "state"]
+
+var server = TCPServer.new()
+    var err = server.listen(port, bind_address)
+    if err != OK:
+        push_error("Failed to listen on %s:%d (err %d)" % [bind_address, port, err])
+        return {}
+
+    # Wait for incoming connection
+    while not server.is_connection_available():
+        await get_tree().process_frame()
+
+    var peer: StreamPeerTCP = server.take_connection()
+    peer.set_no_delay(true)
+
+    # Read until end of headers (CRLF CRLF)
+    var buffer = ""
+    var deadline = Time.get_ticks_msec() + header_timeout_ms
+    var force_quit = false
+    while buffer.find("\r\n\r\n") == -1:
+        if Time.get_ticks_msec() > deadline:
+            push_error("Timeout while reading headers.")
+            force_quit = true
+            break
+        var avail = peer.get_available_bytes()
+        if (buffer.length() + avail) > max_bytes:
+            push_error("Incoming request sent too many bytes.")
+            force_quit = true
+            break
+
+        if avail > 0:
+            buffer += peer.get_utf8_string(avail)
+        else:
+            await get_tree().process_frame()
+
+    if force_quit == true:
+        peer.disconnect_from_host()
+        server.stop()
+        push_error("TCP Server was terminated.")
+        return {}
+
+    # Extract request line
+    var header_part = buffer.substr(0, buffer.find("\r\n\r\n"))
+    var request_lines = header_part.split("\r\n", false)
+    if request_lines.size() < 1:
+        push_error("Invalid header received.")
+        return {}
+    var request_line = request_lines[0]
+    
+    var tokens = request_line.split(" ", false)
+    if tokens.size() < 2:
+        push_error("Invalid request received.")
+        return {}
+
+    var method = tokens[0]
+    var full_path = tokens[1]
+
+    # Parse GET parameters
+    var params: Dictionary = {}
+    if method == "GET":
+        params = _parse_unsafe_query_params(full_path, allowed_params)
+    else:
+        push_error("Invalid request method received.")
+        return {}
+
+    # Respond with JSON payload
+    var json_body = "OAuth completed"
+    var resp = "HTTP/1.1 200 OK\r\n" +
+               "Content-Type: application/json\r\n" +
+               "Content-Length: %d\r\n" +
+               "Connection: close\r\n\r\n%s" % [
+                   json_body.to_utf8().size(),
+                   json_body
+               ]
+    peer.put_utf8_string(resp)
+    peer.disconnect_from_host()
+    server.stop()
+
+
+    return params
+
+
+# Splits unsafe "/path?key=val&foo=bar" into { key: val, foo: bar }
+# Input is untrusted, return early on any mismatch
+func _parse_unsafe_query_params(unsafe_path: String, allowed_params: Array[String]) -> Dictionary:
+    var dict: Dictionary = {}
+    var max_parameters: int = allowed_params.size()
+
+    var qpos: int = unsafe_path.find("?")
+    if qpos < 0:
+        push_error("Input path doesn't contain query.")
+        return {}
+
+    var query_string: String = unsafe_path.substr(qpos + 1)
+    var pairs_array: Array = query_string.split("&", false)
+    if pairs_array.size() > max_parameters:
+        push_error("Input path is over maximum number of parameters")
+        return {}
+
+    for pair in pairs_array:
+        var key_val: Array = pair.split("=", false)
+        if key_val.size() == 2:          
+            var key = key_val[0].uri_decode()
+            if key not in allowed_params:
+                push_error("Input path contains invalid key")
+                return {}
+
+            var val = key_val[1].uri_decode()
+            dict[key] = val
+    return dict
+
+
 ## Attempts to sign into the service. A SarGameServiceRequestObject created
 ## from the service required to keep track of the individual request,
 ## and a Dictionary containing service-specific sign in data, should be
