@@ -52,3 +52,11 @@ func get_api_header() -> String:
 func get_default_model_filter() -> String:
 	return DEFAULT_MODEL_FILTER.duplicate(true)
 
+func interpolate_default_model_filter(p_filter) -> Dictionary:
+	var result : Dictionary = get_default_model_filter()
+
+	if p_filter and not p_filter.is_empty():
+		for key in result.keys():
+			if p_filter.has(key):
+				result[key] = p_filter[key]
+	return result
