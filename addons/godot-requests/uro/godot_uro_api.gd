@@ -127,6 +127,22 @@ func get_identity_proof_async(p_requester: GodotUroRequester, p_access_token: St
 	))
 	return _handle_result(result)
 
+func get_oauth_redirect_async(p_requester: GodotUroRequester, p_provider: String) -> Dictionary:
+	var query: Dictionary = {}
+
+	var result = await (p_requester.request(
+		(
+			GodotUroHelper.get_api_path()
+			+ GodotUroHelper.NATIVE_OAUTH_PATH
+			+ "/"
+			+ p_provider
+		),
+		query,
+		"",
+		{"method": HTTPClient.METHOD_GET, "encoding": "form"}
+	))
+	return _handle_result(result)
+
 func create_shard_async(p_requester: GodotUroRequester, p_access_token: String, p_query: Dictionary) -> Dictionary:
 	var query: Dictionary = GodotUroHelper.populate_query(SHARD_NAME, p_query)
 
