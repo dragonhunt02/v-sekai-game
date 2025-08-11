@@ -21,7 +21,7 @@ func get_service_name() -> String:
 
 func create_requester(p_host: String, p_port: int) -> GodotUroRequester:
 	if p_host == "localhost":
-		p_host = GodotUroRequestHelper.LOCALHOST_HOST
+		p_host = GodotUroHelper.LOCALHOST_HOST
 	
 	var new_requester = GodotUroRequester.new(
 		http_pool, p_host, p_port, not _is_host_localhost(p_host)
