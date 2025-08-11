@@ -48,7 +48,7 @@ func get_uploaded_avatars_async(p_requester: GodotRequester, p_access_token: Str
 	return _handle_result(result)
 
 
-func get_liked_avatars_async(p_requester: GodotRequester, p_access_token: String, p_filter: Dictionary = {}, p_max_id: String = "", p_count: int = -1) -> Dictionary:
+func get_liked_avatars_async(p_requester: GodotRequester, p_access_token: String, p_app_id: String, p_filter: Dictionary = {}, p_max_id: String = "", p_count: int = -1) -> Dictionary:
 	var query: Dictionary = {}
 
 	const filter = GodotVroidHelper.interpolate_default_model_filter(p_filter)
@@ -60,6 +60,7 @@ func get_liked_avatars_async(p_requester: GodotRequester, p_access_token: String
 	else:
 		count = 20 # default
 	query["count"] = count
+	query["app_id"] = p_app_id
 
 	var result = await (p_requester.request(
 		GodotVroidHelper.get_api_path() + GodotVroidHelper.HEARTS_PATH,
