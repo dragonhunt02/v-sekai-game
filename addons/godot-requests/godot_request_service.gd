@@ -88,8 +88,8 @@ func clear_tokens(p_username: String, p_domain: String) -> void:
 
 	cfg.save_encrypted_pass(get_game_config_path(), OS.get_unique_id())
 
-func get_api() -> GodotUroAPI:
-	return godot_uro_api
+func get_api() -> GodotRequestAPI:
+	return godot_request_api
 
 func get_game_config_path() -> String:
 	return GAME_CONFIG_FILE_PATH
