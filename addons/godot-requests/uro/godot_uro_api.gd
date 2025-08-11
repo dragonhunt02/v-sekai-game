@@ -14,9 +14,6 @@ const MAP_NAME = "map"
 
 var _godot_uro: GodotUro = null
 
-func cancel(p_requester: GodotUroRequester) -> void:
-	p_requester.cancel()
-
 func get_profile_async(p_requester: GodotUroRequester, p_access_token: String) -> Dictionary:
 	var query: Dictionary = {}
 
