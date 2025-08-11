@@ -13,6 +13,9 @@ func _load_api() -> void:
 	if godot_uro_api == null:
 		godot_uro_api = GodotUroAPI.new(self)
 
+func get_api() -> GodotUroAPI:
+	return godot_uro_api
+
 func get_service_name() -> String:
 	return "uro"
 
