@@ -13,5 +13,8 @@ func _load_api() -> void:
 	if godot_vroid_api == null:
 		godot_vroid_api = GodotVroidAPI.new(self)
 
+func get_api() -> GodotVroidAPI:
+	return godot_vroid_api
+
 func get_service_name() -> String:
 	return "vroid"
