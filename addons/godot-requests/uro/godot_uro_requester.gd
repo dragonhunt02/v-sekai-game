@@ -17,7 +17,6 @@ const URO_DEFAULT_OPTIONS: Dictionary = {
 	"download_to": null,
 }
 
-
 func get_default_options() -> Dictionary:
 	return URO_DEFAULT_OPTIONS
 
