@@ -15,3 +15,13 @@ func _load_api() -> void:
 
 func get_service_name() -> String:
 	return "uro"
+
+func create_requester(p_host: String, p_port: int) -> GodotUroRequester:
+	if p_host == "localhost":
+		p_host = GodotUroRequestHelper.LOCALHOST_HOST
+	
+	var new_requester = GodotUroRequester.new(
+		http_pool, p_host, p_port, not _is_host_localhost(p_host)
+	)
+
+	return new_requester
