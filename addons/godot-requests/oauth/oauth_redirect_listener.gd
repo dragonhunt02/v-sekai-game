@@ -10,7 +10,7 @@ var allowed_params: Array[String] = ["code", "state"]
 var _server: TCPServer
 var _peer: StreamPeerTCP
 
-func _init(_port: int, _bind_address: String = "*", _timeout_ms: int = 5000) -> void:
+func _init(_port: int, _bind_address: String = "127.0.0.1", _timeout_ms: int = 5000) -> void:
     
     port = _port
     bind_address = _bind_address
@@ -20,10 +20,8 @@ func _init(_port: int, _bind_address: String = "*", _timeout_ms: int = 5000) -> 
     _server = TCPServer.new()
 
 # Starts listening, handles one GET request, then returns parsed params.
-func listen() -> Dictionary:
-
 # Listens on `port`, takes the first GET request, parses query params, responds JSON, returns params.
-func listen_oauth_redirect(port: int, bind_address: String = "*", timeout_ms: int = 5000) -> Dictionary:
+func listen(port: int, bind_address: String = "*", timeout_ms: int = 5000) -> Dictionary:
 
     var header_timeout_ms: int = timeout_ms
     
