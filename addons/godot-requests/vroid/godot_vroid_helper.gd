@@ -49,3 +49,6 @@ func get_api_path() -> String:
 func get_api_header() -> String:
 	return "X-Api-Version: " + API_VERSION
 
+func get_default_model_filter() -> String:
+	return DEFAULT_MODEL_FILTER.duplicate(true)
+
