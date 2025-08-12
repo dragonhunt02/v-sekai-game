@@ -39,11 +39,30 @@ func store_selected_id(p_id: String) -> void:
 	
 	cfg.set_value(section_name, "current_id", p_id)
 	
+	var err = FAILED
 	if Engine.is_editor_hint():
-		cfg.save_encrypted_pass(get_editor_config_path(), OS.get_unique_id())
+		err = cfg.save_encrypted_pass(get_editor_config_path(), OS.get_unique_id())
 	else:
-		cfg.save_encrypted_pass(get_game_config_path(), OS.get_unique_id())
+		err = cfg.save_encrypted_pass(get_game_config_path(), OS.get_unique_id())
+
+	if err != OK:
+		push_error("Could not save selected id!")
+
+func store_tokens(p_username: String, p_domain: String, p_access_token: String, p_renewal_token: String) -> void:
+	var _os_unique_id = OS.get_unique_id()
+	var section_name = get_section_name("api")
+	cfg.set_value(section_name, p_username + "@" + p_domain + "/" + "renewal_token", p_renewal_token)
+	cfg.set_value(section_name, p_username + "@" + p_domain + "/" + "access_token", p_access_token)
+
+	var err = FAILED
+	if Engine.is_editor_hint():
+		err = cfg.save_encrypted_pass(get_editor_config_path(), OS.get_unique_id())
+	else:
+		err = cfg.save_encrypted_pass(get_game_config_path(), OS.get_unique_id())
 	
+	if err != OK:
+		push_error("Could not save access tokens!")
+
 func get_tokens(p_username: String, p_domain: String) -> Dictionary:
 	var renewal_token: String = ""
 	var access_token: String = ""
