@@ -12,7 +12,7 @@ const MAX_CHUNK_SIZE: int = 100 # bytes
 
 var port: int
 var bind_address: String
-var timeout_ms: int = 5000
+var timeout_ms: int = 10000
 var allowed_params: Array[String] = ["code", "state"]
 
 var max_deadline_ms: int
@@ -25,7 +25,7 @@ var result: Dictionary = {}
 signal oauth_redirect_success(params: Dictionary)
 signal oauth_redirect_failure(error_msg: String)
 
-func _init(p_port: int, p_bind_address: String = "127.0.0.1", p_timeout_ms: int = 5000) -> void:
+func _init(p_port: int, p_bind_address: String = "127.0.0.1", p_timeout_ms: int = 10000) -> void:
 	set_process(false)
 	port = p_port
 	bind_address = p_bind_address
@@ -43,6 +43,7 @@ func start_listen() -> Error:
 	if err != OK:
 		_enter_error("Failed to listen on %s:%d (err %d)" % [bind_address, port, err])
 		return err
+	print("starting")
 	var current_ticks = Time.get_ticks_msec()
 	var header_timeout_ms = ceil(timeout_ms / 2)
 	
@@ -97,12 +98,13 @@ func _process(delta):
 
 		State.RESPONDING:
 			# Respond with JSON payload
-			var json_body = "OAuth completed"
-			var resp = "HTTP/1.1 200 OK\r\n" + \
+			var json_msg = {"message": "OAuth completed"}
+			var json_body = JSON.stringify(json_msg)
+			var resp = ( "HTTP/1.1 200 OK\r\n" + \
 					   "Content-Type: application/json\r\n" + \
-					   "Content-Length: %d\r\n" + \
-					   "Connection: close\r\n\r\n%s" % [
-						   json_body.to_utf8().size(),
+					   "Content-Length: %s\r\n" + \
+					   "Connection: close\r\n\r\n%s" ) % [
+						   json_body.to_utf8_buffer().size(),
 						   json_body
 					   ]
 			_peer.put_utf8_string(resp)
@@ -116,6 +118,7 @@ func _enter_done(result: Dictionary):
 	_stop_and_cleanup()
 	state = State.DONE
 	set_process(false)
+	print(result)
 	oauth_redirect_success.emit(result)
 
 func _enter_error(msg: String):
