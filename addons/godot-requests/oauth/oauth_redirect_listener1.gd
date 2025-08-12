@@ -40,7 +40,9 @@ func start_listen() -> Error:
     if err != OK:
         _enter_error("Failed to listen on %s:%d (err %d)" % [bind_address, port, err])
         return err
-    max_deadline_ms = Time.get_ticks_msec() + timeout_ms
+    var current_ticks = Time.get_ticks_msec()
+    max_deadline_ms = current_ticks + timeout_ms
+    header_deadline_ms = current_ticks + header_timeout_ms
     state = State.LISTENING
     set_process(true)
 
@@ -56,7 +58,7 @@ func _process(delta):
                 state = State.READING
 
         State.READING:
-            if Time.get_ticks_msec() > header_deadline:
+            if Time.get_ticks_msec() > header_deadline_ms:
                 _enter_error("Timeout reading headers")
                return
             else:
