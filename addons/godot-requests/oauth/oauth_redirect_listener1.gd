@@ -45,6 +45,7 @@ func start_listen() -> Error:
     header_deadline_ms = current_ticks + header_timeout_ms
     state = State.LISTENING
     set_process(true)
+    return OK
 
 func _process(delta):
     if Time.get_ticks_msec() > max_deadline_ms:
