@@ -32,10 +32,6 @@ func _update_session(
 		
 	var token_changed: bool = false
 	
-	# Get a unique OS ID to encrypt the session keys just in case
-	# the file gets stolen.
-	var _os_unique_id = OS.get_unique_id()
-	
 	var renewal_token: String = ""
 	var access_token: String = ""
 	
@@ -50,13 +46,7 @@ func _update_session(
 		access_token = p_access_token
 		token_changed = true
 
-	_godot_vroid.cfg.set_value("api", p_username + "@" + p_domain + "/" + "renewal_token", renewal_token)
-	_godot_vroid.cfg.set_value("api", p_username + "@" + p_domain + "/" + "access_token", access_token)
-	
-	if _godot_vroid.cfg.save_encrypted_pass(_godot_vroid.get_editor_config_path(), _os_unique_id) != OK:
-		push_error("Could not save editor token!")
-	if _godot_vroid.cfg.save_encrypted_pass(_godot_vroid.get_game_config_path(), _os_unique_id) != OK:
-		push_error("Could not save game token!")
+	_godot_vroid.store_tokens(p_username, p_domain, access_token, renewal_token)
 	
 	_current_account_address = "%s@%s" % [p_username, p_domain]
 	_session_mode = SessionType.USER
