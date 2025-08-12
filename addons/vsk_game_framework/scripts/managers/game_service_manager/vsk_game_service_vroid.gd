@@ -274,6 +274,58 @@ func get_current_session_mode() -> SessionType:
 static func get_service_name() -> String:
 	return "Vroid"
 
+func _get_uro_service() -> VSKGameServiceUro:
+	var service_manager: SarGameServiceManager = get_tree().get_first_node_in_group("game_service_managers")
+	if service_manager:
+		var uro_service: VSKGameServiceUro = service_manager.get_service("Uro")
+		return uro_service
+		
+	return null
+
+const DEFAULT_PORT: int = 8553
+
+func start_oauth_sign_in(p_service_request: SarGameServiceRequest, p_sign_in_data: Dictionary) -> Error:
+	# TODO: web support
+	if OS.get_name() == "Web":
+		push_error("Web platform Vroid API support is not implemented")
+		return FAILED
+
+	var _godot_uro = _get_uro_service()
+	if not (_godot_uro and _godot_uro.get_api()):
+		return FAILED
+
+	var _domain = 
+	var request = _godot_uro.create_request({"domain": _domain})
+	var provider = get_service_name().to_lower()
+	var result: Dictionary = await _godot_uro.get_oauth_redirect(request, provider)
+
+	# Start server listener
+	var oauth_listener = OAuthRedirectListener.new(DEFAULT_PORT)
+	if not SarUtils.assert_ok(oauth_listener.oauth_redirect_success.connect(_on_oauth_redirect_success),
+		"Could not connect signal 'oauth_listener.oauth_redirect_success' to '_on_oauth_redirect_success'"):
+		return FAILED
+	if not SarUtils.assert_ok(oauth_listener.oauth_redirect_failure.connect(_on_oauth_redirect_failure),
+		"Could not connect signal 'oauth_listener.oauth_redirect_failure' to '_on_oauth_redirect_failure'"):
+		return FAILED
+
+	add_child(oauth_listener)
+
+	if not SarUtils.assert_ok(oauth_listener.start_listen(),
+		"Failed to start OAuth redirect listener"):
+		return FAILED
+
+	push_error(result)
+	var redirect_url: String = ""
+	#open browser
+	#if OS.get_name() == "Linux":
+	#	OS.create_process("xdg-open", [redirect_url, "&"])
+	
+	if not SarUtils.assert_ok(OS.shell_open("redirect_url"),
+		"Failed to start browser at %s" % redirect_url):
+		return FAILED
+
+	return OK
+
 ## Attempts to sign into the service. A SarGameServiceRequestObject created
 ## from the service required to keep track of the individual request,
 ## and a Dictionary containing service-specific sign in data, should be
