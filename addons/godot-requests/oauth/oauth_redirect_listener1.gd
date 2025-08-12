@@ -20,6 +20,7 @@ var header_timeout_ms: int
 var _server: TCPServer
 var _peer: StreamPeerTCP
 var _buffer: String = ""
+var result: Dictionary = {}
 
 signal oauth_redirect_success(params: Dictionary)
 signal oauth_redirect_failure(error_msg: String)
@@ -32,6 +33,8 @@ func _init(p_port: int, p_bind_address: String = "127.0.0.1", p_timeout_ms: int 
 
     header_timeout_ms = ceil(timeout_ms / 2)
     _buffer = ""
+    result = {}
+
     _server = TCPServer.new()
 
 # Starts listening, handles one GET request, then returns parsed params.
@@ -88,8 +91,7 @@ func _process(delta):
             if parse_result.status != OK:
                 _enter_error(parse_result.message)
                 return
-            oauth_redirect_success.emit(parse_result.query_params)
-
+            result = parse_result.query_params
             state = State.RESPONDING
 
         State.RESPONDING:
@@ -103,13 +105,17 @@ func _process(delta):
                            json_body
                        ]
             peer.put_utf8_string(resp)
-            _stop_and_cleanup()
-            set_process(false)
-            state = State.DONE
+            _enter_done(result)
 
         State.ERROR, State.DONE:
             set_process(false)
             pass
+
+func _enter_done(result: Dictionary):
+    _stop_and_cleanup()
+    state = State.DONE
+    set_process(false)
+    oauth_redirect_success.emit(result)
 
 func _enter_error(msg: String):
     push_error(msg)
