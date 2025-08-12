@@ -1,144 +1,206 @@
 extends Node
 class_name OAuthRedirectListener
 
+enum State { IDLE, LISTENING, READING, PARSING, RESPONDING, DONE, ERROR }
+
+var state := State.IDLE
+var header_deadline: int = 5000
+
+# Maximum bytes to read
+const MAX_BYTES: int = 1000
+
 var port: int
 var bind_address: String
-var timeout_ms: int
-var header_timeout_ms: int
-var max_bytes: int = 1000
+var timeout_ms: int = 5000
 var allowed_params: Array[String] = ["code", "state"]
+
+var max_deadline_ms: int
+var header_timeout_ms: int
 var _server: TCPServer
 var _peer: StreamPeerTCP
+var _buffer: String = ""
 
-func _init(_port: int, _bind_address: String = "127.0.0.1", _timeout_ms: int = 5000) -> void:
-    
-    port = _port
-    bind_address = _bind_address
-    timeout_ms = _timeout_ms
-    header_timeout_ms = timeout_ms
-    
+signal oauth_success
+signal oauth_failure
+
+func _init(p_port: int, p_bind_address: String = "127.0.0.1", p_timeout_ms: int = 5000) -> void:
+    set_process(false)
+    port = p_port
+    bind_address = p_bind_address
+    timeout_ms = p_timeout_ms
+
+    header_timeout_ms = ceil(timeout_ms / 3)
+    _buffer = ""
     _server = TCPServer.new()
 
 # Starts listening, handles one GET request, then returns parsed params.
 # Listens on `port`, takes the first GET request, parses query params, responds JSON, returns params.
-func listen(port: int, bind_address: String = "*", timeout_ms: int = 5000) -> Dictionary:
-
-    var header_timeout_ms: int = timeout_ms
-    
-    var err = server.listen(port, bind_address)
+func start_listen() -> Error:
+    var err = _server.listen(port, bind_address)
     if err != OK:
-        push_error("Failed to listen on %s:%d (err %d)" % [bind_address, port, err])
-        return {}
+        _enter_error("Failed to listen on %s:%d (err %d)" % [bind_address, port, err])
+        return err
+    max_deadline_ms = Time.get_ticks_msec() + timeout_ms
+    state = State.LISTENING
+    set_process(true)
 
-    # Wait for incoming connection
-    while not _server.is_connection_available():
-        await get_tree().process_frame()
+func _process(delta):
+    if Time.get_ticks_msec() > max_deadline_ms:
+        _enter_error("Oauth Timeout reached.")
     
-    _peer = server.take_connection()
-    _peer.set_no_delay(true)
+    match state:
+        State.LISTENING:
+            if _server.is_connection_available():
+                _peer = _server.take_connection()
+                _peer.set_no_delay(true)
+                state = State.READING
 
-    # Read until end of headers (CRLF CRLF)
-    var buffer = ""
-    var deadline = Time.get_ticks_msec() + header_timeout_ms
-    var force_quit = false
-    while buffer.find("\r\n\r\n") == -1:
-        if Time.get_ticks_msec() > deadline:
-            push_error("Timeout while reading headers.")
-            force_quit = true
-            break
+        State.READING:
+            if Time.get_ticks_msec() > header_deadline:
+                _enter_error("Timeout reading headers")
+               return
+            else:
+                var avail = _peer.get_available_bytes()
+                if (_buffer.length() + avail) > MAX_BYTES:
+                    _enter_error("Incoming request sent too many bytes.")
+                    return
 
-        var avail = peer.get_available_bytes()
-        if (buffer.length() + avail) > max_bytes:
-            push_error("Incoming request sent too many bytes.")
-            force_quit = true
-            break
+                if avail > 0:
+                    _buffer += _peer.get_utf8_string(avail)
+                # Read until end of headers (CRLF CRLF)
+                if _buffer.find("\r\n\r\n") != -1:
+                    state = State.PARSING
 
-        if avail > 0:
-            buffer += peer.get_utf8_string(avail)
-        else:
-            await get_tree().process_frame()
+        State.PARSING:
+            var parse_result = _parse_buffer(_buffer, allowed_params)
+            if parse_result.status != OK:
+                _enter_error(parse_result.message)
+                return
+            oauth_success.emit(parse_result)
 
-    if force_quit == true:
-        push_error("TCP Server was terminated.")
-        _stop_and_cleanup()
-        return {}
+            state = State.RESPONDING
 
-    # Extract request line
-    var header_part = buffer.substr(0, buffer.find("\r\n\r\n"))
-    var lines = header_part.split("\r\n", false)
-    if lines.size() < 1:
-        push_error("Invalid header received.")
-        _stop_and_cleanup()
-        return {}
+        State.RESPONDING:
+            # Respond with JSON payload
+            var json_body = "OAuth completed"
+            var resp = "HTTP/1.1 200 OK\r\n" +
+                       "Content-Type: application/json\r\n" +
+                       "Content-Length: %d\r\n" +
+                       "Connection: close\r\n\r\n%s" % [
+                           json_body.to_utf8().size(),
+                           json_body
+                       ]
+            peer.put_utf8_string(resp)
+            _stop_and_cleanup()
+            set_process(false)
+            state = State.DONE
 
-    var request_line = lines[0]    
-    var tokens = request_line.split(" ", false)
-    if tokens.size() < 2:
-        push_error("Invalid request received.")
-        _stop_and_cleanup()
-        return {}
+        State.ERROR, State.DONE:
+            set_process(false)
+            pass
 
-    var method = tokens[0]
-    var full_path = tokens[1]
-
-    # Parse GET parameters
-    var params: Dictionary = {}
-    if method == "GET":
-        params = _parse_unsafe_query_params(full_path, allowed_params)
-    else:
-        push_error("Unsupported HTTP method.")
-        _stop_and_cleanup()
-        return {}
-
-    # Respond with JSON payload
-    var json_body = "OAuth completed"
-    var resp = "HTTP/1.1 200 OK\r\n" +
-               "Content-Type: application/json\r\n" +
-               "Content-Length: %d\r\n" +
-               "Connection: close\r\n\r\n%s" % [
-                   json_body.to_utf8().size(),
-                   json_body
-               ]
-    peer.put_utf8_string(resp)
+func _enter_error(msg: String):
+    push_error(msg)
+    state = State.ERROR
     _stop_and_cleanup()
-
-    return params
+    set_process(false)
+    oauth_failure.emit(msg)
 
 # Internal cleanup of connections and server
 func _stop_and_cleanup() -> void:
+    # if _peer and _peer.get_status() == StreamPeerTCP.STATUS_CONNECTING:
+        # should disconnect?
+        # _peer.disconnect_from_host()
     if _peer and _peer.get_status() == StreamPeerTCP.STATUS_CONNECTED:
         _peer.disconnect_from_host()
     if _server.is_listening():
         _server.stop()
+        push_warning("TCP Server was terminated.")
+
+func _parse_buffer(p_buffer: String, p_allowed_params: Array[String]) -> Dictionary:
+    var error_response = {
+        "status": FAILED,
+        "message": "Unexpected error."
+    }
+
+    # Locate end of headers
+    var separator := "\r\n\r\n"
+    var sep_pos := p_buffer.find(separator)
+    if sep_pos < 0:
+        error_response.message = "Invalid HTTP header: missing separator."
+        return error_response
+
+    # Split header lines
+    var header_part := p_buffer.substr(0, sep_pos)
+    var lines := header_part.split("\r\n", false)
+    if lines.size() < 1:
+        error_response.message = "Invalid header received."
+        return error_response
+
+    # Parse request line
+    var request_line := lines[0]
+    var tokens := request_line.split(" ", false)
+    if tokens.size() < 2:
+        error_response.message = "Invalid request line."
+        return error_response
+
+    var method := tokens[0]
+    var full_path := tokens[1]
+
+    # Only GET supported
+    if method != "GET":
+        error_response.message = "Unsupported HTTP method: %s" % method
+        return error_response
+
+    # Extract and sanitize query parameters
+    var query_params = _parse_unsafe_query_params(full_path, p_allowed_params)
+    if query_params.status != OK:
+        error_response.message = query_params.message
+        return error_response
+
+    return {
+        "status": OK,
+        "query": query_params
+    }
+
 
 # Splits unsafe "/path?key=val&foo=bar" into { key: val, foo: bar }
 # Input is untrusted, return early on any mismatch
-func _parse_unsafe_query_params(unsafe_path: String) -> Dictionary:
+func _parse_unsafe_query_params(p_unsafe_path: String, p_allowed_params: Array[String]) -> Dictionary:
+    var error_response = {
+        "status": FAILED,
+        "message": "Unexpected error."
+    }
+
     var dict: Dictionary = {}
-    var max_parameters: int = allowed_params.size()
+    var max_params: int = p_allowed_params.size()
 
     var qpos: int = unsafe_path.find("?")
     if qpos < 0:
-        push_error("Input path doesn't contain query string.")
-        return {}
+        error_response.message = "Input path doesn't contain query string."
+        return error_response
 
-    var query_string: String = unsafe_path.substr(qpos + 1)
+    var query_string: String = p_unsafe_path.substr(qpos + 1)
     var pairs_array: Array = query_string.split("&", false)
-    if pairs_array.size() > max_parameters:
-        push_error("Input path is over maximum number of parameters")
-        return {}
+    if pairs_array.size() > max_params:
+        error_response.message = "Input path is over maximum number of parameters"
+        return error_response
 
     for pair in pairs_array:
         var key_val: Array = pair.split("=", false)
         if key_val.size() != 2:
-            push_error("Invalid query found, parse failed.")
-            return {}
+            error_response.message = "Invalid query found, parse failed."
+            return error_response
         
         var key = key_val[0].uri_decode()
-        if key not in allowed_params:
-          push_error("Input path contains invalid key")
-          return {}
+        if key not in p_allowed_params:
+          error_response.message = "Input path contains invalid key"
+          return error_response
 
         var val = key_val[1].uri_decode()
         dict[key] = val
-    return dict
+
+    return {
+        "status": OK,
+        "params": dict
+    }
