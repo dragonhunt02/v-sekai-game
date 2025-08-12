@@ -8,6 +8,7 @@ var header_deadline: int = 5000
 
 # Maximum bytes to read
 const MAX_BYTES: int = 1000
+const MAX_CHUNK_SIZE: int = 100 # bytes
 
 var port: int
 var bind_address: String
@@ -29,7 +30,7 @@ func _init(p_port: int, p_bind_address: String = "127.0.0.1", p_timeout_ms: int 
     bind_address = p_bind_address
     timeout_ms = p_timeout_ms
 
-    header_timeout_ms = ceil(timeout_ms / 3)
+    header_timeout_ms = ceil(timeout_ms / 2)
     _buffer = ""
     _server = TCPServer.new()
 
@@ -63,13 +64,14 @@ func _process(delta):
                 _enter_error("Timeout reading headers")
                return
             else:
-                var avail = _peer.get_available_bytes()
-                if (_buffer.length() + avail) > MAX_BYTES:
+                var avail: int = _peer.get_available_bytes()
+                var chunk_size: int = min(avail, MAX_CHUNK_SIZE)
+                if (_buffer.length() + chunk_size) > MAX_BYTES:
                     _enter_error("Incoming request sent too many bytes.")
                     return
 
                 if avail > 0:
-                    var fragment: String = _peer.get_string(avail)
+                    var fragment: String = _peer.get_string(chunk_size)
                     if is_string_us_ascii(fragment):
                         _buffer += fragment
                         fragment = ""
