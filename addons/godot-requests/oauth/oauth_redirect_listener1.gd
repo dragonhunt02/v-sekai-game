@@ -205,10 +205,13 @@ func _parse_unsafe_query_params(p_unsafe_path: String, p_allowed_params: Array[S
         
         var key = key_val[0].uri_decode()
         if key not in p_allowed_params:
-          error_response.message = "Input path contains invalid key"
+          error_response.message = "Input path contains invalid query key"
           return error_response
 
         var val = key_val[1].uri_decode()
+        if not is_string_us_ascii(val):
+          error_response.message = "Input path contains invalid query value"
+          return error_response
         dict[key] = val
 
     return {
