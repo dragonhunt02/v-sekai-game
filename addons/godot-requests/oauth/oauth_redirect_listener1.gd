@@ -20,8 +20,8 @@ var _server: TCPServer
 var _peer: StreamPeerTCP
 var _buffer: String = ""
 
-signal oauth_success
-signal oauth_failure
+signal oauth_redirect_success(params: Dictionary)
+signal oauth_redirect_failure(error_msg: String)
 
 func _init(p_port: int, p_bind_address: String = "127.0.0.1", p_timeout_ms: int = 5000) -> void:
     set_process(false)
@@ -86,7 +86,7 @@ func _process(delta):
             if parse_result.status != OK:
                 _enter_error(parse_result.message)
                 return
-            oauth_success.emit(parse_result)
+            oauth_redirect_success.emit(parse_result.query_params)
 
             state = State.RESPONDING
 
@@ -114,7 +114,7 @@ func _enter_error(msg: String):
     state = State.ERROR
     _stop_and_cleanup()
     set_process(false)
-    oauth_failure.emit(msg)
+    oauth_redirect_failure.emit(msg)
 
 # Internal cleanup of connections and server
 func _stop_and_cleanup() -> void:
@@ -171,7 +171,7 @@ func _parse_buffer(p_buffer: String, p_allowed_params: Array[String]) -> Diction
 
     return {
         "status": OK,
-        "query": query_params
+        "query_params": query_params.params
     }
 
 
