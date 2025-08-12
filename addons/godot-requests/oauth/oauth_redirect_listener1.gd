@@ -69,7 +69,14 @@ func _process(delta):
                     return
 
                 if avail > 0:
-                    _buffer += _peer.get_utf8_string(avail)
+                    var fragment: String = _peer.get_string(avail)
+                    if is_string_us_ascii(fragment):
+                        _buffer += fragment
+                        fragment = ""
+                    else:
+                        _enter_error("Invalid characters in request data stream.")
+                        return
+
                 # Read until end of headers (CRLF CRLF)
                 if _buffer.find("\r\n\r\n") != -1:
                     state = State.PARSING
@@ -111,6 +118,7 @@ func _enter_error(msg: String):
 
 # Internal cleanup of connections and server
 func _stop_and_cleanup() -> void:
+    _buffer = ""
     # if _peer and _peer.get_status() == StreamPeerTCP.STATUS_CONNECTING:
         # should disconnect?
         # _peer.disconnect_from_host()
@@ -207,3 +215,17 @@ func _parse_unsafe_query_params(p_unsafe_path: String, p_allowed_params: Array[S
         "status": OK,
         "params": dict
     }
+
+func is_valid_us_ascii(data: PoolByteArray) -> bool:
+    for b in data:
+        if b > 0x7F:
+            return false
+    return true
+
+func is_string_us_ascii(p_string: String) -> bool:
+    for char in range(p_string.length()):
+        var char_code = p_string.unicode_at(char)
+        if char_code > 0x7F:
+            return false
+    return true
+
