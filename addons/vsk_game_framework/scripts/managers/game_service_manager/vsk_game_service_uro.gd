@@ -457,7 +457,44 @@ func sign_out(p_service_request: SarGameServiceRequest) -> Dictionary:
 		return processed_result
 		
 	return {}
-	
+
+func get_oauth_redirect(p_service_request: SarGameServiceRequest, p_provider: String) -> Dictionary:		
+	if _godot_uro and _godot_uro.get_api():
+		if not p_service_request is VSKGameServiceRequestUro:
+			push_error("Did not pass a valid VSKGameServiceRequestUro object to sign in request.")
+			return {} 
+				
+		var domain: String = (p_service_request as VSKGameServiceRequestUro).domain
+		if domain.is_empty():
+			push_error("Did not pass a valid domain to a oauth redirect request.")
+			return {}
+
+		var provider: String = p_provider
+		if provider.is_empty():
+			push_error("Did not pass a valid provider to a oauth redirect request.")
+			return {}
+				
+		# Add this request to the active request pool.
+		var godot_uro_request: GodotUroRequester = _godot_uro.create_requester(domain, -1)
+		_active_service_requests[p_service_request] = godot_uro_request
+		
+		# Wait for the internal Uro API to respond to our oauth redirect link request.
+		var result: Dictionary = await _godot_uro.get_api().get_oauth_redirect_async(
+			godot_uro_request,
+			provider
+		)
+		
+		if not stop_request(p_service_request):
+			return {}
+			
+		if result.is_empty():
+			return {}
+
+		return result
+		
+	return {}
+
+
 ## Returns a dictionary containing all the avatar owned by the user assigned to
 ## to the service request.
 func get_dashboard_avatars_async(p_service_request: SarGameServiceRequest) -> Dictionary:
