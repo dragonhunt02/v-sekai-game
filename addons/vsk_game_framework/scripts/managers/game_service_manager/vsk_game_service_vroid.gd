@@ -320,7 +320,7 @@ func start_oauth_sign_in(p_service_request: SarGameServiceRequest, p_sign_in_dat
 	#if OS.get_name() == "Linux":
 	#	OS.create_process("xdg-open", [redirect_url, "&"])
 	
-	if not SarUtils.assert_ok(OS.shell_open("redirect_url"),
+	if not SarUtils.assert_ok(OS.shell_open(redirect_url),
 		"Failed to start browser at %s" % redirect_url):
 		return FAILED
 
