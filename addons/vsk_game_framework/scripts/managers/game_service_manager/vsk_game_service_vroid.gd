@@ -164,8 +164,6 @@ func _get_content_async(p_service_request: SarGameServiceRequest, p_callable: Ca
 	return {}
 
 	
-"""
-	
 ## Returns a dictionary containing information about current user.
 func get_profile_async(p_service_request: SarGameServiceRequest) -> Dictionary:
 	if _godot_vroid and _godot_vroid.get_api():		
@@ -209,7 +207,7 @@ func search_models_async(p_service_request: SarGameServiceRequest, p_keyword: St
 		return await _get_content_async(p_service_request, _godot_vroid.get_api().search_models_async, [p_keyword, p_filter, p_search_after, p_sort, p_count])
 	
 	return {}
-"""
+
 
 func _ready() -> void:
 	add_child(_godot_vroid)
