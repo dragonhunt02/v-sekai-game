@@ -235,8 +235,8 @@ func _init() -> void:
 ## we are signed in with. On failure it will return a dictionary with an empty username
 ## and domain.
 func get_current_username_and_domain() -> Dictionary[String, String]:
-	var account_address: String = _godot_uro.get_current_account_address()
-	var result_dictionary: Dictionary[String, String] = GodotUroHelper.get_username_and_domain_from_address(account_address)
+	var account_address: String = _godot_vroid.get_current_account_address()
+	var result_dictionary: Dictionary[String, String] = GodotVroidHelper.get_username_and_domain_from_address(account_address)
 	return result_dictionary
 
 ## Returns a string containing the currently active user account and domain
@@ -279,10 +279,10 @@ func start_oauth_sign_in(p_service_request: SarGameServiceRequest, p_sign_in_dat
 
 	# Start server listener
 	var oauth_listener = OAuthRedirectListener.new(DEFAULT_PORT)
-	if not SarUtils.assert_ok(oauth_listener.oauth_redirect_success.connect(_on_oauth_redirect_success),
+	if not SarUtils.assert_ok(oauth_listener.oauth_redirect_success.connect(_on_oauth_redirect_success.bind(request)),
 		"Could not connect signal 'oauth_listener.oauth_redirect_success' to '_on_oauth_redirect_success'"):
 		return FAILED
-	if not SarUtils.assert_ok(oauth_listener.oauth_redirect_failure.connect(_on_oauth_redirect_failure),
+	if not SarUtils.assert_ok(oauth_listener.oauth_redirect_failure.connect(_on_oauth_redirect_failure.bind(request)),
 		"Could not connect signal 'oauth_listener.oauth_redirect_failure' to '_on_oauth_redirect_failure'"):
 		return FAILED
 
@@ -304,14 +304,14 @@ func start_oauth_sign_in(p_service_request: SarGameServiceRequest, p_sign_in_dat
 
 	return OK
 
-func _on_oauth_redirect_success(data):
+func _on_oauth_redirect_success(data, request):
 	push_error(data)
-	_process_result_and_update_session(data)
+	_process_result_and_update_session(request, data)
 
 	vroid_sign_in_complete.emit()
 	return
 
-func _on_oauth_redirect_failure(err):
+func _on_oauth_redirect_failure(err, request):
 	push_error("Vroid OAuth error: %s" % err)
 	return
 
