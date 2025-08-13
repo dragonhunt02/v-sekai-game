@@ -105,16 +105,16 @@ func _process_result_and_update_session(p_service_request: SarGameServiceRequest
 
 
 func _get_tokens(p_service_request: SarGameServiceRequest) -> Dictionary:
-	if not p_service_request is VSKGameServiceRequestUro:
-		push_error("Did not pass a valid VSKGameServiceRequestUro object to sign in request.")
+	if not p_service_request is VSKGameServiceRequestVroid:
+		push_error("Did not pass a valid VSKGameServiceRequestVroid object to sign in request.")
 		return {}
 
-	var domain: String = (p_service_request as VSKGameServiceRequestUro).domain
+	var domain: String = (p_service_request as VSKGameServiceRequestVroid).domain
 	if domain.is_empty():
 		push_error("Did not pass a valid domain to sign in request.")
 		return {}
 		
-	var username: String = (p_service_request as VSKGameServiceRequestUro).username
+	var username: String = (p_service_request as VSKGameServiceRequestVroid).username
 	if username.is_empty():
 		push_error("Did not pass a valid username to sign in request.")
 		return {}
