@@ -46,13 +46,13 @@ const DEFAULT_MODEL_FILTER: Dictionary = {
 static func get_api_path() -> String:
 	return ROOT_PATH + API_PATH
 
-func get_api_header() -> String:
+static func get_api_header() -> String:
 	return "X-Api-Version: " + API_VERSION
 
-func get_default_model_filter() -> Dictionary:
+static func get_default_model_filter() -> Dictionary:
 	return DEFAULT_MODEL_FILTER.duplicate(true)
 
-func interpolate_default_model_filter(p_filter) -> Dictionary:
+static func interpolate_default_model_filter(p_filter) -> Dictionary:
 	var result : Dictionary = get_default_model_filter()
 
 	if p_filter and not p_filter.is_empty():
