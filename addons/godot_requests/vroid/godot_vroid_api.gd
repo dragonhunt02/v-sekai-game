@@ -62,7 +62,7 @@ func get_liked_avatars_async(p_requester: GodotRequester, p_access_token: String
 	else:
 		count = 20 # default
 	query["count"] = count
-	query["app_id"] = p_app_id
+	query["application_id"] = p_app_id
 
 	var result = await (p_requester.request(
 		GodotVroidHelper.get_api_path() + GodotVroidHelper.HEARTS_PATH,
