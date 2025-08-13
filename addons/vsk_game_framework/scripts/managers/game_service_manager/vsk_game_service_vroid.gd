@@ -125,24 +125,24 @@ func _get_tokens(p_service_request: SarGameServiceRequest) -> Dictionary:
 	
 	return tokens
 
-"""
-func _get_dashboard_content_async(p_service_request: SarGameServiceRequest, p_callable: Callable) -> Dictionary:
-	if _godot_uro and _godot_uro.get_api():
-		if not p_service_request is VSKGameServiceRequestUro:
-			push_error("Did not pass a valid VSKGameServiceRequestUro object to a sign out request.")
+
+func _get_content_async(p_service_request: SarGameServiceRequest, p_callable: Callable, p_params: Array = []):
+	if _godot_vroid and _godot_vroid.get_api():
+		if not p_service_request is VSKGameServiceRequestVroid:
+			printerr("Did not pass a valid VSKGameServiceRequestVroid object to a sign out request.")
 			return {} 
 		
-		var domain: String = (p_service_request as VSKGameServiceRequestUro).domain
-		var tokens: Dictionary = _get_tokens(p_service_request)
+		var domain: String = (p_service_request as VSKGameServiceRequestVroid).domain
 		
 		# Add this request to the active request pool.
-		var godot_uro_request: GodotUroRequester = _godot_uro.create_requester(domain, -1)
-		_active_service_requests[p_service_request] = godot_uro_request
-		
-		var result: Dictionary = await p_callable.call(
-			godot_uro_request,
-			tokens.get("access_token", "")
-		)
+		var godot_vroid_request: GodotRequester = _godot_vroid.create_requester(domain, -1)
+		_active_service_requests[p_service_request] = godot_vroid_request
+
+		var args: Array = [godot_vroid_request, access_token]
+		if not p_params.is_empty():
+			args.append_array(p_params)
+
+		var result: Dictionary = await p_callable.callv(args)
 		
 		if not stop_request(p_service_request):
 			return {}
@@ -154,73 +154,48 @@ func _get_dashboard_content_async(p_service_request: SarGameServiceRequest, p_ca
 		
 	return {}
 
-func _get_multiple_content_async(p_service_request: SarGameServiceRequest, p_callable: Callable):
-	if _godot_uro and _godot_uro.get_api():
-		if not p_service_request is VSKGameServiceRequestUro:
-			printerr("Did not pass a valid VSKGameServiceRequestUro object to a sign out request.")
-			return {} 
-		
-		var domain: String = (p_service_request as VSKGameServiceRequestUro).domain
-		
-		# Add this request to the active request pool.
-		var godot_uro_request: GodotUroRequester = _godot_uro.create_requester(domain, -1)
-		_active_service_requests[p_service_request] = godot_uro_request
-		
-		var result: Dictionary = await p_callable.call(
-			godot_uro_request
-		)
-		
-		if not stop_request(p_service_request):
-			return {}
-			
-		if result.is_empty():
-			return {}
-
-		return result
-		
-	return {}
-
-func _get_individual_content_async(p_service_request: SarGameServiceRequest, p_id: String, p_callable: Callable):
-	if _godot_uro and _godot_uro.get_api():
-		if not p_service_request is VSKGameServiceRequestUro:
-			push_error("Did not pass a valid VSKGameServiceRequestUro object to a sign out request.")
-			return {} 
-		
-		var domain: String = (p_service_request as VSKGameServiceRequestUro).domain
-		
-		# Add this request to the active request pool.
-		var godot_uro_request: GodotUroRequester = _godot_uro.create_requester(domain, -1)
-		_active_service_requests[p_service_request] = godot_uro_request
-		
-		var result: Dictionary = await p_callable.call(
-			godot_uro_request,
-			p_id
-		)
-		
-		if not stop_request(p_service_request):
-			return {}
-			
-		if result.is_empty():
-			return {}
-
-		return result
-		
-	return {}
 	
-
+"""
 	
 ## Returns a dictionary containing information about a specific avatar id.
-func get_avatar_async(p_service_request: SarGameServiceRequest, p_id: String) -> Dictionary:
-	if _godot_uro and _godot_uro.get_api():
-		return await _get_individual_content_async(p_service_request, p_id, _godot_uro.get_api().get_avatar_async)
+func get_profile_async(p_service_request: SarGameServiceRequest) -> Dictionary:
+	if _godot_vroid and _godot_vroid.get_api():		
+		return await _get_content_async(p_service_request, _godot_vroid.get_api().get_profile_async)
 	
 	return {}
 
+## Returns a dictionary containing information about a specific avatar id.
+func get_model_details_async(p_service_request: SarGameServiceRequest, p_id: String) -> Dictionary:
+	if _godot_vroid and _godot_vroid.get_api():		
+		return await _get_content_async(p_service_request, _godot_vroid.get_api().get_profile_async, [p_id])
+	
+	return {}
 
-## Returns a dictionary containing public avatars
-func get_avatars_async(p_service_request: SarGameServiceRequest) -> Dictionary:
-	if _godot_uro and _godot_uro.get_api():
-		return await _get_multiple_content_async(p_service_request, _godot_uro.get_api().get_avatars_async)
+## Returns a dictionary containing information about a specific avatar id.
+func get_uploaded_avatars_async(p_service_request: SarGameServiceRequest, p_filter: Dictionary = {}, p_max_id: String = "", p_count: int = 0) -> Dictionary:
+	if _godot_vroid and _godot_vroid.get_api():		
+		return await _get_content_async(p_service_request, _godot_vroid.get_api().get_profile_async, [p_filter, p_max_id, p_count])
+	
+	return {}
+
+## Returns a dictionary containing information about a specific avatar id.
+func get_uploaded_avatars_async(p_service_request: SarGameServiceRequest, p_filter: Dictionary = {}, p_max_id: String = "", p_count: int = 0) -> Dictionary:
+	if _godot_vroid and _godot_vroid.get_api():		
+		return await _get_content_async(p_service_request, _godot_vroid.get_api().get_profile_async, [p_filter, p_max_id, p_count])
+	
+	return {}
+
+## Returns a dictionary containing information about a specific avatar id.
+func get_uploaded_avatars_async(p_service_request: SarGameServiceRequest, p_filter: Dictionary = {}, p_max_id: String = "", p_count: int = 0) -> Dictionary:
+	if _godot_vroid and _godot_vroid.get_api():		
+		return await _get_content_async(p_service_request, _godot_vroid.get_api().get_profile_async, [p_filter, p_max_id, p_count])
+	
+	return {}
+
+## Returns a dictionary containing information about a specific avatar id.
+func get_uploaded_avatars_async(p_service_request: SarGameServiceRequest, p_id: String) -> Dictionary:
+	if _godot_vroid and _godot_vroid.get_api():		
+		return await _get_multiple_content_async(p_service_request, access_token, _godot_vroid.get_api().get_uploaded_avatars_async)
 	
 	return {}
 """
