@@ -72,7 +72,7 @@ static func get_status_error_response(p_status: int) -> Result:
 
 
 func get_default_options() -> Dictionary:
-	return DEFAULT_OPTIONS
+	return DEFAULT_OPTIONS.duplicate(true)
 
 
 func http_download_progressed(_http_state: RefCounted, _bytes: int, _total_bytes: int):
@@ -84,8 +84,8 @@ func request(
 	p_path: String,
 	p_payload: Dictionary,
 	p_token: String,
-	p_options: Dictionary = null) -> Result:
-	if p_options == null:
+	p_options: Dictionary = {}) -> Result:
+	if p_options.is_empty():
 		p_options = get_default_options()
 	if http_state:
 		push_error("HTTP state is already active for this request")
@@ -141,7 +141,7 @@ func request(
 					+ RandomizationUtilities.generate_insecure_unique_id(BOUNDARY_UID_LENGTH)
 				)
 				headers.append("Content-Type: multipart/form-data; boundary=%s" % boundary_string)
-				encoded_payload = GodotRequestHelper._compose_multipart_body(
+				encoded_payload = GodotRequester._compose_multipart_body(
 					p_payload, boundary_string
 				)
 			_:
@@ -212,7 +212,7 @@ func request(
 
 
 func _get_option(options, key):
-	const default_opts: Dictionary = get_default_options()
+	var default_opts: Dictionary = get_default_options()
 	return options[key] if options.has(key) else default_opts[key]
 
 
