@@ -52,6 +52,9 @@ static func get_api_header() -> String:
 static func get_default_model_filter() -> Dictionary:
 	return DEFAULT_MODEL_FILTER.duplicate(true)
 
+static func get_root_path() -> String:
+	return ROOT_PATH
+
 static func interpolate_default_model_filter(p_filter) -> Dictionary:
 	var result : Dictionary = get_default_model_filter()
 
