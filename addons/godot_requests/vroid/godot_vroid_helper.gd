@@ -43,13 +43,13 @@ const DEFAULT_MODEL_FILTER: Dictionary = {
 	"booth_part_categories": []
 }
 
-func get_api_path() -> String:
+static func get_api_path() -> String:
 	return ROOT_PATH + API_PATH
 
 func get_api_header() -> String:
 	return "X-Api-Version: " + API_VERSION
 
-func get_default_model_filter() -> String:
+func get_default_model_filter() -> Dictionary:
 	return DEFAULT_MODEL_FILTER.duplicate(true)
 
 func interpolate_default_model_filter(p_filter) -> Dictionary:
