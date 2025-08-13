@@ -30,6 +30,7 @@ const DEFAULT_OPTIONS: Dictionary = {
 	"encoding": "query",
 	"multipart_boundary_prefix": "",
 	"token": null,
+	"extra_headers": null,
 	"download_to": null,
 }
 
@@ -120,6 +121,10 @@ func request(
 
 	if p_token:
 		headers.push_back("Authorization: %s" % p_token)
+
+	var extra_headers: Array = p_options.get("extra_headers", [])
+	if not extra_headers.is_empty():
+		headers.append_array(extra_headers)
 
 	if p_payload:
 		var encoding: String = _get_option(p_options, "encoding")
