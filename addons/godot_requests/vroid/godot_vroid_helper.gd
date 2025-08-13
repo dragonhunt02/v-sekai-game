@@ -11,7 +11,7 @@ class_name GodotVroidHelper
 
 # enum VroidUserContentType { UNKNOWN, AVATAR }
 
-const ROOT_PATH: String = "https://hub.vroid.com"
+const ROOT_PATH: String = "hub.vroid.com"
 const API_VERSION: String = "11"
 const API_PATH: String = "/api"
 const PROFILE_PATH: String = "/account"
@@ -44,7 +44,7 @@ const DEFAULT_MODEL_FILTER: Dictionary = {
 }
 
 static func get_api_path() -> String:
-	return ROOT_PATH + API_PATH
+	return "https://" + ROOT_PATH + API_PATH
 
 static func get_api_header() -> String:
 	return "X-Api-Version: " + API_VERSION
@@ -52,7 +52,7 @@ static func get_api_header() -> String:
 static func get_default_model_filter() -> Dictionary:
 	return DEFAULT_MODEL_FILTER.duplicate(true)
 
-static func get_root_path() -> String:
+static func get_domain() -> String:
 	return ROOT_PATH
 
 static func interpolate_default_model_filter(p_filter) -> Dictionary:
