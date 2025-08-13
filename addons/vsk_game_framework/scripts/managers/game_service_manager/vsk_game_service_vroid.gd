@@ -79,18 +79,19 @@ func _clear_local_session() -> void:
 func _process_result_and_update(p_service_request: VSKGameServiceRequestUro, p_result: Dictionary) -> Dictionary:
 	if _godot_vroid:
 		var tokens: Dictionary = _godot_vroid.get_tokens("", "")
-		var processed_result: Dictionary = GodotUroHelper.process_session_json(
-			p_result,
-			tokens.get("renewal_token", ""),
-			tokens.get("access_token", "")
-		)
-		
-		if GodotUroHelper.requester_result_is_ok(processed_result):
+		var prev_access_token = tokens.get("access_token", "")
+		var prev_renewal_token = tokens.get("renewal_token", "")
+
+		var access_token = p_result.get("access_token", prev_access_token)
+		var renewal_token = p_result.get("renewal_token", prev_renewal_token)
+		var processed_result={"access_token": access_token, "renewal_token": renewal_token}
+
+		if true:
 			_create_session(p_service_request, processed_result)
 		else:
 			_clear_local_session()
 
-		return processed_result
+		return {}
 	else:
 		return {}
 
@@ -262,20 +263,25 @@ func _get_uro_service() -> VSKGameServiceUro:
 
 const DEFAULT_PORT: int = 8553
 
-func start_oauth_sign_in(p_service_request: SarGameServiceRequest, p_sign_in_data: Dictionary) -> Error:
+func start_oauth_sign_in() -> Error:
 	# TODO: web support
 	if OS.get_name() == "Web":
 		push_error("Web platform Vroid API support is not implemented")
 		return FAILED
 
-	var _godot_uro = _get_uro_service()
-	if not (_godot_uro and _godot_uro.get_api()):
+	var godot_uro = _get_uro_service()
+	if not (godot_uro and godot_uro._godot_uro.get_api()):
 		return FAILED
 
-	var _domain = _godot_uro.get_current_username_and_domain()["domain"]
-	var request = _godot_uro.create_request({"domain": _domain})
+	var _domain = godot_uro.get_current_username_and_domain()["domain"]
+	var request = godot_uro.create_request({"domain": _domain})
+	_domain ="vsekai.local"
 	var provider = get_service_name().to_lower()
-	var result: Dictionary = await _godot_uro.get_oauth_redirect(request, provider)
+	var result: Dictionary = await godot_uro.get_oauth_redirect(request, provider)
+	result={"data": {"url": "http://127.0.0.1:%s/?code=4552E&access_token=abcdefgh" % DEFAULT_PORT }}
+	if result.is_empty():
+		return FAILED
+	var redirect_url: String = result.data.url
 
 	# Start server listener
 	var oauth_listener = OAuthRedirectListener.new(DEFAULT_PORT)
@@ -293,12 +299,17 @@ func start_oauth_sign_in(p_service_request: SarGameServiceRequest, p_sign_in_dat
 		return FAILED
 
 	push_error(result)
-	var redirect_url: String = ""
+	#var redirect_url: String = ""
+	var err = FAILED
 	#open browser
-	#if OS.get_name() == "Linux":
-	#	OS.create_process("xdg-open", [redirect_url, "&"])
+	if OS.get_name() == "Linux": # Prevent thread blocking
+		var pid = OS.create_process("xdg-open", [redirect_url])
+		if pid != -1:
+			err = OK
+	else:
+		err = OS.shell_open(redirect_url)
 	
-	if not SarUtils.assert_ok(OS.shell_open(redirect_url),
+	if not SarUtils.assert_ok(err,
 		"Failed to start browser at %s" % redirect_url):
 		return FAILED
 
