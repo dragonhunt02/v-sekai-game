@@ -25,7 +25,7 @@ func get_profile_async(p_requester: GodotRequester, p_access_token: String) -> D
 	return _handle_result(result)
 
 
-func get_uploaded_avatars_async(p_requester: GodotRequester, p_access_token: String, p_filter: Dictionary = {}, p_max_id: String = "", p_count: int = -1) -> Dictionary:
+func get_uploaded_avatars_async(p_requester: GodotRequester, p_access_token: String, p_filter: Dictionary = {}, p_max_id: String = "", p_count: int = 0) -> Dictionary:
 	var query: Dictionary = {}
 	var count = 0
 
@@ -49,7 +49,7 @@ func get_uploaded_avatars_async(p_requester: GodotRequester, p_access_token: Str
 	return _handle_result(result)
 
 
-func get_liked_avatars_async(p_requester: GodotRequester, p_access_token: String, p_app_id: String, p_filter: Dictionary = {}, p_max_id: String = "", p_count: int = -1) -> Dictionary:
+func get_liked_avatars_async(p_requester: GodotRequester, p_access_token: String, p_app_id: String, p_filter: Dictionary = {}, p_max_id: String = "", p_count: int = 0) -> Dictionary:
 	var query: Dictionary = {}
 	var count = 0
 
@@ -74,7 +74,7 @@ func get_liked_avatars_async(p_requester: GodotRequester, p_access_token: String
 	return _handle_result(result)
 
 
-func get_staff_picks_async(p_requester: GodotRequester, p_access_token: String, p_max_id: String = "", p_count: int = -1) -> Dictionary:
+func get_staff_picks_async(p_requester: GodotRequester, p_access_token: String, p_max_id: String = "", p_count: int = 0) -> Dictionary:
 	var query: Dictionary = {}
 	var count = 0
 
@@ -96,7 +96,7 @@ func get_staff_picks_async(p_requester: GodotRequester, p_access_token: String, 
 	return _handle_result(result)
 
 
-func search_models_async(p_requester: GodotRequester, p_access_token: String, keyword: String, p_filter: Dictionary = {}, p_search_after: String = "", p_sort: String = "", p_count: int = -1) -> Dictionary:
+func search_models_async(p_requester: GodotRequester, p_access_token: String, keyword: String, p_filter: Dictionary = {}, p_search_after: String = "", p_sort: String = "", p_count: int = 0) -> Dictionary:
 	var query: Dictionary = {}
 	var count = 0
 
