@@ -17,8 +17,10 @@ signal vroid_sign_in_failed(error: String)
 var _godot_vroid: GodotVroid = null
 var _current_account_address: String = ""
 var _session_mode: SessionType = SessionType.NONE
-
 var _active_service_requests: Dictionary[SarGameServiceRequest, GodotRequester] = {}
+
+# Application Public Client id 
+var _app_id: String = ""
 
 func _update_session(
 	p_renewal_token: String,
@@ -83,6 +85,9 @@ func _process_result_and_update(p_service_request: VSKGameServiceRequestUro, p_r
 		var prev_access_token = tokens.get("access_token", "")
 		var prev_renewal_token = tokens.get("renewal_token", "")
 
+		# Set public client app id
+		_app_id = p_result.get("client_id", "")
+
 		var access_token = p_result.get("access_token", prev_access_token)
 		var renewal_token = p_result.get("renewal_token", prev_renewal_token)
 		var processed_result={"access_token": access_token, "renewal_token": renewal_token}
@@ -125,6 +130,10 @@ func _get_tokens(p_service_request: SarGameServiceRequest) -> Dictionary:
 	
 	return tokens
 
+func _get_app_id(p_service_request: SarGameServiceRequest) -> Dictionary:	
+	return _app_id
+
+
 
 func _get_content_async(p_service_request: SarGameServiceRequest, p_callable: Callable, p_params: Array = []):
 	if _godot_vroid and _godot_vroid.get_api():
@@ -157,7 +166,7 @@ func _get_content_async(p_service_request: SarGameServiceRequest, p_callable: Ca
 	
 """
 	
-## Returns a dictionary containing information about a specific avatar id.
+## Returns a dictionary containing information about current user.
 func get_profile_async(p_service_request: SarGameServiceRequest) -> Dictionary:
 	if _godot_vroid and _godot_vroid.get_api():		
 		return await _get_content_async(p_service_request, _godot_vroid.get_api().get_profile_async)
@@ -167,35 +176,37 @@ func get_profile_async(p_service_request: SarGameServiceRequest) -> Dictionary:
 ## Returns a dictionary containing information about a specific avatar id.
 func get_model_details_async(p_service_request: SarGameServiceRequest, p_id: String) -> Dictionary:
 	if _godot_vroid and _godot_vroid.get_api():		
-		return await _get_content_async(p_service_request, _godot_vroid.get_api().get_profile_async, [p_id])
+		return await _get_content_async(p_service_request, _godot_vroid.get_api().get_model_details_async, [p_id])
 	
 	return {}
 
-## Returns a dictionary containing information about a specific avatar id.
+## Returns a dictionary containing a list of personal uploaded avatars.
 func get_uploaded_avatars_async(p_service_request: SarGameServiceRequest, p_filter: Dictionary = {}, p_max_id: String = "", p_count: int = 0) -> Dictionary:
 	if _godot_vroid and _godot_vroid.get_api():		
-		return await _get_content_async(p_service_request, _godot_vroid.get_api().get_profile_async, [p_filter, p_max_id, p_count])
+		return await _get_content_async(p_service_request, _godot_vroid.get_api().get_uploaded_avatars_async, [p_filter, p_max_id, p_count])
 	
 	return {}
 
-## Returns a dictionary containing information about a specific avatar id.
-func get_uploaded_avatars_async(p_service_request: SarGameServiceRequest, p_filter: Dictionary = {}, p_max_id: String = "", p_count: int = 0) -> Dictionary:
+## Returns a dictionary containing a list of liked avatars.
+func get_liked_avatars_async(p_service_request: SarGameServiceRequest, p_filter: Dictionary = {}, p_max_id: String = "", p_count: int = 0) -> Dictionary:
 	if _godot_vroid and _godot_vroid.get_api():		
-		return await _get_content_async(p_service_request, _godot_vroid.get_api().get_profile_async, [p_filter, p_max_id, p_count])
+		var app_id = _get_app_id()
+		return await _get_content_async(p_service_request, _godot_vroid.get_api().get_liked_avatars_async, [app_id, p_filter, p_max_id, p_count])
 	
 	return {}
 
-## Returns a dictionary containing information about a specific avatar id.
-func get_uploaded_avatars_async(p_service_request: SarGameServiceRequest, p_filter: Dictionary = {}, p_max_id: String = "", p_count: int = 0) -> Dictionary:
+## Returns a dictionary containing a list of Vroid staff selected avatars.
+func get_staff_picks_async(p_service_request: SarGameServiceRequest, p_max_id: String = "", p_count: int = 0) -> Dictionary:
 	if _godot_vroid and _godot_vroid.get_api():		
-		return await _get_content_async(p_service_request, _godot_vroid.get_api().get_profile_async, [p_filter, p_max_id, p_count])
+		return await _get_content_async(p_service_request, _godot_vroid.get_api().get_staff_picks_async, [p_max_id, p_count])
 	
 	return {}
 
-## Returns a dictionary containing information about a specific avatar id.
-func get_uploaded_avatars_async(p_service_request: SarGameServiceRequest, p_id: String) -> Dictionary:
+## Search using keyword and filter.
+## Returns a dictionary containing a list of avatars.
+func search_models_async(p_service_request: SarGameServiceRequest, p_keyword: String, p_filter: Dictionary = {}, p_search_after: String = "", p_sort: String = "", p_count: int = 0) -> Dictionary:
 	if _godot_vroid and _godot_vroid.get_api():		
-		return await _get_multiple_content_async(p_service_request, access_token, _godot_vroid.get_api().get_uploaded_avatars_async)
+		return await _get_content_async(p_service_request, _godot_vroid.get_api().search_models_async, [p_keyword, p_filter, p_search_after, p_sort, p_count])
 	
 	return {}
 """
@@ -255,7 +266,7 @@ func start_oauth_sign_in() -> Error:
 	_domain ="vsekai.local"
 	var provider = get_service_name().to_lower()
 	var result: Dictionary = await godot_uro.get_oauth_redirect(request, provider)
-	result={"data": {"url": "http://127.0.0.1:%s/?code=4552E&access_token=abcdefgh" % DEFAULT_PORT }}
+	result={"data": {"url": "http://127.0.0.1:%s/?code=4552E&access_token=abcdefgh&client_id=testid" % DEFAULT_PORT }}
 	if not SarUtils.assert_equal(result.is_empty(), false,
 		"Could not get OAuth redirect url"):
 		return FAILED
