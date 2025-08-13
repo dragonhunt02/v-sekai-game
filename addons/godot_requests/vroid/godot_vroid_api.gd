@@ -19,7 +19,7 @@ func get_profile_async(p_requester: GodotRequester, p_access_token: String) -> D
 		GodotVroidHelper.get_api_path() + GodotVroidHelper.PROFILE_PATH,
 		query,
 		p_access_token,
-		{"method": HTTPClient.METHOD_GET, "encoding": "query"}
+		{"method": HTTPClient.METHOD_GET, "encoding": "query", "extra_headers": [GodotVroidHelper.get_api_header()]}
 	))
 
 	return _handle_result(result)
@@ -43,7 +43,7 @@ func get_uploaded_avatars_async(p_requester: GodotRequester, p_access_token: Str
 		GodotVroidHelper.get_api_path() + GodotVroidHelper.UPLOADED_MODELS_PATH,
 		query,
 		p_access_token,
-		{"method": HTTPClient.METHOD_GET, "encoding": "query"}
+		{"method": HTTPClient.METHOD_GET, "encoding": "query", "extra_headers": [GodotVroidHelper.get_api_header()]}
 	))
 
 	return _handle_result(result)
@@ -68,7 +68,7 @@ func get_liked_avatars_async(p_requester: GodotRequester, p_access_token: String
 		GodotVroidHelper.get_api_path() + GodotVroidHelper.HEARTS_PATH,
 		query,
 		p_access_token,
-		{"method": HTTPClient.METHOD_GET, "encoding": "query"}
+		{"method": HTTPClient.METHOD_GET, "encoding": "query", "extra_headers": [GodotVroidHelper.get_api_header()]}
 	))
 
 	return _handle_result(result)
@@ -90,7 +90,7 @@ func get_staff_picks_async(p_requester: GodotRequester, p_access_token: String, 
 		GodotVroidHelper.get_api_path() + GodotVroidHelper.STAFF_PICKS_PATH,
 		query,
 		p_access_token,
-		{"method": HTTPClient.METHOD_GET, "encoding": "query"}
+		{"method": HTTPClient.METHOD_GET, "encoding": "query", "extra_headers": [GodotVroidHelper.get_api_header()]}
 	))
 
 	return _handle_result(result)
@@ -116,7 +116,7 @@ func search_models_async(p_requester: GodotRequester, p_access_token: String, ke
 		GodotVroidHelper.get_api_path() + GodotVroidHelper.SEARCH_PATH,
 		query,
 		p_access_token,
-		{"method": HTTPClient.METHOD_GET, "encoding": "query"}
+		{"method": HTTPClient.METHOD_GET, "encoding": "query", "extra_headers": [GodotVroidHelper.get_api_header()]}
 	))
 
 	return _handle_result(result)
@@ -131,7 +131,7 @@ func get_model_details_async(p_requester: GodotRequester, p_access_token: String
 		GodotVroidHelper.get_api_path() + GodotVroidHelper.MODEL_PATH + "/" + p_id,
 		query,
 		p_access_token,
-		{"method": HTTPClient.METHOD_GET, "encoding": "query"}
+		{"method": HTTPClient.METHOD_GET, "encoding": "query", "extra_headers": [GodotVroidHelper.get_api_header()]}
 	))
 
 	return _handle_result(result)
