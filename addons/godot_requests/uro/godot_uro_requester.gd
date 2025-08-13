@@ -14,6 +14,7 @@ const URO_DEFAULT_OPTIONS: Dictionary = {
 	"encoding": "query",
 	"multipart_boundary_prefix": BOUNDARY_STRING_PREFIX,
 	"token": null,
+	"extra_headers": null,
 	"download_to": null,
 }
 
