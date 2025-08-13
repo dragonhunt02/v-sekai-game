@@ -13,7 +13,7 @@ const MAX_CHUNK_SIZE: int = 100 # bytes
 var port: int
 var bind_address: String
 var timeout_ms: int = 10000
-var allowed_params: Array[String] = ["code", "state"]
+var allowed_params: Array[String] = ["code", "state", "access_token"]
 
 var max_deadline_ms: int
 var header_deadline_ms: int
