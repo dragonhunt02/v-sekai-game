@@ -260,6 +260,14 @@ func _init() -> void:
 
 ###
 
+## Returns a dictionary containing the current active account username and domain
+## we are signed in with. On failure it will return a dictionary with an empty username
+## and domain.
+func get_current_username_and_domain() -> Dictionary[String, String]:
+	var account_address: String = _godot_uro.get_current_account_address()
+	var result_dictionary: Dictionary[String, String] = GodotUroHelper.get_username_and_domain_from_address(account_address)
+	return result_dictionary
+
 ## Returns a string containing the currently active user account and domain
 ## we are signed in with.
 func get_current_account_address() -> String:
