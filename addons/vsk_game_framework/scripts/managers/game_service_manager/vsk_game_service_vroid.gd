@@ -272,7 +272,7 @@ func start_oauth_sign_in(p_service_request: SarGameServiceRequest, p_sign_in_dat
 	if not (_godot_uro and _godot_uro.get_api()):
 		return FAILED
 
-	var _domain = 
+	var _domain = _godot_uro.get_current_username_and_domain()["domain"]
 	var request = _godot_uro.create_request({"domain": _domain})
 	var provider = get_service_name().to_lower()
 	var result: Dictionary = await _godot_uro.get_oauth_redirect(request, provider)
