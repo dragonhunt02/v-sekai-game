@@ -11,7 +11,8 @@ enum SessionType {
 	USER = 2
 }
 
-signal vroid_sign_in_complete
+signal vroid_sign_in_completed
+signal vroid_sign_in_failed(error: String)
 
 var _godot_vroid: GodotVroid = null
 var _current_account_address: String = ""
@@ -66,7 +67,7 @@ func _create_session(p_service_request: VSKGameServiceRequestUro, p_procesed_res
 
 
 func _clear_local_session() -> void:
-	var address_dict: Dictionary = GodotUroHelper.get_username_and_domain_from_address(_current_account_address)
+	var address_dict: Dictionary = get_current_username_and_domain()
 	
 	_current_account_address = ""
 	_session_mode = SessionType.NONE
@@ -264,13 +265,14 @@ func _get_uro_service() -> VSKGameServiceUro:
 const DEFAULT_PORT: int = 8553
 
 func start_oauth_sign_in() -> Error:
-	# TODO: web support
+	# TODO: web support for oauth redirect
 	if OS.get_name() == "Web":
 		push_error("Web platform Vroid API support is not implemented")
 		return FAILED
 
 	var godot_uro = _get_uro_service()
-	if not (godot_uro and godot_uro._godot_uro.get_api()):
+	if not SarUtils.assert_true(godot_uro and godot_uro._godot_uro.get_api(),
+		"Uro service is not available"):
 		return FAILED
 
 	var _domain = godot_uro.get_current_username_and_domain()["domain"]
@@ -279,7 +281,8 @@ func start_oauth_sign_in() -> Error:
 	var provider = get_service_name().to_lower()
 	var result: Dictionary = await godot_uro.get_oauth_redirect(request, provider)
 	result={"data": {"url": "http://127.0.0.1:%s/?code=4552E&access_token=abcdefgh" % DEFAULT_PORT }}
-	if result.is_empty():
+	if not SarUtils.assert_equal(result.is_empty(), false,
+		"Could not get OAuth redirect url"):
 		return FAILED
 	var redirect_url: String = result.data.url
 
@@ -319,11 +322,12 @@ func _on_oauth_redirect_success(data, request):
 	push_error(data)
 	_process_result_and_update_session(request, data)
 
-	vroid_sign_in_complete.emit()
+	vroid_sign_in_completed.emit()
 	return
 
 func _on_oauth_redirect_failure(err, request):
 	push_error("Vroid OAuth error: %s" % err)
+	vroid_sign_in_failed.emit(err)
 	return
 
 
@@ -333,7 +337,7 @@ func _on_oauth_redirect_failure(err, request):
 func create_request(p_data: Dictionary) -> SarGameServiceRequest:
 	var service_request: VSKGameServiceRequestVroid = VSKGameServiceRequestVroid.new()
 	service_request.username = p_data.get("username", "")
-	service_request.domain = p_data.get("domain", "")
+	service_request.domain = GodotVroidHelper.get_domain()
 	return service_request
 
 ## Will attempt to cancel an ongoing service request. Will return true
