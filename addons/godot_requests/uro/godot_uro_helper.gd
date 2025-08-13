@@ -52,7 +52,7 @@ const UNKNOWN_MAP: String = "UNKNOWN_MAP"
 const SIGNUP_API_KEY = "eNoZ4kXHgT0z9ZTYGsq7eE0rQYvR6YBi"
 
 
-func get_api_path() -> String:
+static func get_api_path() -> String:
 	return API_PATH + API_VERSION
 
 
