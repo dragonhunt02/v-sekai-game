@@ -27,8 +27,9 @@ func get_profile_async(p_requester: GodotRequester, p_access_token: String) -> D
 
 func get_uploaded_avatars_async(p_requester: GodotRequester, p_access_token: String, p_filter: Dictionary = {}, p_max_id: String = "", p_count: int = -1) -> Dictionary:
 	var query: Dictionary = {}
+	var count = 0
 
-	const filter = GodotVroidHelper.interpolate_default_model_filter(p_filter)
+	var filter = GodotVroidHelper.interpolate_default_model_filter(p_filter)
 	query = filter
 	if p_max_id != "":
 		query["max_id"] = p_max_id
@@ -50,8 +51,9 @@ func get_uploaded_avatars_async(p_requester: GodotRequester, p_access_token: Str
 
 func get_liked_avatars_async(p_requester: GodotRequester, p_access_token: String, p_app_id: String, p_filter: Dictionary = {}, p_max_id: String = "", p_count: int = -1) -> Dictionary:
 	var query: Dictionary = {}
+	var count = 0
 
-	const filter = GodotVroidHelper.interpolate_default_model_filter(p_filter)
+	var filter = GodotVroidHelper.interpolate_default_model_filter(p_filter)
 	query = filter
 	if p_max_id != "":
 		query["max_id"] = p_max_id
@@ -74,6 +76,7 @@ func get_liked_avatars_async(p_requester: GodotRequester, p_access_token: String
 
 func get_staff_picks_async(p_requester: GodotRequester, p_access_token: String, p_max_id: String = "", p_count: int = -1) -> Dictionary:
 	var query: Dictionary = {}
+	var count = 0
 
 	if p_max_id != "":
 		query["max_id"] = p_max_id
@@ -95,8 +98,9 @@ func get_staff_picks_async(p_requester: GodotRequester, p_access_token: String, 
 
 func search_models_async(p_requester: GodotRequester, p_access_token: String, keyword: String, p_filter: Dictionary = {}, p_search_after: String = "", p_sort: String = "", p_count: int = -1) -> Dictionary:
 	var query: Dictionary = {}
+	var count = 0
 
-	const filter = GodotVroidHelper.interpolate_default_model_filter(p_filter)
+	var filter = GodotVroidHelper.interpolate_default_model_filter(p_filter)
 	query = filter
 	if p_search_after != "":
 		query["search_after[]"] = p_search_after
@@ -131,4 +135,3 @@ func get_model_details_async(p_requester: GodotRequester, p_access_token: String
 	))
 
 	return _handle_result(result)
-
