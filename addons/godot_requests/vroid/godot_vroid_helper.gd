@@ -19,6 +19,7 @@ const UPLOADED_MODELS_PATH: String = "/account/character_models"
 const MODEL_PATH: String = "/character_models" # character_models/{id}
 const SEARCH_PATH: String = "/search/character_models"
 const HEARTS_PATH: String = "/hearts"
+const DOWNLOAD_LICENSE_PATH = "/download_licenses"
 const STAFF_PICKS_PATH: String = "/staff_picks"
 const DEFAULT_ACCOUNT_ID: String = "UNKNOWN_ID"
 const DEFAULT_ACCOUNT_USERNAME: String = "UNKNOWN_USERNAME"
