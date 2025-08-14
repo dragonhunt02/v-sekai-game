@@ -86,7 +86,7 @@ func _process_result_and_update(p_service_request: VSKGameServiceRequestVroid, p
 		var prev_renewal_token = tokens.get("renewal_token", "")
 
 		# Set public client app id
-		_app_id = p_result.get("client_id", "")
+		#_app_id = p_result.get("client_id", "")
 
 		var access_token = p_result.get("access_token", prev_access_token)
 		var renewal_token = p_result.get("renewal_token", prev_renewal_token)
@@ -280,15 +280,15 @@ func start_oauth_sign_in() -> Error:
 
 	var provider = get_service_name().to_lower()
 	var result: Dictionary = await godot_uro.get_oauth_redirect(request, provider)
-	if result.response_code == 200:
-		result = result
-	else:
+	if result.response_code != 200:
+		push_error("Error fetching redirect url from server: %s" % result.response_code)
 		return FAILED
 	#result={"data": {"url": "http://127.0.0.1:%s/?code=4552E&access_token=abcdefgh&client_id=testid" % DEFAULT_PORT }}
 	if not SarUtils.assert_equal(result.is_empty(), false,
 		"Could not get OAuth redirect url"):
 		return FAILED
 	redirect_url = result.output.url
+	_app_id = SarNetworkUtilities.extract_query_param(redirect_url, "client_id")
 
 	_domain = GodotVroidHelper.get_domain()
 	var request2: VSKGameServiceRequestVroid = create_request({"domain": _domain})
