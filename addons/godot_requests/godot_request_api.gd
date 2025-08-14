@@ -22,6 +22,7 @@ static func _handle_result(result: RefCounted) -> Dictionary:
 		result_dict["requester_code"] = result.requester_code
 		result_dict["generic_code"] = result.generic_code
 		result_dict["response_code"] = result.response_code
+		result_dict["response_headers"] = result.response_headers
 		result_dict["output"] = result.data
 
 	return result_dict
