@@ -14,14 +14,16 @@ class Result:
 	var requester_code: int = -1
 	var generic_code: int = -1
 	var response_code: int = -1
+	var response_headers: Dictionary = {}
 	var data: Dictionary = {}
 
 	func _init(
-		p_requester_code: int, p_generic_code: int, p_response_code: int, p_data: Dictionary = {}
+		p_requester_code: int, p_generic_code: int, p_response_code: int, p_response_headers: Dictionary = {}, p_data: Dictionary = {}
 	):
 		requester_code = p_requester_code
 		generic_code = p_generic_code
 		response_code = p_response_code
+		response_headers = p_response_headers
 		data = p_data
 
 
@@ -120,7 +122,8 @@ func request(
 	var headers: Array = []
 
 	if p_token:
-		headers.push_back("Authorization: %s" % p_token)
+		# TODO: Allow different auth header schemes
+		headers.push_back("Authorization: Bearer %s" % p_token)
 
 	var extra_headers: Array = p_options.get("extra_headers", [])
 	if not extra_headers.is_empty():
@@ -174,6 +177,7 @@ func request(
 		http_state.download_progressed.disconnect(download_prog_callable)
 
 	var data: Dictionary = {}
+	var response_headers: Dictionary = http_state.response_headers
 	var response_body: String = http_state.response_body.get_string_from_utf8()
 	var response_code: int = http_state.response_code
 	http_state.release()
@@ -186,12 +190,13 @@ func request(
 			else:
 				data = {"data": str(json_parse_result.get_data())}
 			if response_code == HTTPClient.RESPONSE_OK:
-				return Result.new(GodotRequestHelper.RequesterCode.OK, OK, response_code, data)
+				return Result.new(GodotRequestHelper.RequesterCode.OK, OK, response_code, response_headers, data)
 			else:
 				return Result.new(
 					GodotRequestHelper.RequesterCode.HTTP_RESPONSE_NOT_OK,
 					FAILED,
 					response_code,
+					response_headers,
 					data
 				)
 		else:
@@ -200,6 +205,7 @@ func request(
 					GodotRequestHelper.RequesterCode.JSON_PARSE_ERROR,
 					FAILED,
 					response_code,
+					response_headers,
 					data
 				)
 			else:
@@ -207,12 +213,13 @@ func request(
 					GodotRequestHelper.RequesterCode.HTTP_RESPONSE_NOT_OK,
 					FAILED,
 					response_code,
+					response_headers,
 					data
 				)
 	else:
 		push_error("GodotRequester: No response body!")
 		return Result.new(
-			GodotRequestHelper.RequesterCode.UNKNOWN_STATUS_ERROR, FAILED, response_code, data
+			GodotRequestHelper.RequesterCode.UNKNOWN_STATUS_ERROR, FAILED, response_code, response_headers, data
 		)
 
 
