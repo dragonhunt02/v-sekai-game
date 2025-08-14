@@ -58,6 +58,7 @@ VSKEditorSingleton="*res://addons/vsk_editor/vsk_editor.gd"
 [debug]
 
 gdscript/warnings/exclude_addons=false
+network/disable_ssl=false
 
 [display]
 
