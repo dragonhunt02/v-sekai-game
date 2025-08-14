@@ -115,6 +115,7 @@ class HTTPState:
 		else:
 			if status == HTTPClient.STATUS_REQUESTING:
 				http.poll()
+				status = http.get_status()
 				if status == HTTPClient.STATUS_BODY:
 					response_code = http.get_response_code()
 					response_headers = http.get_response_headers_as_dictionary()
