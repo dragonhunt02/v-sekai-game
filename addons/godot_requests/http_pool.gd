@@ -215,7 +215,9 @@ class HTTPState:
 			http = HTTPClient.new()
 
 		if status != HTTPClient.STATUS_CONNECTED:
-			var tls_options: TLSOptions = TLSOptions.client(null)
+			var tls_options: TLSOptions = null
+			if use_ssl:
+				tls_options = TLSOptions.client(null)
 			connect_err = http.connect_to_host(hostname, port, tls_options)
 			if connect_err != OK:
 				push_error(
