@@ -59,7 +59,7 @@ func _update_session(
 	if not token_changed:
 		return
 
-func _create_session(p_service_request: VSKGameServiceRequestUro, p_procesed_result: Dictionary) -> void:
+func _create_session(p_service_request: VSKGameServiceRequestVroid, p_procesed_result: Dictionary) -> void:
 	_update_session(
 		p_procesed_result.get("renewal_token", ""),
 		p_procesed_result.get("access_token", ""),
@@ -79,7 +79,7 @@ func _clear_local_session() -> void:
 	
 	return
 
-func _process_result_and_update(p_service_request: VSKGameServiceRequestUro, p_result: Dictionary) -> Dictionary:
+func _process_result_and_update(p_service_request: VSKGameServiceRequestVroid, p_result: Dictionary) -> Dictionary:
 	if _godot_vroid:
 		var tokens: Dictionary = _godot_vroid.get_tokens("", "")
 		var prev_access_token = tokens.get("access_token", "")
@@ -130,7 +130,7 @@ func _get_tokens(p_service_request: SarGameServiceRequest) -> Dictionary:
 	
 	return tokens
 
-func _get_app_id(p_service_request: SarGameServiceRequest) -> Dictionary:	
+func _get_app_id() -> String:	
 	return _app_id
 
 
@@ -142,7 +142,9 @@ func _get_content_async(p_service_request: SarGameServiceRequest, p_callable: Ca
 			return {} 
 		
 		var domain: String = (p_service_request as VSKGameServiceRequestVroid).domain
-		
+		var username: String = (p_service_request as VSKGameServiceRequestVroid).username
+		var tokens: Dictionary = _godot_vroid.get_tokens(username, domain)
+		var access_token = tokens.get("access_token", "")
 		# Add this request to the active request pool.
 		var godot_vroid_request: GodotRequester = _godot_vroid.create_requester(domain, -1)
 		_active_service_requests[p_service_request] = godot_vroid_request
@@ -221,7 +223,7 @@ func _init() -> void:
 ## we are signed in with. On failure it will return a dictionary with an empty username
 ## and domain.
 func get_current_username_and_domain() -> Dictionary[String, String]:
-	var account_address: String = _godot_vroid.get_current_account_address()
+	var account_address: String = get_current_account_address()
 	var result_dictionary: Dictionary[String, String] = GodotVroidHelper.get_username_and_domain_from_address(account_address)
 	return result_dictionary
 
@@ -270,12 +272,15 @@ func start_oauth_sign_in() -> Error:
 		return FAILED
 	var redirect_url: String = result.data.url
 
+	_domain = GodotVroidHelper.get_domain()
+	var request2: VSKGameServiceRequestVroid = create_request({"domain": _domain})
+
 	# Start server listener
 	var oauth_listener = OAuthRedirectListener.new(DEFAULT_PORT)
-	if not SarUtils.assert_ok(oauth_listener.oauth_redirect_success.connect(_on_oauth_redirect_success.bind(request)),
+	if not SarUtils.assert_ok(oauth_listener.oauth_redirect_success.connect(_on_oauth_redirect_success.bind(request2)),
 		"Could not connect signal 'oauth_listener.oauth_redirect_success' to '_on_oauth_redirect_success'"):
 		return FAILED
-	if not SarUtils.assert_ok(oauth_listener.oauth_redirect_failure.connect(_on_oauth_redirect_failure.bind(request)),
+	if not SarUtils.assert_ok(oauth_listener.oauth_redirect_failure.connect(_on_oauth_redirect_failure.bind(request2)),
 		"Could not connect signal 'oauth_listener.oauth_redirect_failure' to '_on_oauth_redirect_failure'"):
 		return FAILED
 
