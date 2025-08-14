@@ -96,7 +96,7 @@ func get_staff_picks_async(p_requester: GodotRequester, p_access_token: String, 
 	return _handle_result(result)
 
 
-func search_models_async(p_requester: GodotRequester, p_access_token: String, keyword: String, p_filter: Dictionary = {}, p_search_after: String = "", p_sort: String = "", p_count: int = 0) -> Dictionary:
+func search_models_async(p_requester: GodotRequester, p_access_token: String, p_keyword: String, p_filter: Dictionary = {}, p_search_after: String = "", p_sort: String = "", p_count: int = 0) -> Dictionary:
 	var query: Dictionary = {}
 	var count = 0
 
@@ -111,6 +111,7 @@ func search_models_async(p_requester: GodotRequester, p_access_token: String, ke
 	else:
 		count = 20 # default
 	query["count"] = count
+	query["keyword"] = p_keyword
 
 	var result = await (p_requester.request(
 		GodotVroidHelper.get_api_path() + GodotVroidHelper.SEARCH_PATH,
