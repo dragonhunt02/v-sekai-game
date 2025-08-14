@@ -128,12 +128,21 @@ static func _is_host_localhost(p_host: String) -> bool:
 	else:
 		return false
 
+static func _is_host_ssl(p_host: String) -> bool:
+	var disable_ssl: bool = ProjectSettings.get_setting("debug/network/disable_ssl", false)
+	if _is_host_localhost(p_host):
+		return false
+	elif disable_ssl:
+		return false
+	else:
+		return true
+
 func create_requester(p_host: String, p_port: int) -> GodotRequester:
 	if p_host == "localhost":
 		p_host = GodotRequestHelper.LOCALHOST_HOST
 	
 	var new_requester = GodotRequester.new(
-		http_pool, p_host, p_port, not _is_host_localhost(p_host)
+		http_pool, p_host, p_port, _is_host_ssl(p_host)
 	)
 
 	return new_requester
@@ -174,4 +183,3 @@ func _init():
 			push_error("Could not save game token!")
 
 	_load_api()
-
