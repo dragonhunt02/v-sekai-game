@@ -210,6 +210,18 @@ func search_models_async(p_service_request: SarGameServiceRequest, p_keyword: St
 	
 	return {}
 
+## Search using keyword and filter.
+## Returns a dictionary containing a list of avatars.
+func get_model_download_url_async(p_service_request: SarGameServiceRequest, p_id: String) -> String:
+	if _godot_vroid and _godot_vroid.get_api():
+		var license = await _get_content_async(p_service_request, _godot_vroid.get_api().request_download_license_async, [p_id, false])
+		var license_id = license.output.data.id
+	
+		var model: Dictionary = await _get_content_async(p_service_request, _godot_vroid.get_api().request_download_url_async, [license_id])
+		var model_url: String = model.response_headers["location"]
+		return model_url
+		
+	return ""
 
 func _ready() -> void:
 	add_child(_godot_vroid)
@@ -251,6 +263,7 @@ func _get_uro_service() -> VSKGameServiceUro:
 const DEFAULT_PORT: int = 8553
 
 func start_oauth_sign_in() -> Error:
+	var redirect_url: String
 	# TODO: web support for oauth redirect
 	if OS.get_name() == "Web":
 		push_error("Web platform Vroid API support is not implemented")
@@ -262,15 +275,20 @@ func start_oauth_sign_in() -> Error:
 		return FAILED
 
 	var _domain = godot_uro.get_current_username_and_domain()["domain"]
-	var request = godot_uro.create_request({"domain": _domain})
 	_domain ="vsekai.local"
+	var request = godot_uro.create_request({"domain": _domain})
+
 	var provider = get_service_name().to_lower()
 	var result: Dictionary = await godot_uro.get_oauth_redirect(request, provider)
-	result={"data": {"url": "http://127.0.0.1:%s/?code=4552E&access_token=abcdefgh&client_id=testid" % DEFAULT_PORT }}
+	if result.response_code == 200:
+		result = result
+	else:
+		return FAILED
+	#result={"data": {"url": "http://127.0.0.1:%s/?code=4552E&access_token=abcdefgh&client_id=testid" % DEFAULT_PORT }}
 	if not SarUtils.assert_equal(result.is_empty(), false,
 		"Could not get OAuth redirect url"):
 		return FAILED
-	var redirect_url: String = result.data.url
+	redirect_url = result.output.url
 
 	_domain = GodotVroidHelper.get_domain()
 	var request2: VSKGameServiceRequestVroid = create_request({"domain": _domain})
