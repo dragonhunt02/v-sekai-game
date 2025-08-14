@@ -174,7 +174,7 @@ func request_download_license_async(p_requester: GodotRequester, p_access_token:
 		GodotVroidHelper.get_api_path() + GodotVroidHelper.DOWNLOAD_LICENSE_PATH + multiplay,
 		query,
 		p_access_token,
-		{"method": HTTPClient.METHOD_POST, "encoding": "form", "extra_headers": [GodotVroidHelper.get_api_header()]}
+		{"method": HTTPClient.METHOD_POST, "encoding": "json", "extra_headers": [GodotVroidHelper.get_api_header()]}
 	))
 
 	return _handle_result(result)
@@ -187,7 +187,7 @@ func request_download_url_async(p_requester: GodotRequester, p_access_token: Str
 		GodotVroidHelper.get_api_path() + GodotVroidHelper.DOWNLOAD_LICENSE_PATH + "/" + p_license_id + "/download",
 		query,
 		p_access_token,
-		{"method": HTTPClient.METHOD_DELETE, "encoding": "query", "extra_headers": [GodotVroidHelper.get_api_header()]}
+		{"method": HTTPClient.METHOD_GET, "encoding": "query", "extra_headers": [GodotVroidHelper.get_api_header()]}
 	))
 
 	return _handle_result(result)
