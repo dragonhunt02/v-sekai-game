@@ -125,13 +125,69 @@ func search_models_async(p_requester: GodotRequester, p_access_token: String, ke
 func get_model_details_async(p_requester: GodotRequester, p_access_token: String, p_id: String ) -> Dictionary:
 	var query: Dictionary = {}
 
-	query["id"] = p_id
+	#query["id"] = p_id
 
 	var result = await (p_requester.request(
 		GodotVroidHelper.get_api_path() + GodotVroidHelper.MODEL_PATH + "/" + p_id,
 		query,
 		p_access_token,
 		{"method": HTTPClient.METHOD_GET, "encoding": "query", "extra_headers": [GodotVroidHelper.get_api_header()]}
+	))
+
+	return _handle_result(result)
+
+func get_download_license_async(p_requester: GodotRequester, p_access_token: String, p_id: String) -> Dictionary:
+	var query: Dictionary = {}
+
+	#query["character_model_id"] = p_id
+
+	var result = await (p_requester.request(
+		GodotVroidHelper.get_api_path() + GodotVroidHelper.DOWNLOAD_LICENSE_PATH + "/" + p_id,
+		query,
+		p_access_token,
+		{"method": HTTPClient.METHOD_GET, "encoding": "query", "extra_headers": [GodotVroidHelper.get_api_header()]}
+	))
+
+	return _handle_result(result)
+
+func revoke_download_license_async(p_requester: GodotRequester, p_access_token: String, p_id: String) -> Dictionary:
+	var query: Dictionary = {}
+
+	var result = await (p_requester.request(
+		GodotVroidHelper.get_api_path() + GodotVroidHelper.DOWNLOAD_LICENSE_PATH + "/" + p_id,
+		query,
+		p_access_token,
+		{"method": HTTPClient.METHOD_DELETE, "encoding": "query", "extra_headers": [GodotVroidHelper.get_api_header()]}
+	))
+
+	return _handle_result(result)
+
+func request_download_license_async(p_requester: GodotRequester, p_access_token: String, p_id: String, p_is_multiplay: bool = false) -> Dictionary:
+	var query: Dictionary = {}
+
+	query["character_model_id"] = p_id
+	var multiplay: String = ""
+	if p_is_multiplay:
+		multiplay = "/multiplay"
+
+	var result = await (p_requester.request(
+		GodotVroidHelper.get_api_path() + GodotVroidHelper.DOWNLOAD_LICENSE_PATH + multiplay,
+		query,
+		p_access_token,
+		{"method": HTTPClient.METHOD_POST, "encoding": "form", "extra_headers": [GodotVroidHelper.get_api_header()]}
+	))
+
+	return _handle_result(result)
+
+
+func request_download_url_async(p_requester: GodotRequester, p_access_token: String, p_license_id: String) -> Dictionary:
+	var query: Dictionary = {}
+
+	var result = await (p_requester.request(
+		GodotVroidHelper.get_api_path() + GodotVroidHelper.DOWNLOAD_LICENSE_PATH + "/" + p_license_id + "/download",
+		query,
+		p_access_token,
+		{"method": HTTPClient.METHOD_DELETE, "encoding": "query", "extra_headers": [GodotVroidHelper.get_api_header()]}
 	))
 
 	return _handle_result(result)
