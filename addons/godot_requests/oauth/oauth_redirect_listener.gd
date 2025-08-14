@@ -13,7 +13,7 @@ const MAX_CHUNK_SIZE: int = 100 # bytes
 var port: int
 var bind_address: String
 var timeout_ms: int = 10000
-var allowed_params: Array[String] = ["code", "state", "access_token", "client_id"]
+var allowed_params: Array[String] = ["code", "state", "provider", "access_token", "expires_in", "client_id"]
 
 var max_deadline_ms: int
 var header_deadline_ms: int
@@ -25,7 +25,7 @@ var result: Dictionary = {}
 signal oauth_redirect_success(params: Dictionary)
 signal oauth_redirect_failure(error_msg: String)
 
-func _init(p_port: int, p_bind_address: String = "127.0.0.1", p_timeout_ms: int = 10000) -> void:
+func _init(p_port: int, p_bind_address: String = "127.0.0.1", p_timeout_ms: int = 60000) -> void:
 	set_process(false)
 	port = p_port
 	bind_address = p_bind_address
