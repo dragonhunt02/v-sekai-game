@@ -32,6 +32,7 @@ const DEFAULT_OPTIONS: Dictionary = {
 	"encoding": "query",
 	"multipart_boundary_prefix": "",
 	"token": null,
+	"auth_scheme": "Bearer",
 	"extra_headers": null,
 	"download_to": null,
 }
@@ -158,7 +159,8 @@ func request(
 
 	var token = _get_option(p_options, "token")
 	if token and token is String:
-		headers.append("Authorization: Bearer %s" % token)
+		var auth_scheme = _get_option(p_options, "auth_scheme")
+		headers.append("Authorization: %s %s" % [auth_scheme, token])
 
 	var request_result = http_client.request_raw(
 		_get_option(p_options, "method"), uri, headers, encoded_payload
