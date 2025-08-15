@@ -126,8 +126,6 @@ func search_models_async(p_requester: GodotRequester, p_access_token: String, p_
 func get_model_details_async(p_requester: GodotRequester, p_access_token: String, p_id: String ) -> Dictionary:
 	var query: Dictionary = {}
 
-	#query["id"] = p_id
-
 	var result = await (p_requester.request(
 		GodotVroidHelper.get_api_path() + GodotVroidHelper.MODEL_PATH + "/" + p_id,
 		query,
@@ -139,8 +137,6 @@ func get_model_details_async(p_requester: GodotRequester, p_access_token: String
 
 func get_download_license_async(p_requester: GodotRequester, p_access_token: String, p_id: String) -> Dictionary:
 	var query: Dictionary = {}
-
-	#query["character_model_id"] = p_id
 
 	var result = await (p_requester.request(
 		GodotVroidHelper.get_api_path() + GodotVroidHelper.DOWNLOAD_LICENSE_PATH + "/" + p_id,
