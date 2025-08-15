@@ -12,7 +12,7 @@ const MAX_CHUNK_SIZE: int = 100 # bytes
 
 var port: int
 var bind_address: String
-var timeout_ms: int = 10000
+var timeout_ms: int = 60000
 var allowed_params: Array[String] = ["code", "state", "provider", "access_token", "expires_in", "client_id"]
 
 var max_deadline_ms: int
@@ -36,8 +36,8 @@ func _init(p_port: int, p_bind_address: String = "127.0.0.1", p_timeout_ms: int 
 
 	_server = TCPServer.new()
 
-# Starts listening, handles one GET request, then returns parsed params.
-# Listens on `port`, takes the first GET request, parses query params, responds JSON, returns params.
+# Starts listening. Process handles one GET request, parses query params,
+# responds with JSON and returns params with signals.
 func start_listen() -> Error:
 	var err = _server.listen(port, bind_address)
 	if err != OK:
@@ -45,7 +45,7 @@ func start_listen() -> Error:
 		return err
 	print("starting")
 	var current_ticks = Time.get_ticks_msec()
-	var header_timeout_ms = ceil(timeout_ms / 2)
+	var header_timeout_ms = ceil(timeout_ms * 0.8)
 	
 	max_deadline_ms = current_ticks + timeout_ms
 	header_deadline_ms = current_ticks + header_timeout_ms
