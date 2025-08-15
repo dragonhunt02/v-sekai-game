@@ -187,23 +187,6 @@ static func process_shards_json(p_input: Dictionary) -> Dictionary:
 	return result_dict
 
 
-
-###*********** TODO: Check where to place 
-
-## Returns a dictionary containing the username and domain from an account
-## address. The address should be formatted as username@domain. If either
-## can't be found, it will return a dictionary with an empty username
-## and domain.
-static func get_username_and_domain_from_address(p_address: String) -> Dictionary[String, String]:
-	var result_dictionary: Dictionary[String, String] = {"username":"", "domain":""}
-	if not p_address.is_empty():
-		var splits: Array = p_address.split("@")
-		if splits.size() == 2:
-			result_dictionary["username"] = splits[0]
-			result_dictionary["domain"] = splits[1]
-	
-	return result_dictionary
-
 ## Returns a dictionary formatted with all the information required to
 ## upload a piece of user-generated content.
 static func create_content_upload_dictionary(
