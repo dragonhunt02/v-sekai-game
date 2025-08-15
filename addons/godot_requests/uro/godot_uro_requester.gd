@@ -14,6 +14,10 @@ const URO_DEFAULT_OPTIONS: Dictionary = {
 	"encoding": "query",
 	"multipart_boundary_prefix": BOUNDARY_STRING_PREFIX,
 	"token": null,
+	# Legacy Uro server uses "Authorization: Token"
+	# Upgrade to "Authorization: Bearer Token"
+	# "Bearer" scheme when server switch is done
+	"authorization_scheme": "",
 	"extra_headers": null,
 	"download_to": null,
 }
