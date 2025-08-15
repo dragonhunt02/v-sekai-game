@@ -22,6 +22,9 @@ var _active_service_requests: Dictionary[SarGameServiceRequest, GodotRequester] 
 # Application Public Client id 
 var _app_id: String = ""
 
+const DEFAULT_OAUTH_PORT: int = 8553
+var _oauth_listener: OAuthRedirectListener = null
+
 func _update_session(
 	p_renewal_token: String,
 	p_access_token: String,
@@ -102,7 +105,6 @@ func _process_result_and_update(p_service_request: VSKGameServiceRequestVroid, p
 		return {}
 
 
-
 func _process_result_and_update_session(p_service_request: SarGameServiceRequest, p_result: Dictionary) -> Dictionary:
 	var processed_result: Dictionary = _process_result_and_update(p_service_request, p_result)
 
@@ -130,9 +132,9 @@ func _get_tokens(p_service_request: SarGameServiceRequest) -> Dictionary:
 	
 	return tokens
 
+
 func _get_app_id() -> String:	
 	return _app_id
-
 
 
 func _get_content_async(p_service_request: SarGameServiceRequest, p_callable: Callable, p_params: Array = []):
@@ -145,6 +147,7 @@ func _get_content_async(p_service_request: SarGameServiceRequest, p_callable: Ca
 		var username: String = (p_service_request as VSKGameServiceRequestVroid).username
 		var tokens: Dictionary = _godot_vroid.get_tokens(username, domain)
 		var access_token = tokens.get("access_token", "")
+
 		# Add this request to the active request pool.
 		var godot_vroid_request: GodotRequester = _godot_vroid.create_requester(domain, -1)
 		_active_service_requests[p_service_request] = godot_vroid_request
@@ -260,10 +263,7 @@ func _get_uro_service() -> VSKGameServiceUro:
 		
 	return null
 
-const DEFAULT_PORT: int = 8553
-
 func start_oauth_sign_in() -> Error:
-	var redirect_url: String
 	# TODO: web support for oauth redirect
 	if OS.get_name() == "Web":
 		push_error("Web platform Vroid API support is not implemented")
@@ -276,43 +276,44 @@ func start_oauth_sign_in() -> Error:
 
 	var _domain = godot_uro.get_current_username_and_domain()["domain"]
 	_domain ="vsekai.local"
-	var request = godot_uro.create_request({"domain": _domain})
+	var uro_request = godot_uro.create_request({"domain": _domain})
 
 	var provider = get_service_name().to_lower()
-	var result: Dictionary = await godot_uro.get_oauth_redirect(request, provider)
+	var result: Dictionary = await godot_uro.get_oauth_redirect(uro_request, provider)
 	if result.response_code != 200:
 		push_error("Error fetching redirect url from server: %s" % result.response_code)
 		return FAILED
-	#result={"data": {"url": "http://127.0.0.1:%s/?code=4552E&access_token=abcdefgh&client_id=testid" % DEFAULT_PORT }}
 	if not SarUtils.assert_equal(result.is_empty(), false,
 		"Could not get OAuth redirect url"):
 		return FAILED
-	redirect_url = result.output.url
+	var redirect_url: String = result.output.url
+
+	# Set public app id
 	_app_id = SarNetworkUtilities.extract_query_param(redirect_url, "client_id")
 
 	_domain = GodotVroidHelper.get_domain()
 	var request2: VSKGameServiceRequestVroid = create_request({"domain": _domain})
 
 	# Start server listener
-	var oauth_listener = OAuthRedirectListener.new(DEFAULT_PORT)
-	if not SarUtils.assert_ok(oauth_listener.oauth_redirect_success.connect(_on_oauth_redirect_success.bind(request2)),
-		"Could not connect signal 'oauth_listener.oauth_redirect_success' to '_on_oauth_redirect_success'"):
+	_oauth_listener = OAuthRedirectListener.new(DEFAULT_OAUTH_PORT)
+	if not SarUtils.assert_ok(_oauth_listener.oauth_redirect_success.connect(_on_oauth_redirect_success.bind(request2)),
+		"Could not connect signal '_oauth_listener.oauth_redirect_success' to '_on_oauth_redirect_success'"):
 		return FAILED
-	if not SarUtils.assert_ok(oauth_listener.oauth_redirect_failure.connect(_on_oauth_redirect_failure.bind(request2)),
-		"Could not connect signal 'oauth_listener.oauth_redirect_failure' to '_on_oauth_redirect_failure'"):
+	if not SarUtils.assert_ok(_oauth_listener.oauth_redirect_failure.connect(_on_oauth_redirect_failure.bind(request2)),
+		"Could not connect signal '_oauth_listener.oauth_redirect_failure' to '_on_oauth_redirect_failure'"):
 		return FAILED
 
-	add_child(oauth_listener)
+	add_child(_oauth_listener)
 
-	if not SarUtils.assert_ok(oauth_listener.start_listen(),
+	if not SarUtils.assert_ok(_oauth_listener.start_listen(),
 		"Failed to start OAuth redirect listener"):
 		return FAILED
 
-	push_error(result)
-	#var redirect_url: String = ""
+	# Open browser
 	var err = FAILED
-	#open browser
-	if OS.get_name() == "Linux": # Prevent thread blocking
+	if OS.get_name() == "Linux":
+		# Prevent thread blocking
+		# https://github.com/godotengine/godot/issues/49946
 		var pid = OS.create_process("xdg-open", [redirect_url])
 		if pid != -1:
 			err = OK
@@ -325,15 +326,21 @@ func start_oauth_sign_in() -> Error:
 
 	return OK
 
-func _on_oauth_redirect_success(data, request):
-	push_error(data)
+func _on_oauth_redirect_success(data, request) -> void:
 	_process_result_and_update_session(request, data)
-
+	if _oauth_listener:
+		remove_child(_oauth_listener)
+		_oauth_listener.queue_free()
+		_oauth_listener = null
 	vroid_sign_in_completed.emit()
 	return
 
-func _on_oauth_redirect_failure(err, request):
+func _on_oauth_redirect_failure(err, request) -> void:
 	push_error("Vroid OAuth error: %s" % err)
+	if _oauth_listener:
+		remove_child(_oauth_listener)
+		_oauth_listener.queue_free()
+		_oauth_listener = null
 	vroid_sign_in_failed.emit(err)
 	return
 
