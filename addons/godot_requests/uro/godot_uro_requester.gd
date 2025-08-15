@@ -17,7 +17,7 @@ const URO_DEFAULT_OPTIONS: Dictionary = {
 	# Legacy Uro server uses "Authorization: Token"
 	# Upgrade to "Authorization: Bearer Token"
 	# "Bearer" scheme when server switch is done
-	"authorization_scheme": "",
+	"auth_scheme": "",
 	"extra_headers": null,
 	"download_to": null,
 }
