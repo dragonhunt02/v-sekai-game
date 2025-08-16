@@ -219,6 +219,7 @@ func request(
 					data
 				)
 	else:
+		# TODO: Handle responses codes like 3xx as ok
 		push_error("GodotRequester: No response body!")
 		return Result.new(
 			GodotRequestHelper.RequesterCode.UNKNOWN_STATUS_ERROR, FAILED, response_code, response_headers, data
