@@ -55,6 +55,10 @@ func get_liked_avatars_async(p_requester: GodotRequester, p_access_token: String
 
 	var filter = GodotVroidHelper.interpolate_default_model_filter(p_filter)
 	query = filter
+	# Vroid API bug: if these are in /api/hearts query, empty array is returned
+	query.erase("has_booth_items")
+	query.erase("booth_part_categories")
+	
 	if p_max_id != "":
 		query["max_id"] = p_max_id
 	if p_count >= 1:
