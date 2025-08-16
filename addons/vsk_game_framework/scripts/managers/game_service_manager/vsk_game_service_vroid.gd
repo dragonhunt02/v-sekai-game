@@ -90,12 +90,10 @@ func _process_result_and_update(p_service_request: VSKGameServiceRequestVroid, p
 
 		var access_token = p_result.get("access_token", prev_access_token)
 		var renewal_token = p_result.get("renewal_token", prev_renewal_token)
-		var processed_result={"access_token": access_token, "renewal_token": renewal_token}
+		var username = p_result.get("username", "")
+		var processed_result={"access_token": access_token, "renewal_token": renewal_token, "user_username": username}
 
-		if true:
-			_create_session(p_service_request, processed_result)
-		else:
-			_clear_local_session()
+		_create_session(p_service_request, processed_result)
 
 		return {}
 	else:
@@ -218,7 +216,11 @@ func get_model_download_url_async(p_service_request: SarGameServiceRequest, p_id
 		var license_id = license.output.data.id
 	
 		var model: Dictionary = await _get_content_async(p_service_request, _godot_vroid.get_api().request_download_url_async, [license_id])
-		var model_url: String = model.response_headers["location"]
+		var model_url: String = ""
+		if model.response_code == 302:
+			model_url = model.response_headers.get("location", "")
+		else:
+			push_error("Unexpected response code from 'request_download_url: %s'" % model.response_code)
 		return model_url
 		
 	return ""
@@ -277,7 +279,7 @@ func start_oauth_sign_in() -> Error:
 
 	var provider = get_service_name().to_lower()
 	var result: Dictionary = await godot_uro.get_oauth_redirect(uro_request, provider)
-	if result.response_code != 200:
+	if not GodotUroHelper.requester_result_is_ok(result):
 		push_error("Error fetching redirect url from server: %s" % result.response_code)
 		return FAILED
 	if not SarUtils.assert_equal(result.is_empty(), false,
@@ -326,11 +328,14 @@ func _on_oauth_redirect_success(data) -> void:
 	_process_result_and_update_session(vroid_request, data)
 
 	# Update username
-	var profile = await get_profile_async()
-	# check status
-	# Maybe use 'id'?
-	var username = profile.output.data.name
-	data["user_username"] = username
+	var username: String = ""
+	var profile = await get_profile_async(vroid_request)
+	if GodotVroidHelper.requester_result_is_ok(profile):
+		# Maybe use 'id'?
+		username = profile.output.data.user_detail.user.get("name", "")
+	else:
+		push_error("Could not fetch username")
+	data["username"] = username
 	_process_result_and_update_session(vroid_request, data)
 
 	if _oauth_listener:
