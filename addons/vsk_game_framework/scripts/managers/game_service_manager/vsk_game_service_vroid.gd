@@ -88,9 +88,6 @@ func _process_result_and_update(p_service_request: VSKGameServiceRequestVroid, p
 		var prev_access_token = tokens.get("access_token", "")
 		var prev_renewal_token = tokens.get("renewal_token", "")
 
-		# Set public client app id
-		#_app_id = p_result.get("client_id", "")
-
 		var access_token = p_result.get("access_token", prev_access_token)
 		var renewal_token = p_result.get("renewal_token", prev_renewal_token)
 		var processed_result={"access_token": access_token, "renewal_token": renewal_token}
@@ -274,9 +271,9 @@ func start_oauth_sign_in() -> Error:
 		"Uro service is not available"):
 		return FAILED
 
-	var _domain = godot_uro.get_current_username_and_domain()["domain"]
-	_domain ="vsekai.local"
-	var uro_request = godot_uro.create_request({"domain": _domain})
+	var _username_domain = godot_uro.get_current_username_and_domain()
+	_username_domain["domain"] ="vsekai.local" # DEBUG
+	var uro_request = godot_uro.create_request(_username_domain)
 
 	var provider = get_service_name().to_lower()
 	var result: Dictionary = await godot_uro.get_oauth_redirect(uro_request, provider)
@@ -291,15 +288,12 @@ func start_oauth_sign_in() -> Error:
 	# Set public app id
 	_app_id = SarNetworkUtilities.extract_query_param(redirect_url, "client_id")
 
-	_domain = GodotVroidHelper.get_domain()
-	var request2: VSKGameServiceRequestVroid = create_request({"domain": _domain})
-
 	# Start server listener
 	_oauth_listener = OAuthRedirectListener.new(DEFAULT_OAUTH_PORT)
-	if not SarUtils.assert_ok(_oauth_listener.oauth_redirect_success.connect(_on_oauth_redirect_success.bind(request2)),
+	if not SarUtils.assert_ok(_oauth_listener.oauth_redirect_success.connect(_on_oauth_redirect_success),
 		"Could not connect signal '_oauth_listener.oauth_redirect_success' to '_on_oauth_redirect_success'"):
 		return FAILED
-	if not SarUtils.assert_ok(_oauth_listener.oauth_redirect_failure.connect(_on_oauth_redirect_failure.bind(request2)),
+	if not SarUtils.assert_ok(_oauth_listener.oauth_redirect_failure.connect(_on_oauth_redirect_failure),
 		"Could not connect signal '_oauth_listener.oauth_redirect_failure' to '_on_oauth_redirect_failure'"):
 		return FAILED
 
@@ -326,8 +320,19 @@ func start_oauth_sign_in() -> Error:
 
 	return OK
 
-func _on_oauth_redirect_success(data, request) -> void:
-	_process_result_and_update_session(request, data)
+func _on_oauth_redirect_success(data) -> void:	
+	var vroid_request: VSKGameServiceRequestVroid = create_request({})
+	# Set token for first request
+	_process_result_and_update_session(vroid_request, data)
+
+	# Update username
+	var profile = await get_profile_async()
+	# check status
+	# Maybe use 'id'?
+	var username = profile.output.data.name
+	data["user_username"] = username
+	_process_result_and_update_session(vroid_request, data)
+
 	if _oauth_listener:
 		remove_child(_oauth_listener)
 		_oauth_listener.queue_free()
@@ -335,7 +340,7 @@ func _on_oauth_redirect_success(data, request) -> void:
 	vroid_sign_in_completed.emit()
 	return
 
-func _on_oauth_redirect_failure(err, request) -> void:
+func _on_oauth_redirect_failure(err) -> void:
 	push_error("Vroid OAuth error: %s" % err)
 	if _oauth_listener:
 		remove_child(_oauth_listener)
