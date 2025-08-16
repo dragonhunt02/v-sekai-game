@@ -274,7 +274,6 @@ func start_oauth_sign_in() -> Error:
 		return FAILED
 
 	var _username_domain = godot_uro.get_current_username_and_domain()
-	_username_domain["domain"] ="vsekai.local" # DEBUG
 	var uro_request = godot_uro.create_request(_username_domain)
 
 	var provider = get_service_name().to_lower()
