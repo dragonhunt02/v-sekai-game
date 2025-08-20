@@ -39,8 +39,12 @@ func _scene_load_complete(p_scene_url: String, p_packed_scene: Resource) -> void
 		var game_session_manager: VSKGameSessionManager = get_tree().get_first_node_in_group("game_session_managers")
 		var scene_changed = get_tree().scene_changed
 
-		# TODO: Call set_active_map_path() from SarGameScene3D _ready() instead
+		# TODO: Call set_active_map_path() and set_accept_new_peers()
+		# from SarGameScene3D _ready() instead to prevent
+		# player spawn race condition errors
 		game_session_manager.set_active_map_path(p_scene_url)
+		game_session_manager.set_accept_new_peers(true)
+
 		get_tree().change_scene_to_packed(p_packed_scene)
 		await scene_changed
 
@@ -48,6 +52,13 @@ func _sign_in_complete(p_id: String) -> void:
 	_show_scene_loading_screen()
 
 func _skipped_complete() -> void:
+	_ensure_sign_in()
+	_sign_in_complete("")
+	
+func _ensure_sign_in() -> void:
+	if _skip_sign_in:
+		return
+
 	# TODO: Domain selection UI for guest mode. Using defaults for now.
 	var domain: String = ""
 	var homeserver_info: VSKHomeServerInfo = load("res://addons/vsk_game_framework/data/vsk_default_homeserver_info.tres")
@@ -59,7 +70,6 @@ func _skipped_complete() -> void:
 
 	var game_service: VSKGameServiceUro = _get_uro_service()
 	game_service.sign_in_guest(domain)
-	_sign_in_complete("")
 
 func _show_scene_loading_screen() -> void:
 	var view_controller: VSKUIViewControllerSessionLoading = _SESSION_LOADING_VIEW_CONTROLLER.instantiate()
@@ -105,18 +115,22 @@ func _fade_in_complete() -> void:
 		
 		var network_opts: Dictionary = game_session_manager.get_startup_network_opts()
 		if network_opts.get("host", false):
-			if (game_session_manager.host_server(network_opts["port"], network_opts["max_players"], network_opts["dedicated"], network_opts["is_public"], network_opts["server_name"]) != OK):
-				push_error("Server hosting failed!" + JSON.stringify(network_opts))
+			if not SarUtils.assert_ok(game_session_manager.host_server(
+				network_opts["port"], network_opts["max_players"], network_opts["dedicated"], network_opts["public"], network_opts["server_name"]),
+				"Server hosting failed!" + JSON.stringify(network_opts)):
 				get_tree().quit(1)
+			_ensure_sign_in()
 			_show_scene_loading_screen()
 		elif network_opts.get("join", false):
-			if (game_session_manager.join_server(network_opts["address"], network_opts["port"]) != OK):
-				push_error("Server joining failed!" + JSON.stringify(network_opts))
+			if not SarUtils.assert_ok(game_session_manager.join_server(network_opts["address"], network_opts["port"]),
+				"Server joining failed!" + JSON.stringify(network_opts)):
 				get_tree().quit(1)
+			_ensure_sign_in()
 			_show_scene_loading_screen()
 		elif _skip_sign_in:
 			_show_scene_loading_screen()
 		else:
+			# Launch title screen
 			_show_welcome_screen()
 
 func _on_fader_animation_player_current_animation_changed(p_anim_name: String) -> void:
