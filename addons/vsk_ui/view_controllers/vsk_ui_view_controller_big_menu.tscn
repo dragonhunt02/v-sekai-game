@@ -65,6 +65,7 @@ layout_mode = 2
 metadata/_tab_index = 1
 
 [connection signal="content_selected" from="Content/VBoxContainer/WindowView/Panel/Content/Body/MarginContainer/Content/TabContainer/Avatars" to="." method="_on_avatars_content_selected"]
+[connection signal="content_selected" from="Content/VBoxContainer/WindowView/Panel/Content/Body/MarginContainer/Content/TabContainer/Explore" to="." method="_on_maps_content_selected"]
 
 [editable path="Content/VBoxContainer/WindowView"]
 [editable path="Content/VBoxContainer/WindowView/Panel/Content/Header/TopHeaderPanelContainer"]
