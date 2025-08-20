@@ -278,8 +278,10 @@ func _parse_commandline_args() -> void:
 		# Default parse
 		if cmd_args[key] == []: # No sub-arguments
 			cmd_value = true
+		elif cmd_args[key].size() == 1: # unpack
+			cmd_value = cmd_args[key][0]
 		else:
-			cmd_value = cmd_args[key][0] # Default to one sub-argument only
+			cmd_value = cmd_args[key] # Default to sub-arguments array
 
 		# Network
 		if key == "host" or key == "join":
@@ -376,6 +378,12 @@ func set_active_map_path(p_map_url: String) -> void:
 	_active_map_path = p_map_url
 	print("Resource %s set as active map path" % p_map_url)
 
+## Sets current active map path.
+func set_accept_new_peers(p_accepting: bool) -> void:
+	var peer: MultiplayerPeer = get_tree().get_multiplayer().multiplayer_peer
+	if peer:
+		peer.refuse_new_connections = not p_accepting
+
 ## Hosts a new multiplayer server:
 ## p_port is the network port to host this server on.
 ## p_max_players is the maximum number of peers permitted to join this server.
@@ -393,6 +401,8 @@ func host_server(p_port: int, p_max_players: int, p_is_dedicated: bool, p_is_pub
 	
 	var result: Error = FAILED
 	if peer is ENetMultiplayerPeer:
+		# Disable connections until map ready callback
+		peer.refuse_new_connections = true
 		result  = (peer as ENetMultiplayerPeer).create_server(p_port, p_max_players)
 		
 	if result == OK:
