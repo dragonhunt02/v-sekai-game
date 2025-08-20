@@ -3,6 +3,7 @@ extends SarUIViewController
 class_name VSKUIViewControllerBigMenu
 
 signal avatar_url_selected(p_url: String)
+signal map_url_selected(p_url: String)
 
 func _ready() -> void:
 	if not Engine.is_editor_hint():
@@ -10,6 +11,9 @@ func _ready() -> void:
 
 func _on_avatars_content_selected(p_url: String) -> void:
 	avatar_url_selected.emit(p_url)
+
+func _on_maps_content_selected(p_url: String) -> void:
+	map_url_selected.emit(p_url)
 
 ###
 
