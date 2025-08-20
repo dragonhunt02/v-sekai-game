@@ -20,6 +20,15 @@ func _on_avatar_url_selected(p_url: String) -> void:
 	
 	_request_new_avatar(p_url)
 
+func _on_map_url_selected(p_url: String) -> void:
+	if menu_compoent:
+		menu_compoent.set_menu_active(false)
+	
+	# TODO: Implement map change in game managers
+	push_error("Map switching is not implemented!")
+	# _request_new_map(p_url)
+
+
 ###
 
 @export var simulation: SarSimulationVessel3D = null
