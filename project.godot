@@ -59,6 +59,8 @@ VSKEditorSingleton="*res://addons/vsk_editor/vsk_editor.gd"
 [debug]
 
 gdscript/warnings/exclude_addons=false
+; WARNING: Disabling this skips resource validation on godot scenes, it's dangerous
+whitelist/godot_scn/enabled=true
 
 [display]
 
