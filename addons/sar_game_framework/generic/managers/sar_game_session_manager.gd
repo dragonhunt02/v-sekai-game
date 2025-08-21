@@ -305,12 +305,13 @@ func notify_game_scene_changed() -> void:
 		_update_player_spawn_path()
 		var current_scene: Node = get_tree().current_scene
 		if current_scene is SarGameScene3D:
-			if (multiplayer.is_server() and not is_dedicated()) or not multiplayer.is_server():
-				_local_player_soul_instance = _spawn_player_soul(multiplayer.get_unique_id())
-				if multiplayer.is_server():
+			if multiplayer.is_server():
+				if not is_dedicated():
+					_local_player_soul_instance = _spawn_player_soul(multiplayer.get_unique_id())
 					_spawn_player_vessel(get_host_peer_id())
-			#if (multiplayer.is_server() and _is_public):
-			#	_create_server_shard()
+				set_accept_new_peers(true)
+			else:
+				_local_player_soul_instance = _spawn_player_soul(multiplayer.get_unique_id())
 						
 					
 ## Notifys the game session manager that a player vessel has just entered the game scene.
@@ -379,10 +380,10 @@ func set_active_map_path(p_map_url: String) -> void:
 	print("Resource %s set as active map path" % p_map_url)
 
 ## Sets current active map path.
-func set_accept_new_peers(p_accepting: bool) -> void:
+func set_accept_new_peers(p_is_accepting: bool) -> void:
 	var peer: MultiplayerPeer = get_tree().get_multiplayer().multiplayer_peer
 	if peer:
-		peer.refuse_new_connections = not p_accepting
+		peer.refuse_new_connections = not p_is_accepting
 
 ## Hosts a new multiplayer server:
 ## p_port is the network port to host this server on.
@@ -401,9 +402,9 @@ func host_server(p_port: int, p_max_players: int, p_is_dedicated: bool, p_is_pub
 	
 	var result: Error = FAILED
 	if peer is ENetMultiplayerPeer:
-		# Disable connections until map ready callback
-		peer.refuse_new_connections = true
 		result  = (peer as ENetMultiplayerPeer).create_server(p_port, p_max_players)
+		# Disable connections until map notify ready callback
+		peer.refuse_new_connections = true
 		
 	if result == OK:
 		get_tree().get_multiplayer().multiplayer_peer = peer
