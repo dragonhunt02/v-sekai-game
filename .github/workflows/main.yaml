@@ -36,10 +36,12 @@ jobs:
             git log -n 5
             git fetch --all
             git switch --track origin/rx-cmd-newpatch
+            git switch --track origin/rxtemp
             git switch rx-shard-pr
             git reset --soft HEAD~1
             rm -rf *
             git reset --hard rx-cmd-newpatch
+            git rebase rxtemp
             #git reset --hard HEAD~1  
             #rm CODEBASE.md
             #git add CODEBASE.md
