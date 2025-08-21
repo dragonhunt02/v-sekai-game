@@ -3,9 +3,11 @@ class_name VSKIngameBigMenu
 
 
 func _on_ingame_quick_menu_avatar_menu_requested() -> void:
+	controller.set_current_tab("Avatars")
 	show()
 
 func _on_ingame_quick_menu_explore_menu_requested() -> void:
+	controller.set_current_tab("Explore")
 	show()
 
 func _request_new_avatar(p_path: String) -> void:
