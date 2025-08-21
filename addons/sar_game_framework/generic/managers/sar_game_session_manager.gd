@@ -175,6 +175,8 @@ func _on_peer_connect(p_id : int) -> void:
 		_spawn_player_vessel(p_id)
 
 func _on_peer_disconnect(p_id : int) -> void:
+	# TODO: This function is not called if peer crashes
+	# or doesn't disconnect. We should despawn timed out peers.
 	if multiplayer.is_server():
 		_unspawn_player_vessel(p_id)
 		if _current_players < 0:
