@@ -99,7 +99,8 @@ func _execute_uro_file_request(p_domain: String, p_id: String, p_uro_content_typ
 
 func execute_request() -> void:
 	var link: String = _request_url.trim_prefix("uro:///")
-	link = _request_url.trim_prefix("uro://")
+	if link == _request_url:
+		link = _request_url.trim_prefix("uro://")
 	
 	var split_link: PackedStringArray = link.split("/")
 	if split_link.size() != 2:
