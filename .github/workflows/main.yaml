@@ -114,7 +114,7 @@ jobs:
             #git commit -a -m 'Implement Vroid Oauth API and small fixes'
             git log -n 5
             git status
-            git diff origin/rx-shard-pr
+            git diff --shortstat origin/rx-shard-pr
             #git diff origin/rx-assert
             #git diff origin/rx-origin
             #git push -f
