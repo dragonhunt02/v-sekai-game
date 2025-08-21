@@ -35,7 +35,7 @@ jobs:
             
             git log -n 5
             git fetch --all
-            git switch origin/rx-cmd-newpatch
+            git switch --track origin/rx-cmd-newpatch
             git switch rx-shard-pr
             git reset --soft HEAD~1
             rm -rf *
