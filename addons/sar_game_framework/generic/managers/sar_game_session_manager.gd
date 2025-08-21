@@ -393,6 +393,7 @@ func set_accept_new_peers(p_is_accepting: bool) -> void:
 ## p_server_name is the public name of hosted server instance
 ## to spawn a player entity and soul for the host.
 func host_server(p_port: int, p_max_players: int, p_is_dedicated: bool, p_is_public: bool, p_server_name: String) -> Error:
+	_port = p_port
 	_is_dedicated = p_is_dedicated
 	_is_public = p_is_public
 	_max_players = p_max_players
