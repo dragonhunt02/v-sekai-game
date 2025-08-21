@@ -31,7 +31,8 @@ func _create_server_shard() -> void:
 ## Updates current shard player count on server.
 ## p_shard_id is the shard id of server you are updating.
 func update_shard_current_players(p_shard_id: String, p_player_count: int) -> void:
-	pass
+	var shard_data: Dictionary = {"current_users": p_player_count}
+	var result = await VSKShardManagerSingleton.update_shard(p_shard_id, shard_data)
 
 func get_default_host_args() -> Dictionary:
 	return _VSK_DEFAULT_HOST_ARGS.duplicate(true)
