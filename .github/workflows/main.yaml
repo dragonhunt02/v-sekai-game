@@ -19,7 +19,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: vroid-api-patch
+          ref: rx-cmd-newpatch
+          #vroid-api-patch
           #rx-shard-pr
           fetch-depth: 0
       - name: Dispatch to workflow 
@@ -32,7 +33,7 @@ jobs:
             #find . -type f -name '*.gd' -exec gdlint {} +
             
             git log -n 5
-            git reset --soft HEAD~2 
+            git reset --soft HEAD~91
             #git reset --hard HEAD~1  
             #rm CODEBASE.md
             #git add CODEBASE.md
@@ -103,8 +104,8 @@ jobs:
             git add -A
             #git commit -a -m 'Implement prop validation, sanitisation and in-editor upload'
             #git commit -a -m 'Add MonadoXR tests and fix default avatar load'
-            #git commit -a -m 'Add guest mode, network hosting and startup command line options'
-            git commit -a -m 'Implement Vroid Oauth API and small fixes'
+            git commit -a -m 'Add guest mode, network hosting, startup command line options, shard manager and fix avatar/map selector'
+            #git commit -a -m 'Implement Vroid Oauth API and small fixes'
             git log -n 5
             git status
             #git diff origin/rx-assert
