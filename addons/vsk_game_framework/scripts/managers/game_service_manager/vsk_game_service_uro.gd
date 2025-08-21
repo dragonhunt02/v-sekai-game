@@ -177,76 +177,29 @@ func _get_tokens(p_service_request: SarGameServiceRequest) -> Dictionary:
 	
 	return tokens
 	
-func _get_dashboard_content_async(p_service_request: SarGameServiceRequest, p_callable: Callable) -> Dictionary:
-	if _godot_uro and _godot_uro.get_api():
-		if not p_service_request is VSKGameServiceRequestUro:
-			push_error("Did not pass a valid VSKGameServiceRequestUro object to a sign out request.")
-			return {} 
-		
-		var domain: String = (p_service_request as VSKGameServiceRequestUro).domain
-		var tokens: Dictionary = _get_tokens(p_service_request)
-		
-		# Add this request to the active request pool.
-		var godot_uro_request: GodotUroRequester = _godot_uro.create_requester(domain, -1)
-		_active_service_requests[p_service_request] = godot_uro_request
-		
-		var result: Dictionary = await p_callable.call(
-			godot_uro_request,
-			tokens.get("access_token", "")
-		)
-		
-		if not stop_request(p_service_request):
-			return {}
-			
-		if result.is_empty():
-			return {}
-
-		return result
-		
-	return {}
-
-func _get_multiple_content_async(p_service_request: SarGameServiceRequest, p_callable: Callable):
+func _get_content_async(p_service_request: SarGameServiceRequest, p_is_auth_required: bool, p_callable: Callable, p_params: Array = []):
 	if _godot_uro and _godot_uro.get_api():
 		if not p_service_request is VSKGameServiceRequestUro:
 			printerr("Did not pass a valid VSKGameServiceRequestUro object to a sign out request.")
 			return {} 
 		
 		var domain: String = (p_service_request as VSKGameServiceRequestUro).domain
+		var username: String = (p_service_request as VSKGameServiceRequestUro).username
+		var tokens: Dictionary = _godot_uro.get_tokens(username, domain)
+		var access_token = tokens.get("access_token", "")
 		
 		# Add this request to the active request pool.
 		var godot_uro_request: GodotUroRequester = _godot_uro.create_requester(domain, -1)
 		_active_service_requests[p_service_request] = godot_uro_request
-		
-		var result: Dictionary = await p_callable.call(
-			godot_uro_request
-		)
-		
-		if not stop_request(p_service_request):
-			return {}
-			
-		if result.is_empty():
-			return {}
 
-		return result
-		
-	return {}
+		var args: Array = [godot_uro_request]
 
-func _get_individual_content_async(p_service_request: SarGameServiceRequest, p_id: String, p_callable: Callable):
-	if _godot_uro and _godot_uro.get_api():
-		if not p_service_request is VSKGameServiceRequestUro:
-			push_error("Did not pass a valid VSKGameServiceRequestUro object to a sign out request.")
-			return {} 
-		
-		var domain: String = (p_service_request as VSKGameServiceRequestUro).domain
-		
-		# Add this request to the active request pool.
-		var godot_uro_request: GodotUroRequester = _godot_uro.create_requester(domain, -1)
-		_active_service_requests[p_service_request] = godot_uro_request
-		
-		var result: Dictionary = await p_callable.call(
-			godot_uro_request,
-			p_id
-		)
+		if p_is_auth_required:
+			args.append_array([access_token])
+		if not p_params.is_empty():
+			args.append_array(p_params)
+
+		var result: Dictionary = await p_callable.callv(args)
 		
 		if not stop_request(p_service_request):
 			return {}
@@ -534,7 +487,7 @@ func sign_out(p_service_request: SarGameServiceRequest) -> Dictionary:
 ## to the service request.
 func get_dashboard_avatars_async(p_service_request: SarGameServiceRequest) -> Dictionary:
 	if _godot_uro and _godot_uro.get_api():
-		return await _get_dashboard_content_async(p_service_request, _godot_uro.get_api().dashboard_get_avatars_async)
+		return await _get_content_async(p_service_request, true, _godot_uro.get_api().dashboard_get_avatars_async)
 	
 	return {}
 	
@@ -542,14 +495,14 @@ func get_dashboard_avatars_async(p_service_request: SarGameServiceRequest) -> Di
 ## to the service request.
 func get_dashboard_maps_async(p_service_request: SarGameServiceRequest) -> Dictionary:
 	if _godot_uro and _godot_uro.get_api():
-		return await _get_dashboard_content_async(p_service_request, _godot_uro.get_api().dashboard_get_maps_async)
+		return await _get_content_async(p_service_request, true, _godot_uro.get_api().dashboard_get_maps_async)
 	
 	return {}
 	
 ## Returns a dictionary containing information about a specific avatar id.
 func get_avatar_async(p_service_request: SarGameServiceRequest, p_id: String) -> Dictionary:
 	if _godot_uro and _godot_uro.get_api():
-		return await _get_individual_content_async(p_service_request, p_id, _godot_uro.get_api().get_avatar_async)
+		return await _get_content_async(p_service_request, false, _godot_uro.get_api().get_avatar_async, [p_id])
 	
 	return {}
 
@@ -557,21 +510,21 @@ func get_avatar_async(p_service_request: SarGameServiceRequest, p_id: String) ->
 ## Returns a dictionary containing public avatars
 func get_avatars_async(p_service_request: SarGameServiceRequest) -> Dictionary:
 	if _godot_uro and _godot_uro.get_api():
-		return await _get_multiple_content_async(p_service_request, _godot_uro.get_api().get_avatars_async)
+		return await _get_content_async(p_service_request, false, _godot_uro.get_api().get_avatars_async)
 	
 	return {}
 
 ## Returns a dictionary containing information about a specific map id.
 func get_map_async(p_service_request: SarGameServiceRequest, p_id: String) -> Dictionary:
 	if _godot_uro and _godot_uro.get_api():
-		return await _get_individual_content_async(p_service_request, p_id, _godot_uro.get_api().get_map_async)
+		return await _get_content_async(p_service_request, false, _godot_uro.get_api().get_map_async, [p_id])
 	
 	return {}
 
 ## Returns a dictionary containing public maps
 func get_maps_async(p_service_request: SarGameServiceRequest) -> Dictionary:
 	if _godot_uro and _godot_uro.get_api():
-		return await _get_multiple_content_async(p_service_request, _godot_uro.get_api().get_maps_async)
+		return await _get_content_async(p_service_request, false, _godot_uro.get_api().get_maps_async)
 	
 	return {}
 
@@ -587,7 +540,7 @@ func upload_avatar_async(
 ## Returns a dictionary containing public shard instances
 func get_public_shards(p_service_request: SarGameServiceRequest) -> Dictionary:
 	if _godot_uro and _godot_uro.get_api():
-		return await _get_multiple_content_async(p_service_request, _godot_uro.get_api().get_shards_async)
+		return await _get_content_async(p_service_request, false, _godot_uro.get_api().get_shards_async)
 	
 	return {}
 
