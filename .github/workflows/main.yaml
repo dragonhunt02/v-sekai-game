@@ -121,7 +121,7 @@ jobs:
             git diff --shortstat origin/rxtemp
             #git diff origin/rx-assert
             #git diff origin/rx-origin
-            #git push -f
+            git push -f
             exit 1
 
 
