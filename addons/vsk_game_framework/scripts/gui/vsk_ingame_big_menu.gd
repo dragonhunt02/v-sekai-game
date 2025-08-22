@@ -24,6 +24,12 @@ func _on_avatar_url_selected(p_url: String) -> void:
 	
 	_request_new_avatar(p_url)
 
+func _on_settings_saved(p_url: String) -> void:
+	if menu_compoent:
+		menu_compoent.set_menu_active(false)
+	
+	push_error("Settings saved!")
+
 ###
 
 @export var simulation: SarSimulationVessel3D = null
