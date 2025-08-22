@@ -3,6 +3,7 @@ extends SarUIViewController
 class_name VSKUIViewControllerBigMenu
 
 signal avatar_url_selected(p_url: String)
+signal settings_saved
 
 var tab_container: TabContainer
 
