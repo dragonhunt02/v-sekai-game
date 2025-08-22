@@ -14,6 +14,9 @@ func _ready() -> void:
 func _on_avatars_content_selected(p_url: String) -> void:
 	avatar_url_selected.emit(p_url)
 
+func _on_settings_saved() -> void:
+	settings_saved.emit()
+
 ###
 
 @export var title_label: Label = null
