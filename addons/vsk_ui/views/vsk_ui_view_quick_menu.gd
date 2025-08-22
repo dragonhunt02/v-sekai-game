@@ -5,6 +5,7 @@ var _next_update_time: float = 0.0
 
 signal explore_menu_requested
 signal avatar_menu_requested
+signal settings_menu_requested
 
 func _is_xr_enabled() -> bool:
 	return XRServer.primary_interface != null
@@ -26,7 +27,7 @@ func _on_social_button_pressed() -> void:
 
 
 func _on_settings_button_pressed() -> void:
-	pass # Replace with function body.
+	settings_menu_requested.emit()
 
 
 func _on_more_button_pressed() -> void:
