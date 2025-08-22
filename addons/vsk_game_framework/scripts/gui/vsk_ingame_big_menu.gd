@@ -8,6 +8,10 @@ func _on_ingame_quick_menu_avatar_menu_requested() -> void:
 func _on_ingame_quick_menu_explore_menu_requested() -> void:
 	show()
 
+func _on_ingame_quick_menu_settings_menu_requested() -> void:
+	controller.set_current_tab("Settings")
+	show()
+
 func _request_new_avatar(p_path: String) -> void:
 	var gei: VSKGameEntityInterfacePlayer3D = simulation.get_game_entity_interface()
 	if gei:
