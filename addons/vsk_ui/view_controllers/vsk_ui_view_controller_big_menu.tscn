@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://b8af2il3sjsc2" path="res://addons/vsk_ui/views/vsk_ui_view_content_menu.tscn" id="3_38wm4"]
 [ext_resource type="PackedScene" uid="uid://dkhu4ajatpaxx" path="res://addons/vsk_ui/vsk_window.tscn" id="3_lrrh4"]
 [ext_resource type="PackedScene" uid="uid://dtrkh7xwvamyn" path="res://addons/vsk_ui/views/vsk_ui_view_avatar_menu.tscn" id="4_e1bxb"]
-[ext_resource type="PackedScene" uid="uid://du3ctrn76jhxn" path="res://addons/vsk_ui/vsk_settings_menu.tscn" id="5_28jyp"]
+[ext_resource type="PackedScene" uid="uid://fohepkwjhrnv" path="res://addons/vsk_ui/views/vsk_ui_view_settings_menu.tscn" id="5_28jyp"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e1bxb"]
 
