@@ -125,20 +125,34 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="SearchContainer" type="HBoxContainer" parent="Panel/Content/Body/Control/MarginContainer/TopLevelAligner/TopLevelContent/VBoxContainer/HBoxContainer/ContentBrowser/VBoxContainer"]
-layout_mode = 2
-
-[node name="TextInput" parent="Panel/Content/Body/Control/MarginContainer/TopLevelAligner/TopLevelContent/VBoxContainer/HBoxContainer/ContentBrowser/VBoxContainer/SearchContainer" instance=ExtResource("6_dqqn7")]
-layout_mode = 2
-backspace_deletes_composite_character_enabled = null
-virtual_keyboard_show_on_focus = null
-
 [node name="Label" type="Label" parent="Panel/Content/Body/Control/MarginContainer/TopLevelAligner/TopLevelContent/VBoxContainer/HBoxContainer/ContentBrowser/VBoxContainer"]
 layout_mode = 2
 theme_type_variation = &"InfoLabel"
 text = "Settings"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel/Content/Body/Control/MarginContainer/TopLevelAligner/TopLevelContent/VBoxContainer/HBoxContainer/ContentBrowser/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel/Content/Body/Control/MarginContainer/TopLevelAligner/TopLevelContent/VBoxContainer/HBoxContainer/ContentBrowser/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Spacer" type="Control" parent="Panel/Content/Body/Control/MarginContainer/TopLevelAligner/TopLevelContent/VBoxContainer/HBoxContainer/ContentBrowser/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="SearchContainer" type="HBoxContainer" parent="Panel/Content/Body/Control/MarginContainer/TopLevelAligner/TopLevelContent/VBoxContainer/HBoxContainer/ContentBrowser/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextInput" parent="Panel/Content/Body/Control/MarginContainer/TopLevelAligner/TopLevelContent/VBoxContainer/HBoxContainer/ContentBrowser/VBoxContainer/MarginContainer/HBoxContainer/SearchContainer" instance=ExtResource("6_dqqn7")]
+layout_mode = 2
+backspace_deletes_composite_character_enabled = null
+virtual_keyboard_show_on_focus = null
 
 [node name="ContentArea" type="Control" parent="Panel/Content/Body/Control/MarginContainer/TopLevelAligner/TopLevelContent/VBoxContainer/HBoxContainer/ContentBrowser/VBoxContainer"]
 layout_mode = 2
