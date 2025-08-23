@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://rjbuq48jgpo5" path="res://addons/vsk_ui/views/vsk_ui_view_settings_browser.gd" id="3_gachj"]
 
 [node name="SettingsMenu" instance=ExtResource("1_qwrtx")]
+size_flags_horizontal = 1
 script = ExtResource("2_kebf9")
 
 [node name="ContentBrowser" parent="Body/Control/MarginContainer/TopLevelAligner/TopLevelContent/VBoxContainer/HBoxContainer" index="2"]
@@ -15,7 +16,10 @@ content_text = "Settings Browser"
 text = "Settings Browser"
 
 [node name="ContentContainer" parent="Body/Control/MarginContainer/TopLevelAligner/TopLevelContent/VBoxContainer/HBoxContainer/ContentBrowser/VBoxContainer/ContentArea/ScrollContentContainer" index="0"]
-size_flags_vertical = 4
+size_flags_vertical = 3
+theme_override_constants/h_separation = 80
+theme_override_constants/v_separation = 20
 columns = 2
+metadata/_edit_use_anchors_ = true
 
 [editable path="Body/Control/MarginContainer/TopLevelAligner/TopLevelContent/VBoxContainer/HBoxContainer/ContentBrowser"]
