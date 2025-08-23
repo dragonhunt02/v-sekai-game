@@ -6,11 +6,11 @@
 [ext_resource type="PackedScene" uid="uid://dtrkh7xwvamyn" path="res://addons/vsk_ui/views/vsk_ui_view_avatar_menu.tscn" id="4_e1bxb"]
 [ext_resource type="PackedScene" uid="uid://fohepkwjhrnv" path="res://addons/vsk_ui/views/vsk_ui_view_settings_menu.tscn" id="5_28jyp"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_38wm4"]
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e1bxb"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lrrh4"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_38wm4"]
 
 [node name="BigMenuViewController" type="Control" node_paths=PackedStringArray("title_label")]
 layout_mode = 3
@@ -49,9 +49,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/tab_unselected = SubResource("StyleBoxEmpty_38wm4")
 theme_override_styles/panel = SubResource("StyleBoxEmpty_e1bxb")
 theme_override_styles/tabbar_background = SubResource("StyleBoxEmpty_lrrh4")
-theme_override_styles/tab_unselected = SubResource("StyleBoxEmpty_38wm4")
 tab_alignment = 1
 current_tab = 0
 tabs_position = 1
