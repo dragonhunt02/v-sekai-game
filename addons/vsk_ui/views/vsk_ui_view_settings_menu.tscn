@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://fohepkwjhrnv"]
+
+[ext_resource type="PackedScene" uid="uid://b8af2il3sjsc2" path="res://addons/vsk_ui/views/vsk_ui_view_content_menu.tscn" id="1_qwrtx"]
+[ext_resource type="Script" uid="uid://dv13d18w04ida" path="res://addons/vsk_ui/views/vsk_ui_view_settings_menu.gd" id="2_kebf9"]
+[ext_resource type="Script" uid="uid://rjbuq48jgpo5" path="res://addons/vsk_ui/views/vsk_ui_view_settings_browser.gd" id="3_gachj"]
+
+[node name="SettingsMenu" instance=ExtResource("1_qwrtx")]
+script = ExtResource("2_kebf9")
+
+[node name="ContentBrowser" parent="Body/Control/MarginContainer/TopLevelAligner/TopLevelContent/VBoxContainer/HBoxContainer" index="2"]
+script = ExtResource("3_gachj")
+content_text = "Settings Browser"
+
+[node name="ContentLabel" parent="Body/Control/MarginContainer/TopLevelAligner/TopLevelContent/VBoxContainer/HBoxContainer/ContentBrowser/VBoxContainer" index="1"]
+text = "Settings Browser"
+
+[node name="ContentContainer" parent="Body/Control/MarginContainer/TopLevelAligner/TopLevelContent/VBoxContainer/HBoxContainer/ContentBrowser/VBoxContainer/ContentArea/ScrollContentContainer" index="0"]
+size_flags_vertical = 4
+columns = 2
+
+[editable path="Body/Control/MarginContainer/TopLevelAligner/TopLevelContent/VBoxContainer/HBoxContainer/ContentBrowser"]
