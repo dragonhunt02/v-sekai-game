@@ -3,6 +3,7 @@ extends Control
 class_name VSKUIViewSettingsMenu
 
 signal content_selected(p_url: String)
+signal settings_saved
 
 func _get_uro_service() -> VSKGameServiceUro:
 	var manager: VSKGameServiceManager = get_tree().get_first_node_in_group("game_service_managers")
@@ -32,6 +33,9 @@ func _content_selected(p_content_url: String) -> void:
 	print(p_content_url)
 	content_selected.emit(p_content_url)
 	
+func _settings_saved() -> void:
+	print("Settings saved")
+	settings_saved.emit()
 ###
 
 @export var content_browser: VSKUIViewContentBrowser = null
