@@ -4,6 +4,8 @@ class_name VSKUIViewSettingsBrowser
 
 const _content_item_scene_const: PackedScene = preload("./../widgets/vsk_big_button.tscn")
 const _button_scn: PackedScene = preload("./../widgets/vsk_check_box.tscn")
+const _enum_scn: PackedScene = preload("./../widgets/vsk_enum_input.tscn")
+const _widget_scn: PackedScene = preload("./../widgets/vsk_setting_container.tscn")
 
 func _update_content_size0() -> void:
 	if content_item_container and content_scroll_container:
@@ -85,55 +87,36 @@ func _ready() -> void:
 		if content_label:
 			content_label.text = p_text
 
-func add_content_item2()-> void:
-	var margin_container = MarginContainer.new()
-	# 1.1 Override margins (in pixels)
-	margin_container.add_theme_constant_override("margin_left", 5)
-	margin_container.add_theme_constant_override("margin_top", 10)
-	margin_container.add_theme_constant_override("margin_right", 5)
-	margin_container.add_theme_constant_override("margin_bottom", 10)
+func add_content_item2():
+	var widget = add_setting("Cooler", _enum_scn)
+	#if widget.is_class("VSKEnumInput"):
+	widget.options= ["abcdef", "ghi"]
 	
-	margin_container.set_h_size_flags(SIZE_EXPAND_FILL)
-	margin_container.set_v_size_flags(SIZE_SHRINK_CENTER)
-	margin_container.anchor_right=1
-	
-	var hbox_container = HBoxContainer.new()
-	margin_container.add_child(hbox_container)
-	
-	var label = Label.new()
-	label.text = "Hello, MarginContainerok!"
-	hbox_container.add_child(label)
-	
-	var spacer = Control.new()
-	spacer.set_h_size_flags(SIZE_EXPAND)
-	hbox_container.add_child(spacer)
-	
-	var widget = CheckBox.new()
-	widget = _button_scn.instantiate()
-	#label.text = "Hello, MarginContainerok!"
-	hbox_container.add_child(widget)
-	
-	var spacer2 = Control.new()
-	spacer2.set_h_size_flags(SIZE_EXPAND)
-	hbox_container.add_child(spacer2)
-
-	var instance: Control = null
+func add_setting(p_name: String, p_widget: PackedScene):
+	#var margin_container := _widget_scn.instantiate()
+	var margin_container := _widget_scn.instantiate()
+	var widget := p_widget.instantiate()
+	var widget_container := margin_container.get_node("HBoxContainer/WidgetContainer")
+	widget_container.add_child(widget)
+	# 5. Finally, add it to your container
 	if content_item_container:
-		content_item_container.set_h_size_flags(Control.SIZE_EXPAND_FILL)            # fill width
-		content_item_container.set_v_size_flags(Control.SIZE_SHRINK_CENTER)   # shrink-wrap height
+		# Ensure the parent container also expands
+		content_item_container.set_h_size_flags(Control.SIZE_EXPAND_FILL)
+		content_item_container.set_v_size_flags(Control.SIZE_EXPAND_FILL)
+		content_item_container.add_theme_constant_override("h_separation", 80)
+		content_item_container.add_theme_constant_override("v_separation", 20)
+		#content_item_container.set_columns(3)
 
-		instance = margin_container
-		if instance:
-			instance.name = "content_%s" % str(content_item_container.get_child_count())
-			instance.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
-			#instance.text = p_text
-			#instance.url = p_url
-			
-			instance.set_h_size_flags(SIZE_EXPAND_FILL)
-			instance.set_v_size_flags(SIZE_SHRINK_CENTER)
-			instance.mouse_filter = Control.MOUSE_FILTER_PASS
-			content_item_container.add_child(instance)
-			print("added")
+
+		margin_container.name = "content_%s" % content_item_container.get_child_count()
+		margin_container.auto_translate_mode = Node.AUTO_TRANSLATE_MODE_DISABLED
+		margin_container.mouse_filter = Control.MOUSE_FILTER_PASS
+
+		content_item_container.add_child(margin_container)
+		print("added")
+		return widget
+	return null
+
 
 """
 func add_content_item(p_text: String, p_url: String) -> VSKButton:
