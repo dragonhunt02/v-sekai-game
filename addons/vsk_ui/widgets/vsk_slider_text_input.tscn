@@ -1,0 +1,55 @@
+[gd_scene load_steps=3 format=3 uid="uid://vsk_slider_text_input"]
+
+[ext_resource type="Script" uid="uid://slider_with_input_script_uid" path="res://addons/vsk_ui/widgets/vsk_slider_text_input.gd" id="1_slider"]
+[ext_resource type="Script" uid="uid://yw1xy22fmg6r" path="res://addons/vsk_ui/widgets/vsk_text_input.gd" id="2_textinput"]
+
+[node name="SliderWithInput" type="Control" node_paths=PackedStringArray("_slider", "_input")]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 3
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+script = ExtResource("1_slider")
+_slider = NodePath("HBoxContainer/HSlider")
+_input = NodePath("HBoxContainer/TextInput/HBoxContainer/LineEdit")
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+value = 50.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 64.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+
+[node name="HSlider" type="HSlider" parent="HBoxContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+value = 50.0
+
+[node name="TextInput" type="Control" parent="HBoxContainer" node_paths=PackedStringArray("_line_edit")]
+custom_minimum_size = Vector2(80, 64)
+layout_mode = 3
+size_flags_horizontal = 1
+script = ExtResource("2_textinput")
+_line_edit = NodePath("HBoxContainer/LineEdit")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/TextInput"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 64.0
+grow_horizontal = 2
+
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer/TextInput/HBoxContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
