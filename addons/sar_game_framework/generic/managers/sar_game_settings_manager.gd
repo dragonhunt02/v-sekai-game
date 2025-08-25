@@ -14,17 +14,12 @@ var _default_cfg: ConfigFile = null
 var _custom_cfg: ConfigFile = null
 
 var _cfg_mutex : Mutex = null
-var _write_timer: Timer = null
+var _write_request_timeout = null
 
 func _ready():
 	if Engine.is_editor_hint():
 		return
 	_cfg_mutex = Mutex.new()
-	_write_timer = Timer.new()
-    _write_timer.wait_time = WRITE_DEBOUNCE_TIME
-    _write_timer.one_shot = true
-    add_child(_write_timer)
-    _write_timer.connect("timeout", self, "_on_write_timer_timeout")
 	_override_path = ProjectSettings.get("application/config/project_settings_override", "")
 
 	if not SarUtils.assert_ok(_load_stored_cfg(),
@@ -59,11 +54,26 @@ func _interpolate_config(p_default_cfg: ConfigFile, p_custom_cfg: ConfigFile) ->
 			print("%s/%s = %s" % [section, key, value])
 	return new_cfg
 
+# Thread-safe
 func get_value(p_section: String, p_key: String, p_default: Variant = null):
 	_cfg_mutex.lock()
 	var value = _get_unsafe_value(p_section, p_key, p_default)
 	_cfg_mutex.unlock()
 	return value
+
+# Thread-safe
+func set_value(p_section: String, p_key: String, p_value: Variant, p_write_cfg: bool = true) -> void:
+	_cfg_mutex.lock()
+	var current_value = _get_unsafe_value(p_section, p_key, null)
+	if current_value != p_value:
+		if not p_value == null:
+			_custom_cfg.set_value(p_section, p_key, p_value)
+		else:
+			_reset_value(p_section, p_key)
+		if p_write_cfg:
+			_queue_write_settings()
+		_setting_updated([p_section, p_key, p_value])
+	_cfg_mutex.unlock()
 
 func _get_unsafe_value(p_section: String, p_key: String, p_default: Variant = null):
 	var value: Variant = _custom_cfg.get_value(p_section, p_key, null)
@@ -73,15 +83,10 @@ func _get_unsafe_value(p_section: String, p_key: String, p_default: Variant = nu
 			value = p_default
 	return value
 
-func set_value(p_section: String, p_key: String, p_value: Variant, p_write_cfg: bool = true) -> void:
-	_cfg_mutex.lock()
-	var current_value = _get_unsafe_value(p_section, p_key, null)
-	if current_value != p_value:
-		_custom_cfg.set_value(p_section, p_key, p_value)
-		if p_write_cfg:
-			_queue_write_settings()
-		_setting_updated([p_section, p_key, p_value])
-	_cfg_mutex.unlock()
+# Restore to default
+func _reset_value(p_section: String, p_key: String):
+	if _custom_cfg.has_section_key(p_section, p_key):
+		_custom_cfg.erase_section_key(p_section, p_key)
 
 func _queue_write_settings():
 	_write_request_timeout = Time.get_ticks_msec() + WRITE_DEBOUNCE_MS
@@ -91,7 +96,8 @@ func _process():
 		return
 	if _cfg_mutex.try_lock():
 		if _write_request_timeout and (Time.get_ticks_msec() > _write_request_timeout):
-			_write_settings()
+			# Could slow down game if file is big
+			self.call_deferred("_write_settings")
 			_write_request_timeout = null
 		_cfg_mutex.unlock()
 	else:
@@ -108,9 +114,11 @@ func _write_settings():
 		"Could not save config file"):
 		return
 
-
 func _setting_updated(p_setting) -> void:
 	setting_updated.emit(p_setting)
+
+
+
 
 func set_msaa_2d(p_msaa: Viewport.MSAA) -> void:
 	get_viewport().msaa_2d = p_msaa
@@ -134,19 +142,6 @@ static func get_content_scale_stretch_string(p_cs_stretch: Window.ContentScaleSt
 		_:
 			return "fractional"
 			
-func _write_project_setting(
-	p_default_cfg: ConfigFile,
-	p_custom_cfg: ConfigFile,
-	p_section: String,
-	p_key: String,
-	p_skip_if_default_matches) -> void:
-	
-	if ProjectSettings.get_setting(p_section + "/" + p_key, "") != p_default_cfg.get_value(p_section, p_key) or not p_skip_if_default_matches:
-		p_custom_cfg.set_value(p_section, p_key, ProjectSettings.get_setting(p_section + "/" + p_key, ""))
-	else:
-		if p_custom_cfg.has_section_key(p_section, p_key):
-			p_custom_cfg.erase_section_key(p_section, p_key)
-			
 func _write_custom_config(p_default_cfg: ConfigFile, p_custom_cfg: ConfigFile) -> void:
 	# Rendering
 	p_custom_cfg.set_value("rendering", "anti_aliasing/quality/msaa_2d", get_viewport().msaa_2d)
@@ -162,24 +157,6 @@ func _write_custom_config(p_default_cfg: ConfigFile, p_custom_cfg: ConfigFile) -
 	# Physics
 	_write_project_setting(p_default_cfg, p_custom_cfg, "common", "physics_interpolation", true)
 
-func _save_settings() -> void:
-	if not Engine.is_editor_hint():
-		var default_cfg: ConfigFile = ConfigFile.new()
-		
-		if FileAccess.file_exists("res://project.godot"):
-			var _err_for_default_cfg: Error = default_cfg.load("res://project.godot")
-		
-			var override_path: String = ProjectSettings.get("application/config/project_settings_override")
-			if not override_path.is_empty():
-				var custom_cfg: ConfigFile = ConfigFile.new()
-				
-				if FileAccess.file_exists(override_path):
-					var _err_for_custom_cfg: Error = custom_cfg.load(override_path)
-				
-				if default_cfg and custom_cfg:
-					_write_custom_config(default_cfg, custom_cfg)
-				
-					custom_cfg.save(override_path)
 
 func _enter_tree() -> void:
 	if not Engine.is_editor_hint():
