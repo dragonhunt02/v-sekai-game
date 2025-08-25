@@ -7,6 +7,108 @@ class_name SarGameSettingsManager
 
 signal setting_updated(p_setting: String)
 
+const WRITE_DEBOUNCE_MS = 5000
+
+var _override_path: String = ""
+var _default_cfg: ConfigFile = null
+var _custom_cfg: ConfigFile = null
+
+var _cfg_mutex : Mutex = null
+var _write_timer: Timer = null
+
+func _ready():
+	if Engine.is_editor_hint():
+		return
+	_cfg_mutex = Mutex.new()
+	_write_timer = Timer.new()
+    _write_timer.wait_time = WRITE_DEBOUNCE_TIME
+    _write_timer.one_shot = true
+    add_child(_write_timer)
+    _write_timer.connect("timeout", self, "_on_write_timer_timeout")
+	_override_path = ProjectSettings.get("application/config/project_settings_override", "")
+
+	if not SarUtils.assert_ok(_load_stored_cfg(),
+		"Could not load config files"):
+		return
+
+func _load_stored_cfg() -> Error:
+	_default_cfg = ConfigFile.new()
+	_custom_cfg = ConfigFile.new()
+
+	if not SarUtils.assert_true(FileAccess.file_exists("res://project.godot"),
+		"Could not find res://project.godot"):
+		return FAILED
+
+	if not SarUtils.assert_ok(default_cfg.load("res://project.godot"),
+		"Could not load default config"):
+		return FAILED
+		
+	if (not _override_path.is_empty()) and FileAccess.file_exists(override_path):
+		if not SarUtils.assert_ok(custom_cfg.load(override_path),
+			"Could not load custom config"):
+			return FAILED
+	return OK
+
+# Modifies p_default_cfg
+func _interpolate_config(p_default_cfg: ConfigFile, p_custom_cfg: ConfigFile) -> ConfigFile:
+	var new_cfg: ConfigFile = p_default_cfg
+	for section in p_custom_cfg.get_sections():
+		for key in p_custom_cfg.get_section_keys(section):
+			var value = p_custom_cfg.get_value(section, key)
+			new_cfg.set_value(section, key, value)
+			print("%s/%s = %s" % [section, key, value])
+	return new_cfg
+
+func get_value(p_section: String, p_key: String, p_default: Variant = null):
+	_cfg_mutex.lock()
+	var value = _get_unsafe_value(p_section, p_key, p_default)
+	_cfg_mutex.unlock()
+	return value
+
+func _get_unsafe_value(p_section: String, p_key: String, p_default: Variant = null):
+	var value: Variant = _custom_cfg.get_value(p_section, p_key, null)
+	if value == null:
+		value = _default_cfg.get_value(p_section, p_key, null)
+		if value == null:
+			value = p_default
+	return value
+
+func set_value(p_section: String, p_key: String, p_value: Variant, p_write_cfg: bool = true) -> void:
+	_cfg_mutex.lock()
+	var current_value = _get_unsafe_value(p_section, p_key, null)
+	if current_value != p_value:
+		_custom_cfg.set_value(p_section, p_key, p_value)
+		if p_write_cfg:
+			_queue_write_settings()
+		_setting_updated([p_section, p_key, p_value])
+	_cfg_mutex.unlock()
+
+func _queue_write_settings():
+	_write_request_timeout = Time.get_ticks_msec() + WRITE_DEBOUNCE_MS
+
+func _process():
+	if Engine.is_editor_hint():
+		return
+	if _cfg_mutex.try_lock():
+		if _write_request_timeout and (Time.get_ticks_msec() > _write_request_timeout):
+			_write_settings()
+			_write_request_timeout = null
+		_cfg_mutex.unlock()
+	else:
+		return
+
+func _write_settings():
+	if not override_path.is_empty():
+		push_error("Could not write config, override path is not set")
+		return
+	if FileAccess.file_exists(override_path):
+		push_warning("Overwriting config at %s" % override_path)
+
+	if not SarUtils.assert_ok(custom_cfg.save(override_path),
+		"Could not save config file"):
+		return
+
+
 func _setting_updated(p_setting) -> void:
 	setting_updated.emit(p_setting)
 
@@ -84,4 +186,5 @@ func _enter_tree() -> void:
 		add_to_group("game_settings_managers")
 
 func _exit_tree() -> void:
-	_save_settings()
+#TODO add lock
+	_write_settings()
