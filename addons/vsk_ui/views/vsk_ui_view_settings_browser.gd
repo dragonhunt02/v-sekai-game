@@ -5,6 +5,7 @@ class_name VSKUIViewSettingsBrowser
 const _content_item_scene_const: PackedScene = preload("./../widgets/vsk_big_button.tscn")
 const _button_scn: PackedScene = preload("./../widgets/vsk_check_box.tscn")
 const _enum_scn: PackedScene = preload("./../widgets/vsk_enum_input.tscn")
+const _slider_scn: PackedScene = preload("./../widgets/vsk_slider_text_input.tscn")
 const _widget_scn: PackedScene = preload("./../widgets/vsk_setting_container.tscn")
 
 func _update_content_size0() -> void:
@@ -88,9 +89,9 @@ func _ready() -> void:
 			content_label.text = p_text
 
 func add_content_item2():
-	var widget = add_setting("Cooler", _enum_scn)
+	var widget = add_setting("Cooler", _slider_scn)
 	#if widget.is_class("VSKEnumInput"):
-	widget.options= ["abcdef", "ghi"]
+	#widget.options= ["abcdef", "ghi"]
 	
 func add_setting(p_name: String, p_widget: PackedScene):
 	#var margin_container := _widget_scn.instantiate()
