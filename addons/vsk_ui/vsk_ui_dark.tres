@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=36 format=3 uid="uid://s05juvtforjo"]
+[gd_resource type="Theme" load_steps=33 format=3 uid="uid://s05juvtforjo"]
 
 [ext_resource type="FontFile" uid="uid://bc7h5nk210qta" path="res://addons/vsk_ui/fonts/ZenKakuGothicNew-Regular.ttf" id="1_wdaal"]
 [ext_resource type="FontFile" uid="uid://celf1t4wr5sc2" path="res://addons/vsk_ui/fonts/ZenKakuGothicNew-Medium.ttf" id="2_q6gb1"]
@@ -96,12 +96,6 @@ anti_aliasing = false
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_dlfog"]
 color = Color(0.0666667, 0.0666667, 0.0666667, 1)
 thickness = 2
-
-[sub_resource type="ImageTexture" id="ImageTexture_62oi7"]
-
-[sub_resource type="ImageTexture" id="ImageTexture_dloyf"]
-
-[sub_resource type="ImageTexture" id="ImageTexture_qg2dh"]
 
 [sub_resource type="Image" id="Image_7dqni"]
 data = {
@@ -359,9 +353,6 @@ Button/styles/hover = SubResource("StyleBoxFlat_kbvfc")
 Button/styles/normal = SubResource("StyleBoxFlat_mufyx")
 Button/styles/pressed = SubResource("StyleBoxFlat_1lkvb")
 HSeparator/styles/separator = SubResource("StyleBoxLine_dlfog")
-HSlider/icons/grabber = SubResource("ImageTexture_62oi7")
-HSlider/icons/grabber_disabled = SubResource("ImageTexture_dloyf")
-HSlider/icons/grabber_highlight = SubResource("ImageTexture_qg2dh")
 InfoLabel/base_type = &"Label"
 InfoLabel/colors/font_color = Color(0, 0, 0, 1)
 InfoLabel/colors/font_shadow_color = Color(0.266667, 0.266667, 0.266667, 1)
