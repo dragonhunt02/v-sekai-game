@@ -1,55 +1,72 @@
-[gd_scene load_steps=3 format=3 uid="uid://vsk_slider_text_input"]
+[gd_scene load_steps=3 format=3 uid="uid://c6cbvntxplcka"]
 
-[ext_resource type="Script" uid="uid://slider_with_input_script_uid" path="res://addons/vsk_ui/widgets/vsk_slider_text_input.gd" id="1_slider"]
+[ext_resource type="Script" uid="uid://b51xiyn4r4tas" path="res://addons/vsk_ui/widgets/vsk_slider_text_input.gd" id="1_slider"]
 [ext_resource type="Script" uid="uid://yw1xy22fmg6r" path="res://addons/vsk_ui/widgets/vsk_text_input.gd" id="2_textinput"]
 
-[node name="SliderWithInput" type="Control" node_paths=PackedStringArray("_slider", "_input")]
+[node name="SliderWithInput" type="MarginContainer"]
 custom_minimum_size = Vector2(0, 64)
-layout_mode = 3
 anchors_preset = 10
 anchor_right = 1.0
+offset_bottom = 64.0
 grow_horizontal = 2
 size_flags_horizontal = 3
 script = ExtResource("1_slider")
-_slider = NodePath("HBoxContainer/HSlider")
-_input = NodePath("HBoxContainer/TextInput/HBoxContainer/LineEdit")
-min_value = 0.0
-max_value = 100.0
-step = 1.0
-value = 50.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 64.0
-grow_horizontal = 2
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="HSlider" type="HSlider" parent="HBoxContainer"]
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 3
-min_value = 0.0
-max_value = 100.0
-step = 1.0
+size_flags_vertical = 1
 value = 50.0
 
-[node name="TextInput" type="Control" parent="HBoxContainer" node_paths=PackedStringArray("_line_edit")]
+[node name="TextInput" type="MarginContainer" parent="HBoxContainer" node_paths=PackedStringArray("_line_edit")]
 custom_minimum_size = Vector2(80, 64)
-layout_mode = 3
-size_flags_horizontal = 1
+layout_mode = 2
 script = ExtResource("2_textinput")
 _line_edit = NodePath("HBoxContainer/LineEdit")
+text = null
+placeholder_text = null
+alignment = null
+max_length = null
+editable = null
+keep_editing_on_text_submit = null
+expand_to_text_length = null
+context_menu_enabled = null
+emoji_menu_enabled = null
+backspace_deletes_composite_character_enabled = null
+virtual_keyboard_enabled = null
+virtual_keyboard_show_on_focus = null
+virtual_keyboard_type = null
+clear_button_enabled = null
+shortcut_keys_enabled = null
+middle_mouse_paste_enabled = null
+selecting_enabled = null
+deselect_on_focus_loss_enabled = null
+drag_and_drop_selection_enabled = null
+right_icon = null
+flat = null
+draw_control_chars = null
+select_all_on_focus = null
+caret_blink = null
+caret_blink_interval = null
+caret_column = null
+caret_force_displayed = null
+caret_mid_grapheme = null
+secret = null
+secret_character = null
+text_direction = null
+language = null
+structured_text_bidi_override = null
+structured_text_bidi_override_options = null
+script = ExtResource("2_textinput")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/TextInput"]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 64.0
-grow_horizontal = 2
+layout_mode = 2
 
 [node name="LineEdit" type="LineEdit" parent="HBoxContainer/TextInput/HBoxContainer"]
-custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
