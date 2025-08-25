@@ -117,6 +117,18 @@ func _write_settings():
 func _setting_updated(p_setting) -> void:
 	setting_updated.emit(p_setting)
 
+func _enter_tree() -> void:
+	if not Engine.is_editor_hint():
+		add_to_group("game_settings_managers")
+
+func _exit_tree() -> void:
+	# Ensure threads released lock
+	if _cfg_mutex.try_lock():
+		_write_settings()
+		_cfg_mutex.unlock()
+	else:
+		return
+
 
 
 
@@ -156,12 +168,3 @@ func _write_custom_config(p_default_cfg: ConfigFile, p_custom_cfg: ConfigFile) -
 	
 	# Physics
 	_write_project_setting(p_default_cfg, p_custom_cfg, "common", "physics_interpolation", true)
-
-
-func _enter_tree() -> void:
-	if not Engine.is_editor_hint():
-		add_to_group("game_settings_managers")
-
-func _exit_tree() -> void:
-#TODO add lock
-	_write_settings()
