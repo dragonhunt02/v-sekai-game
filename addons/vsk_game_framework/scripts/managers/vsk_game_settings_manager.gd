@@ -24,6 +24,7 @@ func _apply_generic_setting(p_section: String, p_key: String, p_value) -> void:
 					get_viewport().msaa_2d = p_value
 				"anti_aliasing/quality/msaa_3d":
 					get_viewport().msaa_3d = p_value
+		"display":
 			match p_key:
 				"window/size/mode":
 					DisplayServer.window_set_mode(p_value)
