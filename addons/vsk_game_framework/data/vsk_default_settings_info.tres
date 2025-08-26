@@ -1,9 +1,31 @@
 [gd_resource type="Resource" script_class="VSKSettingsInfo" load_steps=3 format=3 uid="uid://c8wpjeyytl5pv"]
 
-[ext_resource type="Script" uid="uid://cbronlmogkobw" path="res://addons/vsk_game_framework/scripts/data/vsk_settings_info_category.gd" id="1_8gwv3"]
+[ext_resource type="Script" path="res://addons/vsk_game_framework/scripts/data/vsk_settings_info_setting.gd" id="1_8gwv3"]
 [ext_resource type="Script" uid="uid://c5uau2ant2k0x" path="res://addons/vsk_game_framework/scripts/data/vsk_settings_info.gd" id="2_c001v"]
 
 [resource]
 script = ExtResource("2_c001v")
-categories = Array[ExtResource("1_8gwv3")]([])
+settings = Array[ExtResource("1_8gwv3")]([])
 metadata/_custom_type_script = "uid://c5uau2ant2k0x"
+settings[0] = SubResource( "0" )
+settings[1] = SubResource( "1" )
+
+[sub_resource type="VSKSettingsInfoSetting" id="0"]
+display_name = "Player Score"
+category = "Gameplay"
+key = "player_score"
+type = INT
+;Variant.Type.INT 2
+hint = NONE
+;# PropertyHint.NONE 0
+hint_string = ""
+
+[sub_resource type="VSKSettingsInfoSetting" id="1"]
+display_name = "Music Volume"
+category = "Audio"
+key = "music_volume"
+type = REAL
+; Variant.Type.REAL 3
+hint = RANGE
+; PropertyHint.RANGE 2
+hint_string = "0.0,1.0,0.01"
