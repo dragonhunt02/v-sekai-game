@@ -21,7 +21,7 @@ func get_categories_dict() -> Dictionary:
 		result[category] = setting
 	return result
 
-# Assuming keys are unique
+# Assuming keys are unique across categories
 func get_key(p_key, p_default = null) -> Dictionary:
 	var result: Dictionary = p_default
 	for setting in settings:
