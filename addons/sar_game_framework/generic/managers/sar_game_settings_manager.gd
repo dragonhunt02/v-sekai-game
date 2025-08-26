@@ -20,7 +20,7 @@ func _ready():
 	if Engine.is_editor_hint():
 		return
 	_cfg_mutex = Mutex.new()
-	_override_path = ProjectSettings.get("application/config/project_settings_override", "")
+	_override_path = ProjectSettings.get_setting("application/config/project_settings_override", "")
 
 	if not SarUtils.assert_ok(_load_stored_cfg(),
 		"Could not load config files"):
@@ -34,12 +34,12 @@ func _load_stored_cfg() -> Error:
 		"Could not find res://project.godot"):
 		return FAILED
 
-	if not SarUtils.assert_ok(default_cfg.load("res://project.godot"),
+	if not SarUtils.assert_ok(_default_cfg.load("res://project.godot"),
 		"Could not load default config"):
 		return FAILED
 		
-	if (not _override_path.is_empty()) and FileAccess.file_exists(override_path):
-		if not SarUtils.assert_ok(custom_cfg.load(override_path),
+	if (not _override_path.is_empty()) and FileAccess.file_exists(_override_path):
+		if not SarUtils.assert_ok(_custom_cfg.load(_override_path),
 			"Could not load custom config"):
 			return FAILED
 	return OK
@@ -62,7 +62,7 @@ func get_value(p_section: String, p_key: String, p_default: Variant = null):
 	return value
 
 # Thread-safe
-func set_value(p_section: String, p_key: String, p_value: Variant, p_write_cfg: bool = true) -> void:
+func set_value(p_section: String, p_key: String, p_value: Variant, p_write_cfg: bool = true) -> Error:
 	_cfg_mutex.lock()
 	var current_value = _get_unsafe_value(p_section, p_key, null)
 	if current_value != p_value:
@@ -74,6 +74,7 @@ func set_value(p_section: String, p_key: String, p_value: Variant, p_write_cfg: 
 			_queue_write_settings()
 		_setting_updated([p_section, p_key, p_value])
 	_cfg_mutex.unlock()
+	return OK
 
 func _get_unsafe_value(p_section: String, p_key: String, p_default: Variant = null):
 	var value: Variant = _custom_cfg.get_value(p_section, p_key, null)
@@ -91,7 +92,7 @@ func _reset_value(p_section: String, p_key: String):
 func _queue_write_settings():
 	_write_request_timeout = Time.get_ticks_msec() + WRITE_DEBOUNCE_MS
 
-func _process():
+func _process(_delta) -> void:
 	if Engine.is_editor_hint():
 		return
 	if _cfg_mutex.try_lock():
@@ -104,13 +105,13 @@ func _process():
 		return
 
 func _write_settings():
-	if not override_path.is_empty():
+	if not _override_path.is_empty():
 		push_error("Could not write config, override path is not set")
 		return
-	if FileAccess.file_exists(override_path):
-		push_warning("Overwriting config at %s" % override_path)
+	if FileAccess.file_exists(_override_path):
+		push_warning("Overwriting config at %s" % _override_path)
 
-	if not SarUtils.assert_ok(custom_cfg.save(override_path),
+	if not SarUtils.assert_ok(_custom_cfg.save(_override_path),
 		"Could not save config file"):
 		return
 
@@ -131,7 +132,7 @@ func _exit_tree() -> void:
 
 
 
-
+"""
 func set_msaa_2d(p_msaa: Viewport.MSAA) -> void:
 	get_viewport().msaa_2d = p_msaa
 
@@ -168,3 +169,4 @@ func _write_custom_config(p_default_cfg: ConfigFile, p_custom_cfg: ConfigFile) -
 	
 	# Physics
 	_write_project_setting(p_default_cfg, p_custom_cfg, "common", "physics_interpolation", true)
+"""
