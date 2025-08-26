@@ -26,8 +26,38 @@ func set_value(p_section: String, p_key: String, p_value: Variant, p_write_cfg: 
 
 func _check_setting_type(p_section: String, p_key: String, p_value: Variant, p_write_cfg: bool = true) -> Error:
 	var setting: VSKSettingsInfoSetting = _cfg_setting_info.get_key(p_section, p_key)
-	if not typeof(p_value) == setting.type:
+	var value_type = typeof(p_value)
+	if value_type != setting.type:
 		return FAILED
+	if setting.hint == PROPERTY_HINT_ENUM:
+		var setting_enum: Array = setting.hint_as_enum()
+		match setting.type:
+			TYPE_INT:
+				if p_value < 0 or p_value > (setting_enum.size() - 1):
+					return FAILED
+			TYPE_STRING:
+				if p_value not in setting_enum:
+					return FAILED
+			_:
+				return FAILED
+	elif setting.hint == PROPERTY_HINT_RANGE:
+		var setting_range: Dictionary = {}
+		match setting.type:
+			TYPE_INT:
+				setting_range = setting.hint_as_int_range()
+				if p_value < setting_range["min"] or \
+					p_value > setting_range["max"] or \
+					(p_value % setting_range["step"]) != 0:
+					return FAILED
+			TYPE_FLOAT:
+				setting_range = setting.hint_as_float_range()
+				# Skip step size check for floats
+				if p_value < setting_range["min"] or \
+					p_value > setting_range["max"]:
+					return FAILED
+			_:
+				return FAILED
+
 	return OK
 
 func _apply_generic_setting(p_section: String, p_key: String, p_value) -> void:
@@ -73,7 +103,7 @@ static func get_content_scale_stretch_enum(p_cs_stretch: String) -> int:
 			return Window.ContentScaleStretch.CONTENT_SCALE_STRETCH_INTEGER
 		"fractional":
 			return Window.ContentScaleStretch.CONTENT_SCALE_STRETCH_FRACTIONAL
-	return Window.ContentScaleStretch.CONTENT_SCALE_STRETCH_INTEGER
+	return Window.ContentScaleStretch.CONTENT_SCALE_STRETCH_FRACTIONAL
 		
 
 static func get_content_scale_mode_string(p_cs_mode: Window.ContentScaleMode) -> String:
