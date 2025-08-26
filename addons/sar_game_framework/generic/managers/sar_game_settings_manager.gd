@@ -105,7 +105,7 @@ func _process(_delta) -> void:
 		return
 
 func _write_settings():
-	if not _override_path.is_empty():
+	if _override_path.is_empty():
 		push_error("Could not write config, override path is not set")
 		return
 	if FileAccess.file_exists(_override_path):
