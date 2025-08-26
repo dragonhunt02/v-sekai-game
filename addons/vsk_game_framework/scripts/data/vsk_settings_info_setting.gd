@@ -13,7 +13,7 @@ class_name VSKSettingsInfoSetting
 @export var godot_enum: String:
 	set(value):
 		#print("values is %s" % value);
-		if value:
+		if value and not value.is_empty():
 			hint_string = ",".join(_enum_list_from_string(value))
 			hint = PROPERTY_HINT_ENUM
 			type = TYPE_INT
