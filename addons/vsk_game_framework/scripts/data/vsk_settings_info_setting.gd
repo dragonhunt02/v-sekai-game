@@ -18,7 +18,39 @@ class_name VSKSettingsInfoSetting
 			hint = PROPERTY_HINT_ENUM
 			type = TYPE_INT
 			godot_enum = value
+		else:
+			godot_enum = ""
 		
+
+func hint_as_array():
+	return hint_string.split(",")
+
+func hint_as_enum():
+	return hint_as_array()
+
+func hint_as_int_range() -> Dictionary:
+	var hint_array: Array = hint_as_array()
+	var optional: String = ""
+	if (hint_array.size() - 1) > 3:
+		optional = hint_array[3]
+	return {
+		"min": int(hint_array[0]),
+		"max": int(hint_array[1]),
+		"step": int(hint_array[2]),
+		"optional": optional
+	}
+
+func hint_as_float_range() -> Dictionary:
+	var hint_array: Array = hint_as_array()
+	var optional: String = ""
+	if (hint_array.size() - 1) > 3:
+		optional = hint_array[3]
+	return {
+		"min": float(hint_array[0]),
+		"max": float(hint_array[1]),
+		"step": float(hint_array[2]),
+		"optional": optional
+	}
 
 func _ready() -> void:
 	print("heyy")
