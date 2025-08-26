@@ -2,4 +2,4 @@
 extends Resource
 class_name VSKSettingsInfo
 
-@export var categories: Array[VSKSettingsInfoCategory] = []
+@export var categories: Dictionary[String, VSKSettingsInfoCategory] = {}
