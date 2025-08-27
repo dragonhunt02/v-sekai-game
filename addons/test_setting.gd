@@ -25,7 +25,7 @@ func _build_settings():
 					TYPE_STRING:
 						add_content_item2()
 					_:
-						SarUtils.assert_true(false, "UI display is not supported for key %s : enum type %s" % type_string(setting.type))
+						SarUtils.assert_true(false, "UI display is not supported for range of type %s" % type_string(setting.type))
 			elif setting.hint == PROPERTY_HINT_RANGE:
 				match setting.type:
 					TYPE_INT:
@@ -129,6 +129,27 @@ func _ready() -> void:
 		
 		if content_label:
 			content_label.text = p_text
+
+#func _set_setting(p_category, p_key, p_value):
+#	VSKGameSettingsManagerSingleton.set_value(p_category, p_key, p_value)
+
+func _add_enum_widget(p_name: String, p_setting: VSKSettingsInfoSetting, p_initial_value: Variant = null):
+	var widget = add_setting(p_name, _slider_scn)
+	var settings_enum: Array = p_setting.hint_as_enum()
+	widget.options = settings_enum
+	#move up
+	match p_setting.type:
+		TYPE_INT:
+			widget.selected_index = p_initial_value
+		TYPE_STRING:
+			for option_name: String in settings_enum:
+			for idx in range(settings_enum.size()):
+				if p_initial_value == settings_enum[idx]:
+					widget.selected_index = idx
+		_:
+			SarUtils.assert_true(false, "UI display is not supported for key %s: enum type %s" % [p_setting.key, type_string(setting.type)])
+	#widget.item_selected.connect((_set_setting)
+
 
 #func add_setting_item(p_
 
