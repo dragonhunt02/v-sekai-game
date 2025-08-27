@@ -124,8 +124,15 @@ func _ready() -> void:
 		if content_label:
 			content_label.text = p_text
 
-#func _set_setting(p_category, p_key, p_value):
-#	VSKGameSettingsManagerSingleton.set_value(p_category, p_key, p_value)
+# Review locale
+func _set_enum_setting(p_idx: int, p_option: String, p_setting: VSKSettingsInfoSetting):
+	match p_setting.type:
+		TYPE_INT:
+			VSKGameSettingsManagerSingleton.set_value(p_setting.category, p_setting.key, p_idx)
+		TYPE_STRING:
+			VSKGameSettingsManagerSingleton.set_value(p_setting.category, p_setting.key, p_option)
+		#_:
+		#	SarUtils.assert_true(false, "UI display is not supported for key %s: enum type %s" % [p_setting.key, type_string(p_setting.type)])
 
 func _add_enum_widget(p_setting: VSKSettingsInfoSetting, p_initial_value: Variant = null):
 	var widget = add_setting(p_setting.display_name, _slider_scn)
@@ -142,7 +149,9 @@ func _add_enum_widget(p_setting: VSKSettingsInfoSetting, p_initial_value: Varian
 					widget.selected_index = idx
 		_:
 			SarUtils.assert_true(false, "UI display is not supported for key %s: enum type %s" % [p_setting.key, type_string(setting.type)])
-	#widget.item_selected.connect((_set_setting)
+			return
+	if not SarUtils.assert_ok( widget.item_selected.connect( _set_enum_setting.bind(setting) ) ):
+		return
 
 func _add_slider_widget(p_setting: VSKSettingsInfoSetting, p_initial_value: Variant = null):
 	var widget = add_setting(p_setting.display_name, _slider_scn)
