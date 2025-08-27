@@ -135,7 +135,7 @@ func _set_enum_setting(p_idx: int, p_option: String, p_setting: VSKSettingsInfoS
 		#	SarUtils.assert_true(false, "UI display is not supported for key %s: enum type %s" % [p_setting.key, type_string(p_setting.type)])
 
 func _add_enum_widget(p_setting: VSKSettingsInfoSetting, p_initial_value: Variant = null):
-	var widget = add_setting(p_setting.display_name, _slider_scn)
+	var widget = add_setting(p_setting.display_name, _enum_scn)
 	var setting_enum: Array = p_setting.hint_as_enum()
 	widget.options = setting_enum
 	#move up
@@ -156,18 +156,17 @@ func _add_enum_widget(p_setting: VSKSettingsInfoSetting, p_initial_value: Varian
 func _add_slider_widget(p_setting: VSKSettingsInfoSetting, p_initial_value: Variant = null):
 	var widget = add_setting(p_setting.display_name, _slider_scn)
 	var setting_dict: Dictionary = p_setting.hint_as_float_range()
-	widget.options = settings_enum
-	#move up
 	match p_setting.type:
 		TYPE_INT:
 			widget.selected_index = p_initial_value
-		TYPE_STRING:
-			for option_name: String in settings_enum:
-			for idx in range(settings_enum.size()):
-				if p_initial_value == settings_enum[idx]:
-					widget.selected_index = idx
+		TYPE_FLOAT:
+			widget.selected_index = p_initial_value
 		_:
 			SarUtils.assert_true(false, "UI display is not supported for key %s: enum type %s" % [p_setting.key, type_string(setting.type)])
+	widget.min_value = setting_dict["min"]
+	widget.max_value = setting_dict["max"]
+	widget.step = setting_dict["step"]
+	widget.value = float(p_initial_value)
 	#widget.item_selected.connect((_set_setting)
 
 
