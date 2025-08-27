@@ -65,7 +65,7 @@ category = "display"
 key = "window/stretch/stretch"
 type = 4
 hint = 2
-hint_string = "integer,fractional"
+hint_string = "fractional,integer"
 godot_enum = ""
 metadata/_custom_type_script = "uid://hee1gvqgam2x"
 
